@@ -1,10 +1,10 @@
 package net.minheur.PotoFlux.life.chromosomes.genes;
 
-public abstract class BaseGene {
+public abstract class Gene {
     private final GeneType GENE_TYPE;
-    private final Enum<?> allele;
+    private final Enum<? extends IAlleleList> allele;
 
-    protected BaseGene(GeneType geneType, Enum<? extends IAlleleList> allele) {
+    public Gene(GeneType geneType, Enum<? extends IAlleleList> allele) {
         GENE_TYPE = geneType;
         this.allele = allele;
     }

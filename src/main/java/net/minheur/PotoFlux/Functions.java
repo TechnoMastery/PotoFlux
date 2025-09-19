@@ -4,6 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Functions {
+    // to call in main to run initial PotoFlux code
+    public static void openWindow() {
+        JFrame frame = new JFrame("PotoFlux");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        Functions.setupDialog(frame);
+        Timer timer1 = new Timer(500, ev -> {
+            JOptionPane.showMessageDialog(frame, "Bienvenu dans PotoFlux !", "PotoFlux", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        timer1.setRepeats(false);
+        timer1.start();
+    }
+
     public static void setupDialog(JFrame parent) {
         // Crée la boîte de dialogue
         JDialog dialog = new JDialog(parent, "Bienvenue", false);
@@ -15,6 +29,18 @@ public class Functions {
         dialog.add(label, BorderLayout.CENTER);
 
         // setup panneau pour les boutons
+        JPanel buttonPanel = getJPanel(parent, label, dialog);
+
+        // ajout du panel au dialogue
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Taille automatique et affichage centré
+        dialog.setSize(300, 150);
+        dialog.setLocationRelativeTo(parent);
+        dialog.setVisible(true);
+    }
+
+    private static JPanel getJPanel(JFrame parent, JLabel label, JDialog dialog) {
         JPanel buttonPanel = new JPanel();
         // setup boutons
         JButton buttonL = new JButton("Start");
@@ -44,14 +70,7 @@ public class Functions {
         // ajout des boutons au panel
         buttonPanel.add(buttonL);
         buttonPanel.add(buttonR);
-
-        // ajout du panel au dialogue
-        dialog.add(buttonPanel, BorderLayout.SOUTH);
-
-        // Taille automatique et affichage centré
-        dialog.setSize(300, 150);
-        dialog.setLocationRelativeTo(parent);
-        dialog.setVisible(true);
+        return buttonPanel;
     }
 
     public static void exit(int delay, int status) {
