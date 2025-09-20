@@ -1,6 +1,5 @@
 package net.minheur.potoflux;
 
-import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.Terminal;
 
 import javax.swing.*;
@@ -13,9 +12,6 @@ public class PotoFlux {
         SwingUtilities.invokeLater(() -> {
             app = new Terminal();
         });
-
-        Functions.logInfo("info test");
-        Functions.logError("info test");
 
     }
 }
