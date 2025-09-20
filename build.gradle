@@ -14,7 +14,7 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    implementation "com.github.Minheur2000:MinLib:v1.0"
+    implementation "com.github.TechnoMastery:MinLib:v1.0"
 }
 
 jar {
