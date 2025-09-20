@@ -10,6 +10,7 @@ public enum Commands {
     HELLO_WORLD("hello", Commands::helloWorld, "Says hello world !"),
     TIME("time", Commands::time, "Tells actual time"),
     HELP("help", Commands::help, "Shows this menu"),
+    ECHO("echo", Commands::echo, "Repeats what you give"),
     QUIT("quit", Commands::quit, "Exit app");
 
     private final String key;
@@ -58,5 +59,13 @@ public enum Commands {
     private static void quit(List<String> args) {
         CommandProcessor.appendOutput("Exiting...");
         Functions.exit(500, 0);
+    }
+    private static void echo(List<String> args) {
+        if (args.isEmpty()) {
+            CommandProcessor.appendOutput("Usage: echo <text>");
+            return;
+        }
+        String message = String.join(" ", args);
+        CommandProcessor.appendOutput(message);
     }
 }
