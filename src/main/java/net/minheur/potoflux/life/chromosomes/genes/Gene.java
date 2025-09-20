@@ -1,4 +1,4 @@
-package net.minheur.PotoFlux.life.chromosomes.genes;
+package net.minheur.potoflux.life.chromosomes.genes;
 
 public abstract class Gene {
     private final GeneType GENE_TYPE;

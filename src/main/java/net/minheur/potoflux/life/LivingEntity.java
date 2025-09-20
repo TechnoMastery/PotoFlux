@@ -1,7 +1,7 @@
-package net.minheur.PotoFlux.life;
+package net.minheur.potoflux.life;
 
-import net.minheur.PotoFlux.life.chromosomes.Chromosome;
-import net.minheur.PotoFlux.life.chromosomes.Karyotype;
+import net.minheur.potoflux.life.chromosomes.Chromosome;
+import net.minheur.potoflux.life.chromosomes.Karyotype;
 
 import java.util.HashMap;
 import java.util.Map;

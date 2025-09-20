@@ -1,6 +1,6 @@
-package net.minheur.PotoFlux.life.chromosomes;
+package net.minheur.potoflux.life.chromosomes;
 
-import net.minheur.PotoFlux.life.LivingEntity;
+import net.minheur.potoflux.life.LivingEntity;
 
 public class Karyotype {
     private final int chromosomeAmount;

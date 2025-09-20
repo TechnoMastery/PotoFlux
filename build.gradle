@@ -20,7 +20,7 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'net.minheur.potoflux.Main'
+                'Main-Class': 'net.minheur.potoflux.PotoFlux'
         )
     }
 }

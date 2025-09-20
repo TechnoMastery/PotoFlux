@@ -1,15 +1,15 @@
-package net.minheur.PotoFlux.terminal;
+package net.minheur.potoflux.terminal;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MiniTerminal {
+public class Terminal {
     private final JTextArea outputArea;
     private final JTextField inputField;
 
-    public MiniTerminal() {
+    public Terminal() {
         JFrame frame = new JFrame("PotoFLux terminal");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 300);
@@ -28,7 +28,7 @@ public class MiniTerminal {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String command = inputField.getText();
-                CommandProcessor.OutputProcessor(command);
+                CommandProcessor.processCommand(command);
                 inputField.setText("");
             }
         });

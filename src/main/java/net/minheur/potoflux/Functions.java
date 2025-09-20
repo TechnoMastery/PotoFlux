@@ -1,7 +1,9 @@
-package net.minheur.PotoFlux;
+package net.minheur.potoflux;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Functions {
     // to call in main to run initial PotoFlux code
@@ -77,5 +79,17 @@ public class Functions {
         Timer exitDelay = new Timer(delay, ev -> System.exit(status));
         exitDelay.setRepeats(false);
         exitDelay.start();
+    }
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    public static void logInfo(String info) {
+        LocalTime now = LocalTime.now();
+        String time = now.format(formatter);
+        System.out.println("[" + time + "] " + info);
+    }
+    public static void logError(String error) {
+        LocalTime now = LocalTime.now();
+        String time = now.format(formatter);
+        System.err.println("[" + time + "] " + error);
     }
 }

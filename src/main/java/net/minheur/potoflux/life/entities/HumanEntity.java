@@ -1,6 +1,6 @@
-package net.minheur.PotoFlux.life.entities;
+package net.minheur.potoflux.life.entities;
 
-import net.minheur.PotoFlux.life.LivingEntity;
+import net.minheur.potoflux.life.LivingEntity;
 
 public class HumanEntity extends LivingEntity {
 
