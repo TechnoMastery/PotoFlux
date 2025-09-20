@@ -3,6 +3,8 @@ package net.minheur.potoflux.terminal;
 import net.minheur.potoflux.Functions;
 
 import java.time.LocalTime;
+import java.util.List;
+import java.util.function.Consumer;
 
 public enum Commands {
     HELLO_WORLD("hello", Commands::helloWorld, "Says hello world !"),
@@ -11,10 +13,10 @@ public enum Commands {
     QUIT("quit", Commands::quit, "Exit app");
 
     private final String key;
-    private final Runnable commandOutput;
+    private final Consumer<List<String>> commandOutput;
     private final String commandDesc;
 
-    Commands(String key, Runnable commandOutput, String commandDesc) {
+    Commands(String key, Consumer<List<String>> commandOutput, String commandDesc) {
         this.key = key;
         this.commandOutput = commandOutput;
         this.commandDesc = commandDesc;
@@ -35,25 +37,25 @@ public enum Commands {
     public String getKey() {
         return key;
     }
-    public Runnable getCommandOutput() {
+    public Consumer<List<String>> getCommandOutput() {
         return commandOutput;
     }
 
     // define returns
-    private static void helloWorld() {
+    private static void helloWorld(List<String> args) {
         CommandProcessor.appendOutput("Hello world !");
     }
-    private static void time() {
+    private static void time(List<String> args) {
         CommandProcessor.appendOutput(LocalTime.now().toString());
     }
-    private static void help() {
+    private static void help(List<String> args) {
         StringBuilder out = new StringBuilder("Command list :");
         for (Commands command : Commands.values()) {
             out.append("\n").append("→ ").append(command.key).append(" : ").append(command.commandDesc);
         }
         CommandProcessor.appendOutput(out.toString());
     }
-    private static void quit() {
+    private static void quit(List<String> args) {
         CommandProcessor.appendOutput("Exiting...");
         Functions.exit(500, 0);
     }

@@ -3,6 +3,8 @@ package net.minheur.potoflux.terminal;
 import net.minheur.potoflux.PotoFlux;
 
 import javax.swing.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandProcessor {
     private static final JTextArea outputArea = PotoFlux.app.getOutputArea();
@@ -13,17 +15,25 @@ public class CommandProcessor {
             appendOutput("Could not execute empty command !");
             return;
         }
+
         // send command
         appendOutput("> " + pCommand);
+
+        // split
+        String[] split = pCommand.trim().split("\\s+");
+        String cmdKey = split[0];
+        List<String> args = Arrays.asList(split).subList(1, split.length);
+
         // check if command exist
-        if (!Commands.containsKey(pCommand)) {
+        if (!Commands.containsKey(cmdKey)) {
             appendOutput("Command not recognized ! Try help !");
             return;
         }
+
         // define & send command result
-        Commands command = Commands.getCommandWithKey(pCommand);
+        Commands command = Commands.getCommandWithKey(cmdKey);
         if (command == null) throw new IllegalCallerException("Command exist but is empty !");
-        command.getCommandOutput().run();
+        command.getCommandOutput().accept(args);
     }
 
     public static void appendOutput(String text) {
