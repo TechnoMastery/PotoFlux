@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "net.minheur.PotoFlux"
-version = "beta-2.2"
+version = "beta-3.0"
 
 repositories {
     mavenCentral()
@@ -14,7 +14,7 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    implementation "com.github.TechnoMastery:MinLib:v1.0"
+    // implementation "com.github.TechnoMastery:MinLib:v1.0" // minLib → unused
 }
 
 jar {
@@ -22,6 +22,12 @@ jar {
         attributes(
                 'Main-Class': 'net.minheur.potoflux.PotoFlux'
         )
+    }
+}
+
+processResources {
+    filesMatching("version.properties") {
+        expand "version": version
     }
 }
 
