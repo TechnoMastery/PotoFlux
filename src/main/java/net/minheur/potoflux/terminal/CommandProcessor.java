@@ -1,13 +1,15 @@
 package net.minheur.potoflux.terminal;
 
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.screen.tabs.Tabs;
+import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 
 public class CommandProcessor {
-    private static final JTextArea outputArea = PotoFlux.app.getOutputArea();
+    private static final JTextArea outputArea = ((TerminalTab) PotoFlux.app.getTabs().get(Tabs.TERMINAL)).getTerminal().getOutputArea();
 
     public static void processCommand(String pCommand) {
         // check command is empty
