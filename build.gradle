@@ -15,6 +15,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
     // implementation "com.github.TechnoMastery:MinLib:v1.0" // minLib → unused
+    implementation 'com.google.code.gson:gson:2.11.0'
 }
 
 jar {
