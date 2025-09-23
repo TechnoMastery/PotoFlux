@@ -3,6 +3,7 @@ package net.minheur.potoflux.terminal;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.Tabs;
+import net.minheur.potoflux.translations.Translations;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -10,13 +11,13 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public enum Commands {
-    HELLO_WORLD("hello", Commands::helloWorld, "Says hello world !", false),
-    TIME("time", Commands::time, "Tells actual time", false),
-    HELP("help", Commands::help, "Shows this menu", false),
-    ECHO("echo", Commands::echo, "Repeats what you give", false),
-    TAB("tab", Commands::tab, "Ouvre l'onglet indiqué", false),
-    SOURCE("code-source", Commands::sourceCode, "Lien vers le code source", false),
-    QUIT("quit", Commands::quit, "Exit app", false),
+    HELLO_WORLD("hello", Commands::helloWorld, Translations.get("command.hello_world"), false),
+    TIME("time", Commands::time, Translations.get("command.time"), false),
+    HELP("help", Commands::help, Translations.get("command.help"), false),
+    ECHO("echo", Commands::echo, Translations.get("command.echo"), false),
+    TAB("tab", Commands::tab, Translations.get("command.tab"), false),
+    SOURCE("code-source", Commands::sourceCode, Translations.get("command.source"), false),
+    QUIT("quit", Commands::quit, Translations.get("command.exit"), false),
 
     HIDDEN("hide", Commands::hidden, null, true);
 
@@ -59,14 +60,14 @@ public enum Commands {
         CommandProcessor.appendOutput(LocalTime.now().toString());
     }
     private static void help(List<String> args) {
-        StringBuilder out = new StringBuilder("Command list :");
+        StringBuilder out = new StringBuilder(Translations.get("command.help.title"));
         for (Commands command : Commands.values()) {
             if (!command.isHidden) out.append("\n").append("→ ").append(command.key).append(" : ").append(command.commandDesc);
         }
         CommandProcessor.appendOutput(out.toString());
     }
     private static void sourceCode(List<String> args) {
-        CommandProcessor.appendOutput("Le code source est disponible a l'adresse : https://github.com/TechnoMastery/PotoFlux");
+        CommandProcessor.appendOutput(Translations.get("command.source.out") + "https://github.com/TechnoMastery/PotoFlux");
     }
     private static void quit(List<String> args) {
         CommandProcessor.appendOutput("Exiting...");

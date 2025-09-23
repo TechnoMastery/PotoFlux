@@ -1,3 +1,11 @@
 {
-
+  "command.hello_world": "Says hello world",
+  "command.time": "Tells the time",
+  "command.help": "Shows this menu",
+  "command.echo": "Repeats what you give",
+  "command.tab": "Open given tab",
+  "command.source": "Link to source code",
+  "command.exit": "Exit app",
+  "command.help.title": "Command List :",
+  "command.source.out": "Source code available at "
 }
