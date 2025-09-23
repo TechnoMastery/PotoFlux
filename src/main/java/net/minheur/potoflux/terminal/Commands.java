@@ -15,6 +15,7 @@ public enum Commands {
     HELP("help", Commands::help, "Shows this menu", false),
     ECHO("echo", Commands::echo, "Repeats what you give", false),
     TAB("tab", Commands::tab, "Ouvre l'onglet indiqué", false),
+    SOURCE("code-source", Commands::sourceCode, "Lien vers le code source", false),
     QUIT("quit", Commands::quit, "Exit app", false),
 
     HIDDEN("hide", Commands::hidden, null, true);
@@ -63,6 +64,9 @@ public enum Commands {
             if (!command.isHidden) out.append("\n").append("→ ").append(command.key).append(" : ").append(command.commandDesc);
         }
         CommandProcessor.appendOutput(out.toString());
+    }
+    private static void sourceCode(List<String> args) {
+        CommandProcessor.appendOutput("Le code source est disponible a l'adresse : https://github.com/TechnoMastery/PotoFlux");
     }
     private static void quit(List<String> args) {
         CommandProcessor.appendOutput("Exiting...");
