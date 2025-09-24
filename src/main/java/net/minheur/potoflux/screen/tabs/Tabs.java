@@ -1,6 +1,7 @@
 package net.minheur.potoflux.screen.tabs;
 
 import net.minheur.potoflux.screen.tabs.all.HomeTab;
+import net.minheur.potoflux.screen.tabs.all.SettingsTab;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.utils.Translations;
 
@@ -9,7 +10,8 @@ import javax.swing.*;
 public enum Tabs {
     // note : l'ordre de l'enum ici est celui des tabs
     HOME(HomeTab.class, Translations.get("tabs.home.name")),
-    TERMINAL(TerminalTab.class, Translations.get("tabs.term.name"));
+    TERMINAL(TerminalTab.class, Translations.get("tabs.term.name")),
+    SETTINGS(SettingsTab.class, Translations.get("tabs.settings.title"));
 
     private final Class<? extends BaseTab> associatedClass;
     private final String name;

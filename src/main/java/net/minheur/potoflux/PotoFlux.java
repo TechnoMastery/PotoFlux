@@ -9,6 +9,7 @@ import javax.swing.*;
 public class PotoFlux {
     public static PotoScreen app;
     public static void main(String[] args) {
+        Translations.load("en");
         Translations.load(UserPrefsManager.getUserLang());
         SwingUtilities.invokeLater(() -> {
             app = new PotoScreen();

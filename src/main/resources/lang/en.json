@@ -23,5 +23,11 @@
   "tabs.home.title": "PotoFlux - Home",
   "tabs.home.credit": "Created by Min_heur2000 - TechnoMastery",
   "tabs.term.name": "Terminal",
-  "tabs.term.title": "Terminal"
+  "tabs.term.title": "Terminal",
+  "tabs.settings.name": "Settings",
+  "tabs.settings.title": "Settings",
+  "tabs.settings.langButton": "Change language",
+  "prefs.reload": "Please restart PotoFlux to apply.",
+  "prefs.langSelect": "Select language :",
+  "prefs.language": "Language"
 }
