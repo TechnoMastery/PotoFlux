@@ -2,7 +2,7 @@ package net.minheur.potoflux.screen.tabs;
 
 import net.minheur.potoflux.screen.tabs.all.HomeTab;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
-import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.Translations;
 
 import javax.swing.*;
 

@@ -1,4 +1,4 @@
-package net.minheur.potoflux.translations;
+package net.minheur.potoflux.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

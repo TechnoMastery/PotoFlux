@@ -3,7 +3,7 @@ package net.minheur.potoflux.terminal;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.Tabs;
-import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.Translations;
 
 import java.time.LocalTime;
 import java.util.List;
