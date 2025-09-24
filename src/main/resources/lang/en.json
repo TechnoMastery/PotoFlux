@@ -18,5 +18,8 @@
   "commandPro.empty": "Could not execute empty command !",
   "commandPro.none": "Command not recognized ! Try \"help\" !",
   "screen.tabHereNotHere": "ERROR: this tab is detected but unexisting !",
-  "tabs.createError": "ERROR while creating tab "
+  "tabs.createError": "ERROR while creating tab ",
+  "tabs.home.name": "Home",
+  "tabs.home.title": "PotoFlux - Home",
+  "tabs.home.credit": "Created by Min_heur2000 - TechnoMastery"
 }

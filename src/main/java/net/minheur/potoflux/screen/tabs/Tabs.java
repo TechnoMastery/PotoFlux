@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public enum Tabs {
     // note : l'ordre de l'enum ici est celui des tabs
-    HOME(HomeTab.class, "Home"),
+    HOME(HomeTab.class, Translations.get("tabs.home.name")),
     TERMINAL(TerminalTab.class, "Terminal");
 
     private final Class<? extends BaseTab> associatedClass;

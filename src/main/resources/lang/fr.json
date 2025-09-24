@@ -18,5 +18,8 @@
   "commandPro.empty": "Impossible d'exécuter une commande vide !",
   "commandPro.none": "Commande non reconnue ! Essaye \"help\" !",
   "screen.tabHereNotHere": "ERREUR: cet onglet est détecté mais n'est pas ajouté !",
-  "tabs.createError": "Erreur lors de la création de l'onglet "
+  "tabs.createError": "Erreur lors de la création de l'onglet ",
+  "tabs.home.name": "Accueil",
+  "tabs.home.title": "PotoFlux - Accueil",
+  "tabs.home.credit": "Créé par Min_heur2000 - TechnoMastery"
 }
