@@ -3,6 +3,7 @@ package net.minheur.potoflux.screen;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.terminal.CommandProcessor;
+import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,7 +61,7 @@ public class PotoScreen {
 
     public void setOpenedTab(Tabs tab) {
         if (!tabMap.containsKey(tab)) {
-            JOptionPane.showMessageDialog(frame, "ERREUR: cet tab est détecté mais n'est pas ajouté !");
+            JOptionPane.showMessageDialog(frame, Translations.get("screen.tabHereNotHere"));
             return;
         }
         tabs.setSelectedComponent(tabMap.get(tab).getPanel());

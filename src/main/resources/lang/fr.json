@@ -16,5 +16,6 @@
   "command.tab.null.end": " n'existe pas !",
   "command.hidden.out": "Commande caché :)",
   "commandPro.empty": "Impossible d'exécuter une commande vide !",
-  "commandPro.none": "Commande non reconnue ! Essaye \"help\" !"
+  "commandPro.none": "Commande non reconnue ! Essaye \"help\" !",
+  "screen.tabHereNotHere": "ERREUR: cet onglet est détecté mais n'est pas ajouté !"
 }
