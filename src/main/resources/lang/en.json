@@ -14,5 +14,7 @@
   "command.tab.opened": "This tab is already opened !",
   "command.tab.null.start": "Tab ",
   "command.tab.null.end": " doesn't exists !",
-  "command.hidden.out": "Hidden command :)"
+  "command.hidden.out": "Hidden command :)",
+  "commandPro.empty": "Could not execute empty command !",
+  "commandPro.none": "Command not recognized ! Try \"help\" !"
 }

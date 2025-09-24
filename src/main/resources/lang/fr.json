@@ -14,5 +14,7 @@
   "command.tab.opened": "Cet onglet est déjà ouvert !",
   "command.tab.null.start": "L'onglet ",
   "command.tab.null.end": " n'existe pas !",
-  "command.hidden.out": "Commande caché :)"
+  "command.hidden.out": "Commande caché :)",
+  "commandPro.empty": "Impossible d'exécuter une commande vide !",
+  "commandPro.none": "Commande non reconnue ! Essaye \"help\" !"
 }
