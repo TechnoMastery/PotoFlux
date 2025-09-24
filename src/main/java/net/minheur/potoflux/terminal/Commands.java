@@ -70,12 +70,12 @@ public enum Commands {
         CommandProcessor.appendOutput(Translations.get("command.source.out") + "https://github.com/TechnoMastery/PotoFlux");
     }
     private static void quit(List<String> args) {
-        CommandProcessor.appendOutput("Exiting...");
+        CommandProcessor.appendOutput(Translations.get("command.exit.out"));
         Functions.exit(500, 0);
     }
     private static void echo(List<String> args) {
         if (args.isEmpty()) {
-            CommandProcessor.appendOutput("Usage: echo <text>");
+            CommandProcessor.appendOutput(Translations.get("command.echo.use"));
             return;
         }
         String message = String.join(" ", args);
@@ -83,11 +83,11 @@ public enum Commands {
     }
     private static void tab(List<String> args) {
         if (args.isEmpty()) {
-            CommandProcessor.appendOutput("Usage: tab <tabName>");
+            CommandProcessor.appendOutput(Translations.get("command.tab.use"));
             return;
         }
         if (args.get(0).equals("Terminal")) {
-            CommandProcessor.appendOutput("Cette tab est déjà ouverte !");
+            CommandProcessor.appendOutput(Translations.get("command.tab.opened"));
             return;
         }
         for (Tabs tab : Tabs.values()) {
@@ -96,11 +96,11 @@ public enum Commands {
                 return;
             }
         }
-        CommandProcessor.appendOutput("Usage: tab <tabName>");
-        CommandProcessor.appendOutput("Tab " + args.get(0) + " doesn't exist !");
+        CommandProcessor.appendOutput(Translations.get("command.tab.use"));
+        CommandProcessor.appendOutput(Translations.get("command.tab.null.start") + args.get(0) + Translations.get("command.tab.null.end"));
     }
 
     private static void hidden(List<String> args) {
-        CommandProcessor.appendOutput("Hidden command :)");
+        CommandProcessor.appendOutput(Translations.get("command.hidden.out"));
     }
 }

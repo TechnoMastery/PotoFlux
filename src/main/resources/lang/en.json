@@ -7,5 +7,12 @@
   "command.source": "Link to source code",
   "command.exit": "Exit app",
   "command.help.title": "Command List :",
-  "command.source.out": "Source code available at "
+  "command.source.out": "Source code available at ",
+  "command.exit.out": "Exiting...",
+  "command.echo.use": "Usage: echo <text>",
+  "command.tab.use": "Usage: tab <tabName>",
+  "command.tab.opened": "This tab is already opened !",
+  "command.tab.null.start": "Tab ",
+  "command.tab.null.end": " doesn't exists !",
+  "command.hidden.out": "Hidden command :)"
 }

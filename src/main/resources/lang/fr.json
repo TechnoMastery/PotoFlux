@@ -1,3 +1,18 @@
 {
-
+  "command.hello_world": "Dit hello world",
+  "command.time": "Dit le temps",
+  "command.help": "Affiche ce menu",
+  "command.echo": "Répète ce que vous donnez",
+  "command.tab": "Ouvre l'onglet donné",
+  "command.source": "Lien vers le code source",
+  "command.exit": "Ferme l'app",
+  "command.help.title": "Liste des commandes :",
+  "command.source.out": "Code source accessible à ",
+  "command.exit.out": "Fermeture...",
+  "command.echo.use": "Utilisation: echo <text>",
+  "command.tab.use": "Utilisation: tab <tabName>",
+  "command.tab.opened": "Cet onglet est déjà ouvert !",
+  "command.tab.null.start": "L'onglet ",
+  "command.tab.null.end": " n'existe pas !",
+  "command.hidden.out": "Commande caché :)"
 }
