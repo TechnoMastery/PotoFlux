@@ -17,5 +17,6 @@
   "command.hidden.out": "Hidden command :)",
   "commandPro.empty": "Could not execute empty command !",
   "commandPro.none": "Command not recognized ! Try \"help\" !",
-  "screen.tabHereNotHere": "ERROR: this tab is detected but unexisting !"
+  "screen.tabHereNotHere": "ERROR: this tab is detected but unexisting !",
+  "tabs.createError": "ERROR while creating tab "
 }

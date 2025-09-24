@@ -17,5 +17,6 @@
   "command.hidden.out": "Commande caché :)",
   "commandPro.empty": "Impossible d'exécuter une commande vide !",
   "commandPro.none": "Commande non reconnue ! Essaye \"help\" !",
-  "screen.tabHereNotHere": "ERREUR: cet onglet est détecté mais n'est pas ajouté !"
+  "screen.tabHereNotHere": "ERREUR: cet onglet est détecté mais n'est pas ajouté !",
+  "tabs.createError": "Erreur lors de la création de l'onglet "
 }

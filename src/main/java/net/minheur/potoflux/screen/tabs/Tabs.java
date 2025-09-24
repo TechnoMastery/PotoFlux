@@ -2,6 +2,7 @@ package net.minheur.potoflux.screen.tabs;
 
 import net.minheur.potoflux.screen.tabs.all.HomeTab;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
+import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 
@@ -31,7 +32,7 @@ public enum Tabs {
             return associatedClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erreur lors de la création de l'onglet " + name + " : " + e.getMessage());
+            JOptionPane.showMessageDialog(null, Translations.get("tabs.createError") + name + " : " + e.getMessage());
             return null;
         }
     }
