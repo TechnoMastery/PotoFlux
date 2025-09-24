@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.util.prefs.Preferences;
 
 public class UserPrefsManager {
-    private static final String KEY_LANG = "user_lang";
     private static final Preferences prefs = Preferences.userNodeForPackage(UserPrefsManager.class);
+    // lang
+    private static final String KEY_LANG = "user_lang";
+    private static final String[] langOptions = { "en", "fr" };
 
     public static String getUserLang() {
         String lang = prefs.get(KEY_LANG, null);
@@ -17,15 +19,14 @@ public class UserPrefsManager {
     }
 
     private static String askUserLang() {
-        String[] options = {"en", "fr"};
         String lang = JOptionPane.showInputDialog(
                 null,
                 Translations.get("prefs.langSelect"),
                 Translations.get("prefs.language"),
                 JOptionPane.QUESTION_MESSAGE,
                 null,
-                options,
-                options[0]
+                langOptions,
+                langOptions[0]
         ).toString();
         if (lang == null) lang = "en";
         return lang;
