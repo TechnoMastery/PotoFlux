@@ -21,5 +21,7 @@
   "tabs.createError": "Erreur lors de la création de l'onglet ",
   "tabs.home.name": "Accueil",
   "tabs.home.title": "PotoFlux - Accueil",
-  "tabs.home.credit": "Créé par Min_heur2000 - TechnoMastery"
+  "tabs.home.credit": "Créé par Min_heur2000 - TechnoMastery",
+  "tabs.term.name": "Terminal",
+  "tabs.term.title": "Terminal"
 }

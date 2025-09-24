@@ -21,5 +21,7 @@
   "tabs.createError": "ERROR while creating tab ",
   "tabs.home.name": "Home",
   "tabs.home.title": "PotoFlux - Home",
-  "tabs.home.credit": "Created by Min_heur2000 - TechnoMastery"
+  "tabs.home.credit": "Created by Min_heur2000 - TechnoMastery",
+  "tabs.term.name": "Terminal",
+  "tabs.term.title": "Terminal"
 }

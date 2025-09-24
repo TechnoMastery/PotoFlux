@@ -2,6 +2,7 @@ package net.minheur.potoflux.screen.tabs.all;
 
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.terminal.Terminal;
+import net.minheur.potoflux.translations.Translations;
 
 public class TerminalTab extends BaseTab {
     private Terminal terminal;
@@ -21,7 +22,7 @@ public class TerminalTab extends BaseTab {
 
     @Override
     protected String getTitle() {
-        return "Terminal";
+        return Translations.get("tabs.term.title");
     }
 
     public Terminal getTerminal() {
