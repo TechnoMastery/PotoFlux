@@ -1,4 +1,4 @@
-package net.minheur.potoflux.life.chromosomes.genes;
+package net.minheur.potoflux.human.chromosomes.genes;
 
 public class GeneType {
     private final String id;

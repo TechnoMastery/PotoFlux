@@ -1,8 +1,8 @@
-package net.minheur.potoflux.life.chromosomes.genes.list;
+package net.minheur.potoflux.human.chromosomes.genes.list;
 
-import net.minheur.potoflux.life.chromosomes.genes.AllGenes;
-import net.minheur.potoflux.life.chromosomes.genes.Gene;
-import net.minheur.potoflux.life.chromosomes.genes.IAlleleList;
+import net.minheur.potoflux.human.chromosomes.genes.AllGenes;
+import net.minheur.potoflux.human.chromosomes.genes.Gene;
+import net.minheur.potoflux.human.chromosomes.genes.IAlleleList;
 
 public class FingerAmountGene extends Gene {
     public FingerAmountGene(Enum<? extends IAlleleList> allele) {

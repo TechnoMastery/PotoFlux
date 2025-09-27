@@ -1,18 +1,13 @@
-package net.minheur.potoflux.life.chromosomes;
+package net.minheur.potoflux.human.chromosomes;
 
-import net.minheur.potoflux.life.chromosomes.genes.Gene;
-import net.minheur.potoflux.life.chromosomes.genes.GeneType;
+import net.minheur.potoflux.human.chromosomes.genes.Gene;
+import net.minheur.potoflux.human.chromosomes.genes.GeneType;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Chromosome {
-    private final int id;
     private final Map<GeneType, Gene> genes = new HashMap<>();
-
-    public Chromosome(int id) {
-        this.id = id;
-    }
 
     public boolean isGenePresent(GeneType pType) {
         return genes.containsKey(pType);
@@ -26,9 +21,5 @@ public class Chromosome {
         GeneType pType = pGene.getType();
         if (isGenePresent(pType)) throw new IllegalArgumentException("Gene " + pType + " is already defined !");
         genes.put(pType, pGene);
-    }
-
-    public int getId() {
-        return id;
     }
 }
