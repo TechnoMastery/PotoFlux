@@ -1,6 +1,7 @@
 package net.minheur.potoflux.utils;
 
 import javax.swing.*;
+import java.util.Arrays;
 import java.util.prefs.Preferences;
 
 public class UserPrefsManager {
@@ -9,8 +10,12 @@ public class UserPrefsManager {
     private static final String KEY_LANG = "user_lang";
     private static final String[] langOptions = { "en", "fr" };
 
+    public static String getStrictUserLang() {
+        return prefs.get(KEY_LANG, null);
+    }
+
     public static String getUserLang() {
-        String lang = prefs.get(KEY_LANG, null);
+        String lang = getStrictUserLang();
         if (lang == null) {
             lang = askUserLang();
             prefs.put(KEY_LANG, lang);
@@ -19,6 +24,10 @@ public class UserPrefsManager {
     }
 
     private static String askUserLang() {
+        int actualLangId = 0;
+        String strictLang = getStrictUserLang();
+        if (strictLang != null) actualLangId = Arrays.asList(langOptions).indexOf(strictLang);
+        if (actualLangId == -1) actualLangId = 0;
         String lang = JOptionPane.showInputDialog(
                 null,
                 Translations.get("prefs.langSelect"),
@@ -26,7 +35,7 @@ public class UserPrefsManager {
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 langOptions,
-                langOptions[0]
+                langOptions[actualLangId]
         ).toString();
         if (lang == null) lang = "en";
         return lang;
