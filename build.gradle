@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "net.minheur.PotoFlux"
-version = "beta-3.0"
+version = "beta-4.0"
 
 repositories {
     mavenCentral()
