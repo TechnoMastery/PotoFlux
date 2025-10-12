@@ -82,7 +82,9 @@ public class TodoTab extends BaseTab {
     }
 
     @Override
-    protected void preset() {} // empty
+    protected boolean doPreset() {
+        return false;
+    }
 
     @Override
     protected String getTitle() {

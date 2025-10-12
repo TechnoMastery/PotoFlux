@@ -7,8 +7,7 @@ public abstract class BaseTab {
     protected final JPanel PANEL = new JPanel();
 
     public BaseTab() {
-        PANEL.setLayout(new BoxLayout(PANEL, BoxLayout.Y_AXIS));
-        preset();
+        if (doPreset()) preset();
         SwingUtilities.invokeLater(this::setPanel);
     }
 
@@ -24,6 +23,10 @@ public abstract class BaseTab {
 
     public JPanel getPanel() {
         return PANEL;
+    }
+
+    protected boolean doPreset() {
+        return true;
     }
 
     protected void createTitle() {
