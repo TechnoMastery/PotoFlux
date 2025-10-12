@@ -1,9 +1,6 @@
 package net.minheur.potoflux.screen.tabs;
 
-import net.minheur.potoflux.screen.tabs.all.HomeTab;
-import net.minheur.potoflux.screen.tabs.all.SettingsTab;
-import net.minheur.potoflux.screen.tabs.all.TerminalTab;
-import net.minheur.potoflux.screen.tabs.all.TodoTab;
+import net.minheur.potoflux.screen.tabs.all.*;
 import net.minheur.potoflux.utils.Translations;
 
 import javax.swing.*;
@@ -13,6 +10,7 @@ public enum Tabs {
     HOME(HomeTab.class, Translations.get("tabs.home.name")),
     TERMINAL(TerminalTab.class, Translations.get("tabs.term.name")),
     TODO(TodoTab.class, Translations.get("tabs.todo.name")),
+    CARD_LEARNING(CardLearningTab.class, "Card learning"), // TODO
     SETTINGS(SettingsTab.class, Translations.get("tabs.settings.title"));
 
     private final Class<? extends BaseTab> associatedClass;
