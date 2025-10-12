@@ -1,9 +1,12 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-group = "net.minheur.PotoFlux"
-version = "beta-4.1"
+group = "net.minheur.potoflux"
+version = "beta-4.3"
+sourceCompatibility = '17'
+targetCompatibility = '17'
 
 repositories {
     mavenCentral()
@@ -26,10 +29,18 @@ jar {
     }
 }
 
+shadowJar {
+    archiveFileName.set("PotoFlux-${version}.jar")
+    mergeServiceFiles()
+    manifest {
+        attributes 'Main-Class': 'net.minheur.potoflux.PotoFlux'
+    }
+}
+
 processResources {
     filesMatching("version.properties") {
         expand "version": version
     }
 }
 
-build.dependsOn jar
+build.dependsOn shadowJar
