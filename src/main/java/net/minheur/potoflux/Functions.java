@@ -23,4 +23,15 @@ public class Functions {
         String time = now.format(formatter);
         System.err.println("[" + time + "] " + error);
     }
+
+    public static String removeProhibitedChar(String s) {
+        if (s == null) return null;
+        return s.replaceAll("[^\\p{L}\\p{N} @!.?:;*$^¨()#§]+", "");
+    }
+    public static String escapeHtml(String s) {
+        if (s == null) return null;
+        return s.replace("&", "")
+                .replace("<", "")
+                .replace(">", "");
+    }
 }

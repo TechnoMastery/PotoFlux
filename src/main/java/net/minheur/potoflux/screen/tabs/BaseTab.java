@@ -9,7 +9,7 @@ public abstract class BaseTab {
     public BaseTab() {
         PANEL.setLayout(new BoxLayout(PANEL, BoxLayout.Y_AXIS));
         preset();
-        setPanel();
+        SwingUtilities.invokeLater(this::setPanel);
     }
 
     protected void preset() {
