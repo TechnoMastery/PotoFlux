@@ -2,6 +2,7 @@ package net.minheur.potoflux.screen.tabs.all;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.utils.InputWithCheckboxResult;
 import net.minheur.potoflux.utils.Translations;
@@ -23,15 +24,10 @@ import static net.minheur.potoflux.Functions.*;
 public class TodoTab extends BaseTab {
     private final List<TodoItem> todos = new ArrayList<>();
     private final JPanel listPanel = new JPanel();
-    private final Path saveFile;
+    private final Path saveFile = PotoFlux.getProgramDir().resolve("todo.json");
 
     public TodoTab() {
         super();
-        Path appData = Path.of(System.getenv("APPDATA"), "technomastery/PotoFlux");
-        try {
-            Files.createDirectories(appData);
-        } catch (IOException ignored) {}
-        this.saveFile = appData.resolve("todo.json");
 
         loadTodos();
         refreshList();

@@ -1,15 +1,19 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class CardLearningTab extends BaseTab {
-    File appData = new File(System.getenv("APPDATA"), "PotoFlux");
-    File cardsDir = new File(appData, "cards");
+    Path cardsDir = Paths.get(PotoFlux.getProgramDir().toString(), "cards");
 
     @Override
     protected void setPanel() {
@@ -69,14 +73,9 @@ public class CardLearningTab extends BaseTab {
     }
 
     private void checkAndCreateDir() {
-        if (!cardsDir.exists()) {
-            boolean created = cardsDir.mkdirs();
-            if (!created) {
-                System.err.println("❌ Impossible de créer le dossier 'cards' : " + cardsDir.getAbsolutePath()); // TODO
-            } else {
-                System.out.println("✅ Dossier 'cards' créé : " + cardsDir.getAbsolutePath()); // TODO
-            }
-        }
+        try {
+            Files.createDirectories(cardsDir);
+        } catch (IOException ignored) {}
     }
 
     private JPanel createCreatePanel() {

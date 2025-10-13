@@ -5,6 +5,10 @@ import net.minheur.potoflux.utils.Translations;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class PotoFlux {
     public static PotoScreen app;
@@ -14,6 +18,13 @@ public class PotoFlux {
         SwingUtilities.invokeLater(() -> {
             app = new PotoScreen();
         });
+    }
 
+    public static Path getProgramDir() {
+        Path dir = Paths.get(System.getenv("APPDATA"), "TechnoMastery", "PotoFlux");
+        try {
+            Files.createDirectories(dir);
+        } catch (IOException ignored) {}
+        return dir;
     }
 }
