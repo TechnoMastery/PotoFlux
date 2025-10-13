@@ -8,7 +8,8 @@ public abstract class BaseTab {
 
     public BaseTab() {
         if (doPreset()) preset();
-        SwingUtilities.invokeLater(this::setPanel);
+        if (invokeLater()) SwingUtilities.invokeLater(this::setPanel);
+        else setPanel();
     }
 
     protected void preset() {
@@ -27,6 +28,10 @@ public abstract class BaseTab {
 
     protected boolean doPreset() {
         return true;
+    }
+
+    protected boolean invokeLater() {
+        return false;
     }
 
     protected void createTitle() {

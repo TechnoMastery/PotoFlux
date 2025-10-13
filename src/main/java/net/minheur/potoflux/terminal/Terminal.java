@@ -10,6 +10,8 @@ public class Terminal {
     private final JTextField inputField;
 
     public Terminal(JPanel panel) {
+        panel.setLayout(new BorderLayout());
+
         // output system
         outputArea = new JTextArea();
         outputArea.setEditable(false);
@@ -46,7 +48,7 @@ public class Terminal {
         splitPane.setResizeWeight(1.0);
         splitPane.setDividerSize(5);
         splitPane.setDividerLocation(0.9);
-        panel.add(splitPane, BorderLayout.SOUTH);
+        panel.add(splitPane, BorderLayout.CENTER);
     }
 
     public JTextArea getOutputArea() {

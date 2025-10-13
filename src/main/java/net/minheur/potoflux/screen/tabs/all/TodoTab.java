@@ -34,6 +34,11 @@ public class TodoTab extends BaseTab {
     }
 
     @Override
+    protected boolean invokeLater() {
+        return true;
+    }
+
+    @Override
     protected void setPanel() {
         PANEL.setLayout(new BorderLayout());
 

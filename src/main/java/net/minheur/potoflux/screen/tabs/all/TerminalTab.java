@@ -13,7 +13,8 @@ public class TerminalTab extends BaseTab {
     }
 
     @Override
-    protected void preset() {
+    protected boolean doPreset() {
+        return false;
     }
 
     private void addTerminal() {
