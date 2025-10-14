@@ -58,8 +58,14 @@ public class CardLearningTab extends BaseTab {
     }
 
     private JPanel createLoadPanel() {
+        CardList[] list = new CardList[1];
+
         JPanel panel = new JPanel(new BorderLayout());
+
         JButton loadButton = new JButton("Importer un fichier JSON..."); // TODO
+        JButton validateButton = new JButton("Valider"); // TODO
+        validateButton.setEnabled(false);
+
 
         loadButton.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
@@ -81,29 +87,28 @@ public class CardLearningTab extends BaseTab {
                     panel, "Fichier chargé : " + chooser.getSelectedFile().getName() + // TODO
                     "\nChemin : " + selectedPath); // TODO
 
-            CardList list;
-
             try {
                 // read content
                 String content = Files.readString(selectedPath);
 
                 // parse to JSON object
                 Gson gson = new Gson();
-                list = gson.fromJson(content, CardList.class);
+                list[0] = gson.fromJson(content, CardList.class);
 
                 // check is everything right
-                if (list == null || list.cards == null || getCheckedListName(list.name) == null) {
+                if (list[0] == null || list[0].cards == null || getCheckedListName(list[0].name) == null) {
                     showCardError();
                     return;
                 }
                 else {
-                    for (Card card : list.cards) if (card.main == null || card.secondary == null) {
+                    for (Card card : list[0].cards) if (card.main == null || card.secondary == null) {
                         showCardError();
                         return;
                     }
-                    list.name = getValidatedListName(list.name);
-                    JOptionPane.showMessageDialog(PANEL, "Liste chargé : " + list.name + // TODO
-                            "\nNombre de cartes : " + list.cards.size()); // TODO
+                    list[0].name = getValidatedListName(list[0].name);
+                    JOptionPane.showMessageDialog(PANEL, "Liste chargé : " + list[0].name + // TODO
+                            "\nNombre de cartes : " + list[0].cards.size()); // TODO
+                    validateButton.setEnabled(true);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -112,17 +117,92 @@ public class CardLearningTab extends BaseTab {
                 return;
             }
 
-            String fileName = list.name.replaceAll(" ", "_");
+            panel.add(createCardPanelAsScroll(list[0], false));
+            panel.revalidate();
+            panel.repaint();
 
-            // TODO: create a file in cardDir → theNameEnteredAndChecked.json
         });
-        panel.add(loadButton, BorderLayout.NORTH);
+
+        validateButton.addActionListener(e -> {
+            if (list[0] == null) {
+                JOptionPane.showMessageDialog(PANEL,
+                        "list vide mais bouton valide !", // TODO
+                        "erreur liste", JOptionPane.ERROR_MESSAGE); // TODO
+                list[0] = null;
+                validateButton.setEnabled(false);
+            }
+
+            String fileName = list[0].name.replaceAll(" ", "_");
+            Path outputFile = cardsDir.resolve(fileName + ".json");
+
+            // cancel if already existing
+            if (Files.exists(outputFile)) {
+                JOptionPane.showMessageDialog(PANEL,
+                        "Un fichier du meme nom existe deja.\nL'ajout à été annulé.", // TODO
+                        "Fichier deja existant", // TODO
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            try {
+                Gson gson = new Gson();
+                Files.writeString(outputFile, gson.toJson(list));
+                JOptionPane.showMessageDialog(PANEL,
+                        "Fichier enregistré.", // TODO
+                        "Sauvegarde réussi", // TODO
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(PANEL,
+                        "Erreur lors de l'enregistrement du fichier : " + ex.getMessage(), // TODO
+                        "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+            }
+        });
+
+        // adding buttons to the panel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        buttonPanel.add(loadButton);
+        buttonPanel.add(validateButton);
+
+        panel.add(buttonPanel, BorderLayout.NORTH);
         return panel;
     }
 
     @Override
     protected boolean invokeLater() {
         return true;
+    }
+
+    private JPanel createCardPanel(CardList list, boolean randomized) {
+        JPanel allCards = new JPanel();
+        allCards.setLayout(new GridLayout(0, 1, 10, 10));
+        allCards.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        for (Card card : list.cards) {
+            JPanel cardPanel = new JPanel(new GridLayout(1, 2, 5, 5));
+            cardPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
+
+            // TODO: add randomizer option
+            JLabel left = new JLabel(card.main, SwingConstants.CENTER);
+            JLabel right = new JLabel(card.secondary, SwingConstants.CENTER);
+
+            left.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            right.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+            cardPanel.add(left);
+            cardPanel.add(right);
+            allCards.add(cardPanel);
+        }
+
+        return allCards;
+    }
+
+    private JScrollPane createCardPanelAsScroll(CardList list, boolean randomized) {
+        JPanel p = createCardPanel(list, randomized);
+        JScrollPane scrollPane = new JScrollPane(p);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        return scrollPane;
     }
 
     private String getCheckedListName(String s) {
@@ -143,8 +223,6 @@ public class CardLearningTab extends BaseTab {
         JOptionPane.showMessageDialog(PANEL, "Le fichier JSON n'est pas valide !", // TODO
                 "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
     }
-
-    private void reloadAllCards() {} // TODO: reload cards
 
     private void checkAndCreateDir() {
         try {
