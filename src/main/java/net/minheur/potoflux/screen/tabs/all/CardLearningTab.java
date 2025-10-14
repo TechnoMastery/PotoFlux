@@ -47,7 +47,62 @@ public class CardLearningTab extends BaseTab {
 
     private JPanel createListPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(new JLabel("Zone de list", SwingConstants.CENTER), BorderLayout.CENTER); // TODO
+
+        // title
+        JLabel title = new JLabel("Listes disponibles", SwingConstants.CENTER);
+        title.setFont(new Font("Segeo UI", Font.BOLD, 16));
+        panel.add(title, BorderLayout.NORTH);
+
+        // content
+        JPanel listPanel = new JPanel();
+        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+
+        File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
+        if (jsonFiles == null || jsonFiles.length == 0) {
+            listPanel.add(new JLabel("Aucune liste de cartes trouvée.", SwingConstants.CENTER)); // TODO
+        } else {
+            for (File file : jsonFiles) {
+                try {
+                    // reading content
+                    String content = Files.readString(file.toPath());
+                    CardList list = new Gson().fromJson(content, CardList.class);
+                    if (list == null || list.cards == null) continue;
+
+                    // line for the corresponding list
+                    JPanel row = new JPanel(new BorderLayout());
+                    row.setBorder(BorderFactory.createCompoundBorder(
+                            BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true),
+                            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+                    ));
+
+                    // left text
+                    JLabel label = new JLabel(list.name + " (" + list.cards.size() + " cartes)"); // TODO
+                    label.setFont(new Font("Segeo UI", Font.PLAIN, 14));
+                    row.add(label, BorderLayout.WEST);
+
+                    // right button
+                    JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+                    JButton deleteButton = new JButton("Supprimer");
+                    JButton infoButton = new JButton("Infos");
+
+                    buttons.add(deleteButton);
+                    buttons.add(infoButton);
+
+                    row.add(buttons, BorderLayout.EAST);
+
+                    listPanel.add(row);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // scrollable
+        JScrollPane scrollPane = new JScrollPane(listPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+        panel.add(scrollPane, BorderLayout.CENTER);
         return panel;
     }
 
