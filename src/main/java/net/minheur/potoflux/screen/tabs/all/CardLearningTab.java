@@ -267,9 +267,22 @@ public class CardLearningTab extends BaseTab {
             JPanel cardPanel = new JPanel(new GridLayout(1, 2, 5, 5));
             cardPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
 
-            // TODO: add randomizer option
-            JLabel left = new JLabel(card.main, SwingConstants.CENTER);
-            JLabel right = new JLabel(card.secondary, SwingConstants.CENTER);
+            JLabel left;
+            JLabel right;
+
+            if (randomized) {
+                if (Math.random() < 0.5) {
+                    left = new JLabel(card.main, SwingConstants.CENTER);
+                    right = new JLabel(card.secondary, SwingConstants.CENTER);
+                } else {
+                    left = new JLabel(card.secondary, SwingConstants.CENTER);
+                    right = new JLabel(card.main, SwingConstants.CENTER);
+                }
+            } else {
+                left = new JLabel(card.main, SwingConstants.CENTER);
+                right = new JLabel(card.secondary, SwingConstants.CENTER);
+            }
+
 
             left.setFont(new Font("Segoe UI", Font.BOLD, 14));
             right.setFont(new Font("Segoe UI", Font.BOLD, 14));
