@@ -7,6 +7,7 @@ import net.minheur.potoflux.card.Card;
 import net.minheur.potoflux.card.CardJsonManager;
 import net.minheur.potoflux.card.CardList;
 import net.minheur.potoflux.screen.tabs.BaseTab;
+import net.minheur.potoflux.utils.Translations;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -42,11 +43,11 @@ public class CardLearningTab extends BaseTab {
 
         // create sub-tab
         JTabbedPane subTabs = new JTabbedPane();
-        subTabs.addTab("Main", createMainPanel()); // TODO
-        subTabs.addTab("List", createListPanel()); // TODO
-        subTabs.addTab("Load", createLoadPanel()); // TODO
-        subTabs.addTab("Create", createCreatePanel()); // TODO
-        subTabs.addTab("Export", createExportPanel()); // TODO
+        subTabs.addTab(Translations.get("tabs.card.tab_name.main"), createMainPanel());
+        subTabs.addTab(Translations.get("tabs.card.tab_name.list"), createListPanel());
+        subTabs.addTab(Translations.get("tabs.card.tab_name.load"), createLoadPanel());
+        subTabs.addTab(Translations.get("tabs.card.tab_name.create"), createCreatePanel());
+        subTabs.addTab(Translations.get("tabs.card.tab_name.export"), createExportPanel());
 
         // add all to the main one
         PANEL.add(subTabs, BorderLayout.CENTER);
@@ -62,7 +63,7 @@ public class CardLearningTab extends BaseTab {
         JButton startButton = new JButton("Démarrer"); // TODO
 
         // fill with actual list
-        mainComboBox.addItem("<Select List>"); // TODO
+        mainComboBox.addItem(Translations.get("tabs.card.select_list"));
         File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
 
         refreshComboBox();
@@ -96,7 +97,7 @@ public class CardLearningTab extends BaseTab {
 
         startButton.addActionListener(e -> {
             String selected = (String) mainComboBox.getSelectedItem();
-            if (selected == null || selected.equals("<Select List>")) return; // TODO
+            if (selected == null || selected.equals(Translations.get("tabs.card.select_list"))) return;
 
             Path filePath = cardsDir.resolve(selected + ".json");
             if (!Files.exists(filePath)) {
@@ -160,7 +161,7 @@ public class CardLearningTab extends BaseTab {
         JPanel panel = new JPanel(new BorderLayout());
 
         // title
-        JLabel title = new JLabel("Listes disponibles", SwingConstants.CENTER);
+        JLabel title = new JLabel("Listes disponibles", SwingConstants.CENTER); // TODO
         title.setFont(new Font("Segeo UI", Font.BOLD, 16));
         panel.add(title, BorderLayout.NORTH);
 
@@ -301,7 +302,7 @@ public class CardLearningTab extends BaseTab {
 
         exportButton.addActionListener(e -> {
             String selected = (String) exportComboBox.getSelectedItem();
-            if (selected == null || selected.equals("<Select List>")) return; // TODO
+            if (selected == null || selected.equals(Translations.get("tabs.card.select_list"))) return;
 
             Path sourcePath = cardsDir.resolve(selected + ".json");
             if (!Files.exists(sourcePath)) {
@@ -370,7 +371,7 @@ public class CardLearningTab extends BaseTab {
             String selected = (String) exportComboBox.getSelectedItem();
 
             // null check
-            if (selected == null || selected.equals("<Select List>")) { // TODO
+            if (selected == null || selected.equals(Translations.get("tabs.card.select_list"))) {
                 scrollPane.setViewportView(null);
                 exportButton.setEnabled(false);
                 return;
@@ -414,7 +415,7 @@ public class CardLearningTab extends BaseTab {
 
     private void refreshComboBox(JComboBox<String> box) {
         box.removeAllItems();
-        box.addItem("<Select List>"); // TODO
+        box.addItem(Translations.get("tabs.card.select_list"));
         File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
         // null check
         if (jsonFiles != null) {
