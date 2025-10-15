@@ -68,7 +68,7 @@ public class CardLearningTab extends BaseTab {
                 try {
                     // reading content
                     String content = Files.readString(file.toPath());
-                    CardList list = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject());
+                    CardList list = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonArray().get(0).getAsJsonObject());
                     if (list == null || list.cards == null) continue;
 
                     // line for the corresponding list
