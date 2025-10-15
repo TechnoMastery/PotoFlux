@@ -1,8 +1,11 @@
 package net.minheur.potoflux.screen.tabs.all;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.card.Card;
+import net.minheur.potoflux.card.CardJsonManager;
 import net.minheur.potoflux.card.CardList;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 
@@ -65,7 +68,7 @@ public class CardLearningTab extends BaseTab {
                 try {
                     // reading content
                     String content = Files.readString(file.toPath());
-                    CardList list = new Gson().fromJson(content, CardList.class);
+                    CardList list = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject());
                     if (list == null || list.cards == null) continue;
 
                     // line for the corresponding list
