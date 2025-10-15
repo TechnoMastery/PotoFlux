@@ -59,8 +59,8 @@ public class CardLearningTab extends BaseTab {
 
         // top - list selection
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JLabel listLabel = new JLabel("Liste :"); // TODO
-        JButton startButton = new JButton("Démarrer"); // TODO
+        JLabel listLabel = new JLabel(Translations.get("tabs.card.list_column"));
+        JButton startButton = new JButton(Translations.get("common.start"));
 
         // fill with actual list
         mainComboBox.addItem(Translations.get("tabs.card.select_list"));
@@ -83,8 +83,8 @@ public class CardLearningTab extends BaseTab {
 
         // bottom - buttons
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
-        JButton flipButton = new JButton("Retourner"); // TODO
-        JButton nextButton = new JButton("Suivant"); // TODO
+        JButton flipButton = new JButton(Translations.get("common.flip"));
+        JButton nextButton = new JButton(Translations.get("common.next"));
         flipButton.setEnabled(false);
         nextButton.setEnabled(false);
         bottomPanel.add(flipButton);
@@ -101,7 +101,7 @@ public class CardLearningTab extends BaseTab {
 
             Path filePath = cardsDir.resolve(selected + ".json");
             if (!Files.exists(filePath)) {
-                JOptionPane.showMessageDialog(panel, "Fichier introuvable : " + selected, Translations.get("common.error"), JOptionPane.ERROR_MESSAGE); // TODO
+                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.file_not_found") + selected, Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -109,12 +109,12 @@ public class CardLearningTab extends BaseTab {
                 String content = Files.readString(filePath);
                 currentList[0] = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject(), true);
                 if (currentList[0] == null || currentList[0].cards == null || currentList[0].cards.isEmpty()) {
-                    JOptionPane.showMessageDialog(panel, "Liste vide ou invalide", Translations.get("common.error"), JOptionPane.ERROR_MESSAGE); // TODO
+                    JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.invalid_list"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(panel, "Erreur de lecture : " + ex.getMessage(), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE); // TODO
+                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.read_error") + ex.getMessage(), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -144,7 +144,7 @@ public class CardLearningTab extends BaseTab {
             index[0]++;
 
             if (index[0] >= currentList[0].cards.size()) {
-                JOptionPane.showMessageDialog(panel, "Fin de la liste !", "Terminé", JOptionPane.INFORMATION_MESSAGE); // TODO
+                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.list_end"), Translations.get("common.finish"), JOptionPane.INFORMATION_MESSAGE);
                 flipButton.setEnabled(false);
                 nextButton.setEnabled(false);
                 cardLabel.setText("");
@@ -161,7 +161,7 @@ public class CardLearningTab extends BaseTab {
         JPanel panel = new JPanel(new BorderLayout());
 
         // title
-        JLabel title = new JLabel("Listes disponibles", SwingConstants.CENTER); // TODO
+        JLabel title = new JLabel(Translations.get("tabs.card.available_lists"), SwingConstants.CENTER);
         title.setFont(new Font("Segeo UI", Font.BOLD, 16));
         panel.add(title, BorderLayout.NORTH);
 
@@ -184,7 +184,7 @@ public class CardLearningTab extends BaseTab {
 
         File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
         if (jsonFiles == null || jsonFiles.length == 0) {
-            listPanel.add(new JLabel("Aucune liste de cartes trouvée.", SwingConstants.CENTER)); // TODO
+            listPanel.add(new JLabel(Translations.get("tabs.card.no_list_found"), SwingConstants.CENTER));
         } else {
             for (File file : jsonFiles) {
                 try {
