@@ -10,7 +10,7 @@ public enum Tabs {
     HOME(HomeTab.class, Translations.get("tabs.home.name")),
     TERMINAL(TerminalTab.class, Translations.get("tabs.term.name")),
     TODO(TodoTab.class, Translations.get("tabs.todo.name")),
-    CARD_LEARNING(CardLearningTab.class, "Card learning"), // TODO
+    CARD_LEARNING(CardLearningTab.class, Translations.get("tabs.card.name")),
     SETTINGS(SettingsTab.class, Translations.get("tabs.settings.title"));
 
     private final Class<? extends BaseTab> associatedClass;

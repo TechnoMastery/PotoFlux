@@ -30,6 +30,8 @@
   "tabs.todo.no_empty": "Le todo ne peut pas être vide.",
   "tabs.settings.langButton": "Changer la langue",
   "tabs.settings.name": "Paramètres",
+  "tabs.card.name": "Cartes mémoire",
+  "tabs.todo.pined": "Épinglé",
   "tabs.settings.title": "Paramètres",
   "tabs.term.name": "Terminal",
   "tabs.term.title": "Terminal",

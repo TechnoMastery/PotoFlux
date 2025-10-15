@@ -16,6 +16,8 @@
   "command.tab.use": "Usage: tab <tabName>",
   "command.time": "Tells the time",
   "commandPro.empty": "Could not execute empty command !",
+  "tabs.card.name": "Card learning",
+  "tabs.todo.pined": "Pinned",
   "commandPro.none": "Command not recognized ! Try \"help\" !",
   "common.cancel": "Cancel",
   "common.validate": "Validate",
