@@ -223,7 +223,7 @@ public class TodoTab extends BaseTab {
         content.add(Box.createVerticalStrut(10));
 
         // pine checkbox
-        JCheckBox pineCheck = new JCheckBox(Translations.get("tabs.todo.pined"));
+        JCheckBox pineCheck = new JCheckBox(Translations.get("tabs.todo.pinned")); // TODO
         pineCheck.setSelected(todo.pinned);
         pineCheck.setAlignmentX(Component.CENTER_ALIGNMENT);
         content.add(pineCheck);
