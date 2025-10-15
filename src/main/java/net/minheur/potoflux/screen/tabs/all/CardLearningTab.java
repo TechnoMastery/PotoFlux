@@ -23,6 +23,8 @@ public class CardLearningTab extends BaseTab {
     public static final Path cardsDir = Paths.get(PotoFlux.getProgramDir().toString(), "cards");
     public final List<String> cardNames = new ArrayList<>();
 
+    private final JPanel listPanel = new JPanel();
+
     @Override
     protected void setPanel() {
         PANEL.setLayout(new BorderLayout());
@@ -56,9 +58,20 @@ public class CardLearningTab extends BaseTab {
         panel.add(title, BorderLayout.NORTH);
 
         // content
-        JPanel listPanel = new JPanel();
         listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
+        loadListPanel();
+
+        // scrollable
+        JScrollPane scrollPane = new JScrollPane(listPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+        panel.add(scrollPane, BorderLayout.CENTER);
+        return panel;
+    }
+
+    private void loadListPanel() {
         File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
         if (jsonFiles == null || jsonFiles.length == 0) {
             listPanel.add(new JLabel("Aucune liste de cartes trouvée.", SwingConstants.CENTER)); // TODO
@@ -98,14 +111,6 @@ public class CardLearningTab extends BaseTab {
                 }
             }
         }
-
-        // scrollable
-        JScrollPane scrollPane = new JScrollPane(listPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-
-        panel.add(scrollPane, BorderLayout.CENTER);
-        return panel;
     }
 
     private JPanel createExportPanel() {
@@ -220,7 +225,9 @@ public class CardLearningTab extends BaseTab {
                 list[0] = null;
                 removeLoadedCards(loadedListCards[0], panel);
                 loadedListCards[0] = null;
-                // TODO: reload list
+
+                loadListPanel(); // reload
+
             } catch (IOException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(PANEL,
