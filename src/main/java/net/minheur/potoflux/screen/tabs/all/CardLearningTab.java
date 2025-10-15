@@ -16,14 +16,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.StandardCopyOption;
 
 public class CardLearningTab extends BaseTab {
     public static final Path cardsDir = Paths.get(PotoFlux.getProgramDir().toString(), "cards");
-    public final List<String> cardNames = new ArrayList<>();
 
     private final JPanel listPanel = new JPanel();
+    private final JComboBox<String> exportComboBox = new JComboBox<>();
 
     @Override
     protected void setPanel() {
@@ -171,12 +170,148 @@ public class CardLearningTab extends BaseTab {
 
         listPanel.revalidate();
         listPanel.repaint();
+
+        refreshExportComboBox();
     }
 
     private JPanel createExportPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(new JLabel("Zone de export", SwingConstants.CENTER), BorderLayout.CENTER); // TODO
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // title
+        JLabel title = new JLabel("Exporter une liste de cartes", SwingConstants.CENTER); // TODO
+        title.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        panel.add(title, BorderLayout.NORTH);
+
+        // up - select list 6 button
+        JPanel topPanel = new JPanel(new BorderLayout(5, 0));
+        // list
+        refreshExportComboBox(); // adding .json files
+        // export button
+        JButton exportButton = new JButton("Exporter"); // TODO
+        exportButton.setEnabled(false);
+
+        exportButton.addActionListener(e -> {
+            String selected = (String) exportComboBox.getSelectedItem();
+            if (selected == null || selected.equals("<Select List>")) return; // TODO
+
+            Path sourcePath = cardsDir.resolve(selected + ".json");
+            if (!Files.exists(sourcePath)) {
+                JOptionPane.showMessageDialog(PANEL,
+                        "Fichier introuvable : " + sourcePath, // TODO
+                        "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                return;
+            }
+
+            JFileChooser chooser = new JFileChooser();
+            chooser.setDialogTitle("Exporter la liste " + selected); // TODO
+            chooser.setSelectedFile(new File(selected + ".json"));
+
+            // ONLY json
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Fichers JSON (*.json)", "json"); // TODO
+            chooser.setFileFilter(filter);
+            chooser.setAcceptAllFileFilterUsed(false);
+
+            int userSelection = chooser.showSaveDialog(PANEL);
+            if (userSelection != JFileChooser.APPROVE_OPTION) return;
+
+            File destinationFile = chooser.getSelectedFile();
+            if (!destinationFile.getName().toLowerCase().endsWith(".json")) {
+                destinationFile = new File(destinationFile.getAbsolutePath() + ".json");
+            }
+
+            // check if existing
+            if (destinationFile.exists()) {
+                int overwrite = JOptionPane.showConfirmDialog(PANEL,
+                        "Le fichier existe déjà.\nVoulez-vous l’écraser ?", // TODO
+                        "Confirmer le remplacement", // TODO
+                        JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                if (overwrite != JOptionPane.YES_OPTION) return;
+            }
+
+            try {
+                Files.copy(sourcePath, destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                JOptionPane.showMessageDialog(PANEL,
+                        "Liste exportée avec succès vers :\n" + destinationFile.getAbsolutePath(), // TODO
+                        "Export réussi", JOptionPane.INFORMATION_MESSAGE); // TODO
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(PANEL,
+                        "Erreur lors de l’export : " + ex.getMessage(), // TODO
+                        "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+            }
+        });
+
+        topPanel.add(exportComboBox, BorderLayout.CENTER);
+        topPanel.add(exportButton, BorderLayout.EAST);
+
+        // center content
+        JPanel centerPanel = new JPanel(new BorderLayout(10, 10));
+        // display cards
+        JPanel cardsPanel = new JPanel(new BorderLayout());
+        JScrollPane scrollPane = new JScrollPane();
+        cardsPanel.add(scrollPane, BorderLayout.CENTER);
+
+        centerPanel.add(topPanel, BorderLayout.NORTH);
+        centerPanel.add(cardsPanel, BorderLayout.CENTER);
+
+        panel.add(centerPanel, BorderLayout.CENTER);
+
+        // behaviour
+        exportComboBox.addActionListener(e -> {
+            String selected = (String) exportComboBox.getSelectedItem();
+
+            // null check
+            if (selected == null || selected.equals("<Select List>")) { // TODO
+                scrollPane.setViewportView(null);
+                exportButton.setEnabled(false);
+                return;
+            }
+
+            // existing file check
+            Path filePath = cardsDir.resolve(selected + ".json");
+            if (!Files.exists(filePath)) {
+                scrollPane.setViewportView(new JLabel("Fichier introuvable.", SwingConstants.CENTER)); // TODO
+                exportButton.setEnabled(false);
+                return;
+            }
+
+            try {
+                String content = Files.readString(filePath);
+                CardList list = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject());
+
+                // null check
+                if (list == null || list.cards == null) {
+                    scrollPane.setViewportView(new JLabel("Erreur de chargement de la liste.", SwingConstants.CENTER)); // TODO
+                    exportButton.setEnabled(false);
+                    return;
+                }
+
+                JScrollPane cardsScroll = createCardPanelAsScroll(list, false);
+                scrollPane.setViewportView(cardsScroll.getViewport().getView());
+                exportButton.setEnabled(true); // export button is now available
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                scrollPane.setViewportView(new JLabel("Erreur de lecture du fichier.", SwingConstants.CENTER)); // TODO
+                exportButton.setEnabled(false);
+            }
+        });
+
         return panel;
+    }
+
+    private void refreshExportComboBox() {
+        exportComboBox.removeAllItems();
+        exportComboBox.addItem("<Select List>"); // TODO
+        File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
+        // null check
+        if (jsonFiles != null) {
+            // add
+            for (File file : jsonFiles) {
+                String name = file.getName().replace(".json", "");
+                exportComboBox.addItem(name);
+            }
+        }
     }
 
     private JPanel createLoadPanel() {
