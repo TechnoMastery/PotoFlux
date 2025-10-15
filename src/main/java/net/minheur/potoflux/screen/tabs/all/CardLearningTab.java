@@ -9,6 +9,8 @@ import net.minheur.potoflux.card.CardList;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
@@ -621,8 +623,140 @@ public class CardLearningTab extends BaseTab {
     }
 
     private JPanel createCreatePanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(new JLabel("Création de listes de cartes (Create)", SwingConstants.CENTER), BorderLayout.CENTER); // TODO
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // temp data
+        final List<Card> tempCards = new ArrayList<>();
+        final JTextField nameField = new JTextField(20);
+
+        // up - name + button
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        JButton addCardButton = new JButton("Ajouter une carte"); // TODO
+        JButton saveButton = new JButton("Valider"); // TODO
+        saveButton.setEnabled(false);
+
+        topPanel.add(new JLabel("Nom de la liste :")); // TODO
+        topPanel.add(nameField);
+        topPanel.add(addCardButton);
+        topPanel.add(saveButton);
+
+        // center - added cards
+        JPanel cardsPanel = new JPanel();
+        cardsPanel.setLayout(new BoxLayout(cardsPanel, BoxLayout.Y_AXIS));
+        JScrollPane scrollPane = new JScrollPane(cardsPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+        panel.add(topPanel, BorderLayout.NORTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        // display features
+        Runnable refreshCards = () -> {
+            cardsPanel.removeAll();
+
+            if (tempCards.isEmpty()) cardsPanel.add(new JLabel("Aucune carte ajoutée.", SwingConstants.CENTER)); // TODO
+            else for (Card card : tempCards) {
+                JPanel row = new JPanel(new GridLayout(1, 2, 5, 5));
+                row.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true));
+                JLabel left = new JLabel(card.main, SwingConstants.CENTER);
+                JLabel right = new JLabel(card.secondary, SwingConstants.CENTER);
+                left.setFont(new Font("Segoe UI", Font.BOLD, 14));
+                right.setFont(new Font("Segoe UI", Font.BOLD, 14));
+                row.add(left);
+                row.add(right);
+                cardsPanel.add(row);
+            }
+
+            cardsPanel.revalidate();
+            cardsPanel.repaint();
+            saveButton.setEnabled(!tempCards.isEmpty() && getCheckedListName(nameField.getText()) != null);
+        };
+
+        // button "add card"
+        addCardButton.addActionListener(e -> {
+            JTextField mainField = new JTextField();
+            JTextField secondaryField = new JTextField();
+
+            JPanel inputPanel = new JPanel(new GridLayout(2, 2, 5, 5));
+            inputPanel.add(new JLabel("Face avant :")); // TODO
+            inputPanel.add(mainField);
+            inputPanel.add(new JLabel("Face arrière :")); // TODO
+            inputPanel.add(secondaryField);
+
+            int result = JOptionPane.showConfirmDialog(
+                    panel, inputPanel, "Nouvelle carte", // TODO
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
+            );
+
+            if (result == JOptionPane.OK_OPTION) {
+                String main = getValidatedListName(mainField.getText());
+                String secondary = getValidatedListName(secondaryField.getText());
+
+                if (main.isEmpty() || secondary.isEmpty()) {
+                    JOptionPane.showMessageDialog(panel, "Les deux champs doivent être remplis.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                Card c = new Card();
+                c.main = main;
+                c.secondary = secondary;
+
+                tempCards.add(c);
+                refreshCards.run();
+            }
+        });
+
+        // button validate (save)
+        saveButton.addActionListener(e -> {
+            String listName = getCheckedListName(nameField.getText());
+            if (listName == null) {
+                JOptionPane.showMessageDialog(panel, "Nom de liste invalide.", "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                return;
+            }
+
+            if (tempCards.isEmpty()) {
+                JOptionPane.showMessageDialog(panel, "Aucune carte à enregistrer.", "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                return;
+            }
+
+            Path outputFile = cardsDir.resolve(listName.replaceAll(" ", "_") + ".json");
+            if (Files.exists(outputFile)) {
+                int overwrite = JOptionPane.showConfirmDialog(panel,
+                        "Un fichier du même nom existe déjà.\nVoulez-vous le remplacer ?", // TODO
+                        "Fichier existant", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE); // TODO
+                if (overwrite != JOptionPane.YES_OPTION) return;
+            }
+
+            CardList list = new CardList();
+            list.name = listName;
+            list.cards = new ArrayList<>(tempCards);
+
+            try {
+                Gson gson = new Gson();
+                Files.writeString(outputFile, gson.toJson(list));
+                JOptionPane.showMessageDialog(panel, "Liste sauvegardée avec succès !", "Succès", JOptionPane.INFORMATION_MESSAGE); // TODO
+                tempCards.clear();
+                nameField.setText("");
+                refreshCards.run();
+                loadListPanel(); // refresh global list
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(panel, "Erreur lors de la sauvegarde : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+            }
+        });
+
+        // auto run validate button check
+        nameField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) { refreshCards.run(); }
+            @Override
+            public void removeUpdate(DocumentEvent e) { refreshCards.run(); }
+            @Override
+            public void changedUpdate(DocumentEvent e) { refreshCards.run(); }
+        });
+
+        refreshCards.run();
         return panel;
     }
 
