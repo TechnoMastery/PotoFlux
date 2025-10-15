@@ -72,15 +72,18 @@ public class CardLearningTab extends BaseTab {
     }
 
     private void loadListPanel() {
+        listPanel.removeAll();
+
         File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
         if (jsonFiles == null || jsonFiles.length == 0) {
+            System.out.println("OUI");
             listPanel.add(new JLabel("Aucune liste de cartes trouvée.", SwingConstants.CENTER)); // TODO
         } else {
             for (File file : jsonFiles) {
                 try {
                     // reading content
                     String content = Files.readString(file.toPath());
-                    CardList list = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonArray().get(0).getAsJsonObject());
+                    CardList list = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject());
                     if (list == null || list.cards == null) continue;
 
                     // line for the corresponding list
@@ -90,15 +93,41 @@ public class CardLearningTab extends BaseTab {
                             BorderFactory.createEmptyBorder(5, 10, 5, 10)
                     ));
 
-                    // left text
+                    // left - text
                     JLabel label = new JLabel(list.name + " (" + list.cards.size() + " cartes)"); // TODO
                     label.setFont(new Font("Segeo UI", Font.PLAIN, 14));
                     row.add(label, BorderLayout.WEST);
 
-                    // right button
+                    // right - button
                     JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
                     JButton deleteButton = new JButton("Supprimer");
                     JButton infoButton = new JButton("Infos");
+
+                    deleteButton.addActionListener(e -> {
+                        int confirm = JOptionPane.showConfirmDialog(listPanel,
+                                "Voulez vous vraiment supprimer la liste " + list.name + " ?", // TODO
+                                "Confirmation de suppression", // TODO
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.WARNING_MESSAGE);
+
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            try {
+                                Files.deleteIfExists(file.toPath());
+                                JOptionPane.showMessageDialog(listPanel,
+                                        "La liste " + list.name + " a été supprimée.", // TODO
+                                        "Suppression réussie", // TODO
+                                        JOptionPane.INFORMATION_MESSAGE);
+
+                                loadListPanel();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                                JOptionPane.showMessageDialog(listPanel,
+                                        "Erreur lors de la suppression du fichier : " + ex.getMessage(), // TODO
+                                        "Erreur", // TODO
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    });
 
                     buttons.add(deleteButton);
                     buttons.add(infoButton);
@@ -111,6 +140,9 @@ public class CardLearningTab extends BaseTab {
                 }
             }
         }
+
+        listPanel.revalidate();
+        listPanel.repaint();
     }
 
     private JPanel createExportPanel() {
