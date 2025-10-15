@@ -17,16 +17,24 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CardLearningTab extends BaseTab {
     public static final Path cardsDir = Paths.get(PotoFlux.getProgramDir().toString(), "cards");
 
+    // vars needed in different places
     private final JPanel listPanel = new JPanel();
     private final JComboBox<String> exportComboBox = new JComboBox<>();
+    private final JComboBox<String> mainComboBox = new JComboBox<>();
+    private final List<JComboBox<String>> allComboBox = new ArrayList<>();
 
     @Override
     protected void setPanel() {
         PANEL.setLayout(new BorderLayout());
+
+        allComboBox.add(exportComboBox);
+        allComboBox.add(mainComboBox);
 
         checkAndCreateDir();
 
@@ -44,7 +52,105 @@ public class CardLearningTab extends BaseTab {
 
     private JPanel createMainPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(new JLabel("Zone d'apprentissage (Main)", SwingConstants.CENTER), BorderLayout.CENTER); // TODO
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // top - list selection
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel listLabel = new JLabel("Liste :"); // TODO
+        JButton startButton = new JButton("Démarrer"); // TODO
+
+        // fill with actual list
+        mainComboBox.addItem("<Select List>"); // TODO
+        File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
+
+        refreshComboBox();
+
+        topPanel.add(listLabel);
+        topPanel.add(mainComboBox);
+        topPanel.add(startButton);
+
+        panel.add(topPanel, BorderLayout.NORTH);
+
+        // center - cards
+        JPanel cardPanel = new JPanel(new BorderLayout());
+        JLabel cardLabel = new JLabel("", SwingConstants.CENTER);
+        cardLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        cardPanel.add(cardLabel, BorderLayout.CENTER);
+        panel.add(cardPanel, BorderLayout.CENTER);
+
+        // bottom - buttons
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        JButton flipButton = new JButton("Retourner"); // TODO
+        JButton nextButton = new JButton("Suivant"); // TODO
+        flipButton.setEnabled(false);
+        nextButton.setEnabled(false);
+        bottomPanel.add(flipButton);
+        bottomPanel.add(nextButton);
+        panel.add(bottomPanel, BorderLayout.SOUTH);
+
+        // quiz data
+        final CardList[] currentList = new CardList[1];
+        final int[] index = {0};
+
+        startButton.addActionListener(e -> {
+            String selected = (String) mainComboBox.getSelectedItem();
+            if (selected == null || selected.equals("<Select List>")) return; // TODO
+
+            Path filePath = cardsDir.resolve(selected + ".json");
+            if (!Files.exists(filePath)) {
+                JOptionPane.showMessageDialog(panel, "Fichier introuvable : " + selected, "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                return;
+            }
+
+            try {
+                String content = Files.readString(filePath);
+                currentList[0] = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject(), true);
+                if (currentList[0] == null || currentList[0].cards == null || currentList[0].cards.isEmpty()) {
+                    JOptionPane.showMessageDialog(panel, "Liste vide ou invalide", "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                    return;
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(panel, "Erreur de lecture : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                return;
+            }
+
+            // reset index
+            index[0] = 0;
+            cardLabel.setText(currentList[0].cards.get(index[0]).main);
+
+            flipButton.setEnabled(true);
+            nextButton.setEnabled(true);
+        });
+
+        flipButton.addActionListener(e -> {
+            if (currentList[0] == null || currentList[0].cards.isEmpty()) return;
+
+            Card card = currentList[0].cards.get(index[0]);
+
+            if (cardLabel.getText().equals(card.main)) {
+                cardLabel.setText(card.secondary);
+            } else {
+                cardLabel.setText(card.main);
+            }
+        });
+
+        nextButton.addActionListener(e -> {
+            if (currentList[0] == null || currentList[0].cards.isEmpty()) return;
+
+            index[0]++;
+
+            if (index[0] >= currentList[0].cards.size()) {
+                JOptionPane.showMessageDialog(panel, "Fin de la liste !", "Terminé", JOptionPane.INFORMATION_MESSAGE); // TODO
+                flipButton.setEnabled(false);
+                nextButton.setEnabled(false);
+                cardLabel.setText("");
+                return;
+            }
+
+            cardLabel.setText(currentList[0].cards.get(index[0]).main);
+        });
+
         return panel;
     }
 
@@ -81,7 +187,7 @@ public class CardLearningTab extends BaseTab {
                 try {
                     // reading content
                     String content = Files.readString(file.toPath());
-                    CardList list = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject());
+                    CardList list = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject(), false);
                     if (list == null || list.cards == null) continue;
 
                     // line for the corresponding list
@@ -140,7 +246,7 @@ public class CardLearningTab extends BaseTab {
                         infoDialog.add(title, BorderLayout.NORTH);
 
                         // card
-                        JScrollPane scrollPane = createCardPanelAsScroll(list, false);
+                        JScrollPane scrollPane = createCardPanelAsScroll(list);
                         infoDialog.add(scrollPane, BorderLayout.CENTER);
 
                         // close button
@@ -171,7 +277,7 @@ public class CardLearningTab extends BaseTab {
         listPanel.revalidate();
         listPanel.repaint();
 
-        refreshExportComboBox();
+        refreshComboBox();
     }
 
     private JPanel createExportPanel() {
@@ -186,7 +292,7 @@ public class CardLearningTab extends BaseTab {
         // up - select list 6 button
         JPanel topPanel = new JPanel(new BorderLayout(5, 0));
         // list
-        refreshExportComboBox(); // adding .json files
+        refreshComboBox(); // adding .json files
         // export button
         JButton exportButton = new JButton("Exporter"); // TODO
         exportButton.setEnabled(false);
@@ -278,7 +384,7 @@ public class CardLearningTab extends BaseTab {
 
             try {
                 String content = Files.readString(filePath);
-                CardList list = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject());
+                CardList list = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject(), false);
 
                 // null check
                 if (list == null || list.cards == null) {
@@ -287,7 +393,7 @@ public class CardLearningTab extends BaseTab {
                     return;
                 }
 
-                JScrollPane cardsScroll = createCardPanelAsScroll(list, false);
+                JScrollPane cardsScroll = createCardPanelAsScroll(list);
                 scrollPane.setViewportView(cardsScroll.getViewport().getView());
                 exportButton.setEnabled(true); // export button is now available
             } catch (Exception ex) {
@@ -300,16 +406,20 @@ public class CardLearningTab extends BaseTab {
         return panel;
     }
 
-    private void refreshExportComboBox() {
-        exportComboBox.removeAllItems();
-        exportComboBox.addItem("<Select List>"); // TODO
+    private void refreshComboBox() {
+        for (JComboBox<String> c : allComboBox) refreshComboBox(c);
+    }
+
+    private void refreshComboBox(JComboBox<String> box) {
+        box.removeAllItems();
+        box.addItem("<Select List>"); // TODO
         File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
         // null check
         if (jsonFiles != null) {
             // add
             for (File file : jsonFiles) {
                 String name = file.getName().replace(".json", "");
-                exportComboBox.addItem(name);
+                box.addItem(name);
             }
         }
     }
@@ -352,7 +462,7 @@ public class CardLearningTab extends BaseTab {
                 // parse to JSON object
                 // Gson gson = new Gson();
                 // list[0] = gson.fromJson(content, CardList.class);
-                list[0] = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject());
+                list[0] = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject(), false);
 
                 // check is everything right
                 if (list[0] == null || list[0].cards == null || getCheckedListName(list[0].name) == null) {
@@ -376,7 +486,7 @@ public class CardLearningTab extends BaseTab {
                 return;
             }
 
-            loadedListCards[0] = createCardPanelAsScroll(list[0], false);
+            loadedListCards[0] = createCardPanelAsScroll(list[0]);
             panel.add(loadedListCards[0]);
             panel.revalidate();
             panel.repaint();
@@ -454,7 +564,7 @@ public class CardLearningTab extends BaseTab {
         return true;
     }
 
-    private JPanel createCardPanel(CardList list, boolean randomized) {
+    private JPanel createCardPanel(CardList list) {
         JPanel allCards = new JPanel();
         allCards.setLayout(new GridLayout(0, 1, 10, 10));
         allCards.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -463,22 +573,8 @@ public class CardLearningTab extends BaseTab {
             JPanel cardPanel = new JPanel(new GridLayout(1, 2, 5, 5));
             cardPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
 
-            JLabel left;
-            JLabel right;
-
-            if (randomized) {
-                if (Math.random() < 0.5) {
-                    left = new JLabel(card.main, SwingConstants.CENTER);
-                    right = new JLabel(card.secondary, SwingConstants.CENTER);
-                } else {
-                    left = new JLabel(card.secondary, SwingConstants.CENTER);
-                    right = new JLabel(card.main, SwingConstants.CENTER);
-                }
-            } else {
-                left = new JLabel(card.main, SwingConstants.CENTER);
-                right = new JLabel(card.secondary, SwingConstants.CENTER);
-            }
-
+            JLabel left = new JLabel(card.main, SwingConstants.CENTER);
+            JLabel right = new JLabel(card.secondary, SwingConstants.CENTER);
 
             left.setFont(new Font("Segoe UI", Font.BOLD, 14));
             right.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -491,8 +587,8 @@ public class CardLearningTab extends BaseTab {
         return allCards;
     }
 
-    private JScrollPane createCardPanelAsScroll(CardList list, boolean randomized) {
-        JPanel p = createCardPanel(list, randomized);
+    private JScrollPane createCardPanelAsScroll(CardList list) {
+        JPanel p = createCardPanel(list);
         JScrollPane scrollPane = new JScrollPane(p);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);

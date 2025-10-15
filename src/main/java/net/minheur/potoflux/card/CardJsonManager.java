@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardJsonManager {
-    public static CardList fromJson(JsonObject json) {
+    public static CardList fromJson(JsonObject json, boolean randomized) {
         if (json == null) return null;
         String name = json.get("name").toString();
         if (name == null) return null;
@@ -19,8 +19,18 @@ public class CardJsonManager {
 
             Card c = new Card();
 
-            c.main = j.get("main").getAsString();
-            c.secondary = j.get("secondary").getAsString();
+            if (randomized) {
+                if (Math.random() < 0.5) {
+                    c.main = j.get("main").getAsString();
+                    c.secondary = j.get("secondary").getAsString();
+                } else {
+                    c.secondary = j.get("main").getAsString();
+                    c.main = j.get("secondary").getAsString();
+                }
+            } else {
+                c.main = j.get("main").getAsString();
+                c.secondary = j.get("secondary").getAsString();
+            }
 
             if (c.main == null || c.secondary == null) return null;
 
