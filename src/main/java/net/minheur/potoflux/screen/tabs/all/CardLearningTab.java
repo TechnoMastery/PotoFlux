@@ -1,7 +1,6 @@
 package net.minheur.potoflux.screen.tabs.all;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.card.Card;
@@ -117,6 +116,7 @@ public class CardLearningTab extends BaseTab {
 
     private JPanel createLoadPanel() {
         CardList[] list = new CardList[1];
+        JScrollPane[] loadedListCards = new JScrollPane[1];
 
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -175,7 +175,8 @@ public class CardLearningTab extends BaseTab {
                 return;
             }
 
-            panel.add(createCardPanelAsScroll(list[0], false));
+            loadedListCards[0] = createCardPanelAsScroll(list[0], false);
+            panel.add(loadedListCards[0]);
             panel.revalidate();
             panel.repaint();
 
@@ -188,6 +189,8 @@ public class CardLearningTab extends BaseTab {
                         "erreur liste", JOptionPane.ERROR_MESSAGE); // TODO
                 list[0] = null;
                 validateButton.setEnabled(false);
+                removeLoadedCards(loadedListCards[0], panel);
+                loadedListCards[0] = null;
             }
 
             String fileName = list[0].name.replaceAll(" ", "_");
@@ -199,6 +202,10 @@ public class CardLearningTab extends BaseTab {
                         "Un fichier du meme nom existe deja.\nL'ajout à été annulé.", // TODO
                         "Fichier deja existant", // TODO
                         JOptionPane.ERROR_MESSAGE);
+                list[0] = null;
+                validateButton.setEnabled(false);
+                removeLoadedCards(loadedListCards[0], panel);
+                loadedListCards[0] = null;
                 return;
             }
 
@@ -209,6 +216,11 @@ public class CardLearningTab extends BaseTab {
                         "Fichier enregistré.", // TODO
                         "Sauvegarde réussi", // TODO
                         JOptionPane.INFORMATION_MESSAGE);
+                validateButton.setEnabled(false);
+                list[0] = null;
+                removeLoadedCards(loadedListCards[0], panel);
+                loadedListCards[0] = null;
+                // TODO: reload list
             } catch (IOException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(PANEL,
@@ -224,6 +236,14 @@ public class CardLearningTab extends BaseTab {
 
         panel.add(buttonPanel, BorderLayout.NORTH);
         return panel;
+    }
+
+    private void removeLoadedCards(JScrollPane scrollPane, JPanel panel) {
+        if (scrollPane != null) {
+            panel.remove(scrollPane);
+            panel.revalidate();
+            panel.repaint();
+        }
     }
 
     @Override
