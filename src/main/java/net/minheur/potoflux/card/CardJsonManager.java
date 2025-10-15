@@ -19,8 +19,8 @@ public class CardJsonManager {
 
             Card c = new Card();
 
-            c.main = j.get("main").toString();
-            c.secondary = j.get("secondary").toString();
+            c.main = j.get("main").getAsString();
+            c.secondary = j.get("secondary").getAsString();
 
             if (c.main == null || c.secondary == null) return null;
 

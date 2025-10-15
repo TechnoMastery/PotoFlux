@@ -76,7 +76,6 @@ public class CardLearningTab extends BaseTab {
 
         File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
         if (jsonFiles == null || jsonFiles.length == 0) {
-            System.out.println("OUI");
             listPanel.add(new JLabel("Aucune liste de cartes trouvée.", SwingConstants.CENTER)); // TODO
         } else {
             for (File file : jsonFiles) {
@@ -98,7 +97,7 @@ public class CardLearningTab extends BaseTab {
                     label.setFont(new Font("Segeo UI", Font.PLAIN, 14));
                     row.add(label, BorderLayout.WEST);
 
-                    // right - button
+                    // right - buttons
                     JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
                     JButton deleteButton = new JButton("Supprimer");
                     JButton infoButton = new JButton("Infos");
@@ -127,6 +126,35 @@ public class CardLearningTab extends BaseTab {
                                         JOptionPane.ERROR_MESSAGE);
                             }
                         }
+                    });
+
+                    infoButton.addActionListener(e -> {
+                        // window for display
+                        JDialog infoDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(PANEL), "Details de " + list.name, true); // TODO
+                        infoDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                        infoDialog.setLocationRelativeTo(PANEL);
+                        infoDialog.setLayout(new BorderLayout());
+
+                        // title
+                        JLabel title = new JLabel(list.name + " (" + list.cards.size() + " cartes)", SwingConstants.CENTER); // TODO
+                        title.setFont(new Font("Segeo UI", Font.BOLD, 16));
+                        infoDialog.add(title, BorderLayout.NORTH);
+
+                        // card
+                        JScrollPane scrollPane = createCardPanelAsScroll(list, false);
+                        infoDialog.add(scrollPane, BorderLayout.CENTER);
+
+                        // close button
+                        JButton closeButton = new JButton("fermer"); // TODO
+                        closeButton.addActionListener(ev -> infoDialog.dispose());
+
+                        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                        bottomPanel.add(closeButton);
+                        infoDialog.add(bottomPanel, BorderLayout.SOUTH);
+
+                        infoDialog.pack();
+                        infoDialog.setLocationRelativeTo(PANEL);
+                        infoDialog.setVisible(true);
                     });
 
                     buttons.add(deleteButton);
@@ -187,8 +215,9 @@ public class CardLearningTab extends BaseTab {
                 String content = Files.readString(selectedPath);
 
                 // parse to JSON object
-                Gson gson = new Gson();
-                list[0] = gson.fromJson(content, CardList.class);
+                // Gson gson = new Gson();
+                // list[0] = gson.fromJson(content, CardList.class);
+                list[0] = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject());
 
                 // check is everything right
                 if (list[0] == null || list[0].cards == null || getCheckedListName(list[0].name) == null) {
@@ -248,7 +277,7 @@ public class CardLearningTab extends BaseTab {
 
             try {
                 Gson gson = new Gson();
-                Files.writeString(outputFile, gson.toJson(list));
+                Files.writeString(outputFile, gson.toJson(list[0]));
                 JOptionPane.showMessageDialog(PANEL,
                         "Fichier enregistré.", // TODO
                         "Sauvegarde réussi", // TODO
