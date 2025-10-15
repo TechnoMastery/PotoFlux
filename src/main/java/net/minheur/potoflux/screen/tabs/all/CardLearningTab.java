@@ -101,7 +101,7 @@ public class CardLearningTab extends BaseTab {
 
             Path filePath = cardsDir.resolve(selected + ".json");
             if (!Files.exists(filePath)) {
-                JOptionPane.showMessageDialog(panel, "Fichier introuvable : " + selected, "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                JOptionPane.showMessageDialog(panel, "Fichier introuvable : " + selected, Translations.get("common.error"), JOptionPane.ERROR_MESSAGE); // TODO
                 return;
             }
 
@@ -109,12 +109,12 @@ public class CardLearningTab extends BaseTab {
                 String content = Files.readString(filePath);
                 currentList[0] = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject(), true);
                 if (currentList[0] == null || currentList[0].cards == null || currentList[0].cards.isEmpty()) {
-                    JOptionPane.showMessageDialog(panel, "Liste vide ou invalide", "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                    JOptionPane.showMessageDialog(panel, "Liste vide ou invalide", Translations.get("common.error"), JOptionPane.ERROR_MESSAGE); // TODO
                     return;
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(panel, "Erreur de lecture : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                JOptionPane.showMessageDialog(panel, "Erreur de lecture : " + ex.getMessage(), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE); // TODO
                 return;
             }
 
@@ -230,7 +230,7 @@ public class CardLearningTab extends BaseTab {
                                 ex.printStackTrace();
                                 JOptionPane.showMessageDialog(listPanel,
                                         "Erreur lors de la suppression du fichier : " + ex.getMessage(), // TODO
-                                        "Erreur", // TODO
+                                        Translations.get("common.error"),
                                         JOptionPane.ERROR_MESSAGE);
                             }
                         }
@@ -308,7 +308,7 @@ public class CardLearningTab extends BaseTab {
             if (!Files.exists(sourcePath)) {
                 JOptionPane.showMessageDialog(PANEL,
                         "Fichier introuvable : " + sourcePath, // TODO
-                        "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                        Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -347,7 +347,7 @@ public class CardLearningTab extends BaseTab {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(PANEL,
                         "Erreur lors de l’export : " + ex.getMessage(), // TODO
-                        "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                        Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -485,7 +485,7 @@ public class CardLearningTab extends BaseTab {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(PANEL, "Erreur du chargement du fichier JSON", // TODO
-                        "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                        Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -500,7 +500,7 @@ public class CardLearningTab extends BaseTab {
             if (list[0] == null) {
                 JOptionPane.showMessageDialog(PANEL,
                         "list vide mais bouton valide !", // TODO
-                        "erreur liste", JOptionPane.ERROR_MESSAGE); // TODO
+                        Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 list[0] = null;
                 validateButton.setEnabled(false);
                 removeLoadedCards(loadedListCards[0], panel);
@@ -541,7 +541,7 @@ public class CardLearningTab extends BaseTab {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(PANEL,
                         "Erreur lors de l'enregistrement du fichier : " + ex.getMessage(), // TODO
-                        "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                        Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -614,7 +614,7 @@ public class CardLearningTab extends BaseTab {
 
     private void showCardError() {
         JOptionPane.showMessageDialog(PANEL, "Le fichier JSON n'est pas valide !", // TODO
-                "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
     }
 
     private void checkAndCreateDir() {
@@ -695,7 +695,7 @@ public class CardLearningTab extends BaseTab {
                 String secondary = getValidatedListName(secondaryField.getText());
 
                 if (main.isEmpty() || secondary.isEmpty()) {
-                    JOptionPane.showMessageDialog(panel, "Les deux champs doivent être remplis.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, "Les deux champs doivent être remplis.", Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -712,12 +712,12 @@ public class CardLearningTab extends BaseTab {
         saveButton.addActionListener(e -> {
             String listName = getCheckedListName(nameField.getText());
             if (listName == null) {
-                JOptionPane.showMessageDialog(panel, "Nom de liste invalide.", "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                JOptionPane.showMessageDialog(panel, "Nom de liste invalide.", Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             if (tempCards.isEmpty()) {
-                JOptionPane.showMessageDialog(panel, "Aucune carte à enregistrer.", "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                JOptionPane.showMessageDialog(panel, "Aucune carte à enregistrer.", Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -743,7 +743,7 @@ public class CardLearningTab extends BaseTab {
                 loadListPanel(); // refresh global list
             } catch (IOException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(panel, "Erreur lors de la sauvegarde : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE); // TODO
+                JOptionPane.showMessageDialog(panel, "Erreur lors de la sauvegarde : " + ex.getMessage(), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE); // TODO
             }
         });
 

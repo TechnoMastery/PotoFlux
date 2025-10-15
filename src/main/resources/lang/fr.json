@@ -12,6 +12,7 @@
   "command.tab": "Ouvre l'onglet donné",
   "command.tab.null.end": " n'existe pas !",
   "command.tab.null.start": "L'onglet ",
+  "common.error": "Erreur",
   "command.tab.opened": "Cet onglet est déjà ouvert !",
   "command.tab.use": "Utilisation: tab <tabName>",
   "command.time": "Dit le temps",
