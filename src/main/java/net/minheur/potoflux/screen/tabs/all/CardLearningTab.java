@@ -484,7 +484,7 @@ public class CardLearningTab extends BaseTab {
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(PANEL, "Erreur du chargement du fichier JSON", // TODO
+                JOptionPane.showMessageDialog(PANEL, Translations.get("file.error.json.loading"),
                         Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -540,7 +540,7 @@ public class CardLearningTab extends BaseTab {
             } catch (IOException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(PANEL,
-                        "Erreur lors de l'enregistrement du fichier : " + ex.getMessage(), // TODO
+                        Translations.get("file.error.saving") + ex.getMessage(),
                         Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -613,7 +613,7 @@ public class CardLearningTab extends BaseTab {
     }
 
     private void showCardError() {
-        JOptionPane.showMessageDialog(PANEL, "Le fichier JSON n'est pas valide !", // TODO
+        JOptionPane.showMessageDialog(PANEL, Translations.get("file.json.error.invalid"),
                 Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
     }
 
@@ -633,11 +633,11 @@ public class CardLearningTab extends BaseTab {
 
         // up - name + button
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        JButton addCardButton = new JButton("Ajouter une carte"); // TODO
-        JButton saveButton = new JButton("Valider"); // TODO
+        JButton addCardButton = new JButton(Translations.get("tabs.card.add_card"));
+        JButton saveButton = new JButton(Translations.get("common.validate"));
         saveButton.setEnabled(false);
 
-        topPanel.add(new JLabel("Nom de la liste :")); // TODO
+        topPanel.add(new JLabel(Translations.get("tabs.card.list_name")));
         topPanel.add(nameField);
         topPanel.add(addCardButton);
         topPanel.add(saveButton);
@@ -656,7 +656,7 @@ public class CardLearningTab extends BaseTab {
         Runnable refreshCards = () -> {
             cardsPanel.removeAll();
 
-            if (tempCards.isEmpty()) cardsPanel.add(new JLabel("Aucune carte ajoutée.", SwingConstants.CENTER)); // TODO
+            if (tempCards.isEmpty()) cardsPanel.add(new JLabel(Translations.get("tabs.card.no_card"), SwingConstants.CENTER));
             else for (Card card : tempCards) {
                 JPanel row = new JPanel(new GridLayout(1, 2, 5, 5));
                 row.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true));
@@ -680,13 +680,13 @@ public class CardLearningTab extends BaseTab {
             JTextField secondaryField = new JTextField();
 
             JPanel inputPanel = new JPanel(new GridLayout(2, 2, 5, 5));
-            inputPanel.add(new JLabel("Face avant :")); // TODO
+            inputPanel.add(new JLabel(Translations.get("tabs.card.face.front")));
             inputPanel.add(mainField);
-            inputPanel.add(new JLabel("Face arrière :")); // TODO
+            inputPanel.add(new JLabel(Translations.get("tabs.card.face.back")));
             inputPanel.add(secondaryField);
 
             int result = JOptionPane.showConfirmDialog(
-                    panel, inputPanel, "Nouvelle carte", // TODO
+                    panel, inputPanel, Translations.get("tabs.card.new"),
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
             );
 
@@ -695,7 +695,7 @@ public class CardLearningTab extends BaseTab {
                 String secondary = getValidatedListName(secondaryField.getText());
 
                 if (main.isEmpty() || secondary.isEmpty()) {
-                    JOptionPane.showMessageDialog(panel, "Les deux champs doivent être remplis.", Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.new.empty"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -712,20 +712,20 @@ public class CardLearningTab extends BaseTab {
         saveButton.addActionListener(e -> {
             String listName = getCheckedListName(nameField.getText());
             if (listName == null) {
-                JOptionPane.showMessageDialog(panel, "Nom de liste invalide.", Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.invalid_list_name"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             if (tempCards.isEmpty()) {
-                JOptionPane.showMessageDialog(panel, "Aucune carte à enregistrer.", Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.saving_no_cards"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             Path outputFile = cardsDir.resolve(listName.replaceAll(" ", "_") + ".json");
             if (Files.exists(outputFile)) {
                 int overwrite = JOptionPane.showConfirmDialog(panel,
-                        "Un fichier du même nom existe déjà.\nVoulez-vous le remplacer ?", // TODO
-                        "Fichier existant", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE); // TODO
+                        Translations.get("tabs.card.replace.content"),
+                        Translations.get("file.error.exist"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (overwrite != JOptionPane.YES_OPTION) return;
             }
 
@@ -736,14 +736,14 @@ public class CardLearningTab extends BaseTab {
             try {
                 Gson gson = new Gson();
                 Files.writeString(outputFile, gson.toJson(list));
-                JOptionPane.showMessageDialog(panel, "Liste sauvegardée avec succès !", "Succès", JOptionPane.INFORMATION_MESSAGE); // TODO
+                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.list_saved"), Translations.get("common.success"), JOptionPane.INFORMATION_MESSAGE);
                 tempCards.clear();
                 nameField.setText("");
                 refreshCards.run();
                 loadListPanel(); // refresh global list
             } catch (IOException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(panel, "Erreur lors de la sauvegarde : " + ex.getMessage(), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE); // TODO
+                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.error_saving") + ex.getMessage(), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -768,6 +768,6 @@ public class CardLearningTab extends BaseTab {
 
     @Override
     protected String getTitle() {
-        return "Card learning"; // TODO
+        return Translations.get("tabs.card.name");
     }
 }
