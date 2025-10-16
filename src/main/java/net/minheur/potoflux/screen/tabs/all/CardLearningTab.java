@@ -609,7 +609,7 @@ public class CardLearningTab extends BaseTab {
     }
 
     private String getValidatedListName(String s) {
-        return s.replaceAll("[^a-zA-Z0-9 ]", "");
+        return s.replaceAll("[^\\p{L}\\p{N} =+\\-←→]", "");
     }
 
     private void showCardError() {
