@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "net.minheur.potoflux"
-version = "beta-4.3"
+version = "5.0"
 sourceCompatibility = '17'
 targetCompatibility = '17'
 
