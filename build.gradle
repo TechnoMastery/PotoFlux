@@ -44,3 +44,13 @@ processResources {
 }
 
 build.dependsOn shadowJar
+
+tasks.register("run", JavaExec) {
+    group = "application"
+    description = "Run PotoFlux"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass.set("net.minheur.potoflux.PotoFlux")
+    doLast {
+        println("PotoFlux launched")
+    }
+}
