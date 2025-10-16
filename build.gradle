@@ -1,12 +1,9 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group = "net.minheur.potoflux"
 version = "5.0"
-sourceCompatibility = '17'
-targetCompatibility = '17'
 
 repositories {
     mavenCentral()
@@ -29,28 +26,70 @@ jar {
     }
 }
 
-shadowJar {
-    archiveFileName.set("PotoFlux-${version}.jar")
-    mergeServiceFiles()
-    manifest {
-        attributes 'Main-Class': 'net.minheur.potoflux.PotoFlux'
-    }
-}
-
 processResources {
     filesMatching("version.properties") {
         expand "version": version
     }
 }
 
-build.dependsOn shadowJar
+tasks.register("copyLibs", Copy) {
+    dependsOn "build"
+
+    group = "potoflux"
+    description = "copy all libs to the build folder"
+
+    doFirst {
+        delete("$buildDir/libs/build")
+    }
+
+    from configurations.runtimeClasspath
+    into "$buildDir/libs/build/lib/"
+}
+
+build.dependsOn jar
 
 tasks.register("run", JavaExec) {
-    group = "application"
+    group = "potoflux"
     description = "Run PotoFlux"
     classpath = sourceSets.main.runtimeClasspath
     mainClass.set("net.minheur.potoflux.PotoFlux")
     doLast {
         println("PotoFlux launched")
+    }
+}
+
+tasks.register("copyJar", Copy) {
+    dependsOn "copyLibs"
+
+    group = "potoflux"
+    description = "copy .jar file to build dir"
+
+    from "$buildDir/libs/PotoFlux-$version" + ".jar"
+    into "$buildDir/libs/build/"
+}
+
+tasks.register("msiPackage") {
+    dependsOn "copyJar"
+    group = "potoflux"
+    description = "build as msi installer"
+
+    doLast {
+        exec {
+            commandLine "jpackage",
+            "--input", "$buildDir/libs/build",
+            "--name", "PotoFlux",
+            "--main-jar", "$buildDir/libs/build/PotoFlux-$version" + ".jar",
+            "--main-class", "net.minheur.potoflux.PotoFlux",
+            "--type", "msi",
+            "--dest", "$buildDir/libs/output",
+            "--win-dir-chooser",
+            "--install-dir", "TechnoMastery/PotoFlux",
+            "--win-shortcut",
+            "--win-menu",
+            "--java-options", "-Xmx512m",
+            "--app-version", "$version",
+            "--icon", "$buildDir/libs/main.ico",
+            "--win-upgrade-uuid", "5536eb5f-55c0-408d-b034-677536a3a078"
+        }
     }
 }
