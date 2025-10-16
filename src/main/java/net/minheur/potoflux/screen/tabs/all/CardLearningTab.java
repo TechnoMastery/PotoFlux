@@ -635,12 +635,14 @@ public class CardLearningTab extends BaseTab {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         JButton addCardButton = new JButton(Translations.get("tabs.card.add_card"));
         JButton saveButton = new JButton(Translations.get("common.validate"));
+        JButton cancelButton = new JButton(Translations.get("common.cancel"));// TODO check
         saveButton.setEnabled(false);
 
         topPanel.add(new JLabel(Translations.get("tabs.card.list_name")));
         topPanel.add(nameField);
         topPanel.add(addCardButton);
         topPanel.add(saveButton);
+        topPanel.add(cancelButton);
 
         // center - added cards
         JPanel cardsPanel = new JPanel();
@@ -653,19 +655,36 @@ public class CardLearningTab extends BaseTab {
         panel.add(scrollPane, BorderLayout.CENTER);
 
         // display features
-        Runnable refreshCards = () -> {
+        Runnable[] refreshCards = new Runnable[1];
+
+        refreshCards[0] = () -> {
             cardsPanel.removeAll();
 
             if (tempCards.isEmpty()) cardsPanel.add(new JLabel(Translations.get("tabs.card.no_card"), SwingConstants.CENTER));
             else for (Card card : tempCards) {
                 JPanel row = new JPanel(new GridLayout(1, 2, 5, 5));
                 row.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true));
+
+                JPanel content = new JPanel(new GridLayout(1, 2, 5, 5));
                 JLabel left = new JLabel(card.main, SwingConstants.CENTER);
                 JLabel right = new JLabel(card.secondary, SwingConstants.CENTER);
+
                 left.setFont(new Font("Segoe UI", Font.BOLD, 14));
                 right.setFont(new Font("Segoe UI", Font.BOLD, 14));
-                row.add(left);
-                row.add(right);
+
+                content.add(left);
+                content.add(right);
+
+                // delete button
+                JButton deleteButton = new JButton("✕");
+                deleteButton.addActionListener(e -> {
+                    tempCards.remove(card);
+
+                });
+
+                row.add(content, BorderLayout.CENTER);
+                row.add(deleteButton, BorderLayout.EAST);
+
                 cardsPanel.add(row);
             }
 
@@ -704,7 +723,7 @@ public class CardLearningTab extends BaseTab {
                 c.secondary = secondary;
 
                 tempCards.add(c);
-                refreshCards.run();
+                refreshCards[0].run();
             }
         });
 
@@ -739,7 +758,7 @@ public class CardLearningTab extends BaseTab {
                 JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.list_saved"), Translations.get("common.success"), JOptionPane.INFORMATION_MESSAGE);
                 tempCards.clear();
                 nameField.setText("");
-                refreshCards.run();
+                refreshCards[0].run();
                 loadListPanel(); // refresh global list
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -747,17 +766,34 @@ public class CardLearningTab extends BaseTab {
             }
         });
 
+        // button cancel
+        cancelButton.addActionListener(e -> {
+            if (tempCards.isEmpty() && nameField.getText().isEmpty()) return;
+
+            int confirm = JOptionPane.showConfirmDialog(panel,
+                    Translations.get("tabs.card.cancel_all"), // TODO check
+                    Translations.get("common.confirm"), // TODO check
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                tempCards.clear();
+                nameField.setText("");
+                refreshCards[0].run();
+            }
+        });
+
         // auto run validate button check
         nameField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) { refreshCards.run(); }
+            public void insertUpdate(DocumentEvent e) { refreshCards[0].run(); }
             @Override
-            public void removeUpdate(DocumentEvent e) { refreshCards.run(); }
+            public void removeUpdate(DocumentEvent e) { refreshCards[0].run(); }
             @Override
-            public void changedUpdate(DocumentEvent e) { refreshCards.run(); }
+            public void changedUpdate(DocumentEvent e) { refreshCards[0].run(); }
         });
 
-        refreshCards.run();
+        refreshCards[0].run();
         return panel;
     }
 
