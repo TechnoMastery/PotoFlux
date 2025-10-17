@@ -634,6 +634,7 @@ public class CardLearningTab extends BaseTab {
         JButton addCardButton = new JButton(Translations.get("tabs.card.add_card"));
         JButton saveButton = new JButton(Translations.get("common.validate"));
         JButton cancelButton = new JButton(Translations.get("common.cancel"));// TODO check
+        JButton modifyButton = new JButton(Translations.get("common.modify")); // TODO
         saveButton.setEnabled(false);
 
         topPanel.add(new JLabel(Translations.get("tabs.card.list_name")));
@@ -641,6 +642,7 @@ public class CardLearningTab extends BaseTab {
         topPanel.add(addCardButton);
         topPanel.add(saveButton);
         topPanel.add(cancelButton);
+        topPanel.add(modifyButton);
 
         // center - added cards
         JPanel cardsPanel = new JPanel();
@@ -693,6 +695,17 @@ public class CardLearningTab extends BaseTab {
             cardsPanel.repaint();
             saveButton.setEnabled(!tempCards.isEmpty() && getCheckedListName(nameField.getText()) != null);
         };
+
+        // button modify
+        modifyButton.addActionListener(e -> {
+            if (!tempCards.isEmpty()) {
+                int reset = JOptionPane.showConfirmDialog(
+                        panel, Translations.get("tabs.card.override_creating", // TODO
+                                Translations.get("common.override_check"),
+                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                )
+            }
+        });
 
         // button "add card"
         addCardButton.addActionListener(e -> {
