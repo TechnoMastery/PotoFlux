@@ -463,8 +463,6 @@ public class CardLearningTab extends BaseTab {
                 String content = Files.readString(selectedPath);
 
                 // parse to JSON object
-                // Gson gson = new Gson();
-                // list[0] = gson.fromJson(content, CardList.class);
                 list[0] = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject(), false);
 
                 // check is everything right
