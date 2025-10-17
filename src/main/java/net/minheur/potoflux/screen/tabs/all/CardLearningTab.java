@@ -30,6 +30,7 @@ public class CardLearningTab extends BaseTab {
     private final JPanel listPanel = new JPanel();
     private final JComboBox<String> exportComboBox = new JComboBox<>();
     private final JComboBox<String> mainComboBox = new JComboBox<>();
+    private final JComboBox<String> modifyComboBox = new JComboBox<>();
     private final List<JComboBox<String>> allComboBox = new ArrayList<>();
 
     @Override
@@ -38,6 +39,7 @@ public class CardLearningTab extends BaseTab {
 
         allComboBox.add(exportComboBox);
         allComboBox.add(mainComboBox);
+        allComboBox.add(modifyComboBox);
 
         checkAndCreateDir();
 
@@ -61,10 +63,6 @@ public class CardLearningTab extends BaseTab {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel listLabel = new JLabel(Translations.get("tabs.card.list_column"));
         JButton startButton = new JButton(Translations.get("common.start"));
-
-        // fill with actual list
-        mainComboBox.addItem(Translations.get("tabs.card.select_list"));
-        File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
 
         refreshComboBox();
 
@@ -704,7 +702,35 @@ public class CardLearningTab extends BaseTab {
                                 Translations.get("common.override_check"), // TODO
                                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
                 );
+                if (reset != JOptionPane.YES_OPTION) return;
             }
+
+            refreshComboBox();
+
+            // defs
+            JPanel comboPanel = new JPanel(new BorderLayout(50, 400));
+            JLabel label = new JLabel(Translations.get("tabs.card.chose_list")); // TODO
+            comboPanel.add(label, BorderLayout.WEST);
+            comboPanel.add(modifyComboBox, BorderLayout.EAST);
+
+            JOptionPane.showMessageDialog(
+                    panel, comboPanel,
+                    Translations.get("tabs.card.chose_list_name"), // TODO
+                    JOptionPane.QUESTION_MESSAGE
+            );
+
+            String selected = (String) modifyComboBox.getSelectedItem();
+            if (selected == null || selected.equals(Translations.get("tabs.card.select_list"))) {
+                JOptionPane.showMessageDialog(
+                        panel, Translations.get("tabs.card.no_selected"), // TODO
+                        Translations.get("common.error"), // TODO
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
+
+
         });
 
         // button "add card"
