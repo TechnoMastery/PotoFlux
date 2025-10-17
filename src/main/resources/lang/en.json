@@ -9,7 +9,7 @@
   "tabs.card.list_removed.start": "The list ",
   "tabs.card.details": "Details of ",
   "tabs.card.delete_error": "Error while deleting file : ",
-  "common.card": "Cards",
+  "common.cards": "Cards",
   "common.close": "Close",
   "tabs.card.export_list": "Export card list",
   "tabs.card.export": "Export list ",
