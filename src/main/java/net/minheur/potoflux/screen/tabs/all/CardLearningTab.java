@@ -679,11 +679,14 @@ public class CardLearningTab extends BaseTab {
                 JButton deleteButton = new JButton("✕");
                 deleteButton.addActionListener(e -> {
                     tempCards.remove(card);
-
+                    refreshCards[0].run();
                 });
 
+                JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 0));
+                buttonPanel.add(deleteButton);
+
                 row.add(content, BorderLayout.CENTER);
-                row.add(deleteButton, BorderLayout.EAST);
+                row.add(buttonPanel, BorderLayout.EAST);
 
                 cardsPanel.add(row);
             }
