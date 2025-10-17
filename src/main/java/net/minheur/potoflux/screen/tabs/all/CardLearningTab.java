@@ -700,10 +700,10 @@ public class CardLearningTab extends BaseTab {
         modifyButton.addActionListener(e -> {
             if (!tempCards.isEmpty()) {
                 int reset = JOptionPane.showConfirmDialog(
-                        panel, Translations.get("tabs.card.override_creating", // TODO
-                                Translations.get("common.override_check"),
-                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-                )
+                        panel, Translations.get("tabs.card.override_creating"), // TODO
+                                Translations.get("common.override_check"), // TODO
+                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
+                );
             }
         });
 
