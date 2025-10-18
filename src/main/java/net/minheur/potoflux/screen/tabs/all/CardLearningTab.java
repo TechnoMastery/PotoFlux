@@ -706,6 +706,7 @@ public class CardLearningTab extends BaseTab {
             }
 
             refreshComboBox();
+            tempCards.clear();
 
             // defs
             JPanel comboPanel = new JPanel(new BorderLayout(50, 400));
@@ -729,7 +730,37 @@ public class CardLearningTab extends BaseTab {
                 return;
             }
 
+            Path filePath = cardsDir.resolve(selected + ".json");
+            if (!Files.exists(filePath)) {
+                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.file_not_found") + selected, Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
+            try {
+                String content = Files.readString(filePath);
+                CardList cardList = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject(), true);
+
+                for (Card c : cardList.cards) {
+                    if (c == null || c.main == null || c.secondary == null) {
+                        JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.invalid_list"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    tempCards.add(c);
+                }
+
+                if (tempCards.isEmpty() || cardList.name == null) {
+                    JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.invalid_list"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                nameField.setText(cardList.name.replaceAll("\"", ""));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.read_error") + ex.getMessage(), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            refreshCards[0].run();
 
         });
 
