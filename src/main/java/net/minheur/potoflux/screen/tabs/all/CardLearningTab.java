@@ -631,8 +631,8 @@ public class CardLearningTab extends BaseTab {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         JButton addCardButton = new JButton(Translations.get("tabs.card.add_card"));
         JButton saveButton = new JButton(Translations.get("common.validate"));
-        JButton cancelButton = new JButton(Translations.get("common.cancel"));// TODO check
-        JButton modifyButton = new JButton(Translations.get("common.modify")); // TODO
+        JButton cancelButton = new JButton(Translations.get("common.cancel"));
+        JButton modifyButton = new JButton(Translations.get("common.modify"));
         saveButton.setEnabled(false);
 
         topPanel.add(new JLabel(Translations.get("tabs.card.list_name")));
@@ -698,8 +698,8 @@ public class CardLearningTab extends BaseTab {
         modifyButton.addActionListener(e -> {
             if (!tempCards.isEmpty()) {
                 int reset = JOptionPane.showConfirmDialog(
-                        panel, Translations.get("tabs.card.override_creating"), // TODO
-                                Translations.get("common.override_check"), // TODO
+                        panel, Translations.get("tabs.card.override_creating"),
+                                Translations.get("common.override_check"),
                                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
                 );
                 if (reset != JOptionPane.YES_OPTION) return;
@@ -710,21 +710,21 @@ public class CardLearningTab extends BaseTab {
 
             // defs
             JPanel comboPanel = new JPanel(new BorderLayout(50, 400));
-            JLabel label = new JLabel(Translations.get("tabs.card.chose_list")); // TODO
+            JLabel label = new JLabel(Translations.get("tabs.card.choose_list"));
             comboPanel.add(label, BorderLayout.WEST);
             comboPanel.add(modifyComboBox, BorderLayout.EAST);
 
             JOptionPane.showMessageDialog(
                     panel, comboPanel,
-                    Translations.get("tabs.card.chose_list_name"), // TODO
+                    Translations.get("tabs.card.choose_list"),
                     JOptionPane.QUESTION_MESSAGE
             );
 
             String selected = (String) modifyComboBox.getSelectedItem();
             if (selected == null || selected.equals(Translations.get("tabs.card.select_list"))) {
                 JOptionPane.showMessageDialog(
-                        panel, Translations.get("tabs.card.no_selected"), // TODO
-                        Translations.get("common.error"), // TODO
+                        panel, Translations.get("tabs.card.no_selected"),
+                        Translations.get("common.error"),
                         JOptionPane.ERROR_MESSAGE
                 );
                 return;
@@ -842,8 +842,8 @@ public class CardLearningTab extends BaseTab {
             if (tempCards.isEmpty() && nameField.getText().isEmpty()) return;
 
             int confirm = JOptionPane.showConfirmDialog(panel,
-                    Translations.get("tabs.card.cancel_all"), // TODO check
-                    Translations.get("common.confirm"), // TODO check
+                    Translations.get("tabs.card.cancel_all"),
+                    Translations.get("common.confirm"),
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
 
