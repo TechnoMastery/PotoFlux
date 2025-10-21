@@ -117,7 +117,7 @@
   "tabs.todo.new.pinned": "Pin the todo",
   "tabs.todo.new.title": "Add",
   "tabs.todo.no_empty": "Todo can't be empty.",
-  "tabs.todo.pined": "Pinned",
+  "tabs.todo.pinned": "Pinned",
   "tabs.todo.rename": "Rename",
   "tabs.todo.rename.prompt": "New name :"
 }
