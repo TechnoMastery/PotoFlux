@@ -23,6 +23,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.minheur.potoflux.Functions.removeProhibitedChar;
+
 public class CardLearningTab extends BaseTab {
     public static final Path cardsDir = Paths.get(PotoFlux.getProgramDir().toString(), "cards");
 
@@ -473,7 +475,7 @@ public class CardLearningTab extends BaseTab {
                         showCardError();
                         return;
                     }
-                    list[0].name = getValidatedListName(list[0].name);
+                    list[0].name = removeProhibitedChar(list[0].name);
                     JOptionPane.showMessageDialog(PANEL, Translations.get("tabs.card.list_loaded") + list[0].name +
                             "\n" + Translations.get("tabs.card.card_number") + list[0].cards.size());
                     validateButton.setEnabled(true);
@@ -598,14 +600,10 @@ public class CardLearningTab extends BaseTab {
         if (s == null) return null;
         if (s.isEmpty() || s.trim().isEmpty()) return null;
 
-        String newString = getValidatedListName(s);
+        String newString = removeProhibitedChar(s);
 
         if (newString.isEmpty() || newString.trim().isEmpty()) return null;
         return newString;
-    }
-
-    private String getValidatedListName(String s) {
-        return s.replaceAll("[^\\p{L}\\p{N} =+\\-←→]", "");
     }
 
     private void showCardError() {
@@ -781,8 +779,8 @@ public class CardLearningTab extends BaseTab {
             );
 
             if (result == JOptionPane.OK_OPTION) {
-                String main = getValidatedListName(mainField.getText());
-                String secondary = getValidatedListName(secondaryField.getText());
+                String main = removeProhibitedChar(mainField.getText());
+                String secondary = removeProhibitedChar(secondaryField.getText());
 
                 if (main.isEmpty() || secondary.isEmpty()) {
                     JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.new.empty"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);

@@ -1,7 +1,6 @@
 package net.minheur.potoflux;
 
 import javax.swing.*;
-import java.awt.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -26,7 +25,7 @@ public class Functions {
 
     public static String removeProhibitedChar(String s) {
         if (s == null) return null;
-        return s.replaceAll("[^\\p{L}\\p{N} @!.?:;*$^¨()#§]+", "");
+        return s.replaceAll("[^\\p{L}\\p{N} @!.?:;*$+/→\\-^¨()#§]+", "");
     }
     public static String escapeHtml(String s) {
         if (s == null) return null;
