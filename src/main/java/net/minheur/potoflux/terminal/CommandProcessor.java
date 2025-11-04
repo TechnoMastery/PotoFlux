@@ -56,6 +56,15 @@ public class CommandProcessor {
         String content = outputArea.getText();
         Path file = PotoFlux.getProgramDir().resolve("terminal.txt");
 
+        if (content.trim().isEmpty()) { // is string is empty : delete file
+            try {
+                Files.deleteIfExists(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
         try {
             Files.createDirectories(file.getParent());
 
