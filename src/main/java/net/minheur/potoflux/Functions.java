@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Functions {
     public static void exit(int delay, int status) {
-        Timer exitDelay = new Timer(delay, ev -> System.exit(status));
+        Timer exitDelay = new Timer(delay, ev -> PotoFlux.runProgramClosing(status));
         exitDelay.setRepeats(false);
         exitDelay.start();
     }

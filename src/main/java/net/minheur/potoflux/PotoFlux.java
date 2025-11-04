@@ -29,11 +29,11 @@ public class PotoFlux {
         return dir;
     }
 
-    public static void runProgramClosing() {
+    public static void runProgramClosing(int exitCode) {
         // executes when program close
 
         CommandProcessor.runSaveTerminal();
 
-        System.exit(0); // close app
+        System.exit(exitCode); // close app
     }
 }

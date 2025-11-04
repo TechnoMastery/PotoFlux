@@ -24,7 +24,7 @@ public class PotoScreen {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                PotoFlux.runProgramClosing();
+                PotoFlux.runProgramClosing(0);
             }
         });
         frame.setLocationRelativeTo(null);

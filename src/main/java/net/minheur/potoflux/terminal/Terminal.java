@@ -1,9 +1,15 @@
 package net.minheur.potoflux.terminal;
 
+import net.minheur.potoflux.PotoFlux;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.concurrent.ExecutionException;
 
 public class Terminal {
     private final JTextArea outputArea;
@@ -21,6 +27,7 @@ public class Terminal {
         JScrollPane scrollPanel = new JScrollPane(outputArea);
 
         // area filling
+        fillOutputTextArea();
 
         // input system
         inputField = new JTextField();
@@ -55,5 +62,24 @@ public class Terminal {
 
     public JTextArea getOutputArea() {
         return outputArea;
+    }
+
+    private void fillOutputTextArea() {
+        Path file = PotoFlux.getProgramDir().resolve("terminal.txt");
+
+        // existing check
+        if (!Files.exists(file)) return;
+
+        try {
+            String content = Files.readString(file);
+
+            // empty check
+            if (content.trim().isEmpty()) return;
+
+            outputArea.setText(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+            CommandProcessor.appendOutput("ERROR loading terminal file");
+        }
     }
 }
