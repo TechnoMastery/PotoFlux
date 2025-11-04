@@ -11,15 +11,17 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public enum Commands {
-    HELLO_WORLD("hello", Commands::helloWorld, Translations.get("command.hello_world"), false),
-    TIME("time", Commands::time, Translations.get("command.time"), false),
-    HELP("help", Commands::help, Translations.get("command.help"), false),
-    ECHO("echo", Commands::echo, Translations.get("command.echo"), false),
-    TAB("tab", Commands::tab, Translations.get("command.tab"), false),
-    SOURCE("code-source", Commands::sourceCode, Translations.get("command.source"), false),
-    QUIT("quit", Commands::quit, Translations.get("command.exit"), false),
+    HELLO_WORLD("hello", Commands::helloWorld, Translations.get("command.hello_world")),
+    CLEAR("clear", Commands::clear, Translations.get("command.clear")),
+    TIME("time", Commands::time, Translations.get("command.time")),
+    HELP("help", Commands::help, Translations.get("command.help")),
+    ECHO("echo", Commands::echo, Translations.get("command.echo")),
+    TAB("tab", Commands::tab, Translations.get("command.tab")),
+    SOURCE("code-source", Commands::sourceCode, Translations.get("command.source")),
+    QUIT("quit", Commands::quit, Translations.get("command.exit")),
 
-    HIDDEN("hide", Commands::hidden, null, true);
+    HIDDEN("hide", Commands::hidden, true),
+    NOPE("nop", Commands::nope, true);
 
     private final String key;
     private final Consumer<List<String>> commandOutput;
@@ -32,6 +34,19 @@ public enum Commands {
         this.commandDesc = commandDesc;
         this.isHidden = isHidden;
     }
+    Commands(String key, Consumer<List<String>> commandOutput, boolean isHidden) {
+        this.key = key;
+        this.commandOutput = commandOutput;
+        this.commandDesc = null;
+        this.isHidden = isHidden;
+    }
+    Commands(String key, Consumer<List<String>> commandOutput, String commandDesc) {
+        this.key = key;
+        this.commandOutput = commandOutput;
+        this.commandDesc = commandDesc;
+        this.isHidden = false;
+    }
+
     public static boolean containsKey(String pKey) {
         for (Commands command : Commands.values()) {
             if (pKey.equals(command.getKey())) return true;
@@ -99,8 +114,14 @@ public enum Commands {
         CommandProcessor.appendOutput(Translations.get("command.tab.use"));
         CommandProcessor.appendOutput(Translations.get("command.tab.null.start") + args.get(0) + Translations.get("command.tab.null.end"));
     }
+    private static void clear(List<String> args) {
+        CommandProcessor.clearArea();
+    }
 
     private static void hidden(List<String> args) {
         CommandProcessor.appendOutput(Translations.get("command.hidden.out"));
+    }
+    private static void nope(List<String> args) {
+        CommandProcessor.appendOutput(Translations.get("command.nope.out"));
     }
 }

@@ -1,4 +1,5 @@
 {
+  "command.clear": "Vide le terminal",
   "command.echo": "Répète ce que vous donnez",
   "command.echo.use": "Utilisation: echo <text>",
   "command.exit": "Ferme l'app",
@@ -7,6 +8,7 @@
   "command.help": "Affiche ce menu",
   "command.help.title": "Liste des commandes :",
   "command.hidden.out": "Commande caché :)",
+  "command.nope.out": "NOPE !!!! :)",
   "command.source": "Lien vers le code source",
   "command.source.out": "Code source accessible à ",
   "command.tab": "Ouvre l'onglet donné",

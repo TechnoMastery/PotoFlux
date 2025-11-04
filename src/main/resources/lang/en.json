@@ -1,4 +1,5 @@
 {
+  "command.clear": "Clears the terminal",
   "command.echo": "Repeats what you give",
   "command.echo.use": "Usage: echo <text>",
   "command.exit": "Exit app",
@@ -7,6 +8,7 @@
   "command.help": "Shows this menu",
   "command.help.title": "Command List :",
   "command.hidden.out": "Hidden command :)",
+  "command.nope.out": "NOPE !!!! :)",
   "command.source": "Link to source code",
   "command.source.out": "Source code available at ",
   "command.tab": "Open given tab",

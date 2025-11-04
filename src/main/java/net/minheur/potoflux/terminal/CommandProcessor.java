@@ -44,4 +44,8 @@ public class CommandProcessor {
         outputArea.setCaretPosition(outputArea.getDocument().getLength());
     }
 
+    public static void clearArea() {
+        outputArea.setText("");
+    }
+
 }
