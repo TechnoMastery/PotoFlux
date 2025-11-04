@@ -6,6 +6,10 @@ import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.utils.Translations;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,6 +50,21 @@ public class CommandProcessor {
 
     public static void clearArea() {
         outputArea.setText("");
+    }
+
+    public static void runSaveTerminal() {
+        String content = outputArea.getText();
+        Path file = PotoFlux.getProgramDir().resolve("terminal.txt");
+
+        try {
+            Files.createDirectories(file.getParent());
+
+            Files.writeString(file, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
+            System.out.println("Terminal saved !");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

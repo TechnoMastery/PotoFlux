@@ -1,11 +1,14 @@
 package net.minheur.potoflux.screen;
 
+import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.utils.Translations;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 
@@ -17,7 +20,13 @@ public class PotoScreen {
     public PotoScreen() {
         frame = new JFrame("PotoFlux");
         frame.setSize(854, 512);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                PotoFlux.runProgramClosing();
+            }
+        });
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 

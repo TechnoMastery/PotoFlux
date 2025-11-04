@@ -20,6 +20,8 @@ public class Terminal {
         // adding
         JScrollPane scrollPanel = new JScrollPane(outputArea);
 
+        // area filling
+
         // input system
         inputField = new JTextField();
         inputField.addActionListener(new ActionListener() {

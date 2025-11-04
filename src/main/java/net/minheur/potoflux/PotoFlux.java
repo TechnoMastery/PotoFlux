@@ -1,6 +1,7 @@
 package net.minheur.potoflux;
 
 import net.minheur.potoflux.screen.PotoScreen;
+import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.utils.Translations;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
@@ -26,5 +27,13 @@ public class PotoFlux {
             Files.createDirectories(dir);
         } catch (IOException ignored) {}
         return dir;
+    }
+
+    public static void runProgramClosing() {
+        // executes when program close
+
+        CommandProcessor.runSaveTerminal();
+
+        System.exit(0); // close app
     }
 }
