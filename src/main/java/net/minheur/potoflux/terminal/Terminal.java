@@ -1,8 +1,5 @@
 package net.minheur.potoflux.terminal;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.utils.Translations;
 import net.minheur.potoflux.utils.UserPrefsManager;
@@ -12,15 +9,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Terminal {
     private final JTextArea outputArea;
@@ -102,12 +95,9 @@ public class Terminal {
         }
     }
 
-    public static void buildASCII() {
-        String asciiFile = UserPrefsManager.getTerminalASCII();
-        if (asciiFile == null) asciiFile = "big";
-
+    public static String getAsciiFileContent(String file) {
         try (Reader reader = new InputStreamReader(
-                Translations.class.getResourceAsStream("/ascii/" + asciiFile + ".txt"),
+                Terminal.class.getResourceAsStream("/ascii/" + file + ".txt"),
                 StandardCharsets.UTF_8
         )) {
             StringBuilder content = new StringBuilder();
@@ -117,11 +107,24 @@ public class Terminal {
                 content.append(buffer, 0, len);
             }
 
-            CommandProcessor.appendOutput(content.toString());
+            return content.toString();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "ERROR: Failed loading translations ! Please report this error.");
         }
+        return null;
+    }
+
+    public static void buildASCII() {
+        String asciiFile = UserPrefsManager.getTerminalASCII();
+        if (asciiFile == null) asciiFile = "big";
+
+        String asciiContent = getAsciiFileContent(asciiFile);
+        if (asciiContent == null) {
+            JOptionPane.showMessageDialog(null, "ERROR: Failed loading translations ! Please report this error.");
+            return;
+        }
+
+        CommandProcessor.appendOutput(asciiContent);
 
     }
 }

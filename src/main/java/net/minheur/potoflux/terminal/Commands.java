@@ -119,7 +119,16 @@ public enum Commands {
         CommandProcessor.clearArea();
     }
     private static void writeAscii(List<String> args) {
-        Terminal.buildASCII();
+        if (args.isEmpty()) {
+            Terminal.buildASCII();
+            return;
+        }
+        String ascii = args.get(0);
+
+        String content = Terminal.getAsciiFileContent(ascii);
+        if (content == null)
+            CommandProcessor.appendOutput(Translations.get("command.ascii.use"));
+        else CommandProcessor.appendOutput(content);
     }
 
     private static void hidden(List<String> args) {
