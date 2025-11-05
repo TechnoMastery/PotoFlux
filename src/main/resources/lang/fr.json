@@ -1,4 +1,6 @@
 {
+  "command.ascii": "Affiche un ASCII",
+  "command.ascii.use": "Utilisation: ascii <! nom de l'ascii>",
   "command.clear": "Vide le terminal",
   "command.echo": "Répète ce que vous donnez",
   "command.echo.use": "Utilisation: echo <text>",
@@ -47,8 +49,6 @@
   "prefs.langSelect": "Sélectionnez une langue :",
   "prefs.language": "Langue",
   "prefs.reload": "Relance PotoFlux pour appliquer !",
-  "command.ascii.use": "Utilisation: ascii <! nom de l'ascii>",
-  "command.ascii": "Affiche un ASCII",
   "screen.tabHereNotHere": "ERREUR: cet onglet est détecté mais n'est pas ajouté !",
   "tabs.card.add_card": "Ajouter une carte",
   "tabs.card.available_lists": "Listes disponibles",

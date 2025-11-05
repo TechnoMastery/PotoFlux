@@ -1,4 +1,6 @@
 {
+  "command.ascii": "Show an ASCII",
+  "command.ascii.use": "Usage: ascii <! ascii name>",
   "command.clear": "Clears the terminal",
   "command.echo": "Repeats what you give",
   "command.echo.use": "Usage: echo <text>",
@@ -47,9 +49,7 @@
   "prefs.langSelect": "Select language :",
   "prefs.language": "Language",
   "prefs.reload": "Please restart PotoFlux to apply.",
-  "command.ascii": "Show an ASCII",
   "screen.tabHereNotHere": "ERROR: this tab is detected but unexisting !",
-  "command.ascii.use": "Usage: ascii <! ascii name>",
   "tabs.card.add_card": "Add card",
   "tabs.card.available_lists": "Available lists",
   "tabs.card.cancel_all": "Cancel all",
