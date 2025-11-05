@@ -9,11 +9,17 @@ public class UserPrefsManager {
     // lang
     private static final String KEY_LANG = "user_lang";
     private static final String[] langOptions = { "en", "fr" };
+    // ascii
+    private static final String KEY_ASCII = "terminal_ascii";
+    private static final String[] asciiOptions = { "basic", "big", "chiseled" };
 
+    // getters
+    public static String getTerminalASCII() {
+        return prefs.get(KEY_ASCII, null);
+    }
     public static String getStrictUserLang() {
         return prefs.get(KEY_LANG, null);
     }
-
     public static String getUserLang() {
         String lang = getStrictUserLang();
         if (lang == null) {

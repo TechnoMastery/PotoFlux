@@ -1,15 +1,26 @@
 package net.minheur.potoflux.terminal;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.utils.Translations;
+import net.minheur.potoflux.utils.UserPrefsManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.concurrent.ExecutionException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Terminal {
     private final JTextArea outputArea;
@@ -68,18 +79,47 @@ public class Terminal {
         Path file = PotoFlux.getProgramDir().resolve("terminal.txt");
 
         // existing check
-        if (!Files.exists(file)) return;
+        if (!Files.exists(file)) {
+            buildASCII();
+            return;
+        }
 
         try {
             String content = Files.readString(file);
 
             // empty check
-            if (content.trim().isEmpty()) return;
+            if (content.trim().isEmpty()) {
+                buildASCII();
+                return;
+            }
 
             outputArea.setText(content);
         } catch (IOException e) {
             e.printStackTrace();
             CommandProcessor.appendOutput("ERROR loading terminal file");
         }
+    }
+
+    private void buildASCII() {
+        String asciiFile = UserPrefsManager.getTerminalASCII();
+        if (asciiFile == null) asciiFile = "big";
+
+        try (Reader reader = new InputStreamReader(
+                Translations.class.getResourceAsStream("/ascii/" + asciiFile + ".txt"),
+                StandardCharsets.UTF_8
+        )) {
+            StringBuilder content = new StringBuilder();
+            char[] buffer = new char[1024];
+            int len;
+            while ((len = reader.read(buffer)) != -1) {
+                content.append(buffer, 0, len);
+            }
+
+            outputArea.setText(content.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "ERROR: Failed loading translations ! Please report this error.");
+        }
+
     }
 }

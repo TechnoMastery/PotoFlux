@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SettingsTab extends BaseTab {
-    private final String USER_LANG = UserPrefsManager.getUserLang();
 
     @Override
     protected void setPanel() {
