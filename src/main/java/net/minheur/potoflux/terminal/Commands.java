@@ -18,6 +18,7 @@ public enum Commands {
     ECHO("echo", Commands::echo, Translations.get("command.echo")),
     TAB("tab", Commands::tab, Translations.get("command.tab")),
     SOURCE("code-source", Commands::sourceCode, Translations.get("command.source")),
+    ASCII("ascii", Commands::writeAscii, Translations.get("command.ascii")),
     QUIT("quit", Commands::quit, Translations.get("command.exit")),
 
     HIDDEN("hide", Commands::hidden, true),
@@ -116,6 +117,9 @@ public enum Commands {
     }
     private static void clear(List<String> args) {
         CommandProcessor.clearArea();
+    }
+    private static void writeAscii(List<String> args) {
+        Terminal.buildASCII();
     }
 
     private static void hidden(List<String> args) {

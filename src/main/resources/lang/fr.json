@@ -47,6 +47,7 @@
   "prefs.langSelect": "Sélectionnez une langue :",
   "prefs.language": "Langue",
   "prefs.reload": "Relance PotoFlux pour appliquer !",
+  "command.ascii": "Affiche un ASCII",
   "screen.tabHereNotHere": "ERREUR: cet onglet est détecté mais n'est pas ajouté !",
   "tabs.card.add_card": "Ajouter une carte",
   "tabs.card.available_lists": "Listes disponibles",

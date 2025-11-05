@@ -80,6 +80,7 @@ public class Terminal {
 
         // existing check
         if (!Files.exists(file)) {
+            outputArea.setText("");
             buildASCII();
             return;
         }
@@ -89,6 +90,7 @@ public class Terminal {
 
             // empty check
             if (content.trim().isEmpty()) {
+                outputArea.setText("");
                 buildASCII();
                 return;
             }
@@ -100,7 +102,7 @@ public class Terminal {
         }
     }
 
-    private void buildASCII() {
+    public static void buildASCII() {
         String asciiFile = UserPrefsManager.getTerminalASCII();
         if (asciiFile == null) asciiFile = "big";
 
@@ -115,7 +117,7 @@ public class Terminal {
                 content.append(buffer, 0, len);
             }
 
-            outputArea.setText(content.toString());
+            CommandProcessor.appendOutput(content.toString());
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "ERROR: Failed loading translations ! Please report this error.");
