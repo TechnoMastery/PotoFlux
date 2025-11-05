@@ -11,12 +11,19 @@ public class SettingsTab extends BaseTab {
 
     @Override
     protected void setPanel() {
-        addLangSelect();
         addLangButton();
+        addAsciiButton();
     }
 
-    private void addLangSelect() {
+    private void addAsciiButton() {
+        JButton asciiButton = new JButton(Translations.get("tabs.settings.asciiButton"));
+        asciiButton.addActionListener(e -> {
+            UserPrefsManager.resetTerminalAscii();
+        });
+        asciiButton.setFont(new Font("Consolas", Font.PLAIN, 15));
+        asciiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        PANEL.add(asciiButton);
     }
 
     private void addLangButton() {

@@ -1,5 +1,9 @@
 package net.minheur.potoflux.utils;
 
+import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.terminal.CommandProcessor;
+import net.minheur.potoflux.terminal.Terminal;
+
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.prefs.Preferences;
@@ -47,10 +51,34 @@ public class UserPrefsManager {
         return lang;
     }
 
+    private static String askUserAscii() {
+        int actualAsciiId = 0;
+        String strictAscii = getTerminalASCII();
+        if (strictAscii != null) actualAsciiId = Arrays.asList(asciiOptions).indexOf(strictAscii);
+        if (actualAsciiId == -1) actualAsciiId = 0;
+        String ascii = JOptionPane.showInputDialog(
+                null,
+                Translations.get("prefs.asciiSelect"),
+                Translations.get("prefs.ascii"),
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                asciiOptions,
+                asciiOptions[actualAsciiId]
+        ).toString();
+        if (ascii == null) ascii = "en";
+        return ascii;
+    }
+
     public static void resetUserLang() {
         prefs.put(KEY_LANG, askUserLang());
         JOptionPane.showMessageDialog(null, Translations.get("prefs.reload"));
-        System.exit(0);
+        PotoFlux.runProgramClosing(0);
     }
 
+    public static void resetTerminalAscii() {
+        prefs.put(KEY_ASCII, askUserAscii());
+        JOptionPane.showMessageDialog(null, Translations.get("prefs.reload"));
+        CommandProcessor.clearArea();
+        PotoFlux.runProgramClosing(0);
+    }
 }
