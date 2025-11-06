@@ -22,7 +22,7 @@ public class CommandActions {
         StringBuilder out = new StringBuilder(Translations.get("command.help.title"));
         for (Commands command : Commands.values()) {
             if (!command.isHidden) {
-                out.append("\n").append("→ ").append(command.key).append(" : ").append(command.commandDesc);
+                out.append("\n").append("→ ").append(command.key).append(" : ").append(command.commandHelp);
             }
         }
         CommandProcessor.appendOutput(out.toString());
