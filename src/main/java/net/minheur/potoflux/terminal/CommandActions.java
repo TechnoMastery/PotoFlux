@@ -11,14 +11,17 @@ import java.util.Objects;
 
 public class CommandActions {
     static void helloWorld(List<String> args) {
+        if (checkNoArgs(args)) return;
         CommandProcessor.appendOutput("Hello world !");
     }
 
     static void time(List<String> args) {
+        if (checkNoArgs(args)) return;
         CommandProcessor.appendOutput(LocalTime.now().toString());
     }
 
     static void help(List<String> args) {
+        if (argAmountCheck(0, 1, args)) return;
         StringBuilder out = new StringBuilder(Translations.get("command.help.title"));
         for (Commands command : Commands.values()) {
             if (!command.isHidden) {
@@ -28,15 +31,18 @@ public class CommandActions {
         CommandProcessor.appendOutput(out.toString());
     }
     static void sourceCode(List<String> args) {
+        if (checkNoArgs(args)) return;
         CommandProcessor.appendOutput(Translations.get("command.source.out") + "https://github.com/TechnoMastery/PotoFlux");
     }
 
     static void quit(List<String> args) {
+        if (checkNoArgs(args)) return;
         CommandProcessor.appendOutput(Translations.get("command.exit.out"));
         Functions.exit(500, 0);
     }
 
     static void echo(List<String> args) {
+        if (argAmountCheck(1, args)) return;
         if (args.isEmpty()) {
             CommandProcessor.appendOutput(Translations.get("command.echo.use"));
             return;
@@ -46,6 +52,7 @@ public class CommandActions {
     }
 
     static void tab(List<String> args) {
+        if (argAmountCheck(1, args)) return;
         if (args.isEmpty()) {
             CommandProcessor.appendOutput(Translations.get("command.tab.use"));
             return;
@@ -65,10 +72,12 @@ public class CommandActions {
     }
 
     static void clear(List<String> args) {
+        if (checkNoArgs(args)) return;
         CommandProcessor.clearArea();
     }
 
     static void writeAscii(List<String> args) {
+        if (argAmountCheck(0, 1, args)) return;
         if (args.isEmpty()) {
             Terminal.buildASCII();
             return;
@@ -82,11 +91,31 @@ public class CommandActions {
     }
 
     static void hidden(List<String> args) {
+        if (checkNoArgs(args)) return;
         CommandProcessor.appendOutput(Translations.get("command.hidden.out"));
     }
 
     static void nope(List<String> args) {
+        if (checkNoArgs(args)) return;
         CommandProcessor.appendOutput(Translations.get("command.nope.out"));
+    }
+
+    // helper methods
+    private static boolean argAmountCheck(int min, int max, List<String> args) {
+        int actual = args.size();
+        return actual < min || actual > max;
+    }
+    private static boolean argAmountCheck(int amount, List<String> args) {
+        int actual = args.size();
+        return actual != amount;
+    }
+    private static boolean argAmountCheck(List<String> args, int... allowed) {
+        int actual = args.size();
+        for (int a : allowed) if (a == actual) return false;
+        return true;
+    }
+    private static boolean checkNoArgs(List<String> args) {
+        return !args.isEmpty();
     }
 
 }
