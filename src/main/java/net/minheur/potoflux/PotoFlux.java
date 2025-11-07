@@ -1,6 +1,8 @@
 package net.minheur.potoflux;
 
 import net.minheur.potoflux.screen.PotoScreen;
+import net.minheur.potoflux.screen.tabs.Tabs;
+import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.utils.Translations;
 import net.minheur.potoflux.utils.UserPrefsManager;
@@ -18,6 +20,8 @@ public class PotoFlux {
         Translations.load(UserPrefsManager.getUserLang());
         SwingUtilities.invokeLater(() -> {
             app = new PotoScreen();
+
+            ((TerminalTab) app.getTabMap().get(Tabs.TERMINAL)).getTerminal().fillOutputTextArea();
         });
     }
 

@@ -30,9 +30,6 @@ public class Terminal {
         // adding
         JScrollPane scrollPanel = new JScrollPane(outputArea);
 
-        // area filling
-        fillOutputTextArea();
-
         // input system
         inputField = new JTextField();
         inputField.addActionListener(new ActionListener() {
@@ -68,7 +65,7 @@ public class Terminal {
         return outputArea;
     }
 
-    private void fillOutputTextArea() {
+    public void fillOutputTextArea() {
         Path file = PotoFlux.getProgramDir().resolve("terminal.txt");
 
         // existing check

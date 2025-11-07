@@ -2,7 +2,6 @@ package net.minheur.potoflux.utils;
 
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.terminal.CommandProcessor;
-import net.minheur.potoflux.terminal.Terminal;
 
 import javax.swing.*;
 import java.util.Arrays;
