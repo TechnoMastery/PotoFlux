@@ -1,7 +1,5 @@
 package net.minheur.potoflux.terminal;
 
-import net.minheur.potoflux.utils.Translations;
-
 import java.util.List;
 import java.util.function.Consumer;
 

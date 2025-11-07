@@ -11,55 +11,58 @@ import java.util.Objects;
 
 public class CommandActions {
     static void helloWorld(List<String> args) {
-        if (checkNoArgs(args)) return;
+        if (checkNoArgs(args)) CommandHelp.helloWorld();
         CommandProcessor.appendOutput("Hello world !");
     }
 
     static void time(List<String> args) {
-        if (checkNoArgs(args)) return;
+        if (checkNoArgs(args)) CommandHelp.time();
         CommandProcessor.appendOutput(LocalTime.now().toString());
     }
 
     static void help(List<String> args) {
-        if (argAmountCheck(0, 1, args)) return;
-        StringBuilder out = new StringBuilder(Translations.get("command.help.title"));
-        for (Commands command : Commands.values()) {
-            if (!command.isHidden) {
-                out.append("\n").append("→ ").append(command.key).append(" : ").append(command.commandHelp);
+        if (argAmountCheck(0, 1, args)) CommandHelp.help();
+
+        if (args.isEmpty()) {
+            StringBuilder out = new StringBuilder(Translations.get("command.help.title"));
+            for (Commands command : Commands.values()) {
+                if (!command.isHidden) {
+                    out.append("\n").append("→ ").append(command.key).append(" : ").append(command.commandHelp);
+                }
+            }
+            CommandProcessor.appendOutput(out.toString());
+        } else {
+            String commandHelp = args.get(0);
+            for (Commands command : Commands.values()) {
+                if (commandHelp.equals(command.key)) {
+                    CommandProcessor.appendOutput(command.commandHelp);
+                    return;
+                }
             }
         }
-        CommandProcessor.appendOutput(out.toString());
+        CommandProcessor.appendOutput(Commands.HELP.commandHelp);
     }
     static void sourceCode(List<String> args) {
-        if (checkNoArgs(args)) return;
+        if (checkNoArgs(args)) CommandHelp.source();
         CommandProcessor.appendOutput(Translations.get("command.source.out") + "https://github.com/TechnoMastery/PotoFlux");
     }
 
     static void quit(List<String> args) {
-        if (checkNoArgs(args)) return;
+        if (checkNoArgs(args)) CommandHelp.quit();
         CommandProcessor.appendOutput(Translations.get("command.exit.out"));
         Functions.exit(500, 0);
     }
 
     static void echo(List<String> args) {
-        if (argAmountCheck(1, args)) return;
-        if (args.isEmpty()) {
-            CommandProcessor.appendOutput(Translations.get("command.echo.use"));
-            return;
-        }
+        if (argAmountCheck(1, args)) CommandHelp.echo();
         String message = String.join(" ", args);
         CommandProcessor.appendOutput(message);
     }
 
     static void tab(List<String> args) {
-        if (argAmountCheck(1, args)) return;
-        if (args.isEmpty()) {
-            CommandProcessor.appendOutput(Translations.get("command.tab.use"));
-            return;
-        }
+        if (argAmountCheck(1, args)) CommandHelp.tab();
         if (args.get(0).equals("Terminal")) {
             CommandProcessor.appendOutput(Translations.get("command.tab.opened"));
-            return;
         }
         for (Tabs tab : Tabs.values()) {
             if (Objects.equals(tab.getName(), args.get(0))) {
@@ -67,17 +70,17 @@ public class CommandActions {
                 return;
             }
         }
-        CommandProcessor.appendOutput(Translations.get("command.tab.use"));
+        CommandHelp.tab();
         CommandProcessor.appendOutput(Translations.get("command.tab.null.start") + args.get(0) + Translations.get("command.tab.null.end"));
     }
 
     static void clear(List<String> args) {
-        if (checkNoArgs(args)) return;
+        if (checkNoArgs(args)) CommandHelp.clear();
         CommandProcessor.clearArea();
     }
 
     static void writeAscii(List<String> args) {
-        if (argAmountCheck(0, 1, args)) return;
+        if (argAmountCheck(0, 1, args)) CommandHelp.ascii();
         if (args.isEmpty()) {
             Terminal.buildASCII();
             return;
