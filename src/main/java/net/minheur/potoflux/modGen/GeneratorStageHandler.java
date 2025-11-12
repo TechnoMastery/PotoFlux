@@ -20,8 +20,14 @@ public class GeneratorStageHandler {
     }
 
     public void run() {
-        getOutputDir();
-        getModIdAndPackage();
+        try {
+            getOutputDir();
+            getModIdAndPackage();
+        } catch (ModGenCanceledException ignored) {}
+
+    }
+    public void cancel() {
+        throw new ModGenCanceledException();
     }
 
     private void getModIdAndPackage() {
@@ -44,8 +50,40 @@ public class GeneratorStageHandler {
                 panel, "Mod info",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            String modIdIn = modIdField.getText().trim();
+            String packageIn = packageField.getText().trim();
 
-        // --- NEXT ---
+            // --- checks ---
+            if (modIdIn.isEmpty() || packageIn.isEmpty()) { // empty check
+                JOptionPane.showMessageDialog(owner, "Both fields must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
+                getModIdAndPackage(); // rerun this dialog
+                return;
+            }
+            if (!modIdIn.matches("[a-z0-9_]+")) { // mod id regex check
+                JOptionPane.showMessageDialog(owner, "Mod ID must contain only lowercase letters, digits, or underscores.", "Error", JOptionPane.ERROR_MESSAGE);
+                getModIdAndPackage();
+                return;
+            }
+            if (!packageIn.matches("([a-zA-Z_][a-zA-Z0-9_]*)(\\.[a-zA-Z_][a-zA-Z0-9_]*)*")) { // package regex check
+                JOptionPane.showMessageDialog(owner, "Invalid package format.", "Error", JOptionPane.ERROR_MESSAGE);
+                getModIdAndPackage();
+                return;
+            }
+
+            // --- saving modId & package
+            this.modId = modIdIn;
+            this.modPackage = packageIn + "." + modIdIn;
+            JOptionPane.showMessageDialog(owner,
+                    "Mod info set !\n" +
+                    "Mod ID: " + modId + "\n" +
+                    "Package: " + modPackage,
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(owner, "Canceled by user.", "Canceled", JOptionPane.WARNING_MESSAGE);
+            cancel();
+        }
     }
 
     private void getOutputDir() {
@@ -81,11 +119,11 @@ public class GeneratorStageHandler {
             }
 
             // --- path validation logger ---
+            this.outputDir = dir;
             JOptionPane.showMessageDialog(owner,
-                    "Folder selected : " + dir.getAbsolutePath(),
+                    "Folder selected : " + outputDir.getAbsolutePath(),
                     "Success",
                     JOptionPane.INFORMATION_MESSAGE);
-            this.outputDir = dir;
 
         } else {
             // --- if user canceled ---
@@ -93,6 +131,7 @@ public class GeneratorStageHandler {
                     "No selection made.",
                     "Canceled",
                     JOptionPane.WARNING_MESSAGE);
+            cancel();
         }
     }
 }
