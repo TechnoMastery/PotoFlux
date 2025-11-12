@@ -11,6 +11,7 @@ public enum Tabs {
     TERMINAL(TerminalTab.class, Translations.get("tabs.term.name")),
     TODO(TodoTab.class, Translations.get("tabs.todo.name")),
     CARD_LEARNING(CardLearningTab.class, Translations.get("tabs.card.name")),
+    MC_MOD_GEN(MinecraftModGenTab.class, "Minecraft mod Gen"),
     SETTINGS(SettingsTab.class, Translations.get("tabs.settings.title"));
 
     private final Class<? extends BaseTab> associatedClass;
