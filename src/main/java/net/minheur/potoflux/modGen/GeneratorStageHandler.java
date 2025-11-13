@@ -1,7 +1,10 @@
 package net.minheur.potoflux.modGen;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GeneratorStageHandler {
     // --- setup vars ---
@@ -10,6 +13,8 @@ public class GeneratorStageHandler {
     private File outputDir;
     private String modId;
     private String modPackage;
+    // --- actual files
+    private Set<MainModules> selectedModules = new HashSet<>();
 
     public GeneratorStageHandler(JPanel owner) {
         this.owner = owner;
@@ -19,15 +24,148 @@ public class GeneratorStageHandler {
         return new GeneratorStageHandler(owner);
     }
 
+    public void cancel() {
+        throw new ModGenCanceledException();
+    }
     public void run() {
         try {
             getOutputDir();
             getModIdAndPackage();
+            getMainOptionalModules();
+            if (askDatagen()) {
+                getDatagenModules();
+            }
         } catch (ModGenCanceledException ignored) {}
-
     }
-    public void cancel() {
-        throw new ModGenCanceledException();
+
+    private void getDatagenModules() {
+        // --- panel setup ---
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // --- def checkboxes ---
+        JCheckBox cbLoot = new JCheckBox("Loot table provider");
+        JCheckBox cbBlockLoot = new JCheckBox("   ↳ Block loot");
+        JCheckBox cbAdvancement = new JCheckBox("Advancement provider");
+        // do the end
+    }
+
+    private boolean askDatagen() {
+        int result = JOptionPane.showConfirmDialog(owner,
+                new JLabel("Do you want a datagen in your build ?"), "Datagen inegration",
+                JOptionPane.YES_NO_OPTION);
+
+        return result == JOptionPane.YES_OPTION;
+    }
+
+    private void getMainOptionalModules() {
+        // --- panel setup ---
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // --- def checkboxes ---
+        JCheckBox cbAdvancements = new JCheckBox("ModAdvancements");
+        JCheckBox cbBlocks = new JCheckBox("ModBlocks");
+        JCheckBox cbBlockEntities = new JCheckBox("   ↳ ModBlockEntities");
+        JCheckBox cbCommands = new JCheckBox("ModCommands");
+        JCheckBox cbEffects = new JCheckBox("ModEffects");
+        JCheckBox cbEntities = new JCheckBox("ModEntities");
+        JCheckBox cbItems = new JCheckBox("ModItems");
+        JCheckBox cbToolTiers = new JCheckBox("   ↳ ModToolTiers");
+        JCheckBox cbFoods = new JCheckBox("   ↳ ModFoods");
+        JCheckBox cbArmorMaterials = new JCheckBox("   ↳ ModArmorMaterials");
+        JCheckBox cbCreativeTabs = new JCheckBox("ModCreativeModTabs");
+        JCheckBox cbRecipes = new JCheckBox("ModRecipes");
+        JCheckBox cbMenuTypes = new JCheckBox("ModMenuTypes");
+        JCheckBox cbSounds = new JCheckBox("ModSounds");
+        JCheckBox cbTags = new JCheckBox("ModTags");
+        JCheckBox cbDamageTypes = new JCheckBox("ModDamageTypes");
+        JCheckBox cbWoodTypes = new JCheckBox("ModWoodTypes");
+        JCheckBox cbVillagers = new JCheckBox("ModVillagers");
+
+        // --- first disabled ---
+        cbToolTiers.setEnabled(false);
+        cbFoods.setEnabled(false);
+        cbArmorMaterials.setEnabled(false);
+        cbBlockEntities.setEnabled(false);
+
+        // --- logic enabled ---
+        cbBlocks.addActionListener(e -> {
+            boolean enabled = cbBlocks.isSelected();
+            cbBlockEntities.setEnabled(enabled);
+            if (!enabled) cbBlockEntities.setSelected(false);
+        });
+        cbItems.addActionListener(e -> {
+            boolean enabled = cbItems.isSelected();
+            cbToolTiers.setEnabled(enabled);
+            cbFoods.setEnabled(enabled);
+            cbArmorMaterials.setEnabled(enabled);
+            if (!enabled) {
+                cbToolTiers.setSelected(false);
+                cbFoods.setSelected(false);
+                cbArmorMaterials.setSelected(false);
+            }
+        });
+
+        // --- adding to panel ---
+        panel.add(cbAdvancements);
+        panel.add(cbBlocks);
+        panel.add(cbBlockEntities);
+        panel.add(cbCommands);
+        panel.add(cbEffects);
+        panel.add(cbEntities);
+        panel.add(cbItems);
+        panel.add(cbToolTiers);
+        panel.add(cbFoods);
+        panel.add(cbArmorMaterials);
+        panel.add(cbCreativeTabs);
+        panel.add(cbRecipes);
+        panel.add(cbMenuTypes);
+        panel.add(cbSounds);
+        panel.add(cbTags);
+        panel.add(cbDamageTypes);
+        panel.add(cbWoodTypes);
+        panel.add(cbVillagers);
+
+        // --- scroll pane ---
+        JScrollPane scroll = new JScrollPane(panel);
+        scroll.setPreferredSize(new Dimension(350, 400));
+
+        // --- return logic ---
+        int result = JOptionPane.showConfirmDialog(owner, scroll,
+                "Select optional classes to generate", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            this.selectedModules.clear();
+
+            // --- get selected modules ---
+            if (cbAdvancements.isSelected()) selectedModules.add(MainModules.ADVANCEMENT);
+            if (cbBlocks.isSelected()) selectedModules.add(MainModules.BLOCKS);
+            if (cbBlockEntities.isSelected()) selectedModules.add(MainModules.BLOCK_ENTITIES);
+            if (cbCommands.isSelected()) selectedModules.add(MainModules.COMMANDS);
+            if (cbEffects.isSelected()) selectedModules.add(MainModules.EFFECTS);
+            if (cbEntities.isSelected()) selectedModules.add(MainModules.ENTITIES);
+            if (cbItems.isSelected()) selectedModules.add(MainModules.ITEMS);
+            if (cbToolTiers.isSelected()) selectedModules.add(MainModules.TOOL_TIER);
+            if (cbFoods.isSelected()) selectedModules.add(MainModules.FOODS);
+            if (cbArmorMaterials.isSelected()) selectedModules.add(MainModules.ARMOR_MATERIALS);
+            if (cbCreativeTabs.isSelected()) selectedModules.add(MainModules.CREATIVE_TABS);
+            if (cbRecipes.isSelected()) selectedModules.add(MainModules.RECIPES);
+            if (cbMenuTypes.isSelected()) selectedModules.add(MainModules.MENUS);
+            if (cbSounds.isSelected()) selectedModules.add(MainModules.SOUNDS);
+            if (cbTags.isSelected()) selectedModules.add(MainModules.TAGS);
+            if (cbDamageTypes.isSelected()) selectedModules.add(MainModules.DAMAGES);
+            if (cbWoodTypes.isSelected()) selectedModules.add(MainModules.WOOD);
+            if (cbVillagers.isSelected()) selectedModules.add(MainModules.VILLAGERS);
+
+            JOptionPane.showMessageDialog(owner,
+                    "Modules selected:\n" + String.join(", ", selectedModules.toString()),
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(owner, "Canceled by user.", "Canceled", JOptionPane.WARNING_MESSAGE);
+            cancel();
+        }
+
     }
 
     private void getModIdAndPackage() {
