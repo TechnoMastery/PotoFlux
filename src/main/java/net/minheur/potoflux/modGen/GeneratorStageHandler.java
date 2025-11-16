@@ -47,12 +47,19 @@ public class GeneratorStageHandler {
         JCheckBox cbLoot = new JCheckBox("Loot table provider");
         JCheckBox cbBlockLoot = new JCheckBox("   ↳ Block loot");
         JCheckBox cbAdvancement = new JCheckBox("Advancement provider");
-        // do the end
+        JCheckBox cbBlockStates = new JCheckBox("Block states provider");
+        JCheckBox cbBlockTags = new JCheckBox("Block tags provider");
+        JCheckBox cbLootModifiers = new JCheckBox("Loot modifiers");
+        JCheckBox cbItemModel = new JCheckBox("Item Models provider");
+        JCheckBox cbItemTag = new JCheckBox("Item tags provider");
+        JCheckBox cbLang = new JCheckBox("Lang provider");
+        JCheckBox cbPoiTypeTag = new JCheckBox("Poi type tags provider");
+        JCheckBox cbRecipe = new JCheckBox("Recipe provider");
     }
 
     private boolean askDatagen() {
         int result = JOptionPane.showConfirmDialog(owner,
-                new JLabel("Do you want a datagen in your build ?"), "Datagen inegration",
+                new JLabel("Do you want a datagen in your build ?"), "Datagen integration",
                 JOptionPane.YES_NO_OPTION);
 
         return result == JOptionPane.YES_OPTION;
@@ -70,6 +77,7 @@ public class GeneratorStageHandler {
         JCheckBox cbCommands = new JCheckBox("ModCommands");
         JCheckBox cbEffects = new JCheckBox("ModEffects");
         JCheckBox cbEntities = new JCheckBox("ModEntities");
+        JCheckBox cbVillagers = new JCheckBox("   ↳ ModVillagers");
         JCheckBox cbItems = new JCheckBox("ModItems");
         JCheckBox cbToolTiers = new JCheckBox("   ↳ ModToolTiers");
         JCheckBox cbFoods = new JCheckBox("   ↳ ModFoods");
@@ -81,21 +89,21 @@ public class GeneratorStageHandler {
         JCheckBox cbTags = new JCheckBox("ModTags");
         JCheckBox cbDamageTypes = new JCheckBox("ModDamageTypes");
         JCheckBox cbWoodTypes = new JCheckBox("ModWoodTypes");
-        JCheckBox cbVillagers = new JCheckBox("ModVillagers");
 
         // --- first disabled ---
         cbToolTiers.setEnabled(false);
         cbFoods.setEnabled(false);
         cbArmorMaterials.setEnabled(false);
         cbBlockEntities.setEnabled(false);
+        cbVillagers.setEnabled(false);
 
         // --- logic enabled ---
-        cbBlocks.addActionListener(e -> {
+        cbBlocks.addActionListener(e -> { // block
             boolean enabled = cbBlocks.isSelected();
             cbBlockEntities.setEnabled(enabled);
             if (!enabled) cbBlockEntities.setSelected(false);
         });
-        cbItems.addActionListener(e -> {
+        cbItems.addActionListener(e -> { // item
             boolean enabled = cbItems.isSelected();
             cbToolTiers.setEnabled(enabled);
             cbFoods.setEnabled(enabled);
@@ -106,6 +114,11 @@ public class GeneratorStageHandler {
                 cbArmorMaterials.setSelected(false);
             }
         });
+        cbEntities.addActionListener(e -> { // entity
+            boolean enabled = cbEntities.isSelected();
+            cbVillagers.setEnabled(enabled);
+            if (!enabled) cbVillagers.setSelected(false);
+        });
 
         // --- adding to panel ---
         panel.add(cbAdvancements);
@@ -114,6 +127,7 @@ public class GeneratorStageHandler {
         panel.add(cbCommands);
         panel.add(cbEffects);
         panel.add(cbEntities);
+        panel.add(cbVillagers);
         panel.add(cbItems);
         panel.add(cbToolTiers);
         panel.add(cbFoods);
@@ -125,7 +139,6 @@ public class GeneratorStageHandler {
         panel.add(cbTags);
         panel.add(cbDamageTypes);
         panel.add(cbWoodTypes);
-        panel.add(cbVillagers);
 
         // --- scroll pane ---
         JScrollPane scroll = new JScrollPane(panel);
