@@ -1,9 +1,16 @@
 package net.minheur.potoflux.modGen;
 
+import net.minheur.potoflux.modGen.data.DatagenModules;
+import net.minheur.potoflux.modGen.data.MainModules;
+import net.minheur.potoflux.modGen.data.ModData;
+import net.minheur.potoflux.modGen.data.ModDependency;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class GeneratorStageHandler {
@@ -13,8 +20,11 @@ public class GeneratorStageHandler {
     private File outputDir;
     private String modId;
     private String modPackage;
-    // --- actual files
-    private Set<MainModules> selectedModules = new HashSet<>();
+    // --- actual data ---
+    private final Set<MainModules> selectedModules = new HashSet<>();
+    private final Set<DatagenModules> selectedDatagenModules = new HashSet<>();
+    private final List<ModDependency> modDependencies = new ArrayList<>();
+    private final ModData modData = new ModData();
 
     public GeneratorStageHandler(JPanel owner) {
         this.owner = owner;
@@ -31,11 +41,140 @@ public class GeneratorStageHandler {
         try {
             getOutputDir();
             getModIdAndPackage();
+            getModData();
             getMainOptionalModules();
-            if (askDatagen()) {
-                getDatagenModules();
-            }
+            if (askDatagen()) getDatagenModules();
+            askDependencies();
         } catch (ModGenCanceledException ignored) {}
+    }
+
+    private void askDependencies() {
+        // --- main dialog ---
+        JDialog dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(owner),
+                "Mod dependencies", true);
+        dialog.setSize(450, 400);
+        dialog.setLocationRelativeTo(owner);
+        dialog.setLayout(new BorderLayout());
+
+        // --- list ---
+        DefaultListModel<ModDependency> listModel = new DefaultListModel<>();
+
+        JList<ModDependency> depList = new JList<>(listModel);
+        depList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        dialog.add(new JScrollPane(depList), BorderLayout.CENTER);
+
+        // --- buttons ---
+        JPanel buttons = new JPanel();
+        JButton addBtn = new JButton("Add");
+        JButton removeBtn = new JButton("Delete");
+        JButton okBtn = new JButton("OK");
+
+        buttons.add(addBtn);
+        buttons.add(removeBtn);
+        buttons.add(okBtn);
+
+        dialog.add(buttons, BorderLayout.SOUTH);
+
+        // --- action : add ---
+        addBtn.addActionListener(e -> {
+            ModDependency dep = showAddDependencyDialog();
+            if (dep != null) listModel.addElement(dep);
+        });
+
+        // --- action : delete ---
+        removeBtn.addActionListener(e -> {
+            int index = depList.getSelectedIndex();
+            if (index >= 0) listModel.remove(index);
+        });
+
+        // --- action : OK ---
+        okBtn.addActionListener(e -> {
+            modDependencies.clear();
+            for (int i = 0; i < listModel.size(); i++) modDependencies.add(listModel.get(i));
+            dialog.dispose();
+        });
+
+        dialog.setVisible(true);
+    }
+
+    private ModDependency showAddDependencyDialog() {
+        return null; // TODO
+    }
+
+    private void getModData() {
+        // --- panel setup ---
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // --- actual field ---
+        JTextField nameField = new JTextField();
+        JTextField licenceField = new JTextField("MIT"); // default
+        JTextField versionField = new JTextField("1.0.0"); // default
+        JTextField authorField = new JTextField(); JCheckBox cbAuthor = new JCheckBox("Author:");
+        JTextField creditsField = new JTextField(); JCheckBox cbCredits = new JCheckBox("Credits:");
+        JTextArea descArea = new JTextArea(4, 20);
+        JTextField issueField = new JTextField(); JCheckBox cbIssue = new JCheckBox("Issues URL:");
+        JTextField updateJSONField = new JTextField(); JCheckBox cbUpdateURL = new JCheckBox("Update JSON URL:");
+        JTextField displayURLField = new JTextField(); JCheckBox cbDisplayURL = new JCheckBox("Display URL");
+
+        // --- helper : desc ---
+        panel.add(new JLabel("Mod Name:"));
+        panel.add(nameField);
+        panel.add(new JLabel("Mod Licence:"));
+        panel.add(licenceField);
+        panel.add(new JLabel("Initial Version:"));
+        panel.add(versionField);
+        panel.add(cbAuthor);
+        panel.add(authorField);
+        panel.add(cbCredits);
+        panel.add(creditsField);
+        panel.add(new JLabel("Description: (use symbol $ to add \"\\n\""));
+        JScrollPane descScroll = new JScrollPane(descArea);
+        panel.add(descScroll);
+        panel.add(cbIssue);
+        panel.add(issueField);
+        panel.add(cbUpdateURL);
+        panel.add(updateJSONField);
+        panel.add(cbDisplayURL);
+        panel.add(displayURLField);
+
+        // --- resize panel ---
+        panel.setPreferredSize(new Dimension(350, 500));
+
+        // --- dialog ---
+        int result = JOptionPane.showConfirmDialog(
+                owner, panel,
+                "Enter your mod's general data",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        // --- running logic ---
+        if (result == JOptionPane.OK_OPTION) {
+            modData.setModName(nameField.getText().trim());
+            modData.setModLicence(licenceField.getText().trim());
+            modData.setModInitialVersion(versionField.getText().trim());
+            if (cbAuthor.isSelected()) modData.setModAuthor(authorField.getText().trim());
+            if (cbCredits.isSelected()) modData.setModCredits(creditsField.getText().trim());
+            if (cbIssue.isSelected()) modData.setIssueURL(issueField.getText().trim());
+            if (cbUpdateURL.isSelected()) modData.setUpdateJSONURL(updateJSONField.getText().trim());
+            if (cbDisplayURL.isSelected()) modData.setDisplayURL(displayURLField.getText().trim());
+
+            String newDesc = descArea.getText().replaceAll("[$]", "\n");
+            modData.setModDesc(newDesc.trim());
+
+            JOptionPane.showMessageDialog(owner,
+                    "Mod data saved!",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(owner,
+                    "Canceled by user.",
+                    "Canceled",
+                    JOptionPane.WARNING_MESSAGE);
+            cancel();
+        }
     }
 
     private void getDatagenModules() {
@@ -55,6 +194,75 @@ public class GeneratorStageHandler {
         JCheckBox cbLang = new JCheckBox("Lang provider");
         JCheckBox cbPoiTypeTag = new JCheckBox("Poi type tags provider");
         JCheckBox cbRecipe = new JCheckBox("Recipe provider");
+
+        // --- first disabled ---
+        cbBlockLoot.setEnabled(false);
+
+        // --- logic gettable from modules ---
+        if (!selectedModules.contains(MainModules.ADVANCEMENT)) cbAdvancement.setEnabled(false);
+        final boolean cbBlockLootActivated;
+        if (!selectedModules.contains(MainModules.BLOCKS)) {
+            cbBlockLootActivated = false;
+            cbBlockStates.setEnabled(false);
+            cbBlockTags.setEnabled(false);
+        } else {
+            cbBlockLootActivated = true;
+        }
+        if (!selectedModules.contains(MainModules.ITEMS)) {
+            cbItemModel.setEnabled(false);
+            cbItemTag.setEnabled(false);
+        }
+
+        // --- logic enabled ---
+        cbLoot.addActionListener(e -> {
+            boolean enabled = cbLoot.isSelected();
+            cbBlockLoot.setEnabled(enabled && cbBlockLootActivated);
+            if (!enabled) cbBlockLoot.setSelected(false);
+        });
+
+        // --- add to panel ---
+        panel.add(cbLoot);
+        panel.add(cbBlockLoot);
+        panel.add(cbAdvancement);
+        panel.add(cbBlockStates);
+        panel.add(cbBlockTags);
+        panel.add(cbLootModifiers);
+        panel.add(cbItemModel);
+        panel.add(cbItemTag);
+        panel.add(cbLang);
+        panel.add(cbPoiTypeTag);
+        panel.add(cbRecipe);
+
+        // --- scroll pane ---
+        JScrollPane scroll = new JScrollPane(panel);
+        scroll.setPreferredSize(new Dimension(350, 400));
+
+        // --- return logic ---
+        int result = JOptionPane.showConfirmDialog(owner, scroll,
+                "Select optional classes to generate", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result == JOptionPane.OK_OPTION) {
+
+            if (cbLoot.isSelected()) selectedDatagenModules.add(DatagenModules.LOOT);
+            if (cbBlockLoot.isSelected()) selectedDatagenModules.add(DatagenModules.BLOCK_LOOT);
+            if (cbAdvancement.isSelected()) selectedDatagenModules.add(DatagenModules.ADVANCEMENT);
+            if (cbBlockStates.isSelected()) selectedDatagenModules.add(DatagenModules.BLOCK_STATE);
+            if (cbBlockTags.isSelected()) selectedDatagenModules.add(DatagenModules.BLOCK_TAG);
+            if (cbLootModifiers.isSelected()) selectedDatagenModules.add(DatagenModules.LOOT_MODIFIERS);
+            if (cbItemModel.isSelected()) selectedDatagenModules.add(DatagenModules.ITEM_MODEL);
+            if (cbItemTag.isSelected()) selectedDatagenModules.add(DatagenModules.ITEM_TAG);
+            if (cbLang.isSelected()) selectedDatagenModules.add(DatagenModules.LANG);
+            if (cbPoiTypeTag.isSelected()) selectedDatagenModules.add(DatagenModules.POI_TYPE_TAG);
+            if (cbRecipe.isSelected()) selectedDatagenModules.add(DatagenModules.RECIPE);
+
+            JOptionPane.showMessageDialog(owner,
+                    "Datagen modules selected:\n" + String.join(", ", selectedDatagenModules.toString()),
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(owner, "Canceled by user.", "Canceled", JOptionPane.WARNING_MESSAGE);
+            cancel();
+        }
     }
 
     private boolean askDatagen() {

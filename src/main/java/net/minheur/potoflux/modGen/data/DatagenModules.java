@@ -1,4 +1,4 @@
-package net.minheur.potoflux.modGen;
+package net.minheur.potoflux.modGen.data;
 
 public enum DatagenModules {
     BLOCK_LOOT,
