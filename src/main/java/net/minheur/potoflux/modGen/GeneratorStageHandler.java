@@ -54,11 +54,14 @@ public class GeneratorStageHandler {
             mainGen.mkSettingsGradle();
             mainGen.mkGradleWrapper();
             mainGen.mkBuildGradle();
+            mainGen.mkGradleProperties(this.modId, this.modPackage, this.modData);
+            mainGen.mkTomlMcmeta(this.modData, this.modDependencies);
 
         } catch (ModGenCanceledException ignored) {}
     }
 
-    public static void showGenerationError() {
+    public static void showGenerationError(Exception e) {
+        e.printStackTrace();
         JOptionPane.showMessageDialog(null, "ERROR while generating.\nPlease return this to the devs.",
                 "ERROR", JOptionPane.ERROR_MESSAGE);
     }
