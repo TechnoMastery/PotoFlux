@@ -532,7 +532,7 @@ public class ModDataGetterHandler {
                             "Impossible to create selected dir.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    return;
+                    cancel();
                 }
             }
 
@@ -542,7 +542,7 @@ public class ModDataGetterHandler {
                         "The folder needs to be empty to create a new mod!",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
-                return;
+                cancel();
             }
 
             // --- path validation logger ---
