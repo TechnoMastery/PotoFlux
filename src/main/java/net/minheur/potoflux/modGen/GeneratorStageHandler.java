@@ -4,6 +4,7 @@ import net.minheur.potoflux.modGen.data.DatagenModules;
 import net.minheur.potoflux.modGen.data.MainModules;
 import net.minheur.potoflux.modGen.data.ModData;
 import net.minheur.potoflux.modGen.data.ModDependency;
+import net.minheur.potoflux.modGen.generators.MainFilesGenerator;
 
 import javax.swing.*;
 import java.io.File;
@@ -38,6 +39,7 @@ public class GeneratorStageHandler {
         try {
             // --- data getter ---
             ModDataGetterHandler dataGetter = new ModDataGetterHandler(owner);
+            dataGetter.run();
             this.outputDir = dataGetter.getOutputDir();
             this.modId = dataGetter.getModId();
             this.modPackage = dataGetter.getModPackage();
@@ -46,6 +48,17 @@ public class GeneratorStageHandler {
             this.modDependencies = dataGetter.getModDependencies();
             this.modData = dataGetter.getModData();
 
+            // --- main file generator ---
+            MainFilesGenerator mainGen = new MainFilesGenerator(this.outputDir);
+            mainGen.mkGradlew();
+            mainGen.mkSettingsGradle();
+            mainGen.mkGradleWrapper();
+
         } catch (ModGenCanceledException ignored) {}
+    }
+
+    public static void showGenerationError() {
+        JOptionPane.showMessageDialog(null, "ERROR while generating.\nPlease return this to the devs.",
+                "ERROR", JOptionPane.ERROR_MESSAGE);
     }
 }
