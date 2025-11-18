@@ -1,5 +1,6 @@
 package net.minheur.potoflux.modGen;
 
+import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.modGen.data.DatagenModules;
 import net.minheur.potoflux.modGen.data.MainModules;
 import net.minheur.potoflux.modGen.data.ModData;
@@ -99,7 +100,58 @@ public class GeneratorStageHandler {
     }
 
     private ModDependency showAddDependencyDialog() {
-        return null; // TODO
+        // --- panel ---
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // --- mod id ---
+        JPanel p1 = new JPanel(new java.awt.GridLayout(1, 2, 5, 5));
+        p1.add(new JLabel("modId:"));
+        JTextField modIdField = new JTextField(15);
+        p1.add(modIdField);
+        panel.add(p1);
+        // --- version range ---
+        JPanel p2 = new JPanel(new java.awt.GridLayout(1, 2, 5, 5));
+        p2.add(new JLabel("Version range:"));
+        JTextField versionField = new JTextField("[1.0,)", 15);
+        p2.add(versionField);
+        panel.add(p2);
+        // --- ordering
+        JPanel p3 = new JPanel(new java.awt.GridLayout(1, 2, 5, 5));
+        p3.add(new JLabel("Ordering:"));
+        JComboBox<String> orderingBox = new JComboBox<>(new String[]{"NONE", "BEFORE", "AFTER"});
+        p3.add(orderingBox);
+        panel.add(p3);
+        // --- side ---
+        JPanel p4 = new JPanel(new java.awt.GridLayout(1, 2, 5, 5));
+        p4.add(new JLabel("Side:"));
+        JComboBox<String> sideBox = new JComboBox<>(new String[]{"BOTH", "CLIENT", "SERVER"});
+        p4.add(sideBox);
+        panel.add(p4);
+        // --- mandatory ---
+        JCheckBox mandatoryBox = new JCheckBox("Mandatory");
+        mandatoryBox.setSelected(true);
+        panel.add(mandatoryBox);
+
+        // --- result logic ---
+        int result = JOptionPane.showConfirmDialog(
+                owner, panel,
+                "Add a dependencies",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+        if (result != JOptionPane.OK_OPTION) return null;
+        if (modIdField.getText().isBlank()) return null;
+
+        ModDependency dep = new ModDependency(
+                modIdField.getText(),
+                mandatoryBox.isSelected(),
+                versionField.getText(),
+                ((String) orderingBox.getSelectedItem()),
+                ((String) sideBox.getSelectedItem())
+        );
+
+        return dep;
     }
 
     private void getModData() {
