@@ -53,6 +53,7 @@ public class GeneratorStageHandler {
             mainGen.mkGradlew();
             mainGen.mkSettingsGradle();
             mainGen.mkGradleWrapper();
+            mainGen.mkBuildGradle();
 
         } catch (ModGenCanceledException ignored) {}
     }

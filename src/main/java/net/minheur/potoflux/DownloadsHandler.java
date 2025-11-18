@@ -1,8 +1,6 @@
 package net.minheur.potoflux;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -16,5 +14,18 @@ public class DownloadsHandler {
         try (InputStream in = new URL(url).openStream()) {
             Files.copy(in, destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
+    }
+
+    public static String getOnlineFileContent(String url) throws IOException {
+        StringBuilder content = new StringBuilder();
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+        }
+
+        return content.toString();
     }
 }
