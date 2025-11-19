@@ -5,19 +5,25 @@ import net.minheur.potoflux.modGen.data.MainModules;
 import net.minheur.potoflux.modGen.data.ModData;
 import net.minheur.potoflux.modGen.data.ModDependency;
 import net.minheur.potoflux.modGen.generators.MainFilesGenerator;
+import net.minheur.potoflux.modGen.generators.main.BasicModulesGenerator;
 
 import javax.swing.*;
 import java.io.File;
 import java.util.List;
 import java.util.Set;
 
+import static net.minheur.potoflux.Functions.toClassName;
+
 public class GeneratorStageHandler {
     // --- setup vars ---
     private final JPanel owner;
     // --- hard-needed vars ---
     private File outputDir;
+    private File srcOutputDir;
     private String modId;
+    private String mainClassName;
     private String modPackage;
+    private String modPackageFile;
     // --- actual data ---
     private Set<MainModules> selectedModules;
     private Set<DatagenModules> selectedDatagenModules;
@@ -48,6 +54,10 @@ public class GeneratorStageHandler {
             this.modDependencies = dataGetter.getModDependencies();
             this.modData = dataGetter.getModData();
 
+            this.mainClassName = toClassName(this.modId);
+            this.modPackageFile = this.modPackage.replace(".", "/");
+            this.srcOutputDir = new File(this.outputDir, "src/main/" + this.modPackageFile);
+
             // --- main file generator ---
             MainFilesGenerator mainGen = new MainFilesGenerator(this.outputDir);
             mainGen.mkGradlew();
@@ -56,6 +66,15 @@ public class GeneratorStageHandler {
             mainGen.mkBuildGradle();
             mainGen.mkGradleProperties(this.modId, this.modPackage, this.modData);
             mainGen.mkTomlMcmeta(this.modData, this.modDependencies);
+
+            // --- main class ---
+
+            // --- project files generator ---
+
+            // --- generate modules ---
+            BasicModulesGenerator advancementGenerator = new BasicModulesGenerator(this.srcOutputDir,
+                    this.modPackage, this.mainClassName);
+            if (this.selectedModules.contains(MainModules.ADVANCEMENT)) advancementGenerator.mkAdvancement();
 
         } catch (ModGenCanceledException ignored) {}
     }

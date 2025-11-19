@@ -79,4 +79,19 @@ public class Functions {
         }
         return result;
     }
+    public static String toClassName(String input) {
+        StringBuilder sb = new StringBuilder();
+        boolean upperNext = true;
+
+        for (char c : input.toCharArray()) {
+            if (c == '_') upperNext = true;
+            else {
+                if (upperNext) {
+                    sb.append(Character.toUpperCase(c));
+                    upperNext = false;
+                } else sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
 }
