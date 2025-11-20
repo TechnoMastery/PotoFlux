@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CardJsonManager {
@@ -38,6 +39,8 @@ public class CardJsonManager {
         }
 
         CardList list = new CardList();
+
+        if (randomized) Collections.shuffle(cardsArray);
 
         list.name = name;
         list.cards = cardsArray;
