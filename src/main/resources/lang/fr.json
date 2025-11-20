@@ -59,7 +59,7 @@
   "prefs.language": "Langue",
   "prefs.reload": "Relance PotoFlux pour appliquer !",
   "screen.tabHereNotHere": "ERREUR: cet onglet est détecté mais n'est pas ajouté !",
-  "tabs.card.add_card": "Ajouter une carte",
+  "tabs.card.add_card": "+ carte",
   "tabs.card.available_lists": "Listes disponibles",
   "tabs.card.cancel_all": "Tout annuler",
   "tabs.card.card_number": "Nombre de cartes : ",
