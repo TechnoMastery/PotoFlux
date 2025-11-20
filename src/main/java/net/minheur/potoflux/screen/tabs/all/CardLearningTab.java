@@ -83,10 +83,13 @@ public class CardLearningTab extends BaseTab {
 
         // bottom - buttons
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        JButton backButton = new JButton(Translations.get("common.back")); // TODO
         JButton flipButton = new JButton(Translations.get("common.flip"));
         JButton nextButton = new JButton(Translations.get("common.next"));
+        backButton.setEnabled(false);
         flipButton.setEnabled(false);
         nextButton.setEnabled(false);
+        bottomPanel.add(backButton);
         bottomPanel.add(flipButton);
         bottomPanel.add(nextButton);
         panel.add(bottomPanel, BorderLayout.SOUTH);
@@ -122,6 +125,7 @@ public class CardLearningTab extends BaseTab {
             index[0] = 0;
             cardLabel.setText(currentList[0].cards.get(index[0]).main);
 
+            backButton.setEnabled(false);
             flipButton.setEnabled(true);
             nextButton.setEnabled(true);
         });
@@ -152,6 +156,24 @@ public class CardLearningTab extends BaseTab {
             }
 
             cardLabel.setText(currentList[0].cards.get(index[0]).main);
+        });
+
+        backButton.addActionListener(e -> {
+            if (currentList[0] == null || currentList[0].cards.isEmpty()) return;
+
+            if (index[0] <= 0) return;
+
+            index[0]--;
+
+            cardLabel.setText(currentList[0].cards.get(index[0]).main);
+
+            if (index[0] == 0) {
+                backButton.setEnabled(false);
+            }
+
+            if (!nextButton.isEnabled()) {
+                nextButton.setEnabled(true);
+            }
         });
 
         return panel;
