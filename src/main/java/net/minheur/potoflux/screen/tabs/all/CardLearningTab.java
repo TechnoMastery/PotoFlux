@@ -145,17 +145,20 @@ public class CardLearningTab extends BaseTab {
         nextButton.addActionListener(e -> {
             if (currentList[0] == null || currentList[0].cards.isEmpty()) return;
 
-            index[0]++;
+            int size = currentList[0].cards.size();
 
-            if (index[0] >= currentList[0].cards.size()) {
-                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.list_end"), Translations.get("common.finish"), JOptionPane.INFORMATION_MESSAGE);
-                flipButton.setEnabled(false);
+            if (index[0] == size - 1) {
                 nextButton.setEnabled(false);
-                cardLabel.setText("");
+                backButton.setEnabled(true);
                 return;
             }
 
+            index[0]++;
+
+            backButton.setEnabled(true);
             cardLabel.setText(currentList[0].cards.get(index[0]).main);
+
+            if (index[0] == size - 1) nextButton.setEnabled(false);
         });
 
         backButton.addActionListener(e -> {
