@@ -3,39 +3,23 @@ package net.minheur.potoflux.screen.tabs;
 import net.minheur.potoflux.screen.tabs.all.*;
 import net.minheur.potoflux.utils.Translations;
 
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public enum Tabs {
-    // note : l'ordre de l'enum ici est celui des tabs
-    HOME(HomeTab.class, Translations.get("tabs.home.name")),
-    TERMINAL(TerminalTab.class, Translations.get("tabs.term.name")),
-    TODO(TodoTab.class, Translations.get("tabs.todo.name")),
-    CARD_LEARNING(CardLearningTab.class, Translations.get("tabs.card.name")),
-    SETTINGS(SettingsTab.class, Translations.get("tabs.settings.title"));
+public class Tabs {
+    public static final List<TabType> LIST = new ArrayList<>();
 
-    private final Class<? extends BaseTab> associatedClass;
-    private final String name;
+    public static final TabType HOME = new TabType("home", Translations.get("tabs.home.name"), HomeTab.class);
+    public static final TabType TERMINAL = new TabType("terminal", Translations.get("tabs.term.name"), TerminalTab.class);
+    public static final TabType TODO = new TabType("todo", Translations.get("tabs.todo.name"), TodoTab.class);
+    public static final TabType CARD_LEARN = new TabType("card_learn", Translations.get("tabs.card.name"), CardLearningTab.class);
+    public static final TabType SETTINGS = new TabType("settings", Translations.get("tabs.settings.title"), SettingsTab.class);
 
-    Tabs(Class<? extends BaseTab> associatedClass, String name) {
-        this.associatedClass = associatedClass;
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Class<? extends BaseTab> getAssociatedClass() {
-        return associatedClass;
-    }
-
-    public BaseTab createInstance() {
-        try {
-            return associatedClass.getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, Translations.get("tabs.createError") + name + " : " + e.getMessage());
-            return null;
-        }
+    public static void register() {
+        TabRegistry.register(HOME);
+        TabRegistry.register(TERMINAL);
+        TabRegistry.register(TODO);
+        TabRegistry.register(CARD_LEARN);
+        TabRegistry.register(SETTINGS);
     }
 }

@@ -1,4 +1,4 @@
-package net.minheur.potoflux.mod;
+package net.minheur.potoflux.loader.mod;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

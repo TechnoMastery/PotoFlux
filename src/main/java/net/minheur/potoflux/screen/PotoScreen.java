@@ -1,8 +1,10 @@
 package net.minheur.potoflux.screen;
 
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tabs;
+import net.minheur.potoflux.screen.tabs.TabType;
 import net.minheur.potoflux.utils.Translations;
 
 import javax.swing.*;
@@ -14,7 +16,7 @@ import java.util.List;
 
 public class PotoScreen {
     private final JFrame frame;
-    private final Map<Tabs, BaseTab> tabMap = new HashMap<>();
+    private final Map<TabType, BaseTab> tabMap = new HashMap<>();
     private final JTabbedPane tabs = new JTabbedPane(JTabbedPane.LEFT);
 
     public PotoScreen() {
@@ -39,11 +41,23 @@ public class PotoScreen {
     private void addPanels() {
         tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
-        for (Tabs tab : Tabs.values()) {
-            BaseTab instance = tab.createInstance();
+        // add potoflux own tabs
+        Tabs.register();
+
+        // for (Tabs tab : Tabs.values()) {
+        //     BaseTab instance = tab.createInstance();
+        //     if (instance != null) {
+        //         tabs.add(tab.getName(), instance.getPanel());
+        //         this.tabMap.put(tab, instance);
+        //     }
+        // }
+
+        // then register mod's ones
+        for (TabType tabType : TabRegistry.getAll()) {
+            BaseTab instance = tabType.createInstance();
             if (instance != null) {
-                tabs.add(tab.getName(), instance.getPanel());
-                this.tabMap.put(tab, instance);
+                tabs.add(tabType.getName(), instance.getPanel());
+                this.tabMap.put(tabType, instance);
             }
         }
 
@@ -59,7 +73,7 @@ public class PotoScreen {
         frame.setIconImages(icons);
     }
 
-    public Map<Tabs, BaseTab> getTabMap() {
+    public Map<TabType, BaseTab> getTabMap() {
         return tabMap;
     }
 
@@ -67,7 +81,7 @@ public class PotoScreen {
         return frame;
     }
 
-    public void setOpenedTab(Tabs tab) {
+    public void setOpenedTab(TabType tab) {
         if (!tabMap.containsKey(tab)) {
             JOptionPane.showMessageDialog(frame, Translations.get("screen.tabHereNotHere"));
             return;
