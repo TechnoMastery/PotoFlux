@@ -16,6 +16,10 @@ dependencies {
 
     // implementation "com.github.TechnoMastery:MinLib:v1.0" // minLib → unused
     implementation 'com.google.code.gson:gson:2.11.0'
+
+    // scan classes
+    implementation "org.reflections:reflections:0.10.2"
+
 }
 
 jar {
