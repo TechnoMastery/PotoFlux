@@ -4,7 +4,7 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tabs;
-import net.minheur.potoflux.screen.tabs.TabType;
+import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.utils.Translations;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class PotoScreen {
     private final JFrame frame;
-    private final Map<TabType, BaseTab> tabMap = new HashMap<>();
+    private final Map<Tab, BaseTab> tabMap = new HashMap<>();
     private final JTabbedPane tabs = new JTabbedPane(JTabbedPane.LEFT);
 
     public PotoScreen() {
@@ -53,10 +53,10 @@ public class PotoScreen {
         // }
 
         // then register mod's ones
-        for (TabType tabType : TabRegistry.getAll()) {
+        for (Tab tabType : TabRegistry.getAll()) {
             BaseTab instance = tabType.createInstance();
             if (instance != null) {
-                tabs.add(tabType.getName(), instance.getPanel());
+                tabs.add(tabType.name(), instance.getPanel());
                 this.tabMap.put(tabType, instance);
             }
         }
@@ -73,7 +73,7 @@ public class PotoScreen {
         frame.setIconImages(icons);
     }
 
-    public Map<TabType, BaseTab> getTabMap() {
+    public Map<Tab, BaseTab> getTabMap() {
         return tabMap;
     }
 
@@ -81,7 +81,7 @@ public class PotoScreen {
         return frame;
     }
 
-    public void setOpenedTab(TabType tab) {
+    public void setOpenedTab(Tab tab) {
         if (!tabMap.containsKey(tab)) {
             JOptionPane.showMessageDialog(frame, Translations.get("screen.tabHereNotHere"));
             return;

@@ -4,6 +4,7 @@ import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.terminal.CommandProcessor;
+import net.minheur.potoflux.utils.ResourceLocation;
 import net.minheur.potoflux.utils.Translations;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
@@ -14,10 +15,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class PotoFlux {
+    public static final String ID = "potoflux";
+
     public static PotoScreen app;
     public static void main(String[] args) {
         Translations.load("en");
         Translations.load(UserPrefsManager.getUserLang());
+
+
+
         SwingUtilities.invokeLater(() -> {
             app = new PotoScreen();
 
@@ -39,5 +45,9 @@ public class PotoFlux {
         CommandProcessor.runSaveTerminal();
 
         System.exit(exitCode); // close app
+    }
+
+    public static ResourceLocation fromModId(String loc) {
+        return new ResourceLocation(ID, loc);
     }
 }

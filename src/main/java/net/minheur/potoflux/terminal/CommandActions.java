@@ -3,7 +3,7 @@ package net.minheur.potoflux.terminal;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
-import net.minheur.potoflux.screen.tabs.TabType;
+import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.utils.Translations;
 
 import java.time.LocalTime;
@@ -65,8 +65,8 @@ public class CommandActions {
         if (args.get(0).equals("Terminal")) {
             CommandProcessor.appendOutput(Translations.get("command.tab.opened"));
         }
-        for (TabType tab : TabRegistry.getAll()) {
-            if (Objects.equals(tab.getName(), args.get(0))) {
+        for (Tab tab : TabRegistry.getAll()) {
+            if (Objects.equals(tab.name(), args.get(0))) {
                 PotoFlux.app.setOpenedTab(tab);
                 return;
             }
