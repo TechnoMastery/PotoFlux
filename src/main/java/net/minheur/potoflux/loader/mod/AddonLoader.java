@@ -7,7 +7,7 @@ public class AddonLoader {
 
     public void loadAddons() {
         // tu peux remplacer Reflections("") par un scan limité à ton package si tu veux
-        Reflections reflections = new Reflections(""); // scan whole classpath
+        Reflections reflections = new Reflections("/"); // scan whole classpath
         Set<Class<?>> addons = reflections.getTypesAnnotatedWith(Mod.class);
 
         for (Class<?> clazz : addons) {
