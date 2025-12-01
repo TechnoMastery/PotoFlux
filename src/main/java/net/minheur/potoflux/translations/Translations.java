@@ -19,12 +19,15 @@ public class Translations {
 
     // core translations loading
     public static void load(Lang lang) {
+        loadedTranslations.clear();
         loadedTranslations.addAll(translationSources.get(lang));
     }
     public static void load(String langCode) {
         for (Lang lang : Lang.values()) {
-            if (lang.code.equals(langCode)) load(lang);
-            return;
+            if (lang.code.equals(langCode)) {
+                load(lang);
+                return;
+            }
         }
         throw new IllegalArgumentException("Trying to use unsupported language !");
     }
