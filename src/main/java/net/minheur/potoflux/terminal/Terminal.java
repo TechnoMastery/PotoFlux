@@ -1,6 +1,9 @@
 package net.minheur.potoflux.terminal;
 
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
+import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.utils.Translations;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
@@ -21,6 +24,9 @@ public class Terminal {
 
     public Terminal(JPanel panel) {
         panel.setLayout(new BorderLayout());
+
+        // register all commands
+        PotoFluxLoadingContext.get().getModEventBus().post(new RegisterCommandsEvent());
 
         // output system
         outputArea = new JTextArea();

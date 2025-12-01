@@ -4,6 +4,8 @@ import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.Tab;
+import net.minheur.potoflux.terminal.commands.Command;
+import net.minheur.potoflux.terminal.commands.CommandRegistry;
 import net.minheur.potoflux.utils.Translations;
 
 import java.time.LocalTime;
@@ -26,22 +28,22 @@ public class CommandActions {
 
         if (args.isEmpty()) {
             StringBuilder out = new StringBuilder(Translations.get("command.help.title"));
-            for (Commands command : Commands.values()) {
-                if (!command.isHidden) {
-                    out.append("\n").append("→ ").append(command.key).append(" : ").append(command.commandHelp);
+            for (Command command : CommandRegistry.getAll()) {
+                if (!command.isHidden()) {
+                    out.append("\n").append("→ ").append(command.getKey()).append(" : ").append(command.getCommandHelp());
                 }
             }
             CommandProcessor.appendOutput(out.toString());
         } else {
             String commandHelp = args.get(0);
-            for (Commands command : Commands.values()) {
-                if (commandHelp.equals(command.key)) {
-                    CommandProcessor.appendOutput(command.commandHelp);
+            for (Command command : CommandRegistry.getAll()) {
+                if (commandHelp.equals(command.getKey())) {
+                    CommandProcessor.appendOutput(command.getCommandHelp());
                     return;
                 }
             }
         }
-        CommandProcessor.appendOutput(Commands.HELP.commandHelp);
+        CommandProcessor.appendOutput(Commands.HELP.getCommandHelp());
     }
     static void sourceCode(List<String> args) {
         if (checkNoArgs(args)) CommandHelp.source();

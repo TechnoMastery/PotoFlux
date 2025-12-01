@@ -1,63 +1,27 @@
 package net.minheur.potoflux.terminal;
 
-import java.util.List;
-import java.util.function.Consumer;
+import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
+import net.minheur.potoflux.loader.mod.events.SubscribeEvent;
+import net.minheur.potoflux.registry.RegistryList;
+import net.minheur.potoflux.terminal.commands.Command;
 
-public enum Commands {
-    HELLO_WORLD("hello", CommandActions::helloWorld, CommandHelp.helloWorld()),
-    CLEAR("clear", CommandActions::clear, CommandHelp.clear()),
-    TIME("time", CommandActions::time, CommandHelp.time()),
-    HELP("help", CommandActions::help, CommandHelp.help()),
-    ECHO("echo", CommandActions::echo, CommandHelp.echo()),
-    TAB("tab", CommandActions::tab, CommandHelp.tab()),
-    SOURCE("code-source", CommandActions::sourceCode, CommandHelp.source()),
-    ASCII("ascii", CommandActions::writeAscii, CommandHelp.ascii()),
-    QUIT("quit", CommandActions::quit, CommandHelp.quit()),
+import static net.minheur.potoflux.PotoFlux.fromModId;
 
-    HIDDEN("hide", CommandActions::hidden, true),
-    NOPE("nop", CommandActions::nope, true);
+public class Commands {
+    private static final RegistryList<Command> LIST = new RegistryList<>();
 
-    final String key;
-    final Consumer<List<String>> commandOutput;
-    final String commandHelp;
-    final boolean isHidden;
+    public static final Command HELLO_WORLD = LIST.add(new Command(fromModId("hello_workd"), "hello", CommandActions::helloWorld, CommandHelp.help()));
+    public static final Command CLEAR = LIST.add(new Command(fromModId("clear"), "clear", CommandActions::clear, CommandHelp.clear()));
+    public static final Command TIME = LIST.add(new Command(fromModId("time"), "time", CommandActions::time, CommandHelp.time()));
+    public static final Command HELP = LIST.add(new Command(fromModId("help"), "help", CommandActions::help, CommandHelp.help()));
+    public static final Command ECHO = LIST.add(new Command(fromModId("echo"), "echo", CommandActions::echo, CommandHelp.echo()));
+    public static final Command TAB = LIST.add(new Command(fromModId("tab"), "tab", CommandActions::tab, CommandHelp.tab()));
+    public static final Command SOURCE = LIST.add(new Command(fromModId("source"), "source", CommandActions::sourceCode, CommandHelp.source()));
+    public static final Command ASCII = LIST.add(new Command(fromModId("ascii"), "ascii", CommandActions::writeAscii, CommandHelp.ascii()));
+    public static final Command QUIT = LIST.add(new Command(fromModId("quit"), "quit", CommandActions::quit, CommandHelp.quit()));
 
-    Commands(String key, Consumer<List<String>> commandOutput, String commandHelp, boolean isHidden) {
-        this.key = key;
-        this.commandOutput = commandOutput;
-        this.commandHelp = commandHelp;
-        this.isHidden = isHidden;
-    }
-    Commands(String key, Consumer<List<String>> commandOutput, boolean isHidden) {
-        this.key = key;
-        this.commandOutput = commandOutput;
-        this.isHidden = isHidden;
-        this.commandHelp = null;
-    }
-    Commands(String key, Consumer<List<String>> commandOutput, String commandHelp) {
-        this.key = key;
-        this.commandOutput = commandOutput;
-        this.isHidden = false;
-        this.commandHelp = commandHelp;
-    }
-
-    public static boolean containsKey(String pKey) {
-        for (Commands command : Commands.values()) {
-            if (pKey.equals(command.getKey())) return true;
-        }
-        return false;
-    }
-    public static Commands getCommandWithKey(String pKey) {
-        for (Commands command : Commands.values()) {
-            if (pKey.equals(command.getKey())) return command;
-        }
-        return null;
-    }
-
-    public String getKey() {
-        return key;
-    }
-    public Consumer<List<String>> getCommandOutput() {
-        return commandOutput;
+    @SubscribeEvent
+    public static void register(RegisterCommandsEvent event) {
+        LIST.register(event.reg);
     }
 }
