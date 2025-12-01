@@ -21,8 +21,11 @@ public class Translations {
     public static void load(Lang lang) {
         loadedTranslations.addAll(translationSources.get(lang));
     }
-    public static void load(String lang) {
-        for (Lang l : Lang.values()) if (l.code.equals(lang)) load(l);
+    public static void load(String langCode) {
+        for (Lang lang : Lang.values()) {
+            if (lang.code.equals(langCode)) load(lang);
+            return;
+        }
         throw new IllegalArgumentException("Trying to use unsupported language !");
     }
 
