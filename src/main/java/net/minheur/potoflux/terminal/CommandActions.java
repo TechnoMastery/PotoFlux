@@ -14,17 +14,17 @@ import java.util.Objects;
 
 public class CommandActions {
     static void helloWorld(List<String> args) {
-        if (checkNoArgs(args)) CommandHelp.helloWorld();
+        if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.helloWorld());
         CommandProcessor.appendOutput("Hello world !");
     }
 
     static void time(List<String> args) {
-        if (checkNoArgs(args)) CommandHelp.time();
+        if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.time());
         CommandProcessor.appendOutput(LocalTime.now().toString());
     }
 
     static void help(List<String> args) {
-        if (argAmountCheck(0, 1, args)) CommandHelp.help();
+        if (argAmountCheck(0, 1, args)) CommandProcessor.appendOutput(CommandHelp.help());
 
         if (args.isEmpty()) {
             StringBuilder out = new StringBuilder(Translations.get("command.help.title"));
@@ -34,6 +34,7 @@ public class CommandActions {
                 }
             }
             CommandProcessor.appendOutput(out.toString());
+            return;
         } else {
             String commandHelp = args.get(0);
             for (Command command : CommandRegistry.getAll()) {
@@ -46,24 +47,24 @@ public class CommandActions {
         CommandProcessor.appendOutput(Commands.HELP.getCommandHelp());
     }
     static void sourceCode(List<String> args) {
-        if (checkNoArgs(args)) CommandHelp.source();
+        if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.source());
         CommandProcessor.appendOutput(Translations.get("command.source.out") + "https://github.com/TechnoMastery/PotoFlux");
     }
 
     static void quit(List<String> args) {
-        if (checkNoArgs(args)) CommandHelp.quit();
+        if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.quit());
         CommandProcessor.appendOutput(Translations.get("command.exit.out"));
         Functions.exit(500, 0);
     }
 
     static void echo(List<String> args) {
-        if (argAmountCheck(1, args)) CommandHelp.echo();
+        if (argAmountCheck(1, args)) CommandProcessor.appendOutput(CommandHelp.echo());
         String message = String.join(" ", args);
         CommandProcessor.appendOutput(message);
     }
 
     static void tab(List<String> args) {
-        if (argAmountCheck(1, args)) CommandHelp.tab();
+        if (argAmountCheck(1, args)) CommandProcessor.appendOutput(CommandHelp.tab());
         if (args.get(0).equals("Terminal")) {
             CommandProcessor.appendOutput(Translations.get("command.tab.opened"));
         }
@@ -73,17 +74,17 @@ public class CommandActions {
                 return;
             }
         }
-        CommandHelp.tab();
+        CommandProcessor.appendOutput(CommandHelp.tab());
         CommandProcessor.appendOutput(Translations.get("command.tab.null.start") + args.get(0) + Translations.get("command.tab.null.end"));
     }
 
     static void clear(List<String> args) {
-        if (checkNoArgs(args)) CommandHelp.clear();
+        if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.clear());
         CommandProcessor.clearArea();
     }
 
     static void writeAscii(List<String> args) {
-        if (argAmountCheck(0, 1, args)) CommandHelp.ascii();
+        if (argAmountCheck(0, 1, args)) CommandProcessor.appendOutput(CommandHelp.ascii());
         if (args.isEmpty()) {
             Terminal.buildASCII();
             return;
