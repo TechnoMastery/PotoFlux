@@ -8,7 +8,7 @@ import net.minheur.potoflux.terminal.Command;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.CommandRegistry;
 import net.minheur.potoflux.terminal.Terminal;
-import net.minheur.potoflux.utils.Translations;
+import net.minheur.potoflux.translations.Translations;
 
 import java.time.LocalTime;
 import java.util.List;

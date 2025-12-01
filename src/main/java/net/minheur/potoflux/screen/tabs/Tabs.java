@@ -4,7 +4,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.loader.mod.events.SubscribeEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.tabs.all.*;
-import net.minheur.potoflux.utils.Translations;
+import net.minheur.potoflux.translations.Translations;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 

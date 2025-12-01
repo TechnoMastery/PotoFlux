@@ -7,7 +7,7 @@ import net.minheur.potoflux.card.Card;
 import net.minheur.potoflux.card.CardJsonManager;
 import net.minheur.potoflux.card.CardList;
 import net.minheur.potoflux.screen.tabs.BaseTab;
-import net.minheur.potoflux.utils.Translations;
+import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

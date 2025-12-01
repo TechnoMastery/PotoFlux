@@ -1,7 +1,7 @@
 package net.minheur.potoflux.terminal.commands;
 
 
-import net.minheur.potoflux.utils.Translations;
+import net.minheur.potoflux.translations.Translations;
 
 public class CommandHelp {
     private static final String tab = "    ";

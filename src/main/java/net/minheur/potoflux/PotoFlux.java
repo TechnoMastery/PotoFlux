@@ -4,14 +4,16 @@ import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
+import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.commands.Commands;
+import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
-import net.minheur.potoflux.utils.Translations;
+import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
 import javax.swing.*;
@@ -26,7 +28,8 @@ public class PotoFlux {
     public static PotoScreen app;
     public static void main(String[] args) {
         // load translations
-        Translations.load("en");
+        Translations.registerAll();
+        Translations.load(Lang.EN);
         Translations.load(UserPrefsManager.getUserLang());
 
         // def modEventBus
@@ -42,6 +45,7 @@ public class PotoFlux {
         // post all registrations
         bus.post(new RegisterTabsEvent());
         bus.post(new RegisterCommandsEvent());
+        bus.post(new RegisterLangEvent());
 
         // invoke app
         SwingUtilities.invokeLater(() -> {
