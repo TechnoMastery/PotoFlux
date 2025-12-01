@@ -7,6 +7,7 @@ import net.minheur.potoflux.translations.Lang;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,9 +24,21 @@ public class LangBuilder {
 
     public void save(Path output) {
         try {
+            if (Files.exists(output)) {
+                Files.walk(output)
+                        .sorted(Comparator.reverseOrder())
+                        .forEach(path -> {
+                            try {
+                                Files.delete(path);
+                            } catch (IOException e) {
+                                throw new RuntimeException("Could not handle lang directory", e);
+                            }
+                        });
+            }
+
             Files.createDirectories(output);
         } catch (IOException e) {
-            throw new RuntimeException("Could not create lang directory", e);
+            throw new RuntimeException("Could not handle lang directory", e);
         }
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

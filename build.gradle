@@ -36,6 +36,14 @@ processResources {
     }
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/generated/resources'
+        }
+    }
+}
+
 tasks.register("copyLibs", Copy) {
     dependsOn "build"
 
@@ -96,4 +104,12 @@ tasks.register("msiPackage") {
             "--win-upgrade-uuid", "5536eb5f-55c0-408d-b034-677536a3a078"
         }
     }
+}
+
+tasks.register("runDataGen", JavaExec) {
+    group = "datagen"
+    description = "Génère les fichiers de traduction PotoFlux"
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "net.minheur.potoflux.datagen.Generators"
 }
