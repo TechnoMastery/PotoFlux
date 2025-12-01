@@ -1,8 +1,9 @@
 package net.minheur.potoflux.screen.tabs;
 
+import net.minheur.potoflux.registry.IRegistryType;
 import net.minheur.potoflux.utils.ResourceLocation;
 
-public record Tab(ResourceLocation id, String name, Class<? extends BaseTab> tabClass) {
+public record Tab(ResourceLocation id, String name, Class<? extends BaseTab> tabClass) implements IRegistryType {
 
     public BaseTab createInstance() {
         try {

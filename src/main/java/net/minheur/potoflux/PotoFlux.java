@@ -1,5 +1,7 @@
 package net.minheur.potoflux;
 
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
@@ -22,7 +24,8 @@ public class PotoFlux {
         Translations.load("en");
         Translations.load(UserPrefsManager.getUserLang());
 
-
+        ModEventBus bus = PotoFluxLoadingContext.get().getModEventBus();
+        bus.registerClass(Tabs.class);
 
         SwingUtilities.invokeLater(() -> {
             app = new PotoScreen();

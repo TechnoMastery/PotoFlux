@@ -1,6 +1,8 @@
 package net.minheur.potoflux.screen;
 
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tabs;
@@ -41,8 +43,8 @@ public class PotoScreen {
     private void addPanels() {
         tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
-        // add potoflux own tabs
-        Tabs.register();
+        // add all tabs
+        PotoFluxLoadingContext.get().getModEventBus().post(new RegisterTabsEvent());
 
         // for (Tabs tab : Tabs.values()) {
         //     BaseTab instance = tab.createInstance();

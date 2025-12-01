@@ -1,5 +1,7 @@
 package net.minheur.potoflux.loader.mod;
 
+import net.minheur.potoflux.loader.mod.events.SubscribeEvent;
+
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.function.Consumer;
@@ -14,7 +16,7 @@ public class ModEventBus {
 
     // Wrapper interne pour stocker la cible et la méthode à appeler
     private static final class Listener {
-        final Object target;    // peut être null si on stocke un Consumer
+        final Object target;    // Peut-être null si on stocke un Consumer
         final Method method;    // méthode à invoquer (prend 1 paramètre)
         final Consumer<Object> consumer; // alternative si user passe un Consumer
 
@@ -77,6 +79,24 @@ public class ModEventBus {
 
         List<Listener> list = listeners.computeIfAbsent(eventType, k -> new ArrayList<>());
         list.add(new Listener(targetInstance, implMethod));
+    }
+
+    // for subscribed events
+    public void registerClass(Class<?> clazz) {
+        for (Method m : clazz.getDeclaredMethods()) {
+            if (!m.isAnnotationPresent(SubscribeEvent.class)) continue;
+
+            if (!Modifier.isStatic(m.getModifiers()))
+                throw new IllegalArgumentException("@SubscribeEvent method must be static");
+
+            if (m.getParameterCount() != 1)
+                throw new IllegalArgumentException("@SubscribeEvent method must take exactly 1 parameter");
+
+            Class<?> eventType = m.getParameterTypes()[0];
+            m.setAccessible(true);
+
+            listeners.computeIfAbsent(eventType, k -> new ArrayList<>()).add(new Listener(null, m));
+        }
     }
 
     // post : appelle les listeners enregistrés pour la classe exacte
