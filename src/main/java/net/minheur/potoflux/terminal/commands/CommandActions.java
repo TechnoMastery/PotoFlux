@@ -1,11 +1,13 @@
-package net.minheur.potoflux.terminal;
+package net.minheur.potoflux.terminal.commands;
 
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.Tab;
-import net.minheur.potoflux.terminal.commands.Command;
-import net.minheur.potoflux.terminal.commands.CommandRegistry;
+import net.minheur.potoflux.terminal.Command;
+import net.minheur.potoflux.terminal.CommandProcessor;
+import net.minheur.potoflux.terminal.CommandRegistry;
+import net.minheur.potoflux.terminal.Terminal;
 import net.minheur.potoflux.utils.Translations;
 
 import java.time.LocalTime;

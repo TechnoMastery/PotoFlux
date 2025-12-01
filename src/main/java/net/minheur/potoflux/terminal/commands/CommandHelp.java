@@ -1,4 +1,4 @@
-package net.minheur.potoflux.terminal;
+package net.minheur.potoflux.terminal.commands;
 
 
 import net.minheur.potoflux.utils.Translations;

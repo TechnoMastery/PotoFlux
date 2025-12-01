@@ -1,4 +1,4 @@
-package net.minheur.potoflux.utils;
+package net.minheur.potoflux.utils.ressourcelocation;
 
 public class ResourceLocation {
     private static final char sep = ':';

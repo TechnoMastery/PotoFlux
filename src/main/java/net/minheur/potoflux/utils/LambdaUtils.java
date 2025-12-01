@@ -1,4 +1,4 @@
-package net.minheur.potoflux.loader.mod;
+package net.minheur.potoflux.utils;
 
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;

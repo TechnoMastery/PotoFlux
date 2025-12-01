@@ -1,7 +1,7 @@
-package net.minheur.potoflux.terminal.commands;
+package net.minheur.potoflux.terminal;
 
 import net.minheur.potoflux.registry.IRegistryType;
-import net.minheur.potoflux.utils.ResourceLocation;
+import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 
 import java.util.List;
 import java.util.function.Consumer;

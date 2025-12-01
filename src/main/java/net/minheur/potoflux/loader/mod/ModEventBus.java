@@ -1,6 +1,7 @@
 package net.minheur.potoflux.loader.mod;
 
 import net.minheur.potoflux.loader.mod.events.SubscribeEvent;
+import net.minheur.potoflux.utils.LambdaUtils;
 
 import java.lang.reflect.*;
 import java.util.*;

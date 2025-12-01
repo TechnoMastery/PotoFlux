@@ -1,4 +1,4 @@
-package net.minheur.potoflux.utils;
+package net.minheur.potoflux.utils.ressourcelocation;
 
 public class ResourceLocationException extends RuntimeException {
   public ResourceLocationException(String pMessage) {

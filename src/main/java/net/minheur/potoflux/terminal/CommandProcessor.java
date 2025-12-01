@@ -3,8 +3,6 @@ package net.minheur.potoflux.terminal;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
-import net.minheur.potoflux.terminal.commands.Command;
-import net.minheur.potoflux.terminal.commands.CommandRegistry;
 import net.minheur.potoflux.utils.Translations;
 
 import javax.swing.*;

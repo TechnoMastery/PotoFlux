@@ -1,9 +1,9 @@
-package net.minheur.potoflux.terminal;
+package net.minheur.potoflux.terminal.commands;
 
 import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.loader.mod.events.SubscribeEvent;
 import net.minheur.potoflux.registry.RegistryList;
-import net.minheur.potoflux.terminal.commands.Command;
+import net.minheur.potoflux.terminal.Command;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
