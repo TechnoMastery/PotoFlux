@@ -23,9 +23,6 @@ public class Terminal {
     public Terminal(JPanel panel) {
         panel.setLayout(new BorderLayout());
 
-        // register all commands
-        PotoFluxLoadingContext.get().getModEventBus().post(new RegisterCommandsEvent());
-
         // output system
         outputArea = new JTextArea();
         outputArea.setEditable(false);

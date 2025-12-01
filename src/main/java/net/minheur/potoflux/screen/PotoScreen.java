@@ -42,18 +42,7 @@ public class PotoScreen {
     private void addPanels() {
         tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
-        // add all tabs
-        PotoFluxLoadingContext.get().getModEventBus().post(new RegisterTabsEvent());
-
-        // for (Tabs tab : Tabs.values()) {
-        //     BaseTab instance = tab.createInstance();
-        //     if (instance != null) {
-        //         tabs.add(tab.getName(), instance.getPanel());
-        //         this.tabMap.put(tab, instance);
-        //     }
-        // }
-
-        // then register mod's ones
+        // register all tabs in ones
         for (Tab tabType : TabRegistry.getAll()) {
             BaseTab instance = tabType.createInstance();
             if (instance != null) {
