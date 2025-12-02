@@ -23,6 +23,17 @@ dependencies {
 
 }
 
+publishing {
+    publications {
+        mavenJar(MavenPublication) {
+            from components.java
+            groupId = project.group
+            artifactId = 'PotoFlux'
+            version = project.version
+        }
+    }
+}
+
 jar {
     manifest {
         attributes(
