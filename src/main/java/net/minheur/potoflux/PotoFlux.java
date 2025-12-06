@@ -63,6 +63,14 @@ public class PotoFlux {
         return dir;
     }
 
+    public static Path getModDataDir() {
+        Path dir = getProgramDir().resolve("mod-data");
+        try {
+            Files.createDirectories(dir);
+        } catch (IOException ignored) {}
+        return dir;
+    }
+
     public static void runProgramClosing(int exitCode) {
         // executes when program close
 
