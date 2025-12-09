@@ -1,13 +1,15 @@
 package net.minheur.potoflux.loader.mod;
 
 import java.util.Set;
+
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import org.reflections.Reflections; // si tu veux utiliser Reflections ; sinon tu peux lister les JARs manuellement
 
 public class AddonLoader {
 
     public void loadAddons() {
-        // tu peux remplacer Reflections("") par un scan limité à ton package si tu veux
-        Reflections reflections = new Reflections("/"); // scan whole classpath
+        // tu peux remplacer Reflections("/") par un scan limité à ton package si tu veux
+        Reflections reflections = new Reflections(PotoFluxLoadingContext.getScanPath()); // scan whole classpath
         Set<Class<?>> addons = reflections.getTypesAnnotatedWith(Mod.class);
 
         for (Class<?> clazz : addons) {
