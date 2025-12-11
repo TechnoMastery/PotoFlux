@@ -2,6 +2,15 @@ package net.minheur.potoflux.loader;
 
 import net.minheur.potoflux.loader.mod.ModEventBus;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class PotoFluxLoadingContext {
     private static final PotoFluxLoadingContext INSTANCE = new PotoFluxLoadingContext();
     private final ModEventBus modEventBus = new ModEventBus();
@@ -23,10 +32,28 @@ public class PotoFluxLoadingContext {
                 || cp.contains("build\\resources\\main");
     }
 
-    public static String getScanPath() {
+    public static Collection<URL> getScanUrls() {
         if (isDevEnv()) {
             String projectDir = System.getProperty("user.dir");
-            return projectDir + "build/classes/java/main";
-        } else return "./mods/";
+            Path classes = Paths.get(projectDir, "build", "classes", "java", "main");
+            try {
+                return List.of(classes.toUri().toURL());
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            File modsDir = new File("mods");
+            File[] jars = modsDir.listFiles((d, n) -> n.endsWith(".jar"));
+
+            List<URL> urls = new ArrayList<>();
+            if (jars != null) {
+                for (File jar : jars) try {
+                    urls.add(jar.toURI().toURL());
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return urls;
+        }
     }
 }
