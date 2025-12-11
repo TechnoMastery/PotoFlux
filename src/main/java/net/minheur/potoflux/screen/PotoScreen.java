@@ -40,8 +40,14 @@ public class PotoScreen {
     private void addPanels() {
         tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
+        List<Tab> allTabs = TabRegistry.getAll().stream() // get all tabs
+                .sorted(Comparator.comparing( // compare
+                        tab -> !tab.id().getNamespace().equals(PotoFlux.ID) // true → added after
+                ))
+                .toList();
+
         // register all tabs in ones
-        for (Tab tabType : TabRegistry.getAll()) {
+        for (Tab tabType : allTabs) {
             BaseTab instance = tabType.createInstance();
             if (instance != null) {
                 tabs.add(tabType.name(), instance.getPanel());
