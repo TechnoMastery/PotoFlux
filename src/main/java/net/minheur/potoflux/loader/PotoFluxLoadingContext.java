@@ -19,8 +19,8 @@ public class PotoFluxLoadingContext {
     public static boolean isDevEnv() {
         String cp = System.getProperty("java.class.path");
 
-        return cp.contains("build/classes/java/main")
-                || cp.contains("build/resources/main");
+        return cp.contains("build\\classes\\java\\main")
+                || cp.contains("build\\resources\\main");
     }
 
     public static String getScanPath() {
