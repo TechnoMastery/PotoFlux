@@ -120,19 +120,15 @@
   "tabs.settings.title": "Settings",
   "tabs.term.name": "Terminal",
   "tabs.term.title": "Terminal",
-  "tabs.todo.button_add": "Add a todo",
-  "tabs.todo.button_clear": "Clear all todos",
+
   "tabs.todo.delete": "Delete",
   "tabs.todo.delete.confirm": "Do you really want to delete this task",
   "tabs.todo.delete.title": "Delete task",
   "tabs.todo.done": "Set as done",
   "tabs.todo.edit.title": "Edit task",
-  "tabs.todo.empty_list": "The list is empty !",
   "tabs.todo.name": "TODO",
-  "tabs.todo.new.name": "New task: ",
-  "tabs.todo.new.pinned": "Pin the todo",
-  "tabs.todo.new.title": "Add",
-  "tabs.todo.no_empty": "Todo can't be empty.",
+
+
   "tabs.todo.pinned": "Pinned",
   "tabs.todo.rename": "Rename",
   "tabs.todo.rename.prompt": "New name :"

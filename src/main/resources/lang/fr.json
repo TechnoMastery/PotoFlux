@@ -120,19 +120,14 @@
   "tabs.settings.title": "Paramètres",
   "tabs.term.name": "Terminal",
   "tabs.term.title": "Terminal",
-  "tabs.todo.button_add": "Ajouter un todo",
-  "tabs.todo.button_clear": "Supprimer tout",
+
   "tabs.todo.delete": "Supprimer",
   "tabs.todo.delete.confirm": "Voulez-vous vraiment supprimer cette tâche",
   "tabs.todo.delete.title": "Supprimer la tâche",
   "tabs.todo.done": "Marquer comme terminé",
   "tabs.todo.edit.title": "Éditer la tâche",
-  "tabs.todo.empty_list": "La liste est vide !",
   "tabs.todo.name": "TODO",
-  "tabs.todo.new.name": "Nouveau todo: ",
-  "tabs.todo.new.pinned": "Épingler le todo",
-  "tabs.todo.new.title": "Ajouter",
-  "tabs.todo.no_empty": "Le todo ne peut pas être vide.",
+
   "tabs.todo.pined": "Épinglé",
   "tabs.todo.rename": "Renommer",
   "tabs.todo.rename.prompt": "Nouveau nom :"
