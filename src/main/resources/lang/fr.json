@@ -119,16 +119,5 @@
   "tabs.settings.name": "Paramètres",
   "tabs.settings.title": "Paramètres",
   "tabs.term.name": "Terminal",
-  "tabs.term.title": "Terminal",
-
-  "tabs.todo.delete": "Supprimer",
-  "tabs.todo.delete.confirm": "Voulez-vous vraiment supprimer cette tâche",
-  "tabs.todo.delete.title": "Supprimer la tâche",
-  "tabs.todo.done": "Marquer comme terminé",
-  "tabs.todo.edit.title": "Éditer la tâche",
-  "tabs.todo.name": "TODO",
-
-  "tabs.todo.pined": "Épinglé",
-  "tabs.todo.rename": "Renommer",
-  "tabs.todo.rename.prompt": "Nouveau nom :"
+  "tabs.term.title": "Terminal"
 }

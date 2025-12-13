@@ -119,17 +119,5 @@
   "tabs.settings.name": "Settings",
   "tabs.settings.title": "Settings",
   "tabs.term.name": "Terminal",
-  "tabs.term.title": "Terminal",
-
-  "tabs.todo.delete": "Delete",
-  "tabs.todo.delete.confirm": "Do you really want to delete this task",
-  "tabs.todo.delete.title": "Delete task",
-  "tabs.todo.done": "Set as done",
-  "tabs.todo.edit.title": "Edit task",
-  "tabs.todo.name": "TODO",
-
-
-  "tabs.todo.pinned": "Pinned",
-  "tabs.todo.rename": "Rename",
-  "tabs.todo.rename.prompt": "New name :"
+  "tabs.term.title": "Terminal"
 }
