@@ -35,15 +35,22 @@ public class Translations {
     public static void registerAll() {
         prepareSource();
 
+        ClassLoader cl = Translations.class.getClassLoader();
+
         for (Lang lang : Lang.values()) {
-            try (Reader reader = new InputStreamReader(Translations.class.getClassLoader().getResourceAsStream("/lang/" + lang.code + ".json"),
-                    StandardCharsets.UTF_8
-            )) {
-                Map<String, String> translations = new Gson().fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
-                translationSources.get(lang).add(translations);
+            try (InputStream is = cl.getResourceAsStream("lang/" + lang.code + ".json")) {
+                if (is == null) throw new IllegalStateException("Missing translation file: lang/" + lang.code + ".json");
+
+                try (Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
+                    Map<String, String> translations =
+                            new Gson().fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
+                    translationSources.get(lang).add(translations);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "ERROR: Failed loading translations ! Please report this error.");
+                JOptionPane.showMessageDialog(null,
+                        "ERROR: Failed loading translations '" + lang.code + "' ! Please report this error."
+                );
                 prepareSource();
             }
         }
