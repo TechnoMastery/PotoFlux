@@ -36,7 +36,7 @@ public class Translations {
         prepareSource();
 
         for (Lang lang : Lang.values()) {
-            try (Reader reader = new InputStreamReader(Translations.class.getResourceAsStream("/lang/" + lang.code + ".json"),
+            try (Reader reader = new InputStreamReader(Translations.class.getClassLoader().getResourceAsStream("/lang/" + lang.code + ".json"),
                     StandardCharsets.UTF_8
             )) {
                 Map<String, String> translations = new Gson().fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
