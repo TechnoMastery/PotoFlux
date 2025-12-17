@@ -13,7 +13,7 @@ import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
-import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.translations.TranslationsOld;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
 import javax.swing.*;
@@ -28,9 +28,9 @@ public class PotoFlux {
     public static PotoScreen app;
     public static void main(String[] args) {
         // load translations
-        Translations.registerAll();
-        Translations.load(Lang.EN);
-        Translations.load(UserPrefsManager.getUserLang());
+        TranslationsOld.registerAll();
+        TranslationsOld.load(Lang.EN);
+        TranslationsOld.load(UserPrefsManager.getUserLang());
 
         // def modEventBus
         ModEventBus bus = PotoFluxLoadingContext.get().getModEventBus();

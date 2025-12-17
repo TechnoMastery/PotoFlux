@@ -1,7 +1,7 @@
 package net.minheur.potoflux.screen.tabs.all;
 
 import net.minheur.potoflux.screen.tabs.BaseTab;
-import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.translations.TranslationsOld;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ public class HomeTab extends BaseTab {
     }
 
     private void addDesc() {
-        JLabel desc = new JLabel(Translations.get("tabs.home.credit"));
+        JLabel desc = new JLabel(TranslationsOld.get("tabs.home.credit"));
         desc.setFont(new Font("Consolas", Font.PLAIN, 15));
         desc.setAlignmentX(Component.CENTER_ALIGNMENT);
         PANEL.add(desc);
@@ -21,6 +21,6 @@ public class HomeTab extends BaseTab {
 
     @Override
     protected String getTitle() {
-        return Translations.get("tabs.home.title");
+        return TranslationsOld.get("tabs.home.title");
     }
 }

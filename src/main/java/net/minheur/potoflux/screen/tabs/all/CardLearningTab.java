@@ -7,7 +7,7 @@ import net.minheur.potoflux.card.Card;
 import net.minheur.potoflux.card.CardJsonManager;
 import net.minheur.potoflux.card.CardList;
 import net.minheur.potoflux.screen.tabs.BaseTab;
-import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.translations.TranslationsOld;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -47,11 +47,11 @@ public class CardLearningTab extends BaseTab {
 
         // create sub-tab
         JTabbedPane subTabs = new JTabbedPane();
-        subTabs.addTab(Translations.get("tabs.card.tab_name.main"), createMainPanel());
-        subTabs.addTab(Translations.get("tabs.card.tab_name.list"), createListPanel());
-        subTabs.addTab(Translations.get("tabs.card.tab_name.load"), createLoadPanel());
-        subTabs.addTab(Translations.get("tabs.card.tab_name.create"), createCreatePanel());
-        subTabs.addTab(Translations.get("tabs.card.tab_name.export"), createExportPanel());
+        subTabs.addTab(TranslationsOld.get("tabs.card.tab_name.main"), createMainPanel());
+        subTabs.addTab(TranslationsOld.get("tabs.card.tab_name.list"), createListPanel());
+        subTabs.addTab(TranslationsOld.get("tabs.card.tab_name.load"), createLoadPanel());
+        subTabs.addTab(TranslationsOld.get("tabs.card.tab_name.create"), createCreatePanel());
+        subTabs.addTab(TranslationsOld.get("tabs.card.tab_name.export"), createExportPanel());
 
         // add all to the main one
         PANEL.add(subTabs, BorderLayout.CENTER);
@@ -63,8 +63,8 @@ public class CardLearningTab extends BaseTab {
 
         // top - list selection
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JLabel listLabel = new JLabel(Translations.get("tabs.card.list_column"));
-        JButton startButton = new JButton(Translations.get("common.start"));
+        JLabel listLabel = new JLabel(TranslationsOld.get("tabs.card.list_column"));
+        JButton startButton = new JButton(TranslationsOld.get("common.start"));
 
         refreshComboBox();
 
@@ -83,9 +83,9 @@ public class CardLearningTab extends BaseTab {
 
         // bottom - buttons
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
-        JButton backButton = new JButton(Translations.get("common.back")); // TODO
-        JButton flipButton = new JButton(Translations.get("common.flip"));
-        JButton nextButton = new JButton(Translations.get("common.next"));
+        JButton backButton = new JButton(TranslationsOld.get("common.back")); // TODO
+        JButton flipButton = new JButton(TranslationsOld.get("common.flip"));
+        JButton nextButton = new JButton(TranslationsOld.get("common.next"));
         backButton.setEnabled(false);
         flipButton.setEnabled(false);
         nextButton.setEnabled(false);
@@ -100,11 +100,11 @@ public class CardLearningTab extends BaseTab {
 
         startButton.addActionListener(e -> {
             String selected = (String) mainComboBox.getSelectedItem();
-            if (selected == null || selected.equals(Translations.get("tabs.card.select_list"))) return;
+            if (selected == null || selected.equals(TranslationsOld.get("tabs.card.select_list"))) return;
 
             Path filePath = cardsDir.resolve(selected + ".json");
             if (!Files.exists(filePath)) {
-                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.file_not_found") + selected, Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.file_not_found") + selected, TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -112,12 +112,12 @@ public class CardLearningTab extends BaseTab {
                 String content = Files.readString(filePath);
                 currentList[0] = CardJsonManager.fromJson(JsonParser.parseString(content).getAsJsonObject(), true);
                 if (currentList[0] == null || currentList[0].cards == null || currentList[0].cards.isEmpty()) {
-                    JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.invalid_list"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.invalid_list"), TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.read_error") + ex.getMessage(), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.read_error") + ex.getMessage(), TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -186,7 +186,7 @@ public class CardLearningTab extends BaseTab {
         JPanel panel = new JPanel(new BorderLayout());
 
         // title
-        JLabel title = new JLabel(Translations.get("tabs.card.available_lists"), SwingConstants.CENTER);
+        JLabel title = new JLabel(TranslationsOld.get("tabs.card.available_lists"), SwingConstants.CENTER);
         title.setFont(new Font("Segeo UI", Font.BOLD, 16));
         panel.add(title, BorderLayout.NORTH);
 
@@ -209,7 +209,7 @@ public class CardLearningTab extends BaseTab {
 
         File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
         if (jsonFiles == null || jsonFiles.length == 0) {
-            listPanel.add(new JLabel(Translations.get("tabs.card.no_list_found"), SwingConstants.CENTER));
+            listPanel.add(new JLabel(TranslationsOld.get("tabs.card.no_list_found"), SwingConstants.CENTER));
         } else {
             for (File file : jsonFiles) {
                 try {
@@ -226,7 +226,7 @@ public class CardLearningTab extends BaseTab {
                     ));
 
                     // left - text
-                    JLabel label = new JLabel(list.name + " (" + list.cards.size() + " " + Translations.get("common.cards") + ")");
+                    JLabel label = new JLabel(list.name + " (" + list.cards.size() + " " + TranslationsOld.get("common.cards") + ")");
                     label.setFont(new Font("Segeo UI", Font.PLAIN, 14));
                     row.add(label, BorderLayout.WEST);
 
@@ -237,8 +237,8 @@ public class CardLearningTab extends BaseTab {
 
                     deleteButton.addActionListener(e -> {
                         int confirm = JOptionPane.showConfirmDialog(listPanel,
-                                Translations.get("tabs.card.list_del_validate") + list.name + " ?",
-                                Translations.get("tabs.card.list_del_conf"),
+                                TranslationsOld.get("tabs.card.list_del_validate") + list.name + " ?",
+                                TranslationsOld.get("tabs.card.list_del_conf"),
                                 JOptionPane.YES_NO_OPTION,
                                 JOptionPane.WARNING_MESSAGE);
 
@@ -246,16 +246,16 @@ public class CardLearningTab extends BaseTab {
                             try {
                                 Files.deleteIfExists(file.toPath());
                                 JOptionPane.showMessageDialog(listPanel,
-                                        Translations.get("tabs.card.list_removed.start") + list.name + Translations.get("tabs.card.list_removed.end"),
-                                        Translations.get("tabs.card.list_removed.name"),
+                                        TranslationsOld.get("tabs.card.list_removed.start") + list.name + TranslationsOld.get("tabs.card.list_removed.end"),
+                                        TranslationsOld.get("tabs.card.list_removed.name"),
                                         JOptionPane.INFORMATION_MESSAGE);
 
                                 loadListPanel();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                                 JOptionPane.showMessageDialog(listPanel,
-                                        Translations.get("tabs.card.delete_error") + ex.getMessage(),
-                                        Translations.get("common.error"),
+                                        TranslationsOld.get("tabs.card.delete_error") + ex.getMessage(),
+                                        TranslationsOld.get("common.error"),
                                         JOptionPane.ERROR_MESSAGE);
                             }
                         }
@@ -263,13 +263,13 @@ public class CardLearningTab extends BaseTab {
 
                     infoButton.addActionListener(e -> {
                         // window for display
-                        JDialog infoDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(PANEL), Translations.get("tabs.card.details") + list.name, true);
+                        JDialog infoDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(PANEL), TranslationsOld.get("tabs.card.details") + list.name, true);
                         infoDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                         infoDialog.setLocationRelativeTo(PANEL);
                         infoDialog.setLayout(new BorderLayout());
 
                         // title
-                        JLabel title = new JLabel(list.name + " (" + list.cards.size() + " " + Translations.get("common.cards") + ")", SwingConstants.CENTER);
+                        JLabel title = new JLabel(list.name + " (" + list.cards.size() + " " + TranslationsOld.get("common.cards") + ")", SwingConstants.CENTER);
                         title.setFont(new Font("Segeo UI", Font.BOLD, 16));
                         infoDialog.add(title, BorderLayout.NORTH);
 
@@ -278,7 +278,7 @@ public class CardLearningTab extends BaseTab {
                         infoDialog.add(scrollPane, BorderLayout.CENTER);
 
                         // close button
-                        JButton closeButton = new JButton(Translations.get("common.close"));
+                        JButton closeButton = new JButton(TranslationsOld.get("common.close"));
                         closeButton.addActionListener(ev -> infoDialog.dispose());
 
                         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -313,7 +313,7 @@ public class CardLearningTab extends BaseTab {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // title
-        JLabel title = new JLabel(Translations.get("tabs.card.export_list"), SwingConstants.CENTER);
+        JLabel title = new JLabel(TranslationsOld.get("tabs.card.export_list"), SwingConstants.CENTER);
         title.setFont(new Font("Segoe UI", Font.BOLD, 16));
         panel.add(title, BorderLayout.NORTH);
 
@@ -322,27 +322,27 @@ public class CardLearningTab extends BaseTab {
         // list
         refreshComboBox(); // adding .json files
         // export button
-        JButton exportButton = new JButton(Translations.get("common.export"));
+        JButton exportButton = new JButton(TranslationsOld.get("common.export"));
         exportButton.setEnabled(false);
 
         exportButton.addActionListener(e -> {
             String selected = (String) exportComboBox.getSelectedItem();
-            if (selected == null || selected.equals(Translations.get("tabs.card.select_list"))) return;
+            if (selected == null || selected.equals(TranslationsOld.get("tabs.card.select_list"))) return;
 
             Path sourcePath = cardsDir.resolve(selected + ".json");
             if (!Files.exists(sourcePath)) {
                 JOptionPane.showMessageDialog(PANEL,
-                         Translations.get("common.fileNotFound") + " : " + sourcePath,
-                        Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                         TranslationsOld.get("common.fileNotFound") + " : " + sourcePath,
+                        TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             JFileChooser chooser = new JFileChooser();
-            chooser.setDialogTitle(Translations.get("tabs.card.export") + selected);
+            chooser.setDialogTitle(TranslationsOld.get("tabs.card.export") + selected);
             chooser.setSelectedFile(new File(selected + ".json"));
 
             // ONLY json
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(Translations.get("files.json"), "json");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(TranslationsOld.get("files.json"), "json");
             chooser.setFileFilter(filter);
             chooser.setAcceptAllFileFilterUsed(false);
 
@@ -357,8 +357,8 @@ public class CardLearningTab extends BaseTab {
             // check if existing
             if (destinationFile.exists()) {
                 int overwrite = JOptionPane.showConfirmDialog(PANEL,
-                        Translations.get("tabs.card.replace.content"),
-                        Translations.get("tabs.card.replace.name"),
+                        TranslationsOld.get("tabs.card.replace.content"),
+                        TranslationsOld.get("tabs.card.replace.name"),
                         JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (overwrite != JOptionPane.YES_OPTION) return;
             }
@@ -366,13 +366,13 @@ public class CardLearningTab extends BaseTab {
             try {
                 Files.copy(sourcePath, destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 JOptionPane.showMessageDialog(PANEL,
-                        Translations.get("tabs.card.export_done") + "\n" + destinationFile.getAbsolutePath(),
-                        Translations.get("tabs.card.export_done.name"), JOptionPane.INFORMATION_MESSAGE);
+                        TranslationsOld.get("tabs.card.export_done") + "\n" + destinationFile.getAbsolutePath(),
+                        TranslationsOld.get("tabs.card.export_done.name"), JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(PANEL,
-                        Translations.get("tabs.card.export.error") + ex.getMessage(),
-                        Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                        TranslationsOld.get("tabs.card.export.error") + ex.getMessage(),
+                        TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -396,7 +396,7 @@ public class CardLearningTab extends BaseTab {
             String selected = (String) exportComboBox.getSelectedItem();
 
             // null check
-            if (selected == null || selected.equals(Translations.get("tabs.card.select_list"))) {
+            if (selected == null || selected.equals(TranslationsOld.get("tabs.card.select_list"))) {
                 scrollPane.setViewportView(null);
                 exportButton.setEnabled(false);
                 return;
@@ -405,7 +405,7 @@ public class CardLearningTab extends BaseTab {
             // existing file check
             Path filePath = cardsDir.resolve(selected + ".json");
             if (!Files.exists(filePath)) {
-                scrollPane.setViewportView(new JLabel(Translations.get("tabs.card.file.not_found"), SwingConstants.CENTER));
+                scrollPane.setViewportView(new JLabel(TranslationsOld.get("tabs.card.file.not_found"), SwingConstants.CENTER));
                 exportButton.setEnabled(false);
                 return;
             }
@@ -416,7 +416,7 @@ public class CardLearningTab extends BaseTab {
 
                 // null check
                 if (list == null || list.cards == null) {
-                    scrollPane.setViewportView(new JLabel(Translations.get("tabs.card.error_loading_list"), SwingConstants.CENTER));
+                    scrollPane.setViewportView(new JLabel(TranslationsOld.get("tabs.card.error_loading_list"), SwingConstants.CENTER));
                     exportButton.setEnabled(false);
                     return;
                 }
@@ -426,7 +426,7 @@ public class CardLearningTab extends BaseTab {
                 exportButton.setEnabled(true); // export button is now available
             } catch (Exception ex) {
                 ex.printStackTrace();
-                scrollPane.setViewportView(new JLabel(Translations.get("tabs.card.error_reading_file"), SwingConstants.CENTER));
+                scrollPane.setViewportView(new JLabel(TranslationsOld.get("tabs.card.error_reading_file"), SwingConstants.CENTER));
                 exportButton.setEnabled(false);
             }
         });
@@ -440,7 +440,7 @@ public class CardLearningTab extends BaseTab {
 
     private void refreshComboBox(JComboBox<String> box) {
         box.removeAllItems();
-        box.addItem(Translations.get("tabs.card.select_list"));
+        box.addItem(TranslationsOld.get("tabs.card.select_list"));
         File[] jsonFiles = cardsDir.toFile().listFiles((dir, name) -> name.endsWith(".json"));
         // null check
         if (jsonFiles != null) {
@@ -458,15 +458,15 @@ public class CardLearningTab extends BaseTab {
 
         JPanel panel = new JPanel(new BorderLayout());
 
-        JButton loadButton = new JButton(Translations.get("file.json.import"));
-        JButton validateButton = new JButton(Translations.get("common.validate"));
+        JButton loadButton = new JButton(TranslationsOld.get("file.json.import"));
+        JButton validateButton = new JButton(TranslationsOld.get("common.validate"));
         validateButton.setEnabled(false);
 
 
         loadButton.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
 
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(Translations.get("file.json"), "json");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(TranslationsOld.get("file.json"), "json");
             chooser.setFileFilter(filter);
             chooser.setAcceptAllFileFilterUsed(false);
 
@@ -480,8 +480,8 @@ public class CardLearningTab extends BaseTab {
 
             // show check : file loaded
             JOptionPane.showMessageDialog(
-                    panel, Translations.get("tabs.card.file_loaded") + chooser.getSelectedFile().getName() +
-                    "\n" + Translations.get("common.path") + selectedPath);
+                    panel, TranslationsOld.get("tabs.card.file_loaded") + chooser.getSelectedFile().getName() +
+                    "\n" + TranslationsOld.get("common.path") + selectedPath);
 
             try {
                 // read content
@@ -501,14 +501,14 @@ public class CardLearningTab extends BaseTab {
                         return;
                     }
                     list[0].name = removeProhibitedChar(list[0].name);
-                    JOptionPane.showMessageDialog(PANEL, Translations.get("tabs.card.list_loaded") + list[0].name +
-                            "\n" + Translations.get("tabs.card.card_number") + list[0].cards.size());
+                    JOptionPane.showMessageDialog(PANEL, TranslationsOld.get("tabs.card.list_loaded") + list[0].name +
+                            "\n" + TranslationsOld.get("tabs.card.card_number") + list[0].cards.size());
                     validateButton.setEnabled(true);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(PANEL, Translations.get("file.error.json.loading"),
-                        Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(PANEL, TranslationsOld.get("file.error.json.loading"),
+                        TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -522,8 +522,8 @@ public class CardLearningTab extends BaseTab {
         validateButton.addActionListener(e -> {
             if (list[0] == null) {
                 JOptionPane.showMessageDialog(PANEL,
-                        Translations.get("tabs.card.empty_list_valid"),
-                        Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                        TranslationsOld.get("tabs.card.empty_list_valid"),
+                        TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 list[0] = null;
                 validateButton.setEnabled(false);
                 removeLoadedCards(loadedListCards[0], panel);
@@ -536,8 +536,8 @@ public class CardLearningTab extends BaseTab {
             // cancel if already existing
             if (Files.exists(outputFile)) {
                 JOptionPane.showMessageDialog(PANEL,
-                        Translations.get("tabs.card.file_exist"),
-                        Translations.get("file.error.exist"),
+                        TranslationsOld.get("tabs.card.file_exist"),
+                        TranslationsOld.get("file.error.exist"),
                         JOptionPane.ERROR_MESSAGE);
                 list[0] = null;
                 validateButton.setEnabled(false);
@@ -550,8 +550,8 @@ public class CardLearningTab extends BaseTab {
                 Gson gson = new Gson();
                 Files.writeString(outputFile, gson.toJson(list[0]));
                 JOptionPane.showMessageDialog(PANEL,
-                        Translations.get("common.file_saved"),
-                        Translations.get("common.success"),
+                        TranslationsOld.get("common.file_saved"),
+                        TranslationsOld.get("common.success"),
                         JOptionPane.INFORMATION_MESSAGE);
                 validateButton.setEnabled(false);
                 list[0] = null;
@@ -563,8 +563,8 @@ public class CardLearningTab extends BaseTab {
             } catch (IOException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(PANEL,
-                        Translations.get("file.error.saving") + ex.getMessage(),
-                        Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                        TranslationsOld.get("file.error.saving") + ex.getMessage(),
+                        TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -632,8 +632,8 @@ public class CardLearningTab extends BaseTab {
     }
 
     private void showCardError() {
-        JOptionPane.showMessageDialog(PANEL, Translations.get("file.json.error.invalid"),
-                Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(PANEL, TranslationsOld.get("file.json.error.invalid"),
+                TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
     }
 
     private void checkAndCreateDir() {
@@ -652,13 +652,13 @@ public class CardLearningTab extends BaseTab {
 
         // up - name + button
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        JButton addCardButton = new JButton(Translations.get("tabs.card.add_card"));
-        JButton saveButton = new JButton(Translations.get("common.validate"));
-        JButton cancelButton = new JButton(Translations.get("common.cancel"));
-        JButton modifyButton = new JButton(Translations.get("common.modify"));
+        JButton addCardButton = new JButton(TranslationsOld.get("tabs.card.add_card"));
+        JButton saveButton = new JButton(TranslationsOld.get("common.validate"));
+        JButton cancelButton = new JButton(TranslationsOld.get("common.cancel"));
+        JButton modifyButton = new JButton(TranslationsOld.get("common.modify"));
         saveButton.setEnabled(false);
 
-        topPanel.add(new JLabel(Translations.get("tabs.card.list_name")));
+        topPanel.add(new JLabel(TranslationsOld.get("tabs.card.list_name")));
         topPanel.add(nameField);
         topPanel.add(addCardButton);
         topPanel.add(saveButton);
@@ -681,7 +681,7 @@ public class CardLearningTab extends BaseTab {
         refreshCards[0] = () -> {
             cardsPanel.removeAll();
 
-            if (tempCards.isEmpty()) cardsPanel.add(new JLabel(Translations.get("tabs.card.no_card"), SwingConstants.CENTER));
+            if (tempCards.isEmpty()) cardsPanel.add(new JLabel(TranslationsOld.get("tabs.card.no_card"), SwingConstants.CENTER));
             else for (Card card : tempCards) {
                 JPanel row = new JPanel(new GridLayout(1, 2, 5, 5));
                 row.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true));
@@ -721,8 +721,8 @@ public class CardLearningTab extends BaseTab {
         modifyButton.addActionListener(e -> {
             if (!tempCards.isEmpty()) {
                 int reset = JOptionPane.showConfirmDialog(
-                        panel, Translations.get("tabs.card.override_creating"),
-                                Translations.get("common.override_check"),
+                        panel, TranslationsOld.get("tabs.card.override_creating"),
+                                TranslationsOld.get("common.override_check"),
                                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
                 );
                 if (reset != JOptionPane.YES_OPTION) return;
@@ -733,21 +733,21 @@ public class CardLearningTab extends BaseTab {
 
             // defs
             JPanel comboPanel = new JPanel(new BorderLayout(50, 400));
-            JLabel label = new JLabel(Translations.get("tabs.card.choose_list"));
+            JLabel label = new JLabel(TranslationsOld.get("tabs.card.choose_list"));
             comboPanel.add(label, BorderLayout.WEST);
             comboPanel.add(modifyComboBox, BorderLayout.EAST);
 
             JOptionPane.showMessageDialog(
                     panel, comboPanel,
-                    Translations.get("tabs.card.choose_list"),
+                    TranslationsOld.get("tabs.card.choose_list"),
                     JOptionPane.QUESTION_MESSAGE
             );
 
             String selected = (String) modifyComboBox.getSelectedItem();
-            if (selected == null || selected.equals(Translations.get("tabs.card.select_list"))) {
+            if (selected == null || selected.equals(TranslationsOld.get("tabs.card.select_list"))) {
                 JOptionPane.showMessageDialog(
-                        panel, Translations.get("tabs.card.no_selected"),
-                        Translations.get("common.error"),
+                        panel, TranslationsOld.get("tabs.card.no_selected"),
+                        TranslationsOld.get("common.error"),
                         JOptionPane.ERROR_MESSAGE
                 );
                 return;
@@ -755,7 +755,7 @@ public class CardLearningTab extends BaseTab {
 
             Path filePath = cardsDir.resolve(selected + ".json");
             if (!Files.exists(filePath)) {
-                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.file_not_found") + selected, Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.file_not_found") + selected, TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -765,21 +765,21 @@ public class CardLearningTab extends BaseTab {
 
                 for (Card c : cardList.cards) {
                     if (c == null || c.main == null || c.secondary == null) {
-                        JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.invalid_list"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.invalid_list"), TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     tempCards.add(c);
                 }
 
                 if (tempCards.isEmpty() || cardList.name == null) {
-                    JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.invalid_list"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.invalid_list"), TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 nameField.setText(cardList.name.replaceAll("\"", ""));
             } catch (IOException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.read_error") + ex.getMessage(), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.read_error") + ex.getMessage(), TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -793,13 +793,13 @@ public class CardLearningTab extends BaseTab {
             JTextField secondaryField = new JTextField();
 
             JPanel inputPanel = new JPanel(new GridLayout(2, 2, 5, 5));
-            inputPanel.add(new JLabel(Translations.get("tabs.card.face.front")));
+            inputPanel.add(new JLabel(TranslationsOld.get("tabs.card.face.front")));
             inputPanel.add(mainField);
-            inputPanel.add(new JLabel(Translations.get("tabs.card.face.back")));
+            inputPanel.add(new JLabel(TranslationsOld.get("tabs.card.face.back")));
             inputPanel.add(secondaryField);
 
             int result = JOptionPane.showConfirmDialog(
-                    panel, inputPanel, Translations.get("tabs.card.new"),
+                    panel, inputPanel, TranslationsOld.get("tabs.card.new"),
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
             );
 
@@ -808,7 +808,7 @@ public class CardLearningTab extends BaseTab {
                 String secondary = removeProhibitedChar(secondaryField.getText());
 
                 if (main.isEmpty() || secondary.isEmpty()) {
-                    JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.new.empty"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.new.empty"), TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -825,20 +825,20 @@ public class CardLearningTab extends BaseTab {
         saveButton.addActionListener(e -> {
             String listName = getCheckedListName(nameField.getText());
             if (listName == null) {
-                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.invalid_list_name"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.invalid_list_name"), TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             if (tempCards.isEmpty()) {
-                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.saving_no_cards"), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.saving_no_cards"), TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             Path outputFile = cardsDir.resolve(listName.replaceAll(" ", "_") + ".json");
             if (Files.exists(outputFile)) {
                 int overwrite = JOptionPane.showConfirmDialog(panel,
-                        Translations.get("tabs.card.replace.content"),
-                        Translations.get("file.error.exist"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                        TranslationsOld.get("tabs.card.replace.content"),
+                        TranslationsOld.get("file.error.exist"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (overwrite != JOptionPane.YES_OPTION) return;
             }
 
@@ -849,14 +849,14 @@ public class CardLearningTab extends BaseTab {
             try {
                 Gson gson = new Gson();
                 Files.writeString(outputFile, gson.toJson(list));
-                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.list_saved"), Translations.get("common.success"), JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.list_saved"), TranslationsOld.get("common.success"), JOptionPane.INFORMATION_MESSAGE);
                 tempCards.clear();
                 nameField.setText("");
                 refreshCards[0].run();
                 loadListPanel(); // refresh global list
             } catch (IOException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(panel, Translations.get("tabs.card.error_saving") + ex.getMessage(), Translations.get("common.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.error_saving") + ex.getMessage(), TranslationsOld.get("common.error"), JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -865,8 +865,8 @@ public class CardLearningTab extends BaseTab {
             if (tempCards.isEmpty() && nameField.getText().isEmpty()) return;
 
             int confirm = JOptionPane.showConfirmDialog(panel,
-                    Translations.get("tabs.card.cancel_all"),
-                    Translations.get("common.confirm"),
+                    TranslationsOld.get("tabs.card.cancel_all"),
+                    TranslationsOld.get("common.confirm"),
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE);
 
@@ -898,6 +898,6 @@ public class CardLearningTab extends BaseTab {
 
     @Override
     protected String getTitle() {
-        return Translations.get("tabs.card.name");
+        return TranslationsOld.get("tabs.card.name");
     }
 }

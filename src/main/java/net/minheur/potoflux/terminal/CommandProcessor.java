@@ -3,7 +3,7 @@ package net.minheur.potoflux.terminal;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
-import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.translations.TranslationsOld;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class CommandProcessor {
     public static void processCommand(String pCommand) {
         // check command is empty
         if (pCommand == null || pCommand.trim().isEmpty()) {
-            appendOutput(Translations.get("commandPro.empty"));
+            appendOutput(TranslationsOld.get("commandPro.empty"));
             return;
         }
 
@@ -33,7 +33,7 @@ public class CommandProcessor {
 
         // check if command exist
         if (!CommandRegistry.containsKey(cmdKey)) {
-            appendOutput(Translations.get("commandPro.none"));
+            appendOutput(TranslationsOld.get("commandPro.none"));
             return;
         }
 

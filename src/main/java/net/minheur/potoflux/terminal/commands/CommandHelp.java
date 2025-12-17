@@ -1,48 +1,48 @@
 package net.minheur.potoflux.terminal.commands;
 
 
-import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.translations.TranslationsOld;
 
 public class CommandHelp {
     private static final String tab = "    ";
     private static final String tabLine = "\n" + tab;
 
     static String helloWorld() {
-        return Translations.get("command.hello_world") + tabLine +
-                Translations.get("command.hello_world.use");
+        return TranslationsOld.get("command.hello_world") + tabLine +
+                TranslationsOld.get("command.hello_world.use");
     }
     static String clear() {
-        return Translations.get("command.clear") + tabLine +
-                Translations.get("command.clear.use");
+        return TranslationsOld.get("command.clear") + tabLine +
+                TranslationsOld.get("command.clear.use");
     }
     static String time() {
-        return Translations.get("command.time") + tabLine +
-                Translations.get("command.time.use");
+        return TranslationsOld.get("command.time") + tabLine +
+                TranslationsOld.get("command.time.use");
     }
     static String help() {
-        return Translations.get("command.help") + tabLine +
-                Translations.get("command.help.use") + tabLine +
-                Translations.get("command.help.use.command");
+        return TranslationsOld.get("command.help") + tabLine +
+                TranslationsOld.get("command.help.use") + tabLine +
+                TranslationsOld.get("command.help.use.command");
     }
     static String echo() {
-        return Translations.get("command.echo") + tabLine +
-                Translations.get("command.echo.use");
+        return TranslationsOld.get("command.echo") + tabLine +
+                TranslationsOld.get("command.echo.use");
     }
     static String tab() {
-        return Translations.get("command.tab") + tabLine +
-                Translations.get("command.tab.use");
+        return TranslationsOld.get("command.tab") + tabLine +
+                TranslationsOld.get("command.tab.use");
     }
     static String source() {
-        return Translations.get("command.source") + tabLine +
-                Translations.get("command.source.use");
+        return TranslationsOld.get("command.source") + tabLine +
+                TranslationsOld.get("command.source.use");
     }
     static String ascii() {
-        return Translations.get("command.ascii") + tabLine +
-                Translations.get("command.ascii.use") + tabLine +
-                Translations.get("command.ascii.use.choose");
+        return TranslationsOld.get("command.ascii") + tabLine +
+                TranslationsOld.get("command.ascii.use") + tabLine +
+                TranslationsOld.get("command.ascii.use.choose");
     }
     static String quit() {
-        return Translations.get("command.quit") + tabLine +
-                Translations.get("command.quit.use");
+        return TranslationsOld.get("command.quit") + tabLine +
+                TranslationsOld.get("command.quit.use");
     }
 }
