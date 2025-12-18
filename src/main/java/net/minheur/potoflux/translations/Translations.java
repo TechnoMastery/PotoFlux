@@ -4,10 +4,52 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Translations {
+    private static Lang loadedLang = Lang.EN;
     private static final Map<Lang, Map<String, String>> allTranslations = new HashMap<>();
+    static {
+        for (Lang lang : Lang.values()) allTranslations.put(lang, new HashMap<>());
+    }
 
+    // registry
     public static void registerTranslations(AbstractTranslationsRegistry registry) {
+        registry.register();
+        Map<Lang, Map<String, String>> registryTranslations = registry.getTranslations();
 
+        for (Map.Entry<Lang, Map<String, String>> entry : registryTranslations.entrySet()) {
+
+            Map<String, String> langTranslations = allTranslations.get(entry.getKey());
+            if (langTranslations == null) throw new IllegalStateException("Translations missing lang !");
+
+            langTranslations.putAll(entry.getValue());
+        }
+    }
+
+    // loading
+    /**
+     * Allow to change loaded lang
+     * @param lang the lang you want to load
+     * @return if the loaded lang has changed
+     */
+    public static boolean load(Lang lang) {
+        if (loadedLang == lang) {
+            System.err.println("[WARNING][translations]: loaded lang already loaded: " + lang.code);
+            return false;
+        }
+        loadedLang = lang;
+        System.out.println("[INFO][translations]: loaded lang: " + lang.code);
+        return true;
+    }
+
+    // getter
+    public static String get(String key) {
+        Map<String, String> tr = allTranslations.get(loadedLang);
+        if (tr == null) throw new IllegalStateException("Translations missing lang !");
+        String t = tr.get(key);
+        if (t == null) {
+            System.err.println("[ERROR][translations]: no translations set for queried '" + key + "'");
+            return key;
+        }
+        return t;
     }
 
 }

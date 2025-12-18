@@ -9,8 +9,7 @@ import java.io.InputStream;
 
 /**
  * Send your main class to search for your langs.<br>
- * {@code registerMod(YourModMainClass.class)}<br>
- * Place your json files in {@code resources/lang/langcode.json}
+ * {@code registerMod(YourModMainClass.class)}
  */
 public class RegisterLangEvent {
     public void registerSupportedLang(Class<?> modClass) {

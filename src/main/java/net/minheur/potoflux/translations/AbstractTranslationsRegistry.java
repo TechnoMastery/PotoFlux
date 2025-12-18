@@ -11,11 +11,14 @@ public abstract class AbstractTranslationsRegistry {
         this.modId = modId;
     }
 
-    public void saveAll() {
+    public void register() {
         modTranslations.clear();
         for (Lang lang : Lang.values()) modTranslations.put(lang, new HashMap<>());
 
         makeTranslation();
+    }
+    public Map<Lang, Map<String, String>> getTranslations() {
+        return modTranslations;
     }
 
     protected abstract void makeTranslation();
