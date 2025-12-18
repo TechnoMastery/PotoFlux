@@ -1,7 +1,6 @@
 package net.minheur.potoflux.screen.tabs;
 
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
-import net.minheur.potoflux.loader.mod.events.SubscribeEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.tabs.all.*;
 import net.minheur.potoflux.translations.TranslationsOld;
@@ -17,7 +16,6 @@ public class Tabs {
     public static final Tab CARD_LEARN = LIST.add(new Tab(fromModId("card_learn"), TranslationsOld.get("tabs.card.name"), CardLearningTab.class));
     public static final Tab SETTINGS = LIST.add(new Tab(fromModId("settings"), TranslationsOld.get("tabs.settings.title"), SettingsTab.class));
 
-    @SubscribeEvent
     public static void register(RegisterTabsEvent event) {
         LIST.register(event.reg);
     }

@@ -1,7 +1,6 @@
 package net.minheur.potoflux.terminal.commands;
 
 import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
-import net.minheur.potoflux.loader.mod.events.SubscribeEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.terminal.Command;
 
@@ -20,7 +19,6 @@ public class Commands {
     public static final Command ASCII = LIST.add(new Command(fromModId("ascii"), "ascii", CommandActions::writeAscii, CommandHelp.ascii()));
     public static final Command QUIT = LIST.add(new Command(fromModId("quit"), "quit", CommandActions::quit, CommandHelp.quit()));
 
-    @SubscribeEvent
     public static void register(RegisterCommandsEvent event) {
         LIST.register(event.reg);
     }

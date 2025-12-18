@@ -1,6 +1,6 @@
 package net.minheur.potoflux.loader.mod;
 
-import net.minheur.potoflux.loader.mod.events.SubscribeEvent;
+import net.minheur.potoflux.utils.EventListener;
 import net.minheur.potoflux.utils.LambdaUtils;
 
 import java.lang.reflect.*;
@@ -57,47 +57,31 @@ public class ModEventBus {
 
     // 2) Méthode automatique : on passe une method reference (this::onSomething)
     //    On extrait la méthode réelle et enregistre l'instance + Method
-    public void addListener(Object methodRefOrLambda) {
-        if (methodRefOrLambda == null) throw new IllegalArgumentException("listener null");
+    /**
+     * Only method references are supported (no lambda expressions).<br>
+     * The listener method must take exactly one parameter.<br>
+     * No inline listeners, as {@code e -> handle(e)} or {@code e -> System.out.println()}
+     */
+    public <E> void addListener(EventListener<E> consumer) {
+        if (consumer == null)
+            throw new IllegalArgumentException("listener null");
 
-        Method implMethod = LambdaUtils.getImplMethod(methodRefOrLambda);
-        if (implMethod == null) {
-            throw new IllegalArgumentException("Impossible d'extraire la méthode cible du listener");
-        }
+        // Class<?> lambdaClass = consumer.getClass();
+        // if (lambdaClass.isSynthetic())
+        //     throw new IllegalArgumentException("Lamba expressions are not supported. Use a method reference (this::onEvent).");
+
+        Method m = LambdaUtils.getImplMethod(consumer);
+        if (m == null)
+            throw new IllegalArgumentException("Can't extract target method from listener");
 
         // la méthode doit accepter exactement 1 param
-        if (implMethod.getParameterCount() != 1) {
+        if (m.getParameterCount() != 1)
             throw new IllegalArgumentException("Listener method must take exactly 1 parameter");
-        }
 
-        Class<?> eventType = implMethod.getParameterTypes()[0];
+        @SuppressWarnings("unchecked")
+        Class<E> eventClass = (Class<E>) m.getParameterTypes()[0];
 
-        // trouver l'instance « target » : pour les method references non statiques,
-        // on peut tenter d'extraire l'instance via reflection sur la lambda (implMethodRef is trickier).
-        // Ici on suppose que la methodRef est une method reference à une méthode d'instance,
-        // donc la classe du lambda contient un champ capturé (synthetic) qui référence 'this'.
-        Object targetInstance = LambdaUtils.getCapturingInstance(methodRefOrLambda);
-
-        List<Listener> list = listeners.computeIfAbsent(eventType, k -> new ArrayList<>());
-        list.add(new Listener(targetInstance, implMethod));
-    }
-
-    // for subscribed events
-    public void registerClass(Class<?> clazz) {
-        for (Method m : clazz.getDeclaredMethods()) {
-            if (!m.isAnnotationPresent(SubscribeEvent.class)) continue;
-
-            if (!Modifier.isStatic(m.getModifiers()))
-                throw new IllegalArgumentException("@SubscribeEvent method must be static");
-
-            if (m.getParameterCount() != 1)
-                throw new IllegalArgumentException("@SubscribeEvent method must take exactly 1 parameter");
-
-            Class<?> eventType = m.getParameterTypes()[0];
-            m.setAccessible(true);
-
-            listeners.computeIfAbsent(eventType, k -> new ArrayList<>()).add(new Listener(null, m));
-        }
+        addListener(eventClass, consumer);
     }
 
     // post : appelle les listeners enregistrés pour la classe exacte

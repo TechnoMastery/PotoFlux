@@ -38,9 +38,9 @@ public class PotoFlux {
         // load all addons
         new AddonLoader().loadAddons();
 
-        // load all intern classes
-        bus.registerClass(Tabs.class);
-        bus.registerClass(Commands.class);
+        // load all intern data
+        bus.addListener(Tabs::register);
+        bus.addListener(Commands::register);
 
         // post all registrations
         bus.post(new RegisterTabsEvent());

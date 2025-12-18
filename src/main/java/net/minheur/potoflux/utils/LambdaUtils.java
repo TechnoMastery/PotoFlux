@@ -1,5 +1,6 @@
 package net.minheur.potoflux.utils;
 
+import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
 import java.lang.reflect.*;
@@ -12,40 +13,67 @@ public final class LambdaUtils {
      * Récupère la Method réelle implémentée par la method reference / lambda.
      * Retourne la Method déclarée dans la classe impl (où la méthode existe).
      */
-    public static Method getImplMethod(Object lambda) {
+    public static Method getImplMethod(Serializable lambda) {
         try {
             // writeReplace existe sur les lambdas et retourne un SerializedLambda
             Method writeReplace = lambda.getClass().getDeclaredMethod("writeReplace");
             writeReplace.setAccessible(true);
-            Object replaced = writeReplace.invoke(lambda);
-            if (!(replaced instanceof SerializedLambda)) return null;
 
-            SerializedLambda s = (SerializedLambda) replaced;
-            String implClassName = s.getImplClass().replace('/', '.');
-            String implMethodName = s.getImplMethodName();
+            Object replaced = writeReplace.invoke(lambda);
+            if (!(replaced instanceof SerializedLambda sl))
+                return null;
+
+            String implClassName = sl.getImplClass().replace('/', '.');
+            String implMethodName = sl.getImplMethodName();
+            String implSignature = sl.getImplMethodSignature();
 
             Class<?> implClass = Class.forName(implClassName);
 
-            // trouver la méthode avec le bon nom et signature (on utilise param count 1)
-            for (Method m : implClass.getDeclaredMethods()) {
-                if (m.getName().equals(implMethodName) && m.getParameterCount() == 1) {
+            for (Method m : implClass.getDeclaredMethods())
+                if (m.getName().equals(implMethodName) && getJvmSignature(m).equals(implSignature)) {
                     m.setAccessible(true);
                     return m;
                 }
-            }
 
-            // si pas trouvée dans declaredMethods, tenter getMethods()
-            for (Method m : implClass.getMethods()) {
-                if (m.getName().equals(implMethodName) && m.getParameterCount() == 1) {
+            for (Method m : implClass.getMethods())
+                if (m.getName().equals(implMethodName) && getJvmSignature(m).equals(implSignature)) {
                     m.setAccessible(true);
                     return m;
                 }
-            }
+
+            return null;
 
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
+    }
+
+    private static String getJvmSignature(Method m) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('(');
+        for (Class<?> p : m.getParameterTypes())
+            sb.append(getJvmType(p));
+        sb.append(')');
+        sb.append(getJvmType(m.getReturnType()));
+        return sb.toString();
+    }
+
+    private static String getJvmType(Class<?> c) {
+        if (c.isPrimitive()) {
+            if (c == void.class) return "V";
+            if (c == int.class) return "I";
+            if (c == boolean.class) return "Z";
+            if (c == byte.class) return "B";
+            if (c == char.class) return "C";
+            if (c == short.class) return "S";
+            if (c == long.class) return "J";
+            if (c == float.class) return "F";
+            if (c == double.class) return "D";
+        }
+        if (c.isArray())
+            return c.getName().replace('.', '/');
+        return "L" + c.getName().replace('.', '/') + ";";
     }
 
     /**
