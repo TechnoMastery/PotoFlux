@@ -5,7 +5,7 @@ import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
 import java.lang.reflect.*;
 
-public final class LambdaUtils {
+public class LambdaUtils {
 
     private LambdaUtils() {}
 
