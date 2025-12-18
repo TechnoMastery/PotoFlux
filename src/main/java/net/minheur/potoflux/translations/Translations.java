@@ -1,5 +1,7 @@
 package net.minheur.potoflux.translations;
 
+import net.minheur.potoflux.utils.PtfLogger;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,11 +34,11 @@ public class Translations {
      */
     public static boolean load(Lang lang) {
         if (loadedLang == lang) {
-            System.err.println("[WARNING][translations]: loaded lang already loaded: " + lang.code);
+            PtfLogger.warning("loaded lang is already loaded: " + lang.code, "translations");
             return false;
         }
         loadedLang = lang;
-        System.out.println("[INFO][translations]: loaded lang: " + lang.code);
+        PtfLogger.info("loaded lang: " + lang.code, "translations");
         return true;
     }
 
@@ -46,7 +48,7 @@ public class Translations {
         if (tr == null) throw new IllegalStateException("Translations missing lang !");
         String t = tr.get(key);
         if (t == null) {
-            System.err.println("[ERROR][translations]: no translations set for queried '" + key + "'");
+            PtfLogger.error("no translations set for queried '" + key + "'", "translations");
             return key;
         }
         return t;
