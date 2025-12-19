@@ -849,7 +849,7 @@ public class CardLearningTab extends BaseTab {
             try {
                 Gson gson = new Gson();
                 Files.writeString(outputFile, gson.toJson(list));
-                JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.list_saved"), TranslationsOld.get("common.success"), JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(panel, TranslationsOld.get("tabs.card.list_saved"), TranslationsOld.get("common.saveSuccess"), JOptionPane.INFORMATION_MESSAGE);
                 tempCards.clear();
                 nameField.setText("");
                 refreshCards[0].run();

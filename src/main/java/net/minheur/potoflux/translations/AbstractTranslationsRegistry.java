@@ -11,7 +11,7 @@ public abstract class AbstractTranslationsRegistry {
         this.modId = modId;
     }
 
-    public void register() {
+    public void registerTranslations() {
         modTranslations.clear();
         for (Lang lang : Lang.values()) modTranslations.put(lang, new HashMap<>());
 
@@ -37,6 +37,9 @@ public abstract class AbstractTranslationsRegistry {
 
     protected TranslationBuilder addTab(String id, String... children) {
         return add("tab." + id, children);
+    }
+    protected TranslationBuilder addCommandUse(String id, String... children) {
+        return add("command." + id + "use", children);
     }
     protected TranslationBuilder addCommand(String id, String... children) {
         return add("command." + id, children);

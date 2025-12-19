@@ -12,12 +12,6 @@ import java.io.InputStream;
  * {@code registerMod(YourModMainClass.class)}
  */
 public class RegisterLangEvent {
-    public void registerSupportedLang(Class<?> modClass) {
-        for (Lang lang : Lang.values()) {
-            InputStream in = modClass.getResourceAsStream("/lang/" + lang.code + ".json");
-            if (in != null) TranslationsOld.registerByStream(lang, in);
-        }
-    }
     public void registerLang(AbstractTranslationsRegistry registry) {
         Translations.registerTranslations(registry);
     }

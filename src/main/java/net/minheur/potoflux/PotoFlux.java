@@ -12,6 +12,9 @@ import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.Lang;
+import net.minheur.potoflux.translations.register.CommonTranslations;
+import net.minheur.potoflux.translations.register.FileTranslations;
+import net.minheur.potoflux.translations.register.PotoFluxTranslations;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 import net.minheur.potoflux.translations.TranslationsOld;
 import net.minheur.potoflux.utils.UserPrefsManager;
@@ -41,6 +44,7 @@ public class PotoFlux {
         // load all intern data
         bus.addListener(Tabs::register);
         bus.addListener(Commands::register);
+        bus.addListener(PotoFlux::onRegisterLang);
 
         // post all registrations
         bus.post(new RegisterTabsEvent());
@@ -53,6 +57,12 @@ public class PotoFlux {
 
             ((TerminalTab) app.getTabMap().get(Tabs.TERMINAL)).getTerminal().fillOutputTextArea();
         });
+    }
+
+    private static void onRegisterLang(RegisterLangEvent event) {
+        event.registerLang(new PotoFluxTranslations());
+        event.registerLang(new CommonTranslations());
+        event.registerLang(new FileTranslations());
     }
 
     public static Path getProgramDir() {

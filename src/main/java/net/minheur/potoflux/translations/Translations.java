@@ -15,7 +15,7 @@ public class Translations {
 
     // registry
     public static void registerTranslations(AbstractTranslationsRegistry registry) {
-        registry.register();
+        registry.registerTranslations();
         Map<Lang, Map<String, String>> registryTranslations = registry.getTranslations();
 
         for (Map.Entry<Lang, Map<String, String>> entry : registryTranslations.entrySet()) {
@@ -49,7 +49,7 @@ public class Translations {
         if (tr == null) throw new IllegalStateException("Translations missing lang !");
         String t = tr.get(key);
         if (t == null) {
-            PtfLogger.error("no translations set for queried '" + key + "'", LogCategories.TRANSLATIONS);
+            PtfLogger.error("No translations set for queried '" + key + "'", LogCategories.TRANSLATIONS);
             return key;
         }
         return t;
