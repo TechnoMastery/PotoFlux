@@ -4,6 +4,8 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.translations.TranslationsOld;
+import net.minheur.potoflux.utils.logger.LogCategories;
+import net.minheur.potoflux.utils.logger.PtfLogger;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -70,7 +72,7 @@ public class CommandProcessor {
 
             Files.writeString(file, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
-            System.out.println("Terminal saved !");
+            PtfLogger.info("Terminal saved !", LogCategories.TERMINAL);
         } catch (IOException e) {
             e.printStackTrace();
         }

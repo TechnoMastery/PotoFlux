@@ -3,6 +3,8 @@ package net.minheur.potoflux.loader.mod;
 import java.util.Set;
 
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.utils.logger.LogCategories;
+import net.minheur.potoflux.utils.logger.PtfLogger;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -22,12 +24,14 @@ public class AddonLoader {
             try {
                 Mod modAnnotation = clazz.getAnnotation(Mod.class);
                 if (modAnnotation == null) {
-                    System.err.println("Class " + clazz.getName() + " passed the check but is missing @Mod annotation !"); // should never append : we have here all classes annotated, got from reflection
+                    PtfLogger.warning("Class " + clazz.getName() + " passed the check but is missing @Mod annotation ! Skipping...",
+                            LogCategories.MOD_LOADER); // should never append : we have here all classes annotated, got from reflection
                     continue;
                 }
 
                 if (PotoFluxLoadingContext.isModLoaded(modAnnotation)) {
-                    System.err.println("Mod with modId '" + modAnnotation.modId() + "' is already loaded ! Skipping " + clazz.getName());
+                    PtfLogger.warning("Mod with modId '" + modAnnotation.modId() + "' is already loaded ! Skipping " + clazz.getName(),
+                            LogCategories.MOD_LOADER);
                     continue;
                 }
 
@@ -35,12 +39,12 @@ public class AddonLoader {
                 Object instance = clazz.getDeclaredConstructor().newInstance();
                 // add it to the registry
                 if (!PotoFluxLoadingContext.addMod(modAnnotation, clazz)) {
-                    System.err.println("Failed to load mod : " + clazz.getName() + " ! Skipping...");
+                    PtfLogger.error("Failed to load mod : " + clazz.getName() + " ! Skipping...", LogCategories.MOD_LOADER);
                     continue;
                 }
 
                 // laisse le constructeur faire son job : il peut accéder au bus via PotoFluxLoadingContext.get().getModEventBus()
-                System.out.println("Loaded addon: " + clazz.getName() + ", modId '" + modAnnotation.modId() + "'");
+                PtfLogger.info("Loaded addon: " + clazz.getName() + ", modId '" + modAnnotation.modId() + "'", LogCategories.MOD_LOADER);
             } catch (Exception e) {
                 e.printStackTrace();
             }
