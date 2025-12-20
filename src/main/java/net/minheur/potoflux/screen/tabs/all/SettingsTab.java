@@ -16,7 +16,7 @@ public class SettingsTab extends BaseTab {
     }
 
     private void addAsciiButton() {
-        JButton asciiButton = new JButton(TranslationsOld.get("tabs.settings.asciiButton"));
+        JButton asciiButton = new JButton(TranslationsOld.get("potoflux:prefs.ascii.button"));
         asciiButton.addActionListener(e -> {
             UserPrefsManager.resetTerminalAscii();
         });
@@ -27,7 +27,7 @@ public class SettingsTab extends BaseTab {
     }
 
     private void addLangButton() {
-        JButton langButton = new JButton(TranslationsOld.get("tabs.settings.langButton"));
+        JButton langButton = new JButton(TranslationsOld.get("potoflux:prefs.lang.button"));
         langButton.addActionListener(e -> {
             UserPrefsManager.resetUserLang();
         });
@@ -39,6 +39,6 @@ public class SettingsTab extends BaseTab {
 
     @Override
     protected String getTitle() {
-        return TranslationsOld.get("tabs.settings.title");
+        return TranslationsOld.get("potoflux:tabs.settings.title");
     }
 }

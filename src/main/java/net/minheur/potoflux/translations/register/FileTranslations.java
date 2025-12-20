@@ -11,8 +11,19 @@ public class FileTranslations extends AbstractTranslationsRegistry {
     protected void makeTranslation() {
         error("exist")
                 .en("File already existing.");
+        error("exist", "desc")
+                .en("A file with the same name already exists.");
         error("saving")
                 .en("Error while saving file: ");
+        error("not_found")
+                .en("File not found");
+        error("not_found", "linked")
+                .en("File not found: ");
+
+        add("loaded")
+                .en("File loaded: ");
+        add("saved")
+                .en("File saved");
 
         json()
                 .en("JSON files (*.json)");

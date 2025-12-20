@@ -15,6 +15,14 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
                 .en("Cancel");
         add("cards")
                 .en("Cards");
+        add("create")
+                .en("Create");
+        add("list")
+                .en("List");
+        add("load")
+                .en("Load");
+        add("main")
+                .en("Main");
         add("close")
                 .en("Close");
         add("confirm")
@@ -23,10 +31,6 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
                 .en("Error");
         add("export")
                 .en("Export");
-        add("fileNotFound")
-                .en("File not found");
-        add("file_saved")
-                .en("File saved.");
         add("finish")
                 .en("Finished");
         add("flip")
@@ -45,5 +49,15 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
                 .en("Save successful");
         add("validate")
                 .en("Validate");
+        add("add_cancel")
+                .en("Adding has been canceled");
+        add("delete", "success")
+                .en("Delection successful");
+        add("read_error")
+                .en("Error while reading: ");
+        add("nothing_save")
+                .en("There is nothing to save.");
+        add("select_list")
+                .en("<Select List>");
     }
 }
