@@ -15,6 +15,12 @@ public class PotoFluxLoadingContext {
     private static final PotoFluxLoadingContext INSTANCE = new PotoFluxLoadingContext();
     private final ModEventBus modEventBus = new ModEventBus();
     private static final Map<String, Class<?>> loadedMods = new HashMap<>();
+    private static final List<String> illegalModIds = new ArrayList<>();
+    static {
+        illegalModIds.add(PotoFlux.ID);
+        illegalModIds.add("file");
+        illegalModIds.add("common");
+    }
 
     private PotoFluxLoadingContext() {}
 
@@ -59,7 +65,8 @@ public class PotoFluxLoadingContext {
     }
 
     public static boolean isModLoaded(Mod mod) {
-        return loadedMods.containsKey(mod.modId()) || mod.modId().equals(PotoFlux.ID);
+        if (illegalModIds.contains(mod.modId())) return true;
+        return loadedMods.containsKey(mod.modId());
     }
     public static boolean isModLoaded(String modId) {
         if (modId.equals(PotoFlux.ID)) return true;

@@ -30,7 +30,7 @@ public class AddonLoader {
                 }
 
                 if (PotoFluxLoadingContext.isModLoaded(modAnnotation)) {
-                    PtfLogger.warning("Mod with modId '" + modAnnotation.modId() + "' is already loaded ! Skipping " + clazz.getName(),
+                    PtfLogger.warning("Mod with modId '" + modAnnotation.modId() + "' is already loaded, or it's modId is illegal ! Skipping " + clazz.getName(),
                             LogCategories.MOD_LOADER);
                     continue;
                 }
