@@ -1,11 +1,7 @@
 package net.minheur.potoflux.loader.mod.events;
 
 import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
-import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
-import net.minheur.potoflux.translations.TranslationsOld;
-
-import java.io.InputStream;
 
 /**
  * Send your main class to search for your langs.<br>

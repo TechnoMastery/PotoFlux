@@ -43,6 +43,13 @@ public class Translations {
         return true;
     }
 
+    public static boolean load(String langCode) {
+        for (Lang l : Lang.values()) {
+            if (l.code.equals(langCode)) return load(l);
+        }
+        throw new IllegalArgumentException("Trying to load unsupported lang !");
+    }
+
     // getter
     public static String get(String key) {
         Map<String, String> tr = allTranslations.get(loadedLang);

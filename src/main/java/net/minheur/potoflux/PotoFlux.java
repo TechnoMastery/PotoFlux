@@ -12,11 +12,11 @@ import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.Lang;
+import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.translations.register.CommonTranslations;
 import net.minheur.potoflux.translations.register.FileTranslations;
 import net.minheur.potoflux.translations.register.PotoFluxTranslations;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
-import net.minheur.potoflux.translations.TranslationsOld;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
 import javax.swing.*;
@@ -31,9 +31,7 @@ public class PotoFlux {
     public static PotoScreen app;
     public static void main(String[] args) {
         // load translations
-        TranslationsOld.registerAll();
-        TranslationsOld.load(Lang.EN);
-        TranslationsOld.load(UserPrefsManager.getUserLang());
+        Translations.load(UserPrefsManager.getUserLang());
 
         // def modEventBus
         ModEventBus bus = PotoFluxLoadingContext.get().getModEventBus();
@@ -41,17 +39,17 @@ public class PotoFlux {
         // load all addons
         new AddonLoader().loadAddons();
 
-        // load all intern data
+        // subscribe PotoFlux's data to modEventBus
         bus.addListener(Tabs::register);
         bus.addListener(Commands::register);
         bus.addListener(PotoFlux::onRegisterLang);
 
         // post all registrations
+        bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
         bus.post(new RegisterTabsEvent());
         bus.post(new RegisterCommandsEvent());
-        bus.post(new RegisterLangEvent());
 
-        // invoke app
+        // invoke app (start)
         SwingUtilities.invokeLater(() -> {
             app = new PotoScreen();
 

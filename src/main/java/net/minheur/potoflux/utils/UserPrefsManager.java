@@ -2,6 +2,7 @@ package net.minheur.potoflux.utils;
 
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.terminal.CommandProcessor;
+import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
@@ -12,7 +13,10 @@ public class UserPrefsManager {
     private static final Preferences prefs = Preferences.userNodeForPackage(UserPrefsManager.class);
     // lang
     private static final String KEY_LANG = "user_lang";
-    private static final String[] langOptions = { "en", "fr" };
+    private static final String[] langOptions = new String[Lang.values().length];
+    static {
+        for (int i = 0; i < Lang.values().length; i++) langOptions[i] = Lang.values()[i].code;
+    }
     // ascii
     private static final String KEY_ASCII = "terminal_ascii";
     private static final String[] asciiOptions = { "basic", "big", "chiseled" };
