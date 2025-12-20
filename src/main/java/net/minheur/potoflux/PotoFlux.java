@@ -39,13 +39,14 @@ public class PotoFlux {
         // load all addons
         new AddonLoader().loadAddons();
 
+        bus.addListener(PotoFlux::onRegisterLang);
+        bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
+
         // subscribe PotoFlux's data to modEventBus
         bus.addListener(Tabs::register);
         bus.addListener(Commands::register);
-        bus.addListener(PotoFlux::onRegisterLang);
 
         // post all registrations
-        bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
         bus.post(new RegisterTabsEvent());
         bus.post(new RegisterCommandsEvent());
 
@@ -53,7 +54,7 @@ public class PotoFlux {
         SwingUtilities.invokeLater(() -> {
             app = new PotoScreen();
 
-            ((TerminalTab) app.getTabMap().get(Tabs.TERMINAL)).getTerminal().fillOutputTextArea();
+            ((TerminalTab) app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().fillOutputTextArea();
         });
     }
 

@@ -46,7 +46,7 @@ public class CommandActions {
                 }
             }
         }
-        CommandProcessor.appendOutput(Commands.HELP.getCommandHelp());
+        CommandProcessor.appendOutput(Commands.INSTANCE.HELP.getCommandHelp());
     }
     static void sourceCode(List<String> args) {
         if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.source());

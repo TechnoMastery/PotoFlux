@@ -7,19 +7,28 @@ import net.minheur.potoflux.terminal.Command;
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
 public class Commands {
-    private static final RegistryList<Command> LIST = new RegistryList<>();
+    private final RegistryList<Command> LIST = new RegistryList<>();
+    private static boolean hasGenerated = false;
 
-    public static final Command HELLO_WORLD = LIST.add(new Command(fromModId("hello_workd"), "hello", CommandActions::helloWorld, CommandHelp.help()));
-    public static final Command CLEAR = LIST.add(new Command(fromModId("clear"), "clear", CommandActions::clear, CommandHelp.clear()));
-    public static final Command TIME = LIST.add(new Command(fromModId("time"), "time", CommandActions::time, CommandHelp.time()));
-    public static final Command HELP = LIST.add(new Command(fromModId("help"), "help", CommandActions::help, CommandHelp.help()));
-    public static final Command ECHO = LIST.add(new Command(fromModId("echo"), "echo", CommandActions::echo, CommandHelp.echo()));
-    public static final Command TAB = LIST.add(new Command(fromModId("tab"), "tab", CommandActions::tab, CommandHelp.tab()));
-    public static final Command SOURCE = LIST.add(new Command(fromModId("source"), "source", CommandActions::sourceCode, CommandHelp.source()));
-    public static final Command ASCII = LIST.add(new Command(fromModId("ascii"), "ascii", CommandActions::writeAscii, CommandHelp.ascii()));
-    public static final Command QUIT = LIST.add(new Command(fromModId("quit"), "quit", CommandActions::quit, CommandHelp.quit()));
+    public static Commands INSTANCE;
+
+    public Commands() {
+        if (hasGenerated) throw new IllegalStateException("Can't create the registry 2 times !");
+        hasGenerated = true;
+    }
+
+    public final Command HELLO_WORLD = LIST.add(new Command(fromModId("hello_workd"), "hello", CommandActions::helloWorld, CommandHelp.help()));
+    public final Command CLEAR = LIST.add(new Command(fromModId("clear"), "clear", CommandActions::clear, CommandHelp.clear()));
+    public final Command TIME = LIST.add(new Command(fromModId("time"), "time", CommandActions::time, CommandHelp.time()));
+    public final Command HELP = LIST.add(new Command(fromModId("help"), "help", CommandActions::help, CommandHelp.help()));
+    public final Command ECHO = LIST.add(new Command(fromModId("echo"), "echo", CommandActions::echo, CommandHelp.echo()));
+    public final Command TAB = LIST.add(new Command(fromModId("tab"), "tab", CommandActions::tab, CommandHelp.tab()));
+    public final Command SOURCE = LIST.add(new Command(fromModId("source"), "source", CommandActions::sourceCode, CommandHelp.source()));
+    public final Command ASCII = LIST.add(new Command(fromModId("ascii"), "ascii", CommandActions::writeAscii, CommandHelp.ascii()));
+    public final Command QUIT = LIST.add(new Command(fromModId("quit"), "quit", CommandActions::quit, CommandHelp.quit()));
 
     public static void register(RegisterCommandsEvent event) {
-        LIST.register(event.reg);
+        INSTANCE = new Commands();
+        INSTANCE.LIST.register(event.reg);
     }
 }
