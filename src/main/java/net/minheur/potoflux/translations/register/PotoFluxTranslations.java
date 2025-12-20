@@ -94,7 +94,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Language");
         addPref("lang", "select")
                 .en("Select language");
-        addPref("lang", "Change language");
+        addPref("lang", "button")
+                .en("Change language");
 
         addScreen("tabHereNotHere")
                 .en("ERROR: this tab is detected but unexisting !");

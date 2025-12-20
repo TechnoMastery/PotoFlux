@@ -11,6 +11,12 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
     protected void makeTranslation() {
         add("back")
                 .en("Back");
+        add("add")
+                .en("Add");
+        add("pinned")
+                .en("Pinned");
+        add("rename")
+                .en("Rename");
         add("cancel")
                 .en("Cancel");
         add("cards")
@@ -51,6 +57,8 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
                 .en("Validate");
         add("add_cancel")
                 .en("Adding has been canceled");
+        add("delete")
+                .en("Delete");
         add("delete", "success")
                 .en("Delection successful");
         add("read_error")
