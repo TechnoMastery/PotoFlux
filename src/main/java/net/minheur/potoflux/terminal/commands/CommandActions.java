@@ -8,7 +8,7 @@ import net.minheur.potoflux.terminal.Command;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.CommandRegistry;
 import net.minheur.potoflux.terminal.Terminal;
-import net.minheur.potoflux.translations.TranslationsOld;
+import net.minheur.potoflux.translations.Translations;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -29,7 +29,7 @@ public class CommandActions {
         if (argAmountCheck(0, 1, args)) CommandProcessor.appendOutput(CommandHelp.help());
 
         if (args.isEmpty()) {
-            StringBuilder out = new StringBuilder(TranslationsOld.get("command.help.title"));
+            StringBuilder out = new StringBuilder(Translations.get("potoflux:command.help.title"));
             for (Command command : CommandRegistry.getAll()) {
                 if (!command.isHidden()) {
                     out.append("\n").append("→ ").append(command.getKey()).append(" : ").append(command.getCommandHelp());
@@ -50,12 +50,12 @@ public class CommandActions {
     }
     static void sourceCode(List<String> args) {
         if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.source());
-        CommandProcessor.appendOutput(TranslationsOld.get("command.source.out") + "https://github.com/TechnoMastery/PotoFlux");
+        CommandProcessor.appendOutput(Translations.get("potoflux:command.source.out") + "https://github.com/TechnoMastery/PotoFlux");
     }
 
     static void quit(List<String> args) {
         if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.quit());
-        CommandProcessor.appendOutput(TranslationsOld.get("command.quit.out"));
+        CommandProcessor.appendOutput(Translations.get("potofluxcommand.quit.out"));
         Functions.exit(500, 0);
     }
 
@@ -68,7 +68,7 @@ public class CommandActions {
     static void tab(List<String> args) {
         if (argAmountCheck(1, args)) CommandProcessor.appendOutput(CommandHelp.tab());
         if (args.get(0).equals("Terminal")) {
-            CommandProcessor.appendOutput(TranslationsOld.get("command.tab.opened"));
+            CommandProcessor.appendOutput(Translations.get("potoflux:command.tab.opened"));
         }
         for (Tab tab : TabRegistry.getAll()) {
             if (Objects.equals(tab.name(), args.get(0))) {
@@ -77,7 +77,7 @@ public class CommandActions {
             }
         }
         CommandProcessor.appendOutput(CommandHelp.tab());
-        CommandProcessor.appendOutput(TranslationsOld.get("command.tab.null.start") + args.get(0) + TranslationsOld.get("command.tab.null.end"));
+        CommandProcessor.appendOutput(Translations.get("potoflux:command.tab.null.start") + args.get(0) + Translations.get("potofluxcommand.tab.null.end"));
     }
 
     static void clear(List<String> args) {
@@ -95,18 +95,18 @@ public class CommandActions {
 
         String content = Terminal.getAsciiFileContent(ascii);
         if (content == null)
-            CommandProcessor.appendOutput(TranslationsOld.get("command.ascii.use"));
+            CommandProcessor.appendOutput(Translations.get("potoflux:command.ascii.use"));
         else CommandProcessor.appendOutput(content);
     }
 
     static void hidden(List<String> args) {
         if (checkNoArgs(args)) return;
-        CommandProcessor.appendOutput(TranslationsOld.get("command.hidden.out"));
+        CommandProcessor.appendOutput(Translations.get("potoflux:command.hidden.out"));
     }
 
     static void nope(List<String> args) {
         if (checkNoArgs(args)) return;
-        CommandProcessor.appendOutput(TranslationsOld.get("command.nope.out"));
+        CommandProcessor.appendOutput(Translations.get("potoflux:command.nope.out"));
     }
 
     // helper methods

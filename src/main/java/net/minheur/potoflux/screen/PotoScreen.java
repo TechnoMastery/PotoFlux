@@ -4,7 +4,7 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
-import net.minheur.potoflux.translations.TranslationsOld;
+import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -77,7 +77,7 @@ public class PotoScreen {
 
     public void setOpenedTab(Tab tab) {
         if (!tabMap.containsKey(tab)) {
-            JOptionPane.showMessageDialog(frame, TranslationsOld.get("screen.tabHereNotHere"));
+            JOptionPane.showMessageDialog(frame, Translations.get("potoflux:screen.tabHereNotHere"));
             return;
         }
         tabs.setSelectedComponent(tabMap.get(tab).getPanel());

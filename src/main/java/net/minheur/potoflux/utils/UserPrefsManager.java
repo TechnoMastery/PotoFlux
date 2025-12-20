@@ -2,7 +2,7 @@ package net.minheur.potoflux.utils;
 
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.terminal.CommandProcessor;
-import net.minheur.potoflux.translations.TranslationsOld;
+import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -40,8 +40,8 @@ public class UserPrefsManager {
         if (actualLangId == -1) actualLangId = 0;
         String lang = JOptionPane.showInputDialog(
                 null,
-                TranslationsOld.get("prefs.lang.select"),
-                TranslationsOld.get("prefs.lang"),
+                Translations.get("potoflux:prefs.lang.select"),
+                Translations.get("potoflux:prefs.lang"),
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 langOptions,
@@ -58,8 +58,8 @@ public class UserPrefsManager {
         if (actualAsciiId == -1) actualAsciiId = 0;
         String ascii = JOptionPane.showInputDialog(
                 null,
-                TranslationsOld.get("prefs.ascii.select"),
-                TranslationsOld.get("prefs.ascii"),
+                Translations.get("potoflux:prefs.ascii.select"),
+                Translations.get("potoflux:prefs.ascii"),
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 asciiOptions,
@@ -71,13 +71,13 @@ public class UserPrefsManager {
 
     public static void resetUserLang() {
         prefs.put(KEY_LANG, askUserLang());
-        JOptionPane.showMessageDialog(null, TranslationsOld.get("prefs.reload"));
+        JOptionPane.showMessageDialog(null, Translations.get("potoflux:prefs.reload"));
         PotoFlux.runProgramClosing(0);
     }
 
     public static void resetTerminalAscii() {
         prefs.put(KEY_ASCII, askUserAscii());
-        JOptionPane.showMessageDialog(null, TranslationsOld.get("prefs.reload"));
+        JOptionPane.showMessageDialog(null, Translations.get("potoflux:prefs.reload"));
         CommandProcessor.clearArea();
         PotoFlux.runProgramClosing(0);
     }

@@ -1,7 +1,7 @@
 package net.minheur.potoflux.screen.tabs.all;
 
 import net.minheur.potoflux.screen.tabs.BaseTab;
-import net.minheur.potoflux.translations.TranslationsOld;
+import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ public class SettingsTab extends BaseTab {
     }
 
     private void addAsciiButton() {
-        JButton asciiButton = new JButton(TranslationsOld.get("potoflux:prefs.ascii.button"));
+        JButton asciiButton = new JButton(Translations.get("potoflux:prefs.ascii.button"));
         asciiButton.addActionListener(e -> {
             UserPrefsManager.resetTerminalAscii();
         });
@@ -27,7 +27,7 @@ public class SettingsTab extends BaseTab {
     }
 
     private void addLangButton() {
-        JButton langButton = new JButton(TranslationsOld.get("potoflux:prefs.lang.button"));
+        JButton langButton = new JButton(Translations.get("potoflux:prefs.lang.button"));
         langButton.addActionListener(e -> {
             UserPrefsManager.resetUserLang();
         });
@@ -39,6 +39,6 @@ public class SettingsTab extends BaseTab {
 
     @Override
     protected String getTitle() {
-        return TranslationsOld.get("potoflux:tabs.settings.title");
+        return Translations.get("potoflux:tabs.settings.title");
     }
 }
