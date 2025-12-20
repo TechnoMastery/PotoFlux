@@ -1,7 +1,6 @@
 package net.minheur.potoflux.translations.register;
 
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
 import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
 
 public class PotoFluxTranslations extends AbstractTranslationsRegistry {
@@ -78,9 +77,35 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addCommandUse("time")
                 .en("Usage: time");
 
-        add("commandPro", "empty")
+        addCommandPro("empty")
                 .en("Could not execute empty command !");
-        add("commandPro", "none")
+        addCommandPro("none")
                 .en("Command not recognized ! Try \"help\" !");
+
+        addPref("reload")
+                .en("Please restart PotoFlux to apply.");
+        addPref("ascii")
+                .en("ASCII");
+        addPref("ascii", "select")
+                .en("Select terminal ASCII");
+        addPref("lang")
+                .en("Language");
+        addPref("lang", "select")
+                .en("Select language");
+
+        addScreen("tabHereNotHere")
+                .en("ERROR: this tab is detected but unexisting !");
+
+        addTab("card"); // TODO
+    }
+
+    private TranslationBuilder addCommandPro(String... children) {
+        return add("commandPro", children);
+    }
+    private TranslationBuilder addPref(String... children) {
+        return add("prefs", children);
+    }
+    private TranslationBuilder addScreen(String... children) {
+        return add("screen", children);
     }
 }

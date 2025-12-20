@@ -16,8 +16,12 @@ public class FileTranslations extends AbstractTranslationsRegistry {
 
         json()
                 .en("JSON files (*.json)");
-        // TODO: a partir de ligne 52 dans en.json
-
+        json("error", "invalid")
+                .en("The JSON file is invalid !");
+        json("error", "loading")
+                .en("Error while loading JSON file !");
+        json("import")
+                .en("Import JSON file...");
     }
 
     private TranslationBuilder error(String... children) {

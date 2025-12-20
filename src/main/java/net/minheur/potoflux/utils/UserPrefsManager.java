@@ -40,8 +40,8 @@ public class UserPrefsManager {
         if (actualLangId == -1) actualLangId = 0;
         String lang = JOptionPane.showInputDialog(
                 null,
-                TranslationsOld.get("prefs.langSelect"),
-                TranslationsOld.get("prefs.language"),
+                TranslationsOld.get("prefs.lang.select"),
+                TranslationsOld.get("prefs.lang"),
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 langOptions,
@@ -58,7 +58,7 @@ public class UserPrefsManager {
         if (actualAsciiId == -1) actualAsciiId = 0;
         String ascii = JOptionPane.showInputDialog(
                 null,
-                TranslationsOld.get("prefs.asciiSelect"),
+                TranslationsOld.get("prefs.ascii.select"),
                 TranslationsOld.get("prefs.ascii"),
                 JOptionPane.QUESTION_MESSAGE,
                 null,
