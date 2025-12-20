@@ -49,10 +49,19 @@ public class Translations {
         if (tr == null) throw new IllegalStateException("Translations missing lang !");
         String t = tr.get(key);
         if (t == null) {
+            if (loadedLang != Lang.EN) {
+                Map<String, String> enLang = allTranslations.get(Lang.EN);
+                String enT = enLang.get(key);
+                if (enT != null) {
+                    PtfLogger.warning("No translations set for '" + key + "' in lang " + loadedLang.code,
+                            LogCategories.TRANSLATIONS);
+                    return enT;
+                }
+            }
+
             PtfLogger.error("No translations set for queried '" + key + "'", LogCategories.TRANSLATIONS);
             return key;
-        }
-        return t;
+        } else return t;
     }
 
 }
