@@ -25,10 +25,15 @@ public class Tabs {
     public static final ResourceLocation SETTINGS = fromModId("settings");
 
     private void createTabs() {
-        LIST.add(new Tab(HOME, Translations.get("potoflux:tabs.home.name"), HomeTab.class));
-        LIST.add(new Tab(TERMINAL, Translations.get("potoflux:tabs.term.name"), TerminalTab.class));
-        LIST.add(new Tab(CARD_LEARN, Translations.get("potoflux:tabs.card.name"), CardLearningTab.class));
-        LIST.add(new Tab(SETTINGS, Translations.get("potoflux:tabs.settings.title"), SettingsTab.class));
+        // LIST.add(new Tab(HOME, Translations.get("potoflux:tabs.home.name"), HomeTab.class));
+        // LIST.add(new Tab(TERMINAL, Translations.get("potoflux:tabs.term.name"), TerminalTab.class));
+        // LIST.add(new Tab(CARD_LEARN, Translations.get("potoflux:tabs.card.name"), CardLearningTab.class));
+        // LIST.add(new Tab(SETTINGS, Translations.get("potoflux:tabs.settings.title"), SettingsTab.class));
+
+        LIST.add(new Tab(HOME, "potoflux:tabs.home.name", HomeTab.class));
+        LIST.add(new Tab(TERMINAL, "potoflux:tabs.term.name", TerminalTab.class));
+        LIST.add(new Tab(CARD_LEARN, "potoflux:tabs.card.name", CardLearningTab.class));
+        LIST.add(new Tab(SETTINGS, "potoflux:tabs.settings.title", SettingsTab.class));
     }
 
     public static void register(RegisterTabsEvent event) {

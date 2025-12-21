@@ -38,14 +38,13 @@ public class PotoFlux {
         // load all addons
         new AddonLoader().loadAddons();
 
-        bus.addListener(PotoFlux::onRegisterLang);
-        bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
-
         // subscribe PotoFlux's data to modEventBus
+        bus.addListener(PotoFlux::onRegisterLang);
         bus.addListener(Tabs::register);
         bus.addListener(Commands::register);
 
         // post all registrations
+        bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
         bus.post(new RegisterTabsEvent());
         bus.post(new RegisterCommandsEvent());
 

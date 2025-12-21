@@ -64,7 +64,7 @@ public class CardLearningTab extends BaseTab {
         // top - list selection
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel listLabel = new JLabel(Translations.get("potoflux:tabs.card.list.column"));
-        JButton startButton = new JButton(Translations.get("common.start"));
+        JButton startButton = new JButton(Translations.get("common:start"));
 
         refreshComboBox();
 

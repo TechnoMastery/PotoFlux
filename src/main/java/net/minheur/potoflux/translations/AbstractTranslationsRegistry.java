@@ -36,10 +36,10 @@ public abstract class AbstractTranslationsRegistry {
     }
 
     protected TranslationBuilder addTab(String id, String... children) {
-        return add("tab." + id, children);
+        return add("tabs." + id, children);
     }
     protected TranslationBuilder addCommandUse(String id, String... children) {
-        return add("command." + id + "use", children);
+        return add("command." + id + ".use", children);
     }
     protected TranslationBuilder addCommand(String id, String... children) {
         return add("command." + id, children);
