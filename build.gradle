@@ -56,9 +56,6 @@ tasks.register("run", JavaExec) {
     description = "Run PotoFlux"
     classpath = sourceSets.main.runtimeClasspath
     mainClass.set("net.minheur.potoflux.PotoFlux")
-    doLast {
-        println("PotoFlux launched")
-    }
 }
 
 tasks.register("copyJar", Copy) {
