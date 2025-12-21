@@ -3,10 +3,11 @@ package net.minheur.potoflux.loader;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModEventBus;
+import net.minheur.potoflux.utils.logger.PtfLogger;
 
-import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -33,34 +34,53 @@ public class PotoFluxLoadingContext {
     }
 
     public static boolean isDevEnv() {
-        String cp = System.getProperty("java.class.path");
+        String protocol = PotoFluxLoadingContext.class
+                .getResource(PotoFluxLoadingContext.class.getSimpleName() + ".class")
+                .getProtocol();
+        return protocol.equals("file");
+    }
 
-        return cp.contains("build\\classes\\java\\main")
-                || cp.contains("build\\resources\\main");
+    private static Path getAppDir() {
+        try {
+            return Paths.get(
+                    PotoFluxLoadingContext.class
+                            .getProtectionDomain()
+                            .getCodeSource()
+                            .getLocation()
+                            .toURI()
+            ).getParent();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Collection<URL> getScanUrls() {
-        if (isDevEnv()) {
-            String projectDir = System.getProperty("user.dir");
-            Path classes = Paths.get(projectDir, "build", "classes", "java", "main");
-            try {
+        try {
+            // DEV
+            if (isDevEnv()) {
+                Path classes = Paths.get(
+                        System.getProperty("user.dir"),
+                        "build", "classes", "java", "main"
+                );
                 return List.of(classes.toUri().toURL());
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
             }
-        } else {
-            File modsDir = new File("mods");
-            File[] jars = modsDir.listFiles((d, n) -> n.endsWith(".jar"));
+
+            // PROD
+            Path appDir = getAppDir();
+            Path modsDir = appDir.resolve("mods");
+
+            if (!Files.isDirectory(modsDir)) throw new IllegalStateException("Mods directory not found: " + modsDir);
 
             List<URL> urls = new ArrayList<>();
-            if (jars != null) {
-                for (File jar : jars) try {
-                    urls.add(jar.toURI().toURL());
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                }
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(modsDir, "*.jar")) {
+                for (Path jar : stream) urls.add(jar.toUri().toURL());
             }
+
+            urls.forEach(u -> PtfLogger.info("Scanning URLs: " + u));
+
             return urls;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
