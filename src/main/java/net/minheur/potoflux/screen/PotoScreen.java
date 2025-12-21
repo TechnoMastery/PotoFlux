@@ -53,7 +53,7 @@ public class PotoScreen {
         for (Tab tabType : allTabs) {
             BaseTab instance = tabType.createInstance();
             if (instance != null) {
-                tabs.add(tabType.getName(), instance.getPanel());
+                tabs.add(tabType.name(), instance.getPanel());
                 this.tabMap.put(tabType, instance);
             }
         }

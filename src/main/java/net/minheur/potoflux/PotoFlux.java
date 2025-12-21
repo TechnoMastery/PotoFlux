@@ -52,7 +52,7 @@ public class PotoFlux {
         SwingUtilities.invokeLater(() -> {
             app = new PotoScreen();
 
-            ((TerminalTab) app.getFromResourceLoc(Tabs.TERMINAL)).getTerminal().fillOutputTextArea();
+            ((TerminalTab) app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().fillOutputTextArea();
         });
     }
 

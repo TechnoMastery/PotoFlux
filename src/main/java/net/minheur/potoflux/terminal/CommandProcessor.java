@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CommandProcessor {
-    private static final JTextArea outputArea = ((TerminalTab) PotoFlux.app.getFromResourceLoc(Tabs.TERMINAL)).getTerminal().getOutputArea();
+    private static final JTextArea outputArea = ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().getOutputArea();
 
     public static void processCommand(String pCommand) {
         // check command is empty

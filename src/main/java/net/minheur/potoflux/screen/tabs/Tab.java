@@ -1,7 +1,6 @@
 package net.minheur.potoflux.screen.tabs;
 
 import net.minheur.potoflux.registry.IRegistryType;
-import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 
 public record Tab(ResourceLocation id, String name, Class<? extends BaseTab> tabClass) implements IRegistryType {
@@ -13,9 +12,5 @@ public record Tab(ResourceLocation id, String name, Class<? extends BaseTab> tab
             e.printStackTrace();
             return null;
         }
-    }
-
-    public String getName() {
-        return Translations.get(name);
     }
 }
