@@ -5,6 +5,9 @@ import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.logger.LogCategories;
+import net.minheur.potoflux.utils.logger.PtfLogger;
+import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,6 +72,13 @@ public class PotoScreen {
 
     public Map<Tab, BaseTab> getTabMap() {
         return tabMap;
+    }
+    public BaseTab getFromResourceLoc(ResourceLocation loc) {
+        for (Map.Entry<Tab, BaseTab> entry : tabMap.entrySet())
+            if (entry.getKey().id().equals(loc)) return entry.getValue();
+
+        PtfLogger.error("Accessing unexisting tab: " + loc.toString(), LogCategories.SCREEN);
+        return null;
     }
 
     public JFrame getFrame() {

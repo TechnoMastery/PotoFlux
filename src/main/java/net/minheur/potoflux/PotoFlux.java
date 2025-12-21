@@ -11,7 +11,6 @@ import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.commands.Commands;
-import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.translations.register.CommonTranslations;
 import net.minheur.potoflux.translations.register.FileTranslations;
@@ -54,7 +53,7 @@ public class PotoFlux {
         SwingUtilities.invokeLater(() -> {
             app = new PotoScreen();
 
-            ((TerminalTab) app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().fillOutputTextArea();
+            ((TerminalTab) app.getFromResourceLoc(Tabs.TERMINAL)).getTerminal().fillOutputTextArea();
         });
     }
 
