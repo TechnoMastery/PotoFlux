@@ -57,8 +57,12 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
                 .en("Validate");
         add("add_cancel")
                 .en("Adding has been canceled");
+        add("info")
+                .en("Infos")
+                .fr("Infos");
         add("delete")
-                .en("Delete");
+                .en("Delete")
+                .fr("Supprimer");
         add("delete", "success")
                 .en("Delection successful");
         add("read_error")
