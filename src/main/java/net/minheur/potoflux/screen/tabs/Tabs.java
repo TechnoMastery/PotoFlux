@@ -20,7 +20,6 @@ public class Tabs {
 
     public final Tab HOME = LIST.add(new Tab(fromModId("home"), Translations.get("potoflux:tabs.home.name"), HomeTab.class));
     public final Tab TERMINAL = LIST.add(new Tab(fromModId("terminal"), Translations.get("potoflux:tabs.term.name"), TerminalTab.class));
-    public final Tab CARD_LEARN = LIST.add(new Tab(fromModId("card_learn"), Translations.get("potoflux:tabs.card.name"), CardLearningTab.class));
     public final Tab SETTINGS = LIST.add(new Tab(fromModId("settings"), Translations.get("potoflux:tabs.settings.title"), SettingsTab.class));
 
     public static void register(RegisterTabsEvent event) {
