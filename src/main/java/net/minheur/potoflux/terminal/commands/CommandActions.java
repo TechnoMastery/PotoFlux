@@ -55,7 +55,7 @@ public class CommandActions {
 
     static void quit(List<String> args) {
         if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.quit());
-        CommandProcessor.appendOutput(Translations.get("potofluxcommand.quit.out"));
+        CommandProcessor.appendOutput(Translations.get("potoflux:command.quit.out"));
         Functions.exit(500, 0);
     }
 

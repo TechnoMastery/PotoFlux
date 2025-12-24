@@ -28,7 +28,7 @@ public class Command implements IRegistryType {
 
         this.hidden = false;
     }
-    public Command(Consumer<List<String>> commandOutput, String key, ResourceLocation id) {
+    public Command(ResourceLocation id, String key, Consumer<List<String>> commandOutput) {
         this.commandOutput = commandOutput;
         this.key = key;
         this.id = id;
