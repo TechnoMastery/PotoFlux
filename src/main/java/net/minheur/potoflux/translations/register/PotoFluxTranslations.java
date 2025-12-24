@@ -117,6 +117,10 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Terminal");
         addTerminalTab("title")
                 .en("Terminal");
+
+        addCatalogTab("name")
+                .en("Catalog")
+                .fr("Catalogue");
     }
 
     private TranslationBuilder addCommandPro(String... children) {
@@ -138,5 +142,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
     }
     private TranslationBuilder addTerminalTab(String... children) {
         return addTab("term", children);
+    }
+    private TranslationBuilder addCatalogTab(String... children) {
+        return addTab("catalog", children);
     }
 }
