@@ -2,7 +2,6 @@ package net.minheur.potoflux.catalog;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import net.minheur.potoflux.utils.Json;
 import net.minheur.potoflux.utils.OnlineReader;
@@ -51,7 +50,7 @@ public class CatalogGetterHandler {
         }
     }
 
-    public static ModCatalog getCatalog(String modId) {
-        return catalog.get(modId);
+    public static Map<String, ModCatalog> getCatalog() {
+        return catalog;
     }
 }
