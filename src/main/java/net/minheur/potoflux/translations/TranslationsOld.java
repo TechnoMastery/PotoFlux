@@ -2,6 +2,7 @@ package net.minheur.potoflux.translations;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import net.minheur.potoflux.utils.Json;
 
 import javax.swing.*;
 import java.io.InputStream;
@@ -43,7 +44,7 @@ public class TranslationsOld {
 
                 try (Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
                     Map<String, String> translations =
-                            new Gson().fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
+                            Json.GSON.fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
                     translationSources.get(lang).add(translations);
                 }
             } catch (Exception e) {
@@ -58,7 +59,7 @@ public class TranslationsOld {
 
     public static void registerByStream(Lang lang, InputStream in) {
         try (Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
-            Map<String, String> modTranslations = new Gson().fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
+            Map<String, String> modTranslations = Json.GSON.fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
             translationSources.get(lang).add(modTranslations);
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,6 +8,7 @@ import net.minheur.potoflux.card.CardJsonManager;
 import net.minheur.potoflux.card.CardList;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.Json;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -548,7 +549,7 @@ public class CardLearningTab extends BaseTab {
             }
 
             try {
-                Gson gson = new Gson();
+                Gson gson = Json.GSON;
                 Files.writeString(outputFile, gson.toJson(list[0]));
                 JOptionPane.showMessageDialog(PANEL,
                         Translations.get("file:saved"),
@@ -848,7 +849,7 @@ public class CardLearningTab extends BaseTab {
             list.cards = new ArrayList<>(tempCards);
 
             try {
-                Gson gson = new Gson();
+                Gson gson = Json.GSON;
                 Files.writeString(outputFile, gson.toJson(list));
                 JOptionPane.showMessageDialog(panel, Translations.get("potoflux:tabs.card.list.saved"), Translations.get("common:saveSuccess"), JOptionPane.INFORMATION_MESSAGE);
                 tempCards.clear();

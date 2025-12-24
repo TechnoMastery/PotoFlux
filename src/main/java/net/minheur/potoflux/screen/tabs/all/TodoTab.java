@@ -6,6 +6,7 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.utils.InputWithCheckboxResult;
 import net.minheur.potoflux.translations.TranslationsOld;
+import net.minheur.potoflux.utils.Json;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -185,7 +186,7 @@ public class TodoTab extends BaseTab {
         if (Files.exists(saveFile)) {
             try (Reader reader = new InputStreamReader(new FileInputStream(saveFile.toFile()), StandardCharsets.UTF_8)) {
                 Type listType = new TypeToken<List<TodoItem>>(){}.getType();
-                List<TodoItem> loaded = new Gson().fromJson(reader, listType);
+                List<TodoItem> loaded = Json.GSON.fromJson(reader, listType);
                 if (loaded != null) todos.addAll(loaded);
             } catch (IOException e) { e.printStackTrace(); }
         }
@@ -193,7 +194,7 @@ public class TodoTab extends BaseTab {
 
     private void saveTodos() {
         try (Writer writer = new OutputStreamWriter(new FileOutputStream(saveFile.toFile()), StandardCharsets.UTF_8)) {
-            new Gson().toJson(todos, writer);
+            Json.GSON.toJson(todos, writer);
         } catch (IOException e) { e.printStackTrace(); }
     }
 
