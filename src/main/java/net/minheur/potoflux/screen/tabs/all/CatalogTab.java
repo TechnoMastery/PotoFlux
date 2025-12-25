@@ -8,17 +8,16 @@ import net.minheur.potoflux.translations.Translations;
 import java.util.List;
 
 public class CatalogTab extends BaseTab {
-    private final List<ModCatalog> catalog;
-
-    public CatalogTab() {
-        super();
-        CatalogGetterHandler.buildCatalog();
-        this.catalog = CatalogGetterHandler.getCatalog();
-    }
+    private List<ModCatalog> catalog;
 
     @Override
     protected void setPanel() {
-        // TODO
+        reloadCatalog();
+    }
+
+    public void reloadCatalog() {
+        CatalogGetterHandler.buildCatalog();
+        this.catalog = CatalogGetterHandler.getCatalog();
     }
 
     @Override
