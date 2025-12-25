@@ -1,5 +1,6 @@
 package net.minheur.potoflux.catalog;
 
+import java.util.List;
 import java.util.Map;
 
 public class ModCatalog {
@@ -10,5 +11,6 @@ public class ModCatalog {
     public static class ModVersion {
         public String fileName;
         public boolean isPublished;
+        public List<String> ptfVersions;
     }
 }

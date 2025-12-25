@@ -19,6 +19,9 @@ public abstract class BaseTab {
         PANEL.add(Box.createVerticalStrut(20));
     }
 
+    /**
+     * This is the
+     */
     protected abstract void setPanel();
     protected abstract String getTitle();
 

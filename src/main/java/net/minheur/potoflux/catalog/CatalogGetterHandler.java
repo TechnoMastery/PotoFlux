@@ -18,9 +18,11 @@ public class CatalogGetterHandler {
     private static final Gson GSON = Json.GSON;
     private static final String baseDir = "https://technomastery.github.io/PotoFluxAppData/modCatalog/";
 
-    private static final Map<String, ModCatalog> catalog = new HashMap<>();
+    private static final List<ModCatalog> catalog = new ArrayList<>();
 
     public static void buildCatalog() {
+        catalog.clear();
+
         String mainCatalogPath = baseDir + "mainCatalog.json";
 
         String mainCatalogContent = OnlineReader.read(mainCatalogPath);
@@ -46,11 +48,18 @@ public class CatalogGetterHandler {
             Type typeToken = new TypeToken<ModCatalog>() {}.getType();
             ModCatalog modCatalog = GSON.fromJson(modCatalogContent, typeToken);
 
-            catalog.put(modId, modCatalog);
+            catalog.add(modCatalog);
         }
     }
 
-    public static Map<String, ModCatalog> getCatalog() {
-        return catalog;
+    public static List<ModCatalog> getCatalog() {
+        return List.copyOf(catalog);
+    }
+    public static ModCatalog getById(String id) {
+        for (ModCatalog c : catalog)
+            if (c.modId.equals(id)) return c;
+
+        PtfLogger.error("Getting unexisting mod catalog: " + id, LogCategories.CATALOG);
+        return null;
     }
 }

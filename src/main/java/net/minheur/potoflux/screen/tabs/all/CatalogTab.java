@@ -5,10 +5,10 @@ import net.minheur.potoflux.catalog.ModCatalog;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
 
-import java.util.Map;
+import java.util.List;
 
 public class CatalogTab extends BaseTab {
-    private final Map<String, ModCatalog> catalog;
+    private final List<ModCatalog> catalog;
 
     public CatalogTab() {
         super();
