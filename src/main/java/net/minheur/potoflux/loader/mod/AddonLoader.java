@@ -16,7 +16,10 @@ public class AddonLoader {
         Reflections reflections = new Reflections(
                 new ConfigurationBuilder()
                         .setUrls(PotoFluxLoadingContext.getScanUrls())
-                        .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner())
+                        .setScanners(
+                                new SubTypesScanner(false),
+                                new TypeAnnotationsScanner()
+                        )
         );
         Set<Class<?>> addons = reflections.getTypesAnnotatedWith(Mod.class);
 
