@@ -3,6 +3,7 @@ package net.minheur.potoflux.loader;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModEventBus;
+import net.minheur.potoflux.utils.logger.LogCategories;
 import net.minheur.potoflux.utils.logger.PtfLogger;
 
 import java.net.URL;
@@ -69,7 +70,10 @@ public class PotoFluxLoadingContext {
             Path appDir = getAppDir();
             Path modsDir = appDir.resolve("mods");
 
-            if (!Files.isDirectory(modsDir)) throw new IllegalStateException("Mods directory not found: " + modsDir);
+            if (!Files.isDirectory(modsDir)) {
+                Files.createDirectories(modsDir);
+                PtfLogger.info("Created mod dir !", LogCategories.MOD_LOADER);
+            }
 
             List<URL> urls = new ArrayList<>();
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(modsDir, "*.jar")) {

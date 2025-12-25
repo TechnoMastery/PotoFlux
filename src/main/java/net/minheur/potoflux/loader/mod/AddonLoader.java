@@ -1,5 +1,7 @@
 package net.minheur.potoflux.loader.mod;
 
+import java.net.URL;
+import java.util.Collection;
 import java.util.Set;
 
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
@@ -9,19 +11,35 @@ import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 
 public class AddonLoader {
 
     public void loadAddons() {
-        Reflections reflections = new Reflections(
-                new ConfigurationBuilder()
-                        .setUrls(PotoFluxLoadingContext.getScanUrls())
-                        .setScanners(
-                                new SubTypesScanner(false),
-                                new TypeAnnotationsScanner()
-                        )
-        );
-        Set<Class<?>> addons = reflections.getTypesAnnotatedWith(Mod.class);
+        Collection<URL> urls = PotoFluxLoadingContext.getScanUrls();
+        Set<Class<?>> addons;
+
+        if (!urls.isEmpty()) {
+            Reflections reflections = new Reflections(
+                    new ConfigurationBuilder()
+                            .setUrls(PotoFluxLoadingContext.getScanUrls())
+                            .setScanners(
+                                    new SubTypesScanner(false),
+                                    new TypeAnnotationsScanner()
+                            )
+                            .filterInputsBy(new FilterBuilder().include(".*"))
+            );
+
+            addons = reflections.getTypesAnnotatedWith(Mod.class);
+        } else {
+            PtfLogger.info("No mods found, skipping Reflection scan.", LogCategories.MOD_LOADER);
+            return;
+        }
+
+        if (addons.isEmpty()) {
+            PtfLogger.info("No mods found after Reflection scan.", LogCategories.MOD_LOADER);
+            return;
+        }
 
         for (Class<?> clazz : addons) {
             try {
