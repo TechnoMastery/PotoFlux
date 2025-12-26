@@ -78,10 +78,7 @@ public class PotoFluxLoadingContext {
             Path appDir = getAppDir();
             Path modsDir = appDir.resolve("mods");
 
-            if (!Files.isDirectory(modsDir)) {
-                Files.createDirectories(modsDir);
-                PtfLogger.info("Created mod dir !", LogCategories.MOD_LOADER);
-            }
+            Files.createDirectories(modsDir);
 
             List<URL> urls = new ArrayList<>();
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(modsDir, "*.jar")) {
