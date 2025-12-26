@@ -1,6 +1,7 @@
 package net.minheur.potoflux.loader.mod;
 
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Collection;
 import java.util.Set;
 
@@ -11,7 +12,6 @@ import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.FilterBuilder;
 
 public class AddonLoader {
 
@@ -20,14 +20,19 @@ public class AddonLoader {
         Set<Class<?>> addons;
 
         if (!urls.isEmpty()) {
+            ClassLoader modClassLoader = new URLClassLoader(
+                    urls.toArray(new URL[0]),
+                    Thread.currentThread().getContextClassLoader()
+            );
+
             Reflections reflections = new Reflections(
                     new ConfigurationBuilder()
                             .setUrls(urls)
+                            .addClassLoaders(modClassLoader)
                             .setScanners(
                                     new SubTypesScanner(false),
                                     new TypeAnnotationsScanner()
                             )
-                            //.filterInputsBy(new FilterBuilder().include(".*"))
             );
 
             addons = reflections.getTypesAnnotatedWith(Mod.class);
