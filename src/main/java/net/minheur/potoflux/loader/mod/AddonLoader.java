@@ -2,8 +2,7 @@ package net.minheur.potoflux.loader.mod;
 
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.utils.logger.LogCategories;
@@ -15,34 +14,44 @@ import org.reflections.util.ConfigurationBuilder;
 public class AddonLoader {
 
     public void loadAddons() {
-        Collection<URL> urls = PotoFluxLoadingContext.getScanUrls();
         Set<Class<?>> addons;
 
-        if (!urls.isEmpty()) {
-            ClassLoader modClassLoader = new URLClassLoader(
-                    urls.toArray(new URL[0]),
-                    Thread.currentThread().getContextClassLoader()
-            );
+        Collection<URL> urls = PotoFluxLoadingContext.getScanUrls();
+        if (urls != null) {
+            // Dev env
+            if (!urls.isEmpty()) {
+                ClassLoader modClassLoader = new URLClassLoader(
+                        urls.toArray(new URL[0]),
+                        Thread.currentThread().getContextClassLoader()
+                );
 
-            Reflections reflections = new Reflections(
-                    new ConfigurationBuilder()
-                            .setUrls(urls)
-                            .addClassLoaders(modClassLoader)
-                            .setScanners(
-                                    Scanners.TypesAnnotated,
-                                    Scanners.SubTypes
-                            )
-            );
+                Reflections reflections = new Reflections(
+                        new ConfigurationBuilder()
+                                .setUrls(urls)
+                                .addClassLoaders(modClassLoader)
+                                .setScanners(
+                                        Scanners.TypesAnnotated,
+                                        Scanners.SubTypes
+                                )
+                );
 
-            addons = reflections.getTypesAnnotatedWith(Mod.class);
+                addons = reflections.getTypesAnnotatedWith(Mod.class);
+            } else {
+                PtfLogger.info("No mods found, skipping Reflection scan.", LogCategories.MOD_LOADER);
+                return;
+            }
+
+            if (addons.isEmpty()) {
+                PtfLogger.info("No mods found after Reflection scan.", LogCategories.MOD_LOADER);
+                return;
+            }
         } else {
-            PtfLogger.info("No mods found, skipping Reflection scan.", LogCategories.MOD_LOADER);
-            return;
-        }
-
-        if (addons.isEmpty()) {
-            PtfLogger.info("No mods found after Reflection scan.", LogCategories.MOD_LOADER);
-            return;
+            // prod
+            addons = PotoFluxLoadingContext.getAddons();
+            if (addons.isEmpty()) {
+                PtfLogger.info("No mods found in mods directory !", LogCategories.MOD_LOADER);
+                return;
+            }
         }
 
         for (Class<?> clazz : addons) {
