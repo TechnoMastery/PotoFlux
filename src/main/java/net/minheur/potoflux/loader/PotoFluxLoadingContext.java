@@ -49,20 +49,6 @@ public class PotoFluxLoadingContext {
         return isDevEnv;
     }
 
-    private static Path getAppDir() {
-        try {
-            return Paths.get(
-                    PotoFluxLoadingContext.class
-                            .getProtectionDomain()
-                            .getCodeSource()
-                            .getLocation()
-                            .toURI()
-            ).getParent();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static Collection<URL> getScanUrls() {
         try {
             // DEV
@@ -75,7 +61,7 @@ public class PotoFluxLoadingContext {
             }
 
             // PROD
-            Path appDir = getAppDir();
+            Path appDir = PotoFlux.getProgramDir();
             Path modsDir = appDir.resolve("mods");
 
             Files.createDirectories(modsDir);
