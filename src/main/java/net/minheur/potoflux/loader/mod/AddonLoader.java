@@ -9,8 +9,7 @@ import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.utils.logger.LogCategories;
 import net.minheur.potoflux.utils.logger.PtfLogger;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
 
 public class AddonLoader {
@@ -30,8 +29,8 @@ public class AddonLoader {
                             .setUrls(urls)
                             .addClassLoaders(modClassLoader)
                             .setScanners(
-                                    new SubTypesScanner(false),
-                                    new TypeAnnotationsScanner()
+                                    Scanners.TypesAnnotated,
+                                    Scanners.SubTypes
                             )
             );
 
