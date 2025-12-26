@@ -94,7 +94,7 @@ public class PotoFluxLoadingContext {
     }
 
     public static Set<Class<?>> getAddons() {
-        File modDir = null; // TODO
+        File modDir = PotoFlux.getProgramDir().resolve("mods").toFile();
         File[] jarFiles = modDir.listFiles((dir, name) -> name.endsWith(".jar"));
         if (jarFiles == null) {
             return new HashSet<>();
