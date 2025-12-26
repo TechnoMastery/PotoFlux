@@ -5,6 +5,7 @@ import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.utils.logger.LogCategories;
 import net.minheur.potoflux.utils.logger.PtfLogger;
+import org.reflections.vfs.Vfs;
 
 import java.net.URL;
 import java.nio.file.DirectoryStream;
@@ -22,6 +23,14 @@ public class PotoFluxLoadingContext {
         illegalModIds.add(PotoFlux.ID);
         illegalModIds.add("file");
         illegalModIds.add("common");
+    }
+
+    static {
+        Vfs.setDefaultURLTypes(List.of(
+                Vfs.DefaultUrlTypes.jarFile,
+                Vfs.DefaultUrlTypes.jarUrl,
+                Vfs.DefaultUrlTypes.directory
+        ));
     }
 
     private static boolean isDevEnv = false;
