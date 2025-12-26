@@ -22,7 +22,7 @@ public class AddonLoader {
         if (!urls.isEmpty()) {
             Reflections reflections = new Reflections(
                     new ConfigurationBuilder()
-                            .setUrls(PotoFluxLoadingContext.getScanUrls())
+                            .setUrls(urls)
                             .setScanners(
                                     new SubTypesScanner(false),
                                     new TypeAnnotationsScanner()

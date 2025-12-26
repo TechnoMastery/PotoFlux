@@ -24,6 +24,9 @@ public class PotoFluxLoadingContext {
         illegalModIds.add("common");
     }
 
+    private static boolean isDevEnv = false;
+    private static boolean isEnvSet = false;
+
     private PotoFluxLoadingContext() {}
 
     public static PotoFluxLoadingContext get() {
@@ -34,11 +37,16 @@ public class PotoFluxLoadingContext {
         return modEventBus;
     }
 
+    public static void setDevEnv(boolean pIsDevEnv) {
+        if (isEnvSet) {
+            PtfLogger.error("Environment can't be set to dev twice !");
+            return;
+        }
+        isDevEnv = pIsDevEnv;
+        isEnvSet = true;
+    }
     public static boolean isDevEnv() {
-        String protocol = PotoFluxLoadingContext.class
-                .getResource(PotoFluxLoadingContext.class.getSimpleName() + ".class")
-                .getProtocol();
-        return protocol.equals("file");
+        return isDevEnv;
     }
 
     private static Path getAppDir() {
@@ -80,7 +88,7 @@ public class PotoFluxLoadingContext {
                 for (Path jar : stream) urls.add(jar.toUri().toURL());
             }
 
-            urls.forEach(u -> PtfLogger.info("Scanning URLs: " + u));
+            urls.forEach(u -> PtfLogger.info("Scanning URLs: " + u, LogCategories.MOD_LOADER));
 
             return urls;
         } catch (Exception e) {
