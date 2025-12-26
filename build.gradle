@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "net.minheur.potoflux"
-version = "5.28"
+version = "5.29"
 
 repositories {
     mavenCentral()
