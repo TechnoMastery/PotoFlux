@@ -27,7 +27,7 @@ public class AddonLoader {
                                     new SubTypesScanner(false),
                                     new TypeAnnotationsScanner()
                             )
-                            .filterInputsBy(new FilterBuilder().include(".*"))
+                            //.filterInputsBy(new FilterBuilder().include(".*"))
             );
 
             addons = reflections.getTypesAnnotatedWith(Mod.class);
