@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "net.minheur.potoflux"
-version = "5.30"
+version = "5.31"
 
 repositories {
     mavenCentral()
@@ -89,7 +89,8 @@ tasks.register("msiPackage") {
             "--install-dir", "TechnoMastery/PotoFlux",
             "--win-shortcut",
             "--win-menu",
-            "--java-options", "-Xmx512m -Djava.class.path=%APPDIR%/app/*;%APPDATA%/TechnoMastery/PotoFlux/mods/*",
+            "--java-options", "-Xmx512m",
+            "--java-options", "-Djava.class.path=%APPDIR%/app/*;%APPDATA%/TechnoMastery/PotoFlux/mods/*",
             "--app-version", "$version",
             "--icon", "$buildDir/libs/main.ico",
             "--win-upgrade-uuid", "5536eb5f-55c0-408d-b034-677536a3a078"
