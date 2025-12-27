@@ -93,6 +93,8 @@ public class PotoFluxLoadingContext {
         }
     }
 
+    // TODO: mkClassLoader()
+
     public static Set<Class<?>> getAddons() {
         File modDir = PotoFlux.getProgramDir().resolve("mods").toFile();
         File[] jarFiles = modDir.listFiles((dir, name) -> name.endsWith(".jar"));

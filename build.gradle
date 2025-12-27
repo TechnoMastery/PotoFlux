@@ -13,7 +13,6 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    // implementation "com.github.TechnoMastery:MinLib:v1.0" // minLib → unused
     implementation 'com.google.code.gson:gson:2.11.0'
 
     // scan classes
@@ -90,7 +89,6 @@ tasks.register("msiPackage") {
             "--win-shortcut",
             "--win-menu",
             "--java-options", "-Xmx512m",
-            "--java-options", "-Djava.class.path=%APPDIR%/app/*;%APPDATA%/TechnoMastery/PotoFlux/mods/*",
             "--app-version", "$version",
             "--icon", "$buildDir/libs/main.ico",
             "--win-upgrade-uuid", "5536eb5f-55c0-408d-b034-677536a3a078"
