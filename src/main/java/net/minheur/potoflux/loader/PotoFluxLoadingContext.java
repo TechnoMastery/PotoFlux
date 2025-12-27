@@ -7,7 +7,6 @@ import net.minheur.potoflux.utils.logger.LogCategories;
 import net.minheur.potoflux.utils.logger.PtfLogger;
 import org.reflections.vfs.Vfs;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -41,6 +40,8 @@ public class PotoFluxLoadingContext {
     private static boolean isDevEnv = false;
     private static boolean isEnvSet = false;
 
+    private static URLClassLoader modsClassLoader = null;
+
     private PotoFluxLoadingContext() {}
 
     public static PotoFluxLoadingContext get() {
@@ -63,95 +64,92 @@ public class PotoFluxLoadingContext {
         return isDevEnv;
     }
 
-    public static Collection<URL> getScanUrls() {
+    public static Collection<URL> getDevScanUrls() {
+        if (!isDevEnv()) return Collections.emptyList();
+
         try {
-            // DEV
-            if (isDevEnv()) {
-                Path classes = Paths.get(
-                        System.getProperty("user.dir"),
-                        "build", "classes", "java", "main"
-                );
-                return List.of(classes.toUri().toURL());
-            } else return null;
-
-        //     // PROD
-        //     Path appDir = PotoFlux.getProgramDir();
-        //     Path modsDir = appDir.resolve("mods");
-
-        //     Files.createDirectories(modsDir);
-
-        //     List<URL> urls = new ArrayList<>();
-        //     try (DirectoryStream<Path> stream = Files.newDirectoryStream(modsDir, "*.jar")) {
-        //         for (Path jar : stream) urls.add(jar.toUri().toURL());
-        //     }
-
-        //     urls.forEach(u -> PtfLogger.info("Scanning URLs: " + u, LogCategories.MOD_LOADER));
-
-        //     return urls;
+            Path classes = Paths.get(
+                    System.getProperty("user.dir"),
+                    "build", "classes", "java", "main"
+            );
+            return List.of(classes.toUri().toURL());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    // TODO: mkClassLoader()
+    private static URLClassLoader mkModClassLoader() {
+        Path modsDir = PotoFlux.getProgramDir().resolve("mods");
+
+        try {
+            Files.createDirectories(modsDir);
+
+            List<URL> urls = new ArrayList<>();
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(modsDir, "*.jar")) {
+                for (Path jar : stream) {
+                    URL url = jar.toUri().toURL();
+                    urls.add(url);
+                    PtfLogger.info("Mod jar detected: " + url, LogCategories.MOD_LOADER);
+                }
+            }
+
+            return new URLClassLoader(
+                    urls.toArray(new URL[0]),
+                    PotoFluxLoadingContext.class.getClassLoader() // parent = app
+            );
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create mods classloader", e);
+        }
+    }
 
     public static Set<Class<?>> getAddons() {
-        File modDir = PotoFlux.getProgramDir().resolve("mods").toFile();
-        File[] jarFiles = modDir.listFiles((dir, name) -> name.endsWith(".jar"));
-        if (jarFiles == null) {
-            return new HashSet<>();
+        if (modsClassLoader == null) {
+            modsClassLoader = mkModClassLoader();
+            Thread.currentThread().setContextClassLoader(modsClassLoader);
         }
-
-        URL[] urls = Arrays.stream(jarFiles)
-                .map(f -> {
-                    try {
-                        return f.toURI().toURL();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .toArray(URL[]::new);
-
-        URLClassLoader classLoader = new URLClassLoader(urls, Thread.currentThread().getContextClassLoader());
 
         Set<Class<?>> addons = new HashSet<>();
+        Path modsDir = PotoFlux.getProgramDir().resolve("mods");
 
-        for (File jarFile : jarFiles) {
-            try (JarFile jar = new JarFile(jarFile)) {
+        // stream = all jar files
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(modsDir, "*.jar");) {
+            // for each, make the jarFile
+            for (Path jarPath : stream) try (JarFile jar = new JarFile(jarPath.toFile())) {
+                PtfLogger.info("Scanning jar " + jar.getName(), LogCategories.MOD_LOADER);
 
-                PtfLogger.info("Found jar " + jar.getName(), LogCategories.MOD_LOADER);
-
+                // list all jar entries (so classes)
                 Enumeration<JarEntry> entries = jar.entries();
-
+                // process classes
                 while (entries.hasMoreElements()) {
                     JarEntry entry = entries.nextElement();
-                    String name = entry.getName();
 
-                    if (name.endsWith(".class")) {
-                        // convert path to class name
-                        String className = name.replace("/", ".").replace(".class", "");
+                    if (!entry.getName().endsWith(".class")) continue; // continue on all non-class files
 
-                        PtfLogger.info("Found class " + className, LogCategories.MOD_LOADER, "mightSpam");
+                    String className = entry.getName()
+                            .replace('/', '.')
+                            .replace(".class", "");
 
-                        try {
-                            Class<?> clazz = classLoader.loadClass(className);
+                    try {
+                        // turn to class
+                        Class<?> clazz = Class.forName(className, false, modsClassLoader);
 
-                            if (clazz.isAnnotationPresent(Mod.class)) {
-                                PtfLogger.info("Found @Mod class: " + clazz.getName(), LogCategories.MOD_LOADER);
-                                addons.add(clazz);
-                            }
-                        } catch (ClassNotFoundException | NoClassDefFoundError e) {
-                            e.printStackTrace();
-                            PtfLogger.error("Failed loading a class !", LogCategories.MOD_LOADER);
+                        // if @Mod is present, add to addons
+                        if (clazz.isAnnotationPresent(Mod.class)) {
+                            PtfLogger.info("Found @Mod class: " + clazz.getName(), LogCategories.MOD_LOADER);
+                            addons.add(clazz);
                         }
-                    }
+                    } catch (ClassNotFoundException | NoClassDefFoundError ignored) {}
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-                PtfLogger.error("Failed to convert to jar !", LogCategories.MOD_LOADER);
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
         return addons;
+    }
+
+    public static ClassLoader getModsClassLoader() {
+        return modsClassLoader;
     }
 
     public static boolean isModLoaded(Mod mod) {
