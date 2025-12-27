@@ -45,10 +45,9 @@ public class CatalogGetterHandler {
                 continue;
             }
 
-            Type typeToken = new TypeToken<ModCatalog>() {}.getType();
-            ModCatalog modCatalog = GSON.fromJson(modCatalogContent, typeToken);
+            ModCatalog modCatalog = GSON.fromJson(modCatalogContent, ModCatalog.class);
 
-            catalog.add(modCatalog);
+            if (!modCatalog.isCorrect()) catalog.add(modCatalog);
         }
     }
 

@@ -13,6 +13,8 @@ public class CatalogTab extends BaseTab {
     @Override
     protected void setPanel() {
         reloadCatalog();
+
+        //
     }
 
     public void reloadCatalog() {
