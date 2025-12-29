@@ -5,7 +5,8 @@ public enum LogCategories implements ILogCategory {
     TRANSLATIONS("translations"),
     MOD_LOADER("modLoader"),
     CATALOG("modCatalog"),
-    SCREEN("screen");
+    SCREEN("screen"),
+    THEME("theme");
 
     private final String code;
 
