@@ -4,8 +4,8 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.translations.Translations;
-import net.minheur.potoflux.utils.logger.LogCategories;
-import net.minheur.potoflux.utils.logger.PtfLogger;
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
 
 import javax.swing.*;
 import java.io.IOException;

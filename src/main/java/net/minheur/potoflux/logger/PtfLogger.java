@@ -1,4 +1,4 @@
-package net.minheur.potoflux.utils.logger;
+package net.minheur.potoflux.logger;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

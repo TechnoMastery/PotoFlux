@@ -1,7 +1,7 @@
 package net.minheur.potoflux.translations;
 
-import net.minheur.potoflux.utils.logger.LogCategories;
-import net.minheur.potoflux.utils.logger.PtfLogger;
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
 
 import java.util.HashMap;
 import java.util.Map;

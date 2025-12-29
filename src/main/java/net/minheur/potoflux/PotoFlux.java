@@ -15,7 +15,7 @@ import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.translations.register.CommonTranslations;
 import net.minheur.potoflux.translations.register.FileTranslations;
 import net.minheur.potoflux.translations.register.PotoFluxTranslations;
-import net.minheur.potoflux.utils.logger.PtfLogger;
+import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 import net.minheur.potoflux.utils.UserPrefsManager;
 

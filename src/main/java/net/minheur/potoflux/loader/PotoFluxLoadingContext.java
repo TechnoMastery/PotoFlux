@@ -3,8 +3,8 @@ package net.minheur.potoflux.loader;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModEventBus;
-import net.minheur.potoflux.utils.logger.LogCategories;
-import net.minheur.potoflux.utils.logger.PtfLogger;
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
 import org.reflections.vfs.Vfs;
 
 import java.io.IOException;

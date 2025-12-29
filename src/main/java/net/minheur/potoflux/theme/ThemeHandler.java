@@ -1,7 +1,7 @@
 package net.minheur.potoflux.theme;
 
-import net.minheur.potoflux.utils.logger.LogCategories;
-import net.minheur.potoflux.utils.logger.PtfLogger;
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
 
 public class ThemeHandler {
     private static Themes theme;

@@ -5,8 +5,8 @@ import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.translations.Translations;
-import net.minheur.potoflux.utils.logger.LogCategories;
-import net.minheur.potoflux.utils.logger.PtfLogger;
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 
 import javax.swing.*;

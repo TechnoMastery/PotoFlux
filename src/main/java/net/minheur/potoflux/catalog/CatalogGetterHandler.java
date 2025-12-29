@@ -2,17 +2,13 @@ package net.minheur.potoflux.catalog;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.reflect.TypeToken;
 import net.minheur.potoflux.utils.Json;
 import net.minheur.potoflux.utils.OnlineReader;
-import net.minheur.potoflux.utils.logger.LogCategories;
-import net.minheur.potoflux.utils.logger.PtfLogger;
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CatalogGetterHandler {
     private static final Gson GSON = Json.GSON;

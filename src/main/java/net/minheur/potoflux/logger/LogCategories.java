@@ -1,4 +1,4 @@
-package net.minheur.potoflux.utils.logger;
+package net.minheur.potoflux.logger;
 
 public enum LogCategories implements ILogCategory {
     TERMINAL("terminal"),
