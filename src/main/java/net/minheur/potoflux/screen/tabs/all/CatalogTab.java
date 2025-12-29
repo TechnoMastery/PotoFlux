@@ -1,6 +1,7 @@
 package net.minheur.potoflux.screen.tabs.all;
 
 import net.minheur.potoflux.catalog.CatalogGetterHandler;
+import net.minheur.potoflux.catalog.CatalogHelpers;
 import net.minheur.potoflux.catalog.ModCatalog;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
@@ -17,12 +18,10 @@ public class CatalogTab extends BaseTab {
     protected void setPanel() {
         reloadCatalog();
 
-        PANEL.setLayout(new BoxLayout(PANEL, BoxLayout.X_AXIS));
         tabbedPane = new JTabbedPane();
 
-        // Tab "Main" : liste des mods
-        JPanel mainPanel = createModsPanel();
-        tabbedPane.addTab("Main", mainPanel);
+        // add tabs
+        tabbedPane.addTab("Mods catalog", mkModCatalog()); // TODO
 
         // Ajouter le tabbedPane au PANEL principal
         PANEL.setLayout(new BorderLayout());
@@ -32,28 +31,35 @@ public class CatalogTab extends BaseTab {
         PANEL.repaint();
     }
 
-    private JPanel createModsPanel() {
+    public JPanel mkModCatalog() {
         JPanel modsPanel = new JPanel();
-        modsPanel.setLayout(new BoxLayout(modsPanel, BoxLayout.X_AXIS));
-        modsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        modsPanel.setLayout(new BoxLayout(modsPanel, BoxLayout.Y_AXIS));
+        modsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        modsPanel.setBackground(new Color(30, 30, 30));
 
         if (catalog.isEmpty()) {
-            modsPanel.add(new JLabel("No mods available."));
+            JLabel empty = new JLabel("No mods available."); // TODO
+            empty.setForeground(Color.LIGHT_GRAY);
+            modsPanel.add(empty);
         } else {
             for (ModCatalog mod : catalog) {
-                JPanel modPanel = new JPanel();
-                modPanel.setLayout(new BorderLayout());
-                JLabel label = new JLabel(mod.modId + " -- " + mod.isPublished);
-                label.setHorizontalAlignment(SwingConstants.CENTER);
-                modPanel.add(label, BorderLayout.CENTER);
-
-                modPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-                modsPanel.add(modPanel);
+                modsPanel.add(CatalogHelpers.buildCard(mod));
+                modsPanel.add(Box.createVerticalStrut(8)); // separate cards
             }
         }
 
-        modsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        return modsPanel;
+        JPanel wrapper = new JPanel(new BorderLayout());
+        wrapper.add(modsPanel, BorderLayout.NORTH);
+        wrapper.setOpaque(false);
+
+        JScrollPane scrollPane = new JScrollPane(wrapper);
+        scrollPane.setBorder(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+        JPanel root = new JPanel(new BorderLayout());
+        root.add(scrollPane, BorderLayout.CENTER);
+
+        return root;
     }
 
     public void reloadCatalog() {
