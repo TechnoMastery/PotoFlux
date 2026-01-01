@@ -8,8 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CatalogTabRegistry implements IRegistry<ModCatalogTab> {
-    public static final CatalogTabRegistry INSTANCE = new CatalogTabRegistry();
-
     private static final Map<ResourceLocation, ModCatalogTab> REGISTRY = new LinkedHashMap<>();
 
     public static Collection<ModCatalogTab> getAll() {

@@ -3,11 +3,14 @@ package net.minheur.potoflux.screen.tabs.all;
 import net.minheur.potoflux.catalog.CatalogGetterHandler;
 import net.minheur.potoflux.catalog.CatalogHelpers;
 import net.minheur.potoflux.catalog.ModCatalog;
+import net.minheur.potoflux.catalog.mods.CatalogTabRegistry;
+import net.minheur.potoflux.catalog.mods.ModCatalogTab;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collection;
 import java.util.List;
 
 public class CatalogTab extends BaseTab {
@@ -22,6 +25,13 @@ public class CatalogTab extends BaseTab {
 
         // add tabs
         tabbedPane.addTab("Mods catalog", mkModCatalog()); // TODO
+
+        // add mod tabs
+        Collection<ModCatalogTab> allModTabs = CatalogTabRegistry.getAll();
+
+        for (ModCatalogTab tab : allModTabs) {
+
+        }
 
         // Ajouter le tabbedPane au PANEL principal
         PANEL.setLayout(new BorderLayout());
