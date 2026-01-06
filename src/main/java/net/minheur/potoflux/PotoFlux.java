@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Properties;
 
 public class PotoFlux {
     public static final String ID = "potoflux";
@@ -37,6 +38,10 @@ public class PotoFlux {
         else PotoFluxLoadingContext.setDevEnv(args[0].equals("devEnv"));
 
         if (PotoFluxLoadingContext.isDevEnv()) PtfLogger.info("App running in dev env !");
+
+        // app version
+        String version = getVersion();
+        if (version != null) PtfLogger.info("Running potoflux v" + version);
 
         // set theme
         String theme = UserPrefsManager.getTheme();
@@ -100,6 +105,19 @@ public class PotoFlux {
         CommandProcessor.runSaveTerminal();
 
         System.exit(exitCode); // close app
+    }
+
+    public static String getVersion() {
+        try {
+            Properties props = new Properties();
+            props.load(PotoFlux.class.getResourceAsStream("/version.properties"));
+
+            return props.getProperty("version");
+        } catch (IOException e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not get version !");
+            return null;
+        }
     }
 
     public static ResourceLocation fromModId(String loc) {

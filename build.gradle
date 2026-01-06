@@ -26,7 +26,8 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'net.minheur.potoflux.PotoFlux'
+                'Main-Class': 'net.minheur.potoflux.PotoFlux',
+                'Implementation-Version': project.version
         )
     }
 }
@@ -36,6 +37,21 @@ processResources {
         expand "version": version
     }
 }
+
+tasks.register("generateVersionProperties") {
+    def outputDir = file("$buildDir/generated/resources")
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        def file = new File(outputDir, "version.properties")
+        file.text = "version=${project.version}"
+    }
+}
+
+sourceSets.main.resources.srcDir("$buildDir/generated/resources")
+
+tasks.processResources.dependsOn(generateVersionProperties);
 
 tasks.register("copyLibs", Copy) {
     dependsOn "build"
