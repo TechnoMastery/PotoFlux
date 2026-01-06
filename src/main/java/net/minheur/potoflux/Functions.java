@@ -65,4 +65,19 @@ public class Functions {
         }
         return result;
     }
+
+    /**
+     * Format a message with placeholders.
+     * @param message your initial message. Use $$ and an int to set your placeholders
+     * @param args your placeholder's values. the first one is $$1, then $$2...
+     * @return the formated message
+     */
+    public static String formatMessage(String message, Object... args) {
+        String result = message;
+
+        for (int i = 0; i < args.length; i++)
+            result = result.replace("$$" + (i +1), args[i].toString());
+
+        return result;
+    }
 }
