@@ -5,24 +5,34 @@ import java.awt.*;
 
 public class CatalogHelpers {
     public static JPanel buildCard(ModCatalog mod) {
-        JPanel card = new JPanel();
-        card.setLayout(new BorderLayout());
+        JPanel card = new JPanel(new BorderLayout());
         card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
-        card.setBackground(new Color(45, 45, 45));
+        card.setOpaque(true);
+
+        card.putClientProperty(
+                "FlatLaf.style",
+                "background: $Panel.background.lighten(4%); arc: 10"
+        );
+
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(60, 60, 60)),
+                BorderFactory.createLineBorder(
+                    UIManager.getColor("Component.borderColor")
+                ),
                 BorderFactory.createEmptyBorder(10, 12, 10, 12)
         ));
 
-        // Nom du mod
+        // mod name
         JLabel title = new JLabel(mod.modId);
-        title.setForeground(Color.WHITE);
         title.setFont(title.getFont().deriveFont(Font.BOLD, 14f));
 
         // Statut
         JLabel status = new JLabel(mod.isPublished ? "Published" : "Not Published"); // TODO
-        status.setForeground(mod.isPublished ? new Color(120, 220, 120) : new Color(220, 120, 120));
-        status.setFont(status.getFont().deriveFont(12f));
+        status.putClientProperty(
+                "FlatLaf.style",
+                mod.isPublished
+                        ? "foreground: $Actions.Green"
+                        : "foreground: $Actions.Red"
+        );
 
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
@@ -32,7 +42,6 @@ public class CatalogHelpers {
         textPanel.add(status);
 
         card.add(textPanel, BorderLayout.WEST);
-
         return card;
     }
 }

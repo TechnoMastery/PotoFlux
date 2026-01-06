@@ -116,6 +116,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("home");
         addHomeTab("title")
                 .en("Potoflux - Home");
+        addHomeTab("version")
+                .en("PotoFlux in version $$1")
+                .fr("PotoFlux version $$1");
 
         addSettingsTab("name")
                 .en("Settings");

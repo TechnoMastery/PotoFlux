@@ -45,7 +45,6 @@ public class CatalogTab extends BaseTab {
         JPanel modsPanel = new JPanel();
         modsPanel.setLayout(new BoxLayout(modsPanel, BoxLayout.Y_AXIS));
         modsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        modsPanel.setBackground(new Color(30, 30, 30));
 
         if (catalog.isEmpty()) {
             JLabel empty = new JLabel("No mods available."); // TODO
