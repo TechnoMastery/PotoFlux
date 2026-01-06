@@ -32,5 +32,14 @@ public class ModCatalog {
             for (String v : ptfVersions) if (v== null || v.trim().isEmpty()) return false;
             return true;
         }
+
+        public String getPtfVersions() {
+            StringBuilder sb = new StringBuilder();
+            for (String s : ptfVersions) {
+                sb.append(s);
+                if (ptfVersions.indexOf(s) != ptfVersions.size() -1) sb.append(", ");
+            }
+            return sb.toString();
+        }
     }
 }
