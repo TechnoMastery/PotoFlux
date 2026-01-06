@@ -17,9 +17,14 @@ public class UserPrefsManager {
     static {
         for (int i = 0; i < Lang.values().length; i++) langOptions[i] = Lang.values()[i].code;
     }
+
     // ascii
     private static final String KEY_ASCII = "terminal_ascii";
     private static final String[] asciiOptions = { "basic", "big", "chiseled" };
+
+    // theme
+    private static final String KEY_THEME = "app_theme";
+    private static final String[] themeOptions = { "dark", "light" };
 
     // getters
     public static String getTerminalASCII() {
@@ -36,7 +41,11 @@ public class UserPrefsManager {
         }
         return lang;
     }
+    public static String getTheme() {
+        return prefs.get(KEY_THEME, "light");
+    }
 
+    // askers
     private static String askUserLang() {
         int actualLangId = 0;
         String strictLang = getStrictUserLang();
@@ -73,16 +82,44 @@ public class UserPrefsManager {
         return ascii;
     }
 
+    private static String askUserTheme() {
+        String actualTheme = getTheme();
+        int actualThemeId = Arrays.asList(themeOptions).indexOf(actualTheme);
+
+        String newTheme = JOptionPane.showInputDialog(
+                null,
+                Translations.get("potoflux:prefs.theme.select"),
+                Translations.get("potoflux:prefs.theme"),
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                themeOptions,
+                themeOptions[actualThemeId]
+        ).toString();
+
+        if (newTheme == null) newTheme = actualTheme;
+        return newTheme;
+    }
+
+
+    // reseters
     public static void resetUserLang() {
         prefs.put(KEY_LANG, askUserLang());
-        JOptionPane.showMessageDialog(null, Translations.get("potoflux:prefs.reload"));
-        PotoFlux.runProgramClosing(0);
+        showReload();
     }
 
     public static void resetTerminalAscii() {
         prefs.put(KEY_ASCII, askUserAscii());
-        JOptionPane.showMessageDialog(null, Translations.get("potoflux:prefs.reload"));
         CommandProcessor.clearArea();
+        showReload();
+    }
+
+    public static void resetTheme() {
+        prefs.put(KEY_THEME, askUserTheme());
+        showReload();
+    }
+
+    private static void showReload() {
+        JOptionPane.showMessageDialog(null, Translations.get("potoflux:prefs.reload"));
         PotoFlux.runProgramClosing(0);
     }
 }

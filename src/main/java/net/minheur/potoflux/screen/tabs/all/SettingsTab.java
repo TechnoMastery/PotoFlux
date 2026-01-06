@@ -13,6 +13,7 @@ public class SettingsTab extends BaseTab {
     protected void setPanel() {
         addLangButton();
         addAsciiButton();
+        addThemeButton();
     }
 
     private void addAsciiButton() {
@@ -35,6 +36,17 @@ public class SettingsTab extends BaseTab {
         langButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         PANEL.add(langButton);
+    }
+
+    private void addThemeButton() {
+        JButton themeButton = new JButton(Translations.get("potoflux:prefs.theme.button"));
+        themeButton.addActionListener(e -> {
+            UserPrefsManager.resetTheme();
+        });
+        themeButton.setFont(new Font("Consolas", Font.PLAIN, 15));
+        themeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        PANEL.add(themeButton);
     }
 
     @Override

@@ -18,6 +18,9 @@ dependencies {
     // scan classes
     implementation "org.reflections:reflections:0.10.2"
 
+    // dark theme
+    implementation 'com.formdev:flatlaf:3.3'
+
 }
 
 jar {

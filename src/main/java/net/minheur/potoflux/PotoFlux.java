@@ -1,5 +1,7 @@
 package net.minheur.potoflux;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
@@ -35,6 +37,13 @@ public class PotoFlux {
         else PotoFluxLoadingContext.setDevEnv(args[0].equals("devEnv"));
 
         if (PotoFluxLoadingContext.isDevEnv()) PtfLogger.info("App running in dev env !");
+
+        // set theme
+        String theme = UserPrefsManager.getTheme();
+        if (theme.equals("dark")) FlatDarkLaf.setup(); // dark theme
+        else if (theme.equals("light")) FlatLightLaf.setup(); // light theme
+        else throw new IllegalStateException("Unknown theme: " + theme);
+        PtfLogger.info("Theme set to " + theme);
 
         // load translations
         Translations.load(UserPrefsManager.getUserLang());
