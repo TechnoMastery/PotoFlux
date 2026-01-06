@@ -1,8 +1,5 @@
 package net.minheur.potoflux.catalog;
 
-import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +7,6 @@ public class ModCatalog {
     public String modId;
     public boolean isPublished;
     public Map<String, ModVersion> versions;
-    public List<JsonObject> customData = new ArrayList<>();
 
     public boolean isCorrect() {
         if (modId == null || modId.trim().isEmpty()) return false;
