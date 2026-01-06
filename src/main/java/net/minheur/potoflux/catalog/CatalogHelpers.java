@@ -1,8 +1,6 @@
 package net.minheur.potoflux.catalog;
 
-import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -77,14 +75,23 @@ public class CatalogHelpers {
                 expandablePanel.add(versionLabel);
 
                 // show compatible potoflux versions
-                String compat = TAB_CONSTANT + "Compatible with PotoFlux: " + v.getValue().getPtfVersions();
+                String compat = TAB_CONSTANT + "Compatible with PotoFlux: " + v.getValue().getPtfVersions(); // TODO
                 JLabel compatLabel = new JLabel(compat);
-                expandablePanel.add(compatLabel);
+                if (!v.getValue().ptfVersions.isEmpty())
+                    expandablePanel.add(compatLabel);
+                else {
+                    JLabel emptyCompat = new JLabel(TAB_CONSTANT + "No compatible PotoFlux versions !"); // TODO
+                    emptyCompat.putClientProperty(
+                            "FlatLaf.style",
+                            "foreground: $Actions.Red"
+                    );
+                    expandablePanel.add(emptyCompat);
+                }
 
                 // --- status ---
 
                 // Part 1 : Published / Not Published
-                JLabel publishedLabel = new JLabel(TAB_CONSTANT + (v.getValue().isPublished ? "Published" : "Not Published"));
+                JLabel publishedLabel = new JLabel(TAB_CONSTANT + (v.getValue().isPublished ? "Published" : "Not Published")); // TODO
                 publishedLabel.putClientProperty(
                         "FlatLaf.style",
                         v.getValue().isPublished
@@ -97,7 +104,7 @@ public class CatalogHelpers {
                 expandablePanel.add(Box.createHorizontalStrut(10));
 
                 // Part 2 : Compatible / Not Compatible
-                JLabel compatCurrent = new JLabel(TAB_CONSTANT + (v.getValue().ptfVersions.contains(PotoFlux.getVersion()) ? "Compatible" : "Not Compatible"));
+                JLabel compatCurrent = new JLabel(TAB_CONSTANT + (v.getValue().ptfVersions.contains(PotoFlux.getVersion()) ? "Compatible" : "Not Compatible")); // TODO
                 compatCurrent.putClientProperty(
                         "FlatLaf.style",
                         v.getValue().isPublished
@@ -127,4 +134,3 @@ public class CatalogHelpers {
         return card;
     }
 }
-
