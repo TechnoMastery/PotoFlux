@@ -5,6 +5,8 @@ import net.minheur.potoflux.catalog.CatalogHelpers;
 import net.minheur.potoflux.catalog.ModCatalog;
 import net.minheur.potoflux.catalog.mods.CatalogTabRegistry;
 import net.minheur.potoflux.catalog.mods.ModCatalogTab;
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
 
@@ -30,7 +32,8 @@ public class CatalogTab extends BaseTab {
         Collection<ModCatalogTab> allModTabs = CatalogTabRegistry.getAll();
 
         for (ModCatalogTab tab : allModTabs) {
-
+            tabbedPane.add(Translations.get(tab.name()), tab.getPanel());
+            PtfLogger.info("Added tab " + tab.id(), LogCategories.CATALOG);
         }
 
         // Ajouter le tabbedPane au PANEL principal
