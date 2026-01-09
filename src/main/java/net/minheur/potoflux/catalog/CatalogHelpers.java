@@ -13,7 +13,6 @@ public class CatalogHelpers {
 
     public static JPanel buildCard(ModCatalog mod) {
         JPanel card = new JPanel(new BorderLayout());
-        // card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
         card.setOpaque(true);
 
         card.putClientProperty(

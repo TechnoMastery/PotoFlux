@@ -43,6 +43,9 @@ public class PotoFlux {
         String version = getVersion();
         if (version != null) PtfLogger.info("Running potoflux v" + version);
 
+        // load optional features
+        PotoFluxLoadingContext.loadFeatures();
+
         // set theme
         String theme = UserPrefsManager.getTheme();
         if (theme.equals("dark")) FlatDarkLaf.setup(); // dark theme

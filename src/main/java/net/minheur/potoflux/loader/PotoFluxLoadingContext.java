@@ -8,6 +8,7 @@ import net.minheur.potoflux.logger.PtfLogger;
 import org.reflections.vfs.Vfs;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.DirectoryStream;
@@ -42,6 +43,8 @@ public class PotoFluxLoadingContext {
 
     private static URLClassLoader modsClassLoader = null;
 
+    private static final Properties optionalFeatures = new Properties();
+
     private PotoFluxLoadingContext() {}
 
     public static PotoFluxLoadingContext get() {
@@ -62,6 +65,30 @@ public class PotoFluxLoadingContext {
     }
     public static boolean isDevEnv() {
         return isDevEnv;
+    }
+
+    public static void loadFeatures() {
+        Path featuresPath = PotoFlux.getProgramDir().resolve("optionalFeatures.properties");
+
+
+        if (Files.notExists(featuresPath)) {
+            try {
+                Files.createDirectories(featuresPath.getParent());
+                Files.createFile(featuresPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                PtfLogger.error("Could not create optionalFeatures.properties !");
+            }
+        }
+        else try (InputStream in = Files.newInputStream(featuresPath)) {
+            optionalFeatures.load(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not get optionalFeatures.properties !");
+        }
+    }
+    public static Properties getOptionalFeatures() {
+        return optionalFeatures;
     }
 
     public static Collection<URL> getDevScanUrls() {
