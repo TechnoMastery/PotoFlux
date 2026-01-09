@@ -28,12 +28,30 @@ public class CatalogHelpers {
         ));
 
         // ----- Main text -----
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+        mainPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         // mod name
         JLabel title = new JLabel(mod.modId);
         title.setFont(title.getFont().deriveFont(Font.BOLD, 14f));
 
+        // dl button
+        JButton dlButton = new JButton("Download"); // TODO
+        dlButton.setEnabled(false);
+
+        mainPanel.add(title);
+        mainPanel.add(Box.createHorizontalGlue());
+        mainPanel.add(dlButton);
+
+        mainPanel.setMaximumSize(new Dimension(
+                Integer.MAX_VALUE,
+                mainPanel.getPreferredSize().height
+        ));
+
         // Statut
         JLabel status = new JLabel(mod.isPublished ? "Published" : "Not Published"); // TODO
+        status.setAlignmentX(Component.LEFT_ALIGNMENT);
         status.putClientProperty(
                 "FlatLaf.style",
                 mod.isPublished
@@ -43,8 +61,10 @@ public class CatalogHelpers {
 
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+        textPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         textPanel.setOpaque(false);
-        textPanel.add(title);
+
+        textPanel.add(mainPanel);
         textPanel.add(Box.createVerticalStrut(4));
         textPanel.add(status);
 
@@ -52,6 +72,7 @@ public class CatalogHelpers {
         // panel
         JPanel expandablePanel = new JPanel();
         expandablePanel.setLayout(new BoxLayout(expandablePanel, BoxLayout.Y_AXIS));
+        expandablePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         expandablePanel.setOpaque(false);
         expandablePanel.setVisible(false); // start hidden
         expandablePanel.add(Box.createVerticalStrut(20));
@@ -118,7 +139,7 @@ public class CatalogHelpers {
 
         textPanel.add(expandablePanel);
 
-        card.add(textPanel, BorderLayout.WEST);
+        card.add(textPanel, BorderLayout.CENTER);
 
         // click to expand
         card.addMouseListener(new MouseAdapter() {
