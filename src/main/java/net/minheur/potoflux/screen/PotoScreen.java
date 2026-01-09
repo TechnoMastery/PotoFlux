@@ -1,6 +1,7 @@
 package net.minheur.potoflux.screen;
 
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
@@ -32,7 +33,10 @@ public class PotoScreen {
             }
         });
         frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
+
+        Properties optionalFeatures = PotoFluxLoadingContext.getOptionalFeatures();
+        boolean isResizable = Boolean.parseBoolean(optionalFeatures.getProperty("resizableWindow", "false"));
+        if (!isResizable) frame.setResizable(false);
 
         addIcon();
         addPanels();
