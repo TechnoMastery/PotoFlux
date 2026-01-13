@@ -1,20 +1,19 @@
 package net.minheur.potoflux.loader;
 
+import com.google.gson.reflect.TypeToken;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.utils.Json;
 import org.reflections.vfs.Vfs;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -22,7 +21,11 @@ import java.util.jar.JarFile;
 public class PotoFluxLoadingContext {
     private static final PotoFluxLoadingContext INSTANCE = new PotoFluxLoadingContext();
     private final ModEventBus modEventBus = new ModEventBus();
+
+    private static final Map<String, Class<?>> listedMods = new HashMap<>();
     private static final Map<String, Class<?>> loadedMods = new HashMap<>();
+    private static final List<String> modsToLoad = new ArrayList<>();
+
     private static final List<String> illegalModIds = new ArrayList<>();
     static {
         illegalModIds.add(PotoFlux.ID);
@@ -187,9 +190,39 @@ public class PotoFluxLoadingContext {
         if (modId.equals(PotoFlux.ID)) return true;
         return loadedMods.containsKey(modId);
     }
-    public static boolean addMod(Mod mod, Class<?> modClass) {
+
+    public static boolean listMod(Mod mod, Class<?> modClass) {
         if (isModLoaded(mod)) return false;
-        loadedMods.put(mod.modId(), modClass);
+        listedMods.put(mod.modId(), modClass);
         return true;
+    }
+    private static void registerModList() {
+        Path modListPath = PotoFlux.getProgramDir().resolve("modList.json");
+
+        if (Files.notExists(modListPath)) {
+            try {
+                Files.writeString(modListPath, "[]", StandardOpenOption.CREATE);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to create modList.json !", e);
+            }
+        }
+
+        try {
+            String content = Files.readString(modListPath);
+
+            List<String> loadedModIds = Json.GSON.fromJson(
+                    content,
+                    new TypeToken<List<String>>() {}.getType()
+            );
+
+            modsToLoad.clear();
+            modsToLoad.addAll(loadedModIds);
+        } catch (RuntimeException | IOException e) {
+            e.printStackTrace();
+            PtfLogger.error("Failed to read modList.json !", LogCategories.MOD_LOADER);
+        }
+    }
+    public static void loadMods() {
+        registerModList();
     }
 }

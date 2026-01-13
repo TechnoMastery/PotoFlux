@@ -86,7 +86,7 @@ public class AddonLoader {
                     // creates the addon (constructeur par défaut)
                     Object instance = clazz.getDeclaredConstructor().newInstance();
                     // add it to the registry
-                    if (!PotoFluxLoadingContext.addMod(modAnnotation, clazz)) {
+                    if (!PotoFluxLoadingContext.listMod(modAnnotation, clazz)) {
                         PtfLogger.error("Failed to load mod : " + clazz.getName() + " ! Skipping...", LogCategories.MOD_LOADER);
                         continue;
                     }

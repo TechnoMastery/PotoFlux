@@ -27,6 +27,7 @@ public class CatalogTab extends BaseTab {
 
         // add tabs
         tabbedPane.addTab("Mods catalog", mkModCatalog()); // TODO
+        tabbedPane.addTab("My mods", mkMyMods());
 
         // add mod tabs
         Collection<ModCatalogTab> allModTabs = CatalogTabRegistry.getAll();
@@ -44,7 +45,7 @@ public class CatalogTab extends BaseTab {
         PANEL.repaint();
     }
 
-    public JPanel mkModCatalog() {
+    private JPanel mkModCatalog() {
         JPanel modsPanel = new JPanel();
         modsPanel.setLayout(new BoxLayout(modsPanel, BoxLayout.Y_AXIS));
         modsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -70,6 +71,12 @@ public class CatalogTab extends BaseTab {
 
         JPanel root = new JPanel(new BorderLayout());
         root.add(scrollPane, BorderLayout.CENTER);
+
+        return root;
+    }
+
+    private JPanel mkMyMods() {
+        JPanel root = new JPanel();
 
         return root;
     }

@@ -1,5 +1,7 @@
 package net.minheur.potoflux.catalog;
 
+import net.minheur.potoflux.PotoFlux;
+
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +18,12 @@ public class ModCatalog {
             if (!entry.getValue().isCorrect()) return false;
         }
         return true;
+    }
+
+    public boolean isCompatible() {
+        for (String version : versions.keySet())
+            if (version.equals(PotoFlux.getVersion())) return true;
+        return false;
     }
 
     public static class ModVersion {

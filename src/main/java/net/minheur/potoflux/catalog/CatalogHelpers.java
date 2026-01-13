@@ -37,7 +37,7 @@ public class CatalogHelpers {
         title.setFont(title.getFont().deriveFont(Font.BOLD, 14f));
 
         // dl button
-        JButton dlButton = new JButton("Download"); // TODO
+        JButton dlButton = new JButton("Not available"); // TODO
         dlButton.setEnabled(false);
 
         mainPanel.add(title);
@@ -50,11 +50,11 @@ public class CatalogHelpers {
         ));
 
         // Statut
-        JLabel status = new JLabel(mod.isPublished ? "Published" : "Not Published"); // TODO
+        JLabel status = new JLabel(mod.isCompatible() ? "Compatible" : "Not Compatible"); // TODO
         status.setAlignmentX(Component.LEFT_ALIGNMENT);
         status.putClientProperty(
                 "FlatLaf.style",
-                mod.isPublished
+                mod.isCompatible()
                         ? "foreground: $Actions.Green"
                         : "foreground: $Actions.Red"
         );
@@ -137,7 +137,7 @@ public class CatalogHelpers {
             }
         }
 
-        textPanel.add(expandablePanel);
+        // textPanel.add(expandablePanel);
 
         card.add(textPanel, BorderLayout.CENTER);
 
