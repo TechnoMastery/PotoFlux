@@ -1,6 +1,7 @@
 package net.minheur.potoflux.catalog;
 
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,6 +41,8 @@ public class CatalogHelpers {
         JButton dlButton = new JButton("Not available"); // TODO
         dlButton.setEnabled(false);
 
+        parameterDlButton(dlButton, mod);
+
         mainPanel.add(title);
         mainPanel.add(Box.createHorizontalGlue());
         mainPanel.add(dlButton);
@@ -50,14 +53,7 @@ public class CatalogHelpers {
         ));
 
         // Statut
-        JLabel status = new JLabel(mod.isCompatible() ? "Compatible" : "Not Compatible"); // TODO
-        status.setAlignmentX(Component.LEFT_ALIGNMENT);
-        status.putClientProperty(
-                "FlatLaf.style",
-                mod.isCompatible()
-                        ? "foreground: $Actions.Green"
-                        : "foreground: $Actions.Red"
-        );
+        JLabel status = getStatusLabel(mod);
 
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
@@ -152,5 +148,47 @@ public class CatalogHelpers {
         });
 
         return card;
+    }
+
+    private static JLabel getStatusLabel(ModCatalog mod) {
+        String statusContent = mod.isPublished ?
+                (mod.isCompatible() ? "Compatible" : "Not Compatible") : // TODO
+                "Not Published"; // TODO
+        String statusColor = mod.isPublished ?
+                (mod.isCompatible() ? "$Actions.Green"  : "#FFA500") :
+                "$Actions.Red";
+
+        JLabel status = new JLabel(statusContent);
+        status.setAlignmentX(Component.LEFT_ALIGNMENT);
+        status.putClientProperty(
+                "FlatLaf.style",
+                "foreground: " + statusColor
+        );
+        return status;
+    }
+
+    private static void parameterDlButton(JButton dlButton, ModCatalog mod) {
+        ModCatalog.ModVersion lastest = mod.getLastestCompatibleVersion();
+
+        if (lastest == null) return;
+        if (PotoFluxLoadingContext.getModVersion(mod.modId) == -1) return;
+
+        // TODO
+    }
+
+    public static int compareVersions(String v1, String v2) {
+        String[] p1 = v1.split("\\.");
+        String[] p2 = v2.split("\\.");
+
+        int max = Math.max(p1.length, p2.length);
+
+        for (int i = 0; i < max; i++) {
+            int n1 = i < p1.length ? Integer.parseInt(p1[i]) : 0;
+            int n2 = i < p2.length ? Integer.parseInt(p2[i]) : 0;
+
+            if (n1 != n2) return Integer.compare(n1, n2);
+        }
+
+        return 0;
     }
 }

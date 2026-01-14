@@ -187,8 +187,27 @@ public class PotoFluxLoadingContext {
         return loadedMods.containsKey(mod.modId());
     }
     public static boolean isModLoaded(String modId) {
-        if (modId.equals(PotoFlux.ID)) return true;
+        if (illegalModIds.contains(modId)) return true;
         return loadedMods.containsKey(modId);
+    }
+
+    public static boolean isModListed(Mod mod) {
+        if (illegalModIds.contains(mod.modId())) return true;
+        return listedMods.containsKey(mod);
+    }
+    public static boolean isModListed(String modId) {
+        if (illegalModIds.contains(modId)) return true;
+        for (Mod entry : listedMods.keySet())
+            if (entry.modId().equals(modId)) return true;
+        return false;
+    }
+    public static int getModVersion(String modId) {
+        if (!isModListed(modId)) return -1;
+
+        for (Mod entry : listedMods.keySet())
+            if (entry.modId().equals(modId)) return entry.version();
+
+        return -1;
     }
 
     public static boolean listMod(Mod mod, Class<?> modClass) {

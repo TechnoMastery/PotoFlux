@@ -2,6 +2,7 @@ package net.minheur.potoflux.catalog;
 
 import net.minheur.potoflux.PotoFlux;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +22,27 @@ public class ModCatalog {
     }
 
     public boolean isCompatible() {
-        for (String version : versions.keySet())
-            if (version.equals(PotoFlux.getVersion())) return true;
+        for (ModVersion version : versions.values())
+            if (version.isCompatible()) return true;
         return false;
+    }
+    private boolean isCompatible(String version) {
+        for (Map.Entry<String, ModVersion> entry : versions.entrySet()) {
+            if (entry.getKey().equals(version))
+                return entry.getValue().isCompatible();
+        }
+        return false;
+    }
+    public ModVersion getLastestCompatibleVersion() {
+        List<String> compatibleVersions = new ArrayList<>();
+        for (String v : versions.keySet())
+            if (isCompatible(v)) compatibleVersions.add(v);
+
+        String lastest = compatibleVersions.stream()
+                .max(CatalogHelpers::compareVersions)
+                .orElse(null);
+
+        return versions.get(lastest);
     }
 
     public static class ModVersion {
@@ -35,6 +54,10 @@ public class ModCatalog {
             if (fileName == null || fileName.trim().isEmpty()) return false;
             for (String v : ptfVersions) if (v== null || v.trim().isEmpty()) return false;
             return true;
+        }
+
+        public boolean isCompatible() {
+            return ptfVersions.contains(PotoFlux.getVersion());
         }
 
         public String getPtfVersions() {

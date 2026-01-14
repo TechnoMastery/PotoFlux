@@ -10,5 +10,6 @@ import java.util.List;
 @Target(ElementType.TYPE)
 public @interface Mod {
     String modId();
+    int version();
     String[] compatibleVersions();
 }
