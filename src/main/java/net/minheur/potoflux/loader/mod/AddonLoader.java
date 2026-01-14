@@ -83,16 +83,14 @@ public class AddonLoader {
                         continue;
                     }
 
-                    // creates the addon (constructeur par défaut)
-                    Object instance = clazz.getDeclaredConstructor().newInstance();
                     // add it to the registry
                     if (!PotoFluxLoadingContext.listMod(modAnnotation, clazz)) {
-                        PtfLogger.error("Failed to load mod : " + clazz.getName() + " ! Skipping...", LogCategories.MOD_LOADER);
+                        PtfLogger.error("Failed to list mod : " + clazz.getName() + " ! Skipping...", LogCategories.MOD_LOADER);
                         continue;
                     }
 
                     // laisse le constructeur faire son job : il peut accéder au bus via PotoFluxLoadingContext.get().getModEventBus()
-                    PtfLogger.info("Loaded addon: " + clazz.getName() + ", modId '" + modAnnotation.modId() + "'", LogCategories.MOD_LOADER);
+                    PtfLogger.info("Listed addon: " + clazz.getName() + ", modId '" + modAnnotation.modId() + "'", LogCategories.MOD_LOADER);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

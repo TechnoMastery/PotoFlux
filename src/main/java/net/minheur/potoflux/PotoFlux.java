@@ -107,6 +107,7 @@ public class PotoFlux {
         // executes when program close
 
         CommandProcessor.runSaveTerminal();
+        PotoFluxLoadingContext.saveModList();
 
         System.exit(exitCode); // close app
     }
