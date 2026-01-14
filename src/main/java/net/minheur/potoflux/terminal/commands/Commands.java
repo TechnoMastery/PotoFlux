@@ -27,6 +27,10 @@ public class Commands {
     public final Command ASCII = LIST.add(new Command(fromModId("ascii"), "ascii", CommandActions::writeAscii, CommandHelp.ascii()));
     public final Command QUIT = LIST.add(new Command(fromModId("quit"), "quit", CommandActions::quit, CommandHelp.quit()));
 
+    // hidden commands
+    public final Command HIDDEN = LIST.add(new Command(fromModId("hidden"), "hide", CommandActions::hidden));
+    public final Command NOPE = LIST.add(new Command(fromModId("nope"), "nope", CommandActions::nope));
+
     public static void register(RegisterCommandsEvent event) {
         INSTANCE = new Commands();
         INSTANCE.LIST.register(event.reg);

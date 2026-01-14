@@ -100,12 +100,12 @@ public class CommandActions {
     }
 
     static void hidden(List<String> args) {
-        if (checkNoArgs(args)) return;
+        if (checkNoArgs(args)) CommandProcessor.appendNoCommand();
         CommandProcessor.appendOutput(Translations.get("potoflux:command.hidden.out"));
     }
 
     static void nope(List<String> args) {
-        if (checkNoArgs(args)) return;
+        if (checkNoArgs(args)) CommandProcessor.appendNoCommand();
         CommandProcessor.appendOutput(Translations.get("potoflux:command.nope.out"));
     }
 

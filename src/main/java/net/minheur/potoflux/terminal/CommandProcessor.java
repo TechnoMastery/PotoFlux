@@ -35,7 +35,7 @@ public class CommandProcessor {
 
         // check if command exist
         if (!CommandRegistry.containsKey(cmdKey)) {
-            appendOutput(Translations.get("potoflux:commandPro.none"));
+            appendNoCommand();
             return;
         }
 
@@ -43,6 +43,10 @@ public class CommandProcessor {
         Command command = CommandRegistry.getCommandWithKey(cmdKey);
         if (command == null) throw new IllegalCallerException("Command exist but is empty !");
         command.getCommandOutput().accept(args);
+    }
+
+    public static void appendNoCommand() {
+        appendOutput(Translations.get("potoflux:commandPro.none"));
     }
 
     public static void appendOutput(String text) {
