@@ -201,13 +201,13 @@ public class PotoFluxLoadingContext {
             if (entry.modId().equals(modId)) return true;
         return false;
     }
-    public static int getModVersion(String modId) {
-        if (!isModListed(modId)) return -1;
+    public static String getModVersion(String modId) {
+        if (!isModListed(modId)) return null;
 
         for (Mod entry : listedMods.keySet())
             if (entry.modId().equals(modId)) return entry.version();
 
-        return -1;
+        return null;
     }
 
     public static boolean listMod(Mod mod, Class<?> modClass) {

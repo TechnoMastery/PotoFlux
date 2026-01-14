@@ -2,6 +2,7 @@ package net.minheur.potoflux.catalog;
 
 import net.minheur.potoflux.PotoFlux;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,16 +34,15 @@ public class ModCatalog {
         }
         return false;
     }
-    public ModVersion getLastestCompatibleVersion() {
+    public Map.Entry<String, ModVersion> getLastestCompatibleVersion() {
         List<String> compatibleVersions = new ArrayList<>();
-        for (String v : versions.keySet())
+        for (Map.Entry<String, ModVersion> v : versions.keySet()) // TODO
             if (isCompatible(v)) compatibleVersions.add(v);
 
         String lastest = compatibleVersions.stream()
                 .max(CatalogHelpers::compareVersions)
                 .orElse(null);
-
-        return versions.get(lastest);
+        return new AbstractMap.SimpleEntry<>(lastest, versions.get(lastest));
     }
 
     public static class ModVersion {

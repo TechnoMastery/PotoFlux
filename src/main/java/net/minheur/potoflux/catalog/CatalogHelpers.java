@@ -7,7 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class CatalogHelpers {
     private static final String TAB_CONSTANT = "    ";
@@ -168,12 +171,46 @@ public class CatalogHelpers {
     }
 
     private static void parameterDlButton(JButton dlButton, ModCatalog mod) {
-        ModCatalog.ModVersion lastest = mod.getLastestCompatibleVersion();
+        Map.Entry<String, ModCatalog.ModVersion> lastest = mod.getLastestCompatibleVersion();
 
-        if (lastest == null) return;
-        if (PotoFluxLoadingContext.getModVersion(mod.modId) == -1) return;
+        if (!PotoFluxLoadingContext.isModListed(mod.modId)) {
+            if (lastest == null) return;
 
-        // TODO
+            dlButton.setText("Download");
+            dlButton.setEnabled(true);
+            return;
+        }
+
+        String loadedModVersion = PotoFluxLoadingContext.getModVersion(mod.modId);
+        if (loadedModVersion == null) return;
+
+        if (lastest == null) {
+            dlButton.setText("! Incompatible - View");
+            dlButton.setEnabled(true);
+            return;
+        }
+
+        if (lastest.getKey().equals(loadedModVersion)) {
+            dlButton.setText("Installed - View");
+            dlButton.setEnabled(true);
+            return;
+        }
+
+        String sortedLastest = Stream.of(lastest.getKey(), loadedModVersion)
+                .max(CatalogHelpers::compareVersions)
+                .orElse(null);
+
+        if (sortedLastest.equals(loadedModVersion)) {
+            dlButton.setText("Unknown version installed !");
+            dlButton.setEnabled(false);
+            return;
+        }
+
+        if (sortedLastest.equals(lastest.getKey())) {
+            dlButton.setText("Installed - View / Update");
+            dlButton.setEnabled(true);
+            return;
+        }
     }
 
     public static int compareVersions(String v1, String v2) {
