@@ -36,8 +36,9 @@ public class ModCatalog {
     }
     public Map.Entry<String, ModVersion> getLastestCompatibleVersion() {
         List<String> compatibleVersions = new ArrayList<>();
-        for (Map.Entry<String, ModVersion> v : versions.keySet()) // TODO
-            if (isCompatible(v)) compatibleVersions.add(v);
+        for (Map.Entry<String, ModVersion> v : versions.entrySet())
+            if (isCompatible(v.getKey()) || v.getValue().isPublished)
+                compatibleVersions.add(v.getKey());
 
         String lastest = compatibleVersions.stream()
                 .max(CatalogHelpers::compareVersions)

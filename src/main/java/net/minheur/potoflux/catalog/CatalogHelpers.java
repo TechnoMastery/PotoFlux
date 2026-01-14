@@ -2,11 +2,21 @@ package net.minheur.potoflux.catalog;
 
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.screen.tabs.Tabs;
+import net.minheur.potoflux.screen.tabs.all.CatalogTab;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -171,6 +181,8 @@ public class CatalogHelpers {
     }
 
     private static void parameterDlButton(JButton dlButton, ModCatalog mod) {
+        if (!mod.isPublished) return;
+
         Map.Entry<String, ModCatalog.ModVersion> lastest = mod.getLastestCompatibleVersion();
 
         if (!PotoFluxLoadingContext.isModListed(mod.modId)) {
@@ -178,21 +190,33 @@ public class CatalogHelpers {
 
             dlButton.setText("Download");
             dlButton.setEnabled(true);
+            dlButton.addActionListener(e -> {
+                try {
+                    downloadMod(mod);
+                } catch (IOException | InterruptedException ex) {
+                    ex.printStackTrace();
+                    PtfLogger.error("Failed to download mod !");
+                }
+            });
             return;
         }
 
         String loadedModVersion = PotoFluxLoadingContext.getModVersion(mod.modId);
         if (loadedModVersion == null) return;
 
+        CatalogTab catalogTab = ((CatalogTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.CATALOG));
+
         if (lastest == null) {
             dlButton.setText("! Incompatible - View");
             dlButton.setEnabled(true);
+            dlButton.addActionListener(e -> catalogTab.viewMod(mod));
             return;
         }
 
         if (lastest.getKey().equals(loadedModVersion)) {
             dlButton.setText("Installed - View");
             dlButton.setEnabled(true);
+            dlButton.addActionListener(e -> catalogTab.viewMod(mod));
             return;
         }
 
@@ -209,7 +233,42 @@ public class CatalogHelpers {
         if (sortedLastest.equals(lastest.getKey())) {
             dlButton.setText("Installed - View / Update");
             dlButton.setEnabled(true);
+            dlButton.addActionListener(e -> catalogTab.viewMod(mod));
             return;
+        }
+
+        throw new IllegalStateException("'sortedLasted' is not valid !");
+    }
+
+    private static void downloadMod(ModCatalog mod) throws IOException, InterruptedException {
+        var lastest = mod.getLastestCompatibleVersion();
+
+        if (lastest.getKey() == null || lastest.getValue() == null)
+            throw new IllegalStateException("No compatible version found for mod: " + mod.modId);
+
+        String fileName = lastest.getValue().fileName;
+        String dlUrl = "https://technomastery.github.io/PotoFluxAppData/modCatalog/"
+                + mod.modId + "/"
+                + fileName;
+
+        Path modsDir = PotoFlux.getProgramDir().resolve("mods");
+        Files.createDirectories(modsDir);
+
+        Path targetFile = modsDir.resolve(fileName);
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(dlUrl))
+                .build();
+
+        HttpResponse<Path> response = client.send(
+                request,
+                HttpResponse.BodyHandlers.ofFile(targetFile)
+        );
+
+        if (response.statusCode() != 200) {
+            Files.deleteIfExists(targetFile);
+            throw new IOException("Failed to download mod (" + response.statusCode() + ")");
         }
     }
 

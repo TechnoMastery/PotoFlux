@@ -27,7 +27,7 @@ public class CatalogTab extends BaseTab {
 
         // add tabs
         tabbedPane.addTab("Mods catalog", mkModCatalog()); // TODO
-        tabbedPane.addTab("My mods", mkMyMods());
+        tabbedPane.addTab("My mods", mkMyMods()); // TODO
 
         // add mod tabs
         Collection<ModCatalogTab> allModTabs = CatalogTabRegistry.getAll();
@@ -78,7 +78,18 @@ public class CatalogTab extends BaseTab {
     private JPanel mkMyMods() {
         JPanel root = new JPanel();
 
+        // TODO
+
         return root;
+    }
+
+    private void openModDesc(ModCatalog mod) {
+        // TODO
+    }
+
+    public void viewMod(ModCatalog mod) {
+        tabbedPane.setSelectedIndex(1);
+        openModDesc(mod);
     }
 
     public void reloadCatalog() {
