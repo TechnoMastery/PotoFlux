@@ -76,93 +76,12 @@ public class CatalogHelpers {
         textPanel.add(Box.createVerticalStrut(4));
         textPanel.add(status);
 
-        // ----- extended panel -----
-        // panel
-        JPanel expandablePanel = new JPanel();
-        expandablePanel.setLayout(new BoxLayout(expandablePanel, BoxLayout.Y_AXIS));
-        expandablePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        expandablePanel.setOpaque(false);
-        expandablePanel.setVisible(false); // start hidden
-        expandablePanel.add(Box.createVerticalStrut(20));
-
-        // version list
-        if (mod.versions.isEmpty()) {
-            JLabel emptyVersions = new JLabel("This mod has no version !"); // TODO
-            expandablePanel.add(emptyVersions);
-        } else {
-            JLabel versionsLabel = new JLabel("Mod versions:"); // TODO
-            expandablePanel.add(versionsLabel);
-
-            expandablePanel.add(Box.createVerticalStrut(10));
-
-            for (Map.Entry<String, ModCatalog.ModVersion> v : mod.versions.entrySet()) {
-                // define version
-                String line = "- " + v.getKey() + " : " + v.getValue().fileName;
-                String noFileLine = "- " + v.getKey();
-                JLabel versionLabel = new JLabel(v.getValue().fileName == null ? noFileLine : line);
-                expandablePanel.add(versionLabel);
-
-                // show compatible potoflux versions
-                String compat = TAB_CONSTANT + "Compatible with PotoFlux: " + v.getValue().getPtfVersions(); // TODO
-                JLabel compatLabel = new JLabel(compat);
-                if (!v.getValue().ptfVersions.isEmpty())
-                    expandablePanel.add(compatLabel);
-                else {
-                    JLabel emptyCompat = new JLabel(TAB_CONSTANT + "No compatible PotoFlux versions !"); // TODO
-                    emptyCompat.putClientProperty(
-                            "FlatLaf.style",
-                            "foreground: $Actions.Red"
-                    );
-                    expandablePanel.add(emptyCompat);
-                }
-
-                // --- status ---
-
-                // Part 1 : Published / Not Published
-                JLabel publishedLabel = new JLabel(TAB_CONSTANT + (v.getValue().isPublished ? "Published" : "Not Published")); // TODO
-                publishedLabel.putClientProperty(
-                        "FlatLaf.style",
-                        v.getValue().isPublished
-                                ? "foreground: $Actions.Green"
-                                : "foreground: $Actions.Red"
-                );
-                expandablePanel.add(publishedLabel);
-
-                // space
-                expandablePanel.add(Box.createHorizontalStrut(10));
-
-                // Part 2 : Compatible / Not Compatible
-                JLabel compatCurrent = new JLabel(TAB_CONSTANT + (v.getValue().ptfVersions.contains(PotoFlux.getVersion()) ? "Compatible" : "Not Compatible")); // TODO
-                compatCurrent.putClientProperty(
-                        "FlatLaf.style",
-                        v.getValue().isPublished
-                                ? "foreground: $Actions.Green"
-                                : "foreground: $Actions.Red"
-                );
-                expandablePanel.add(compatCurrent);
-
-                expandablePanel.add(Box.createVerticalStrut(4));
-            }
-        }
-
-        // textPanel.add(expandablePanel);
-
         card.add(textPanel, BorderLayout.CENTER);
-
-        // click to expand
-        card.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                expandablePanel.setVisible(!expandablePanel.isVisible());
-                card.revalidate();
-                card.repaint();
-            }
-        });
 
         return card;
     }
 
-    private static JLabel getStatusLabel(ModCatalog mod) {
+    public static JLabel getStatusLabel(ModCatalog mod) {
         String statusContent = mod.isPublished ?
                 (mod.isCompatible() ? "Compatible" : "Not Compatible") : // TODO
                 "Not Published"; // TODO
@@ -203,19 +122,17 @@ public class CatalogHelpers {
         String loadedModVersion = PotoFluxLoadingContext.getModVersion(mod.modId);
         if (loadedModVersion == null) return;
 
-        Supplier<CatalogTab> catalogTab = () -> ((CatalogTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.CATALOG));
-
         if (lastest == null) {
             dlButton.setText("! Incompatible - View");
             dlButton.setEnabled(true);
-            dlButton.addActionListener(e -> catalogTab.get().viewMod(mod));
+            dlButton.addActionListener(e -> openModDesc(mod));
             return;
         }
 
         if (lastest.getKey().equals(loadedModVersion)) {
             dlButton.setText("Installed - View");
             dlButton.setEnabled(true);
-            dlButton.addActionListener(e -> catalogTab.get().viewMod(mod));
+            dlButton.addActionListener(e -> openModDesc(mod));
             return;
         }
 
@@ -232,11 +149,29 @@ public class CatalogHelpers {
         if (sortedLastest.equals(lastest.getKey())) {
             dlButton.setText("Installed - View / Update");
             dlButton.setEnabled(true);
-            dlButton.addActionListener(e -> catalogTab.get().viewMod(mod));
+            dlButton.addActionListener(e -> openModDesc(mod));
             return;
         }
 
         throw new IllegalStateException("'sortedLasted' is not valid !");
+    }
+
+    public static void openModDesc(ModCatalog mod) {
+        // pane
+        JPanel modPanel = new JPanel();
+
+
+
+        // dialog
+        JDialog dialog = new JDialog(
+                ((JFrame) null),
+                "Mod description", // TODO
+                true
+        );
+        dialog.setContentPane(modPanel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
     }
 
     private static void downloadMod(ModCatalog mod) throws IOException, InterruptedException {

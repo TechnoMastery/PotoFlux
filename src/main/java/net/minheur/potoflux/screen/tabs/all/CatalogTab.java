@@ -83,15 +83,6 @@ public class CatalogTab extends BaseTab {
         return root;
     }
 
-    private void openModDesc(ModCatalog mod) {
-        // TODO
-    }
-
-    public void viewMod(ModCatalog mod) {
-        tabbedPane.setSelectedIndex(1);
-        openModDesc(mod);
-    }
-
     public void reloadCatalog() {
         CatalogGetterHandler.buildCatalog();
         this.catalog = CatalogGetterHandler.getCatalog();
