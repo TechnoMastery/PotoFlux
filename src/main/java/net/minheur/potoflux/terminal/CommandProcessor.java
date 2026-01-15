@@ -14,9 +14,10 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CommandProcessor {
-    private static final JTextArea outputArea = ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().getOutputArea();
+    private static final Supplier<JTextArea> outputArea = () -> ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().getOutputArea();
 
     public static void processCommand(String pCommand) {
         // check command is empty
@@ -50,16 +51,16 @@ public class CommandProcessor {
     }
 
     public static void appendOutput(String text) {
-        outputArea.append(text + "\n");
-        outputArea.setCaretPosition(outputArea.getDocument().getLength());
+        outputArea.get().append(text + "\n");
+        outputArea.get().setCaretPosition(outputArea.get().getDocument().getLength());
     }
 
     public static void clearArea() {
-        outputArea.setText("");
+        outputArea.get().setText("");
     }
 
     public static void runSaveTerminal() {
-        String content = outputArea.getText();
+        String content = outputArea.get().getText();
         Path file = PotoFlux.getProgramDir().resolve("terminal.txt");
 
         if (content.trim().isEmpty()) { // is string is empty : delete file

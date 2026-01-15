@@ -17,9 +17,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class CatalogHelpers {
@@ -204,19 +203,19 @@ public class CatalogHelpers {
         String loadedModVersion = PotoFluxLoadingContext.getModVersion(mod.modId);
         if (loadedModVersion == null) return;
 
-        CatalogTab catalogTab = ((CatalogTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.CATALOG));
+        Supplier<CatalogTab> catalogTab = () -> ((CatalogTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.CATALOG));
 
         if (lastest == null) {
             dlButton.setText("! Incompatible - View");
             dlButton.setEnabled(true);
-            dlButton.addActionListener(e -> catalogTab.viewMod(mod));
+            dlButton.addActionListener(e -> catalogTab.get().viewMod(mod));
             return;
         }
 
         if (lastest.getKey().equals(loadedModVersion)) {
             dlButton.setText("Installed - View");
             dlButton.setEnabled(true);
-            dlButton.addActionListener(e -> catalogTab.viewMod(mod));
+            dlButton.addActionListener(e -> catalogTab.get().viewMod(mod));
             return;
         }
 
@@ -233,7 +232,7 @@ public class CatalogHelpers {
         if (sortedLastest.equals(lastest.getKey())) {
             dlButton.setText("Installed - View / Update");
             dlButton.setEnabled(true);
-            dlButton.addActionListener(e -> catalogTab.viewMod(mod));
+            dlButton.addActionListener(e -> catalogTab.get().viewMod(mod));
             return;
         }
 
