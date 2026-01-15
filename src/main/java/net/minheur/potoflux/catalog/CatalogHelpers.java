@@ -3,13 +3,9 @@ package net.minheur.potoflux.catalog;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.logger.PtfLogger;
-import net.minheur.potoflux.screen.tabs.Tabs;
-import net.minheur.potoflux.screen.tabs.all.CatalogTab;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -21,8 +17,6 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public class CatalogHelpers {
-    private static final String TAB_CONSTANT = "    ";
-
     public static JPanel buildCard(ModCatalog mod) {
         JPanel card = new JPanel(new BorderLayout());
         card.setOpaque(true);
@@ -97,7 +91,59 @@ public class CatalogHelpers {
         return status;
     }
 
+    private static String getInstallStatus(ModCatalog mod) {
+
+        if (PotoFluxLoadingContext.isModListed(mod.modId)) { // mod listed
+
+            if (PotoFluxLoadingContext.isModLoaded(mod.modId)) // mod loaded
+                return "loaded";
+
+            if (mod.isCompatible()) // compatible ?
+                return "disabled"; // yes = disabled
+            else return "incompatible"; // no = dl but incompatible
+
+        } else return "notI"; // not installed
+
+    }
+
+    public static JLabel getInstallationStatus(ModCatalog mod) {
+        // setup status
+        String modInstallationStatus = getInstallStatus(mod);
+        String statusColor;
+
+        JLabel statusLabel = new JLabel();
+
+        switch (modInstallationStatus) {
+            case "loaded" -> {
+                statusLabel.setText("Loaded"); // TODO
+                statusColor = "$Actions.Green";
+            }
+            case "disabled" -> {
+                statusLabel.setText("Disabled"); // TODO
+                statusColor = "#FFA500";
+            }
+            case "incompatible" -> {
+                statusLabel.setText("Installed ! Incompatible"); // TODO
+                statusColor = "$Actions.Red";
+            }
+            default -> {
+                statusLabel.setText("Not installed"); // TODO
+                statusColor = "$Actions.Red";
+            }
+        }
+
+        statusLabel.putClientProperty(
+                "FlatLaf.style",
+                "foreground: " + statusColor
+        );
+
+        return statusLabel;
+    }
+
     private static void parameterDlButton(JButton dlButton, ModCatalog mod) {
+        dlButton.setEnabled(true);
+        dlButton.addActionListener(e -> openModDesc(mod)); // TODO
+
         if (!mod.isPublished) return;
 
         Map.Entry<String, ModCatalog.ModVersion> lastest = mod.getLastestCompatibleVersion();
@@ -156,19 +202,56 @@ public class CatalogHelpers {
     }
 
     public static void openModDesc(ModCatalog mod) {
-        // pane
-        JPanel modPanel = new JPanel();
-
-
-
         // dialog
         JDialog dialog = new JDialog(
                 ((JFrame) null),
                 "Mod description", // TODO
                 true
         );
+
+        // pane
+        JPanel modPanel = new JPanel();
+        modPanel.setLayout(new BoxLayout(modPanel, BoxLayout.Y_AXIS));
+
+        // line 1: modId
+        JLabel modIdLabel = new JLabel(mod.modId);
+        modIdLabel.setFont(modIdLabel.getFont().deriveFont(Font.BOLD, 28f));
+        modIdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        modPanel.add(modIdLabel);
+
+        modPanel.add(Box.createVerticalStrut(5));
+
+        // line 2: main status
+        JLabel statusLabel = getStatusLabel(mod);
+        statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        modPanel.add(statusLabel);
+
+        modPanel.add(Box.createVerticalStrut(5));
+
+        // line 3: install status
+        JLabel installStatusLabel = getInstallationStatus(mod);
+        installStatusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        modPanel.add(installStatusLabel);
+
+        modPanel.add(Box.createVerticalStrut(10));
+
+        // line 4: button panels
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // ok button
+        JButton okButton = new JButton("Ok"); // TODO
+        okButton.addActionListener(e -> dialog.dispose());
+
+        buttonsPanel.add(okButton);
+
+        modPanel.add(buttonsPanel);
+
+        // dialog defs
         dialog.setContentPane(modPanel);
         dialog.pack();
+        Dimension size = dialog.getSize();
+        dialog.setSize(size.width + 40, size.height);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
     }
