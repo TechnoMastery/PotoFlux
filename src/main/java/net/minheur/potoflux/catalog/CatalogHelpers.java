@@ -102,7 +102,10 @@ public class CatalogHelpers {
                 return "disabled"; // yes = disabled
             else return "incompatible"; // no = dl but incompatible
 
-        } else return "notI"; // not installed
+        } else if (CatalogGetterHandler.isModKnown(mod))
+            return "notI";
+
+        else return "unknown";
 
     }
 
@@ -126,9 +129,13 @@ public class CatalogHelpers {
                 statusLabel.setText("Installed ! Incompatible"); // TODO
                 statusColor = "$Actions.Red";
             }
-            default -> {
+            case "notI" -> {
                 statusLabel.setText("Not installed"); // TODO
                 statusColor = "$Actions.Red";
+            }
+            default -> {
+                statusLabel.setText("Unknown");
+                statusColor = "&Action.Red";
             }
         }
 
@@ -238,6 +245,19 @@ public class CatalogHelpers {
         // line 4: button panels
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // dl button
+        JButton dlButton = new JButton("Unavailable");
+        dlButton.setEnabled(false);
+
+        // def dl button state
+        switch (getInstallStatus(mod)) {
+            case "loaded" -> {
+
+            }
+        }
+
+        buttonsPanel.add(dlButton);
 
         // ok button
         JButton okButton = new JButton("Ok"); // TODO
