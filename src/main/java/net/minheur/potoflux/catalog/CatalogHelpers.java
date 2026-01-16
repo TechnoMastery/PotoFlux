@@ -95,15 +95,23 @@ public class CatalogHelpers {
 
         if (PotoFluxLoadingContext.isModListed(mod.modId)) { // mod listed
 
+            String version = PotoFluxLoadingContext.getModVersion(mod.modId);
+
+            // safety check
+            if (version == null) throw new IllegalStateException("Listed mod is not listed?");
+
             if (PotoFluxLoadingContext.isModLoaded(mod.modId)) // mod loaded
                 return "loaded";
 
-            if (mod.isCompatible()) // compatible ?
+            if (mod.isCompatible(version)) // compatible ?
                 return "disabled"; // yes = disabled
-            else return "incompatible"; // no = dl but incompatible
+            else return "dlIncompatible"; // no = dl but incompatible
 
-        } else if (CatalogGetterHandler.isModKnown(mod))
-            return "notI";
+        } else if (CatalogGetterHandler.isModKnown(mod.modId)) {
+            if (mod.isCompatible())
+                return "notI";
+            else return "ndlIncompatible";
+        }
 
         else return "unknown";
 
@@ -125,17 +133,17 @@ public class CatalogHelpers {
                 statusLabel.setText("Disabled"); // TODO
                 statusColor = "#FFA500";
             }
-            case "incompatible" -> {
-                statusLabel.setText("Installed ! Incompatible"); // TODO
+            case "dlIncompatible" -> {
+                statusLabel.setText("Installed - Incompatible !"); // TODO
                 statusColor = "$Actions.Red";
             }
-            case "notI" -> {
-                statusLabel.setText("Not installed"); // TODO
+            case "ndlIncompatible" -> {
+                statusLabel.setText("Incompatible");
                 statusColor = "$Actions.Red";
             }
             default -> {
-                statusLabel.setText("Unknown");
-                statusColor = "&Action.Red";
+                statusLabel.setText("Not installed"); // TODO
+                statusColor = "$Actions.Red";
             }
         }
 
@@ -253,7 +261,30 @@ public class CatalogHelpers {
         // def dl button state
         switch (getInstallStatus(mod)) {
             case "loaded" -> {
-
+                dlButton.setText("Disable - next restart");
+                dlButton.setEnabled(true);
+            }
+            case "disabled" -> {
+                dlButton.setText("Enable - next restart");
+                dlButton.setEnabled(true);
+            }
+            case "dlIncompatible" -> {
+                if (mod.isCompatible()) {
+                    dlButton.setText("INCOMPATIBLE - Download lastest compatible version");
+                    dlButton.setEnabled(true);
+                } else {
+                    dlButton.setText("INCOMPATIBLE - Delete");
+                    dlButton.setEnabled(true);
+                }
+            }
+            case "notI" -> {
+                dlButton.setText("Download");
+                dlButton.setEnabled(true);
+            }
+            case "ndlIncompatible" -> dlButton.setText("Incompatible");
+            default -> {
+                dlButton.setText("Unknown ! Delete");
+                dlButton.setEnabled(false);
             }
         }
 

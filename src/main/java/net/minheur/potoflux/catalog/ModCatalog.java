@@ -27,7 +27,7 @@ public class ModCatalog {
             if (version.isCompatible()) return true;
         return false;
     }
-    private boolean isCompatible(String version) {
+    public boolean isCompatible(String version) {
         for (Map.Entry<String, ModVersion> entry : versions.entrySet()) {
             if (entry.getKey().equals(version))
                 return entry.getValue().isCompatible();

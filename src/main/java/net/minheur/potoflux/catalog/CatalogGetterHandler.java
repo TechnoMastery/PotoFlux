@@ -57,4 +57,9 @@ public class CatalogGetterHandler {
         PtfLogger.error("Getting unexisting mod catalog: " + id, LogCategories.CATALOG);
         return null;
     }
+    public static boolean isModKnown(String modId) {
+        for (ModCatalog mod : catalog)
+            if (mod.modId.equals(modId)) return true;
+        return false;
+    }
 }
