@@ -258,6 +258,10 @@ public class CatalogHelpers {
         JButton dlButton = new JButton("Unavailable");
         dlButton.setEnabled(false);
 
+        // toggle button
+        JButton toggleButton = new JButton("No installed");
+        toggleButton.setEnabled(false);
+
         // def dl button state
         switch (getInstallStatus(mod)) {
             case "loaded" -> {
