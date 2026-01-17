@@ -23,11 +23,15 @@ public class ModCatalog {
     }
 
     public boolean isCompatible() {
+        if (!isPublished) return false;
+
         for (ModVersion version : versions.values())
             if (version.isCompatible()) return true;
         return false;
     }
     public boolean isCompatible(String version) {
+        if (!isPublished) return false;
+
         for (Map.Entry<String, ModVersion> entry : versions.entrySet()) {
             if (entry.getKey().equals(version))
                 return entry.getValue().isCompatible();
@@ -46,6 +50,17 @@ public class ModCatalog {
         return new AbstractMap.SimpleEntry<>(lastest, versions.get(lastest));
     }
 
+    public boolean isLastestCompatibleVersion(String modVersion) {
+        if (!isCompatible(modVersion)) return false;
+
+        return getLastestCompatibleVersion().getKey().equals(modVersion);
+    }
+
+    @Deprecated
+    public String modId() {
+        return modId;
+    }
+
     public static class ModVersion {
         public String fileName;
         public boolean isPublished;
@@ -58,6 +73,7 @@ public class ModCatalog {
         }
 
         public boolean isCompatible() {
+            if (!isPublished) return false;
             return ptfVersions.contains(PotoFlux.getVersion());
         }
 
