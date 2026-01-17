@@ -138,7 +138,7 @@ public class CatalogHelpers {
                 statusColor = "$Actions.Red";
             }
             case "ndlIncompatible" -> {
-                statusLabel.setText("Incompatible");
+                statusLabel.setText("Incompatible"); // TODO
                 statusColor = "$Actions.Red";
             }
             default -> {
@@ -156,9 +156,6 @@ public class CatalogHelpers {
     }
 
     private static void parameterDlButton(JButton dlButton, ModCatalog mod) {
-        dlButton.setEnabled(true);
-        dlButton.addActionListener(e -> openModDesc(mod));
-
         if (!mod.isPublished) return;
 
         Map.Entry<String, ModCatalog.ModVersion> lastest = mod.getLastestCompatibleVersion();
@@ -166,7 +163,7 @@ public class CatalogHelpers {
         if (!PotoFluxLoadingContext.isModListed(mod.modId)) {
             if (lastest == null) return;
 
-            dlButton.setText("Download");
+            dlButton.setText("Download"); // TODO
             dlButton.setEnabled(true);
             dlButton.addActionListener(e -> {
                 try {
@@ -183,14 +180,14 @@ public class CatalogHelpers {
         if (loadedModVersion == null) return;
 
         if (lastest == null) {
-            dlButton.setText("! Incompatible - View");
+            dlButton.setText("! Incompatible - View"); // TODO
             dlButton.setEnabled(true);
             dlButton.addActionListener(e -> openModDesc(mod));
             return;
         }
 
         if (lastest.getKey().equals(loadedModVersion)) {
-            dlButton.setText("Installed - View");
+            dlButton.setText("Installed - View"); // TODO
             dlButton.setEnabled(true);
             dlButton.addActionListener(e -> openModDesc(mod));
             return;
@@ -201,13 +198,13 @@ public class CatalogHelpers {
                 .orElse(null);
 
         if (sortedLastest.equals(loadedModVersion)) {
-            dlButton.setText("Unknown version installed !");
+            dlButton.setText("Unknown version installed !"); // TODO
             dlButton.setEnabled(false);
             return;
         }
 
         if (sortedLastest.equals(lastest.getKey())) {
-            dlButton.setText("Installed - View / Update");
+            dlButton.setText("Installed - View / Update"); // TODO
             dlButton.setEnabled(true);
             dlButton.addActionListener(e -> openModDesc(mod));
             return;
@@ -325,18 +322,18 @@ public class CatalogHelpers {
 
                         // if listed & NOT loaded & NOT compatible ; but has compatible version
 
-                        dlButton.setText("Incompatible ! Update to compatible");
+                        dlButton.setText("Incompatible ! Update to compatible"); // TODO
                         dlButton.setEnabled(true);
 
-                        deleteButton.setText("Delete");
+                        deleteButton.setText("Delete"); // TODO
 
                     } else {
 
                         // if listed & NOT loaded & NOT compatible ; just delete
 
-                        dlButton.setText("Incompatible");
+                        dlButton.setText("Incompatible"); // TODO
 
-                        deleteButton.setText("Delete incompatible mod");
+                        deleteButton.setText("Delete incompatible mod"); // TODO
 
                     }
 
@@ -355,7 +352,7 @@ public class CatalogHelpers {
 
                 // if NOT listed & compatible
 
-                dlButton.setText("Download");
+                dlButton.setText("Download"); // TODO
                 dlButton.setEnabled(true);
 
             }
