@@ -1,5 +1,6 @@
 package net.minheur.potoflux.screen.tabs;
 
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.tabs.all.*;
@@ -21,7 +22,9 @@ public class Tabs {
     public final Tab HOME = LIST.add(new Tab(fromModId("home"), Translations.get("potoflux:tabs.home.name"), HomeTab.class));
     public final Tab TERMINAL = LIST.add(new Tab(fromModId("terminal"), Translations.get("potoflux:tabs.term.name"), TerminalTab.class));
     public final Tab SETTINGS = LIST.add(new Tab(fromModId("settings"), Translations.get("potoflux:tabs.settings.title"), SettingsTab.class));
-    public final Tab CATALOG = LIST.add(new Tab(fromModId("catalog"), Translations.get("potoflux:tabs.catalog.name"), CatalogTab.class));
+    public final Tab CATALOG =
+            Boolean.parseBoolean(PotoFluxLoadingContext.getOptionalFeatures().getProperty("catalogTab", "false")) ?
+            LIST.add(new Tab(fromModId("catalog"), Translations.get("potoflux:tabs.catalog.name"), CatalogTab.class)) : null;
 
     public static void register(RegisterTabsEvent event) {
         INSTANCE = new Tabs();
