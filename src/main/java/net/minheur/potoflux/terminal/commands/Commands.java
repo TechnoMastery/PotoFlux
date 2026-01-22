@@ -17,7 +17,7 @@ public class Commands {
         hasGenerated = true;
     }
 
-    public final Command HELLO_WORLD = LIST.add(new Command(fromModId("hello_workd"), "hello", CommandActions::helloWorld, CommandHelp.help()));
+    public final Command HELLO_WORLD = LIST.add(new Command(fromModId("hello_world"), "hello", CommandActions::helloWorld, CommandHelp.help()));
     public final Command CLEAR = LIST.add(new Command(fromModId("clear"), "clear", CommandActions::clear, CommandHelp.clear()));
     public final Command TIME = LIST.add(new Command(fromModId("time"), "time", CommandActions::time, CommandHelp.time()));
     public final Command HELP = LIST.add(new Command(fromModId("help"), "help", CommandActions::help, CommandHelp.help()));

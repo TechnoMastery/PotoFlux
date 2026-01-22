@@ -16,17 +16,28 @@ import java.util.Objects;
 
 public class CommandActions {
     static void helloWorld(List<String> args) {
-        if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.helloWorld());
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendOutput(CommandHelp.helloWorld());
+            return;
+        }
+
         CommandProcessor.appendOutput("Hello world !");
     }
 
     static void time(List<String> args) {
-        if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.time());
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendOutput(CommandHelp.time());
+            return;
+        }
+
         CommandProcessor.appendOutput(LocalTime.now().toString());
     }
 
     static void help(List<String> args) {
-        if (argAmountCheck(0, 1, args)) CommandProcessor.appendOutput(CommandHelp.help());
+        if (argAmountCheck(0, 1, args)) {
+            CommandProcessor.appendOutput(CommandHelp.help());
+            return;
+        }
 
         if (args.isEmpty()) {
             StringBuilder out = new StringBuilder(Translations.get("potoflux:command.help.title"));
@@ -49,24 +60,40 @@ public class CommandActions {
         CommandProcessor.appendOutput(Commands.INSTANCE.HELP.getCommandHelp());
     }
     static void sourceCode(List<String> args) {
-        if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.source());
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendOutput(CommandHelp.source());
+            return;
+        }
+
         CommandProcessor.appendOutput(Translations.get("potoflux:command.source.out") + "https://github.com/TechnoMastery/PotoFlux");
     }
 
     static void quit(List<String> args) {
-        if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.quit());
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendOutput(CommandHelp.quit());
+            return;
+        }
+
         CommandProcessor.appendOutput(Translations.get("potoflux:command.quit.out"));
         Functions.exit(500, 0);
     }
 
     static void echo(List<String> args) {
-        if (argAmountCheck(1, args)) CommandProcessor.appendOutput(CommandHelp.echo());
+        if (argAmountCheck(1, args)) {
+            CommandProcessor.appendOutput(CommandHelp.echo());
+            return;
+        }
+
         String message = String.join(" ", args);
         CommandProcessor.appendOutput(message);
     }
 
     static void tab(List<String> args) {
-        if (argAmountCheck(1, args)) CommandProcessor.appendOutput(CommandHelp.tab());
+        if (argAmountCheck(1, args)) {
+            CommandProcessor.appendOutput(CommandHelp.tab());
+            return;
+        }
+
         if (args.get(0).equals("Terminal")) {
             CommandProcessor.appendOutput(Translations.get("potoflux:command.tab.opened"));
         }
@@ -81,12 +108,20 @@ public class CommandActions {
     }
 
     static void clear(List<String> args) {
-        if (checkNoArgs(args)) CommandProcessor.appendOutput(CommandHelp.clear());
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendOutput(CommandHelp.clear());
+            return;
+        }
+
         CommandProcessor.clearArea();
     }
 
     static void writeAscii(List<String> args) {
-        if (argAmountCheck(0, 1, args)) CommandProcessor.appendOutput(CommandHelp.ascii());
+        if (argAmountCheck(0, 1, args)) {
+            CommandProcessor.appendOutput(CommandHelp.ascii());
+            return;
+        }
+
         if (args.isEmpty()) {
             Terminal.buildASCII();
             return;
@@ -94,18 +129,24 @@ public class CommandActions {
         String ascii = args.get(0);
 
         String content = Terminal.getAsciiFileContent(ascii);
-        if (content == null)
-            CommandProcessor.appendOutput(Translations.get("potoflux:command.ascii.use"));
-        else CommandProcessor.appendOutput(content);
+        CommandProcessor.appendOutput(Objects.requireNonNullElseGet(content, CommandHelp::ascii));
     }
 
     static void hidden(List<String> args) {
-        if (checkNoArgs(args)) CommandProcessor.appendNoCommand();
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendNoCommand();
+            return;
+        }
+
         CommandProcessor.appendOutput(Translations.get("potoflux:command.hidden.out"));
     }
 
     static void nope(List<String> args) {
-        if (checkNoArgs(args)) CommandProcessor.appendNoCommand();
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendNoCommand();
+            return;
+        }
+
         CommandProcessor.appendOutput(Translations.get("potoflux:command.nope.out"));
     }
 
