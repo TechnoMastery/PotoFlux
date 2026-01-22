@@ -244,10 +244,12 @@ public class PotoFluxLoadingContext {
     public static void loadMods() {
         registerModList();
 
-        if (modsToLoad.isEmpty()) return;
+        boolean hasCatalogTab = Boolean.parseBoolean(getOptionalFeatures().getProperty("catalogTab"));
+
+        if (modsToLoad.isEmpty() && hasCatalogTab) return;
 
         for (Map.Entry<Mod, Class<?>> entry : listedMods.entrySet()) {
-            if (modsToLoad.contains(entry.getKey().modId())) {
+            if (modsToLoad.contains(entry.getKey().modId()) || !hasCatalogTab) {
                 if (Arrays.stream(
                         entry.getKey().compatibleVersions()
                 ).toList().contains(
