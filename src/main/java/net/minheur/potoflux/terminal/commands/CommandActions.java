@@ -2,6 +2,9 @@ package net.minheur.potoflux.terminal.commands;
 
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.terminal.Command;
@@ -10,6 +13,9 @@ import net.minheur.potoflux.terminal.CommandRegistry;
 import net.minheur.potoflux.terminal.Terminal;
 import net.minheur.potoflux.translations.Translations;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -130,6 +136,52 @@ public class CommandActions {
 
         String content = Terminal.getAsciiFileContent(ascii);
         CommandProcessor.appendOutput(Objects.requireNonNullElseGet(content, CommandHelp::ascii));
+    }
+
+    static void modList(List<String> args) {
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendOutput(CommandHelp.modList());
+            return;
+        }
+
+        List<String> modIds = PotoFluxLoadingContext.getLoadedMods();
+
+        if (modIds.isEmpty()) {
+            CommandProcessor.appendOutput("No mods loaded !");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Here are the loaded mods :");
+
+        for (String modId : modIds) {
+            sb.append("\n   → ").append(modId);
+        }
+
+        CommandProcessor.appendOutput(sb.toString());
+    }
+
+    static void modDir(List<String> args) {
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendOutput(CommandHelp.modDir());
+            return;
+        }
+
+        File target = PotoFlux.getProgramDir().resolve("mods").toFile();
+
+        try {
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(target);
+                CommandProcessor.appendOutput("Opened in file explorer !");
+            } else {
+                CommandProcessor.appendOutput("Could not get desktop !");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not open mods folder !", LogCategories.TERMINAL, "command");
+            CommandProcessor.appendOutput("Could not get desktop !");
+        }
+
     }
 
     static void hidden(List<String> args) {

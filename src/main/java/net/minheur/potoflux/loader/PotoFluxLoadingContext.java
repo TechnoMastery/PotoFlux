@@ -268,6 +268,9 @@ public class PotoFluxLoadingContext {
             }
         }
     }
+    public static List<String> getLoadedMods() {
+        return loadedMods.keySet().stream().toList();
+    }
     public static void saveModList() {
         Path modListPath = PotoFlux.getProgramDir().resolve("modList.json");
 

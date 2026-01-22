@@ -44,4 +44,12 @@ public class CommandHelp {
         return Translations.get("potoflux:command.quit") + tabLine +
                 Translations.get("potoflux:command.quit.use");
     }
+    static String modList() {
+        return Translations.get("potoflux:command.modList") + tabLine +
+                Translations.get("potoflux:command.modList.use");
+    }
+    static String modDir() {
+        return Translations.get("potoflux:command.modDir") + tabLine +
+                Translations.get("potoflux:command.modDir.use");
+    }
 }

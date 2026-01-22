@@ -19,6 +19,8 @@ public class Commands {
 
     public final Command HELLO_WORLD = LIST.add(new Command(fromModId("hello_world"), "hello", CommandActions::helloWorld, CommandHelp.help()));
     public final Command CLEAR = LIST.add(new Command(fromModId("clear"), "clear", CommandActions::clear, CommandHelp.clear()));
+    public final Command MOD_LIST = LIST.add(new Command(fromModId("mod_list"), "modList", CommandActions::modList, CommandHelp.modList()));
+    public final Command MOD_DIR = LIST.add(new Command(fromModId("mod_dir"), "modDir", CommandActions::modDir, CommandHelp.modDir()));
     public final Command TIME = LIST.add(new Command(fromModId("time"), "time", CommandActions::time, CommandHelp.time()));
     public final Command HELP = LIST.add(new Command(fromModId("help"), "help", CommandActions::help, CommandHelp.help()));
     public final Command ECHO = LIST.add(new Command(fromModId("echo"), "echo", CommandActions::echo, CommandHelp.echo()));
