@@ -255,11 +255,22 @@ public class PotoFluxLoadingContext {
                 ).toList().contains(
                         PotoFlux.getVersion()
                 )) {
-                    loadedMods.put(
-                            entry.getKey().modId(),
-                            entry.getValue()
-                    );
-                    PtfLogger.info("Loaded mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+
+                    try { // try to create mod
+
+                        Object instance = entry.getValue().getDeclaredConstructor().newInstance();
+
+                        loadedMods.put(
+                                entry.getKey().modId(),
+                                entry.getValue()
+                        );
+                        PtfLogger.info("Loaded mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        PtfLogger.error("Couldn't instance mod: " + entry.getKey().modId());
+                    }
+
                 }
                 else {
                     modsToLoad.remove(entry.getKey().modId());
