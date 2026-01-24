@@ -264,7 +264,7 @@ public class PotoFluxLoadingContext {
                                 entry.getKey().modId(),
                                 entry.getValue()
                         );
-                        PtfLogger.info("Loaded mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+                        PtfLogger.info("Loaded mod: " + entry.getKey().modId() + " in version " + entry.getKey().version(), LogCategories.MOD_LOADER);
 
                     } catch (Exception e) {
                         e.printStackTrace();
