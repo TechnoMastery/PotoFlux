@@ -202,6 +202,16 @@ public class CommandActions {
         CommandProcessor.appendOutput(Translations.get("potoflux:command.nope.out"));
     }
 
+    static void lordHawima(List<String> args) {
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendNoCommand();
+            return;
+        }
+
+        CommandProcessor.appendOutput("!!!!!!!!!!!!!! Les patates c'est BON !!!!!!!!!!!!!!");
+        CommandProcessor.appendOutput("Cet easter egg vous est offert par Magaco");
+    }
+
     // helper methods
     private static boolean argAmountCheck(int min, int max, List<String> args) {
         int actual = args.size();

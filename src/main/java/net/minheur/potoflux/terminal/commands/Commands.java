@@ -32,6 +32,8 @@ public class Commands {
     // hidden commands
     public final Command HIDDEN = LIST.add(new Command(fromModId("hidden"), "hide", CommandActions::hidden));
     public final Command NOPE = LIST.add(new Command(fromModId("nope"), "nope", CommandActions::nope));
+    // easter egg for Mathis
+    public final Command POTATO_COMMAND = LIST.add(new Command(fromModId("mathis_easter_egg"), "LordHawima", CommandActions::lordHawima));
 
     public static void register(RegisterCommandsEvent event) {
         INSTANCE = new Commands();
