@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+/**
+ * This class stores useful methods for all potoflux.
+ */
 public class Functions {
     public static void exit(int delay, int status) {
         Timer exitDelay = new Timer(delay, ev -> PotoFlux.runProgramClosing(status));
