@@ -27,7 +27,9 @@ public class LambdaUtils {
             String implMethodName = sl.getImplMethodName();
             String implSignature = sl.getImplMethodSignature();
 
-            ClassLoader cl = Thread.currentThread().getContextClassLoader();
+            ClassLoader cl = lambda.getClass().getClassLoader();
+            if (cl == null)
+                cl = Thread.currentThread().getContextClassLoader();
             Class<?> implClass = Class.forName(implClassName, false, cl);
 
             for (Method m : implClass.getDeclaredMethods())
