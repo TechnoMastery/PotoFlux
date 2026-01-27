@@ -2,11 +2,17 @@ package net.minheur.potoflux;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import net.minheur.potoflux.actionRuns.ActionRuns;
+import net.minheur.potoflux.actionRuns.regs.ActionRun;
+import net.minheur.potoflux.actionRuns.regs.CloseRunRegistry;
+import net.minheur.potoflux.actionRuns.regs.StartLogicRunRegistry;
+import net.minheur.potoflux.actionRuns.regs.StartUiRunRegistry;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
+import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.tabs.Tabs;
@@ -63,6 +69,7 @@ public class PotoFlux {
         bus.addListener(PotoFlux::onRegisterLang);
         bus.addListener(Tabs::register);
         bus.addListener(Commands::register);
+        bus.addListener(ActionRuns::register);
 
         // load all addons
         new AddonLoader().loadAddons();
@@ -72,12 +79,17 @@ public class PotoFlux {
         bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
         bus.post(new RegisterTabsEvent());
         bus.post(new RegisterCommandsEvent());
+        bus.post(new RegisterRunsEvent());
+
+        // run all start logic runs
+        for (ActionRun ar : StartLogicRunRegistry.getAll()) ar.run().run();
 
         // invoke app (start)
         SwingUtilities.invokeLater(() -> {
             app = new PotoScreen();
 
-            ((TerminalTab) app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().fillOutputTextArea();
+            // run all start ui runs
+            for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
         });
     }
 
@@ -106,8 +118,7 @@ public class PotoFlux {
     public static void runProgramClosing(int exitCode) {
         // executes when program close
 
-        CommandProcessor.runSaveTerminal();
-        PotoFluxLoadingContext.saveModList();
+        for (ActionRun ar : CloseRunRegistry.getAll()) ar.run().run();
 
         System.exit(exitCode); // close app
     }
