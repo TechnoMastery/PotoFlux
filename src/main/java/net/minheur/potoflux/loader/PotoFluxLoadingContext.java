@@ -250,11 +250,50 @@ public class PotoFluxLoadingContext {
 
         for (Map.Entry<Mod, Class<?>> entry : listedMods.entrySet()) {
             if (modsToLoad.contains(entry.getKey().modId()) || !hasCatalogTab) {
-                if (Arrays.stream(
-                        entry.getKey().compatibleVersions()
-                ).toList().contains(
-                        PotoFlux.getVersion()
-                )) {
+
+                List<String> compatibleVersions =
+                        Arrays.stream(
+                                entry.getKey().compatibleVersions()
+                        ).toList();
+                boolean isCompatible = false;
+
+                // check if using online compatible
+                if (compatibleVersions.contains("-1"))
+                {
+
+                    // check if online list exists
+                    if (entry.getKey().compatibleVersionUrl().equals("NONE")) {
+                        modsToLoad.remove(entry.getKey().modId());
+                        PtfLogger.error("No compatible version list system set for mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+                        continue;
+                    }
+
+                    // gets list
+                    try {
+
+                        URL url = new URL(entry.getKey().compatibleVersionUrl());
+                        List<String> compatibleVersionList = Json.loadStringArray(url);
+
+                        if (compatibleVersionList.isEmpty()) {
+                            modsToLoad.remove(entry.getKey().modId());
+                            PtfLogger.error("Empty online compatible version list for mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+                            continue;
+                        }
+
+                        if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        PtfLogger.error("Failed to get online compatible version list for mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+                        continue;
+                    }
+
+                }
+                else if (compatibleVersions.contains(PotoFlux.getVersion()))
+                    isCompatible = true;
+
+                if (isCompatible)
+                {
 
                     try { // try to create mod
 
