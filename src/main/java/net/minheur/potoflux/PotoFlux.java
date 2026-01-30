@@ -91,6 +91,8 @@ public class PotoFlux {
             // run all start ui runs
             for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
         });
+
+        PotoFluxLoadingContext.checkUpdates();
     }
 
     private static void onRegisterLang(RegisterLangEvent event) {

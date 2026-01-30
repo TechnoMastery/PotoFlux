@@ -9,12 +9,16 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.Json;
 import org.reflections.vfs.Vfs;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.*;
 import java.util.*;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -52,6 +56,34 @@ public class PotoFluxLoadingContext {
 
     public static PotoFluxLoadingContext get() {
         return INSTANCE;
+    }
+
+    public static void checkUpdates() {
+        try {
+            URL target = new URL("https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json");
+
+            String lastest = Json.getFromObject(target, "lastestVersion");
+
+            if (lastest.equals(PotoFlux.getVersion())) return;
+
+            PtfLogger.info("New version of PotoFlux available ! (" + PotoFlux.getVersion() + " → " + lastest + ")");
+            showUpdateContextDialog(lastest);
+        } catch (Exception e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not get lastest version online file !");
+        }
+    }
+    private static void showUpdateContextDialog(String lastest) {
+        int update = JOptionPane.showConfirmDialog(PotoFlux.app.getFrame(), "New version of PotoFlux available !", "Update", JOptionPane.OK_CANCEL_OPTION);
+        if (update == JOptionPane.OK_OPTION) {
+            try {
+                String url = "https://github.com/TechnoMastery/PotoFlux/releases/tag/" + lastest;
+                Desktop.getDesktop().browse(new URI(url));
+            } catch (Exception e) {
+                e.printStackTrace();
+                PtfLogger.error("Failed to open potoflux update page !");
+            }
+        }
     }
 
     public ModEventBus getModEventBus() {
