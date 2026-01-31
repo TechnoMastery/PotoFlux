@@ -184,6 +184,19 @@ public class CommandActions {
 
     }
 
+    static void ptfVersion(List<String> args) {
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendOutput(CommandHelp.ptfVersion());
+            return;
+        }
+
+        String version = PotoFlux.getVersion();
+        if (version == null)
+            CommandProcessor.appendOutput("Could not get potoflux version !");
+
+        else CommandProcessor.appendOutput("PotoFlux version: " + version);
+    }
+
     static void hidden(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendNoCommand();

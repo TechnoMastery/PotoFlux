@@ -26,6 +26,7 @@ public class Commands {
     public final Command ECHO = LIST.add(new Command(fromModId("echo"), "echo", CommandActions::echo, CommandHelp.echo()));
     public final Command TAB = LIST.add(new Command(fromModId("tab"), "tab", CommandActions::tab, CommandHelp.tab()));
     public final Command SOURCE = LIST.add(new Command(fromModId("source"), "source", CommandActions::sourceCode, CommandHelp.source()));
+    public final Command VERSION = LIST.add(new Command(fromModId("version"), "ptfVersion", CommandActions::ptfVersion, CommandHelp.ptfVersion()));
     public final Command ASCII = LIST.add(new Command(fromModId("ascii"), "ascii", CommandActions::writeAscii, CommandHelp.ascii()));
     public final Command QUIT = LIST.add(new Command(fromModId("quit"), "quit", CommandActions::quit, CommandHelp.quit()));
 
