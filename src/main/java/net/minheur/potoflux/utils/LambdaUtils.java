@@ -5,6 +5,9 @@ import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
 import java.lang.reflect.*;
 
+/**
+ * Utility class for lambas, mainly used in loading mods
+ */
 public class LambdaUtils {
 
     private LambdaUtils() {}
