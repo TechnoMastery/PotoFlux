@@ -19,16 +19,31 @@ import java.util.jar.JarFile;
  * This class stores useful methods for all potoflux.
  */
 public class Functions {
+    /**
+     * This method is used to call exiting with a delay.
+     * @param delay amount of milliseconds before exiting
+     * @param status exit code
+     */
     public static void exit(int delay, int status) {
         Timer exitDelay = new Timer(delay, ev -> PotoFlux.runProgramClosing(status));
         exitDelay.setRepeats(false);
         exitDelay.start();
     }
 
+    /**
+     * Method to remove all characters that could be dangerous in a {@link String} inputted by the user
+     * @param s the String to check
+     * @return the checked String
+     */
     public static String removeProhibitedChar(String s) {
         if (s == null) return null;
         return s.replaceAll("[^\\p{L}\\p{N} @!,.?:;*$+/→\\-^'¨()#§]+", "");
     }
+    /**
+     * Method to remove characters used in HTML code from a {@link String}
+     * @param s the String to check
+     * @return the checked String
+     */
     public static String escapeHtml(String s) {
         if (s == null) return null;
         return s.replace("&", "")
@@ -36,6 +51,13 @@ public class Functions {
                 .replace(">", "");
     }
 
+    /**
+     * Method to get a list of .txt file names from a folder in the resources path
+     * @param folder the dir to get files from
+     * @return a list of file names
+     * @throws IOException if the folder couldn't get accessed
+     */
+    @Deprecated(since = "6.4")
     public static List<String> listResourceFiles(String folder) throws IOException {
         List<String> result = new ArrayList<>();
 
