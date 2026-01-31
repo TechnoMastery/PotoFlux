@@ -74,7 +74,7 @@ public class PotoFluxLoadingContext {
         }
     }
     private static void showUpdateContextDialog(String lastest) {
-        int update = JOptionPane.showConfirmDialog(PotoFlux.app.getFrame(), "New version of PotoFlux available !", "Update", JOptionPane.OK_CANCEL_OPTION);
+        int update = JOptionPane.showConfirmDialog(null, "New version of PotoFlux available !", "Update", JOptionPane.OK_CANCEL_OPTION);
         if (update == JOptionPane.OK_OPTION) {
             try {
                 String url = "https://github.com/TechnoMastery/PotoFlux/releases/tag/" + lastest;

@@ -34,7 +34,7 @@ public class Json {
 
             JsonObject object = JsonParser.parseReader(reader).getAsJsonObject();
 
-            return object.get(key).toString();
+            return object.get(key).getAsString();
         }
     }
 }
