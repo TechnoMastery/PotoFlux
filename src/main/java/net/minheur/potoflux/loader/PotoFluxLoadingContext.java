@@ -60,7 +60,7 @@ public class PotoFluxLoadingContext {
 
     public static void checkUpdates() {
         try {
-            URL target = new URL("https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json");
+            String target = "https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json";
 
             String lastest = Json.getFromObject(target, "lastestVersion");
 
@@ -303,8 +303,9 @@ public class PotoFluxLoadingContext {
                     // gets list
                     try {
 
-                        URL url = new URL(entry.getKey().compatibleVersionUrl());
-                        List<String> compatibleVersionList = Json.loadStringArray(url);
+                        List<String> compatibleVersionList = Json.loadStringArray(
+                                entry.getKey().compatibleVersionUrl()
+                        );
 
                         if (compatibleVersionList.isEmpty()) {
                             modsToLoad.remove(entry.getKey().modId());

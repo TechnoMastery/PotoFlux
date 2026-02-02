@@ -16,25 +16,16 @@ public class Json {
 
     public static final Gson GSON = new Gson();
 
-    public static List<String> loadStringArray(URL url) throws Exception {
-        try (InputStreamReader reader =
-                new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
-
-            Type type = new TypeToken<List<String>>(){}.getType();
-
-            return GSON.fromJson(reader, type);
-        }
+    public static List<String> loadStringArray(String url) {
+        String content = OnlineReader.read(url);
+        Type type = new TypeToken<List<String>>(){}.getType();
+        return GSON.fromJson(content, type);
     }
 
-    public static String getFromObject(URL url, String key) throws Exception {
-        try (InputStreamReader reader =
-                     new InputStreamReader(url.openStream(), StandardCharsets.UTF_8)) {
+    public static String getFromObject(String url, String key) throws Exception {
+        String content = OnlineReader.read(url);
+        JsonObject object = JsonParser.parseString(content).getAsJsonObject();
+        return object.get(key).getAsString();
 
-            Type type = new TypeToken<List<String>>(){}.getType();
-
-            JsonObject object = JsonParser.parseReader(reader).getAsJsonObject();
-
-            return object.get(key).getAsString();
-        }
     }
 }
