@@ -13,6 +13,10 @@ import java.util.function.Supplier;
  * @param panel the panel of your tab
  */
 public record ModCatalogTab(ResourceLocation id, String name, Supplier<JPanel> panel) implements IRegistryType {
+    /**
+     * Getter for the inner JPanel of the tab
+     * @return the JPanel tab
+     */
     public JPanel getPanel() {
         return panel.get();
     }

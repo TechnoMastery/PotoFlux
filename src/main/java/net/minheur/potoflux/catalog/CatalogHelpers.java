@@ -16,7 +16,15 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * Helper class for the catalog
+ */
 public class CatalogHelpers {
+    /**
+     * Builds a listing card (as a JPanel) for a given mod
+     * @param mod the mod to build the card with
+     * @return the card panel
+     */
     public static JPanel buildCard(ModCatalog mod) {
         JPanel card = new JPanel(new BorderLayout());
         card.setOpaque(true);
@@ -74,6 +82,12 @@ public class CatalogHelpers {
         return card;
     }
 
+    /**
+     * Maker for the mod status label.<br>
+     * Says if published, compatible or incompatible.
+     * @param mod mod to make the status
+     * @return the status (JLabel)
+     */
     public static JLabel getStatusLabel(ModCatalog mod) {
         String statusContent = mod.isPublished ?
                 (mod.isCompatible() ? "Compatible" : "Not Compatible") : // TODO
@@ -91,6 +105,12 @@ public class CatalogHelpers {
         return status;
     }
 
+    /**
+     * Getter for the installation status.<br>
+     * Says if the mod is installed, not installed or downloaded but incompatible or unknown (not in the online catalog)
+     * @param mod to check the installation status
+     * @return the installation status
+     */
     private static String getInstallStatus(ModCatalog mod) {
 
         if (PotoFluxLoadingContext.isModListed(mod.modId)) { // mod listed
@@ -117,6 +137,12 @@ public class CatalogHelpers {
 
     }
 
+    /**
+     * Maker for the installation status.<br>
+     * Says if the mod is installed, not installed, downloaded & incompatible or unknown.
+     * @param mod the mod to make the installation status from
+     * @return the installation status (JLabel)
+     */
     public static JLabel getInstallationStatus(ModCatalog mod) {
         // setup status
         String modInstallationStatus = getInstallStatus(mod);
@@ -155,6 +181,11 @@ public class CatalogHelpers {
         return statusLabel;
     }
 
+    /**
+     * Parameter the download button depending on the mod
+     * @param dlButton the button to parameter
+     * @param mod mod to parameter the button with
+     */
     private static void parameterDlButton(JButton dlButton, ModCatalog mod) {
         if (!mod.isPublished) return;
 
@@ -213,6 +244,10 @@ public class CatalogHelpers {
         throw new IllegalStateException("'sortedLasted' is not valid !");
     }
 
+    /**
+     * Opening the description of a mod
+     * @param mod mod to open the description
+     */
     public static void openModDesc(ModCatalog mod) {
         // dialog
         JDialog dialog = new JDialog(
@@ -380,6 +415,12 @@ public class CatalogHelpers {
         dialog.setVisible(true);
     }
 
+    /**
+     * Download a mod
+     * @param mod mod to download
+     * @throws IOException if could not install the mod on the drive
+     * @throws InterruptedException if the connection got interrupted
+     */
     private static void downloadMod(ModCatalog mod) throws IOException, InterruptedException {
         var lastest = mod.getLastestCompatibleVersion();
 
@@ -412,6 +453,12 @@ public class CatalogHelpers {
         }
     }
 
+    /**
+     * Utility method to get which version is the lastest
+     * @param v1 first version to compare
+     * @param v2 second version to compare
+     * @return the compared output
+     */
     public static int compareVersions(String v1, String v2) {
         String[] p1 = v1.split("\\.");
         String[] p2 = v2.split("\\.");
