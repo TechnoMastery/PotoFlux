@@ -18,14 +18,37 @@ import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+/**
+ * This is the main class which handles the loading of potoflux and all mods related compounds
+ */
 public class PotoFluxLoadingContext {
+    /**
+     * This unique instance of this class.<br>
+     * Used to instance things that should only exist once.
+     */
     private static final PotoFluxLoadingContext INSTANCE = new PotoFluxLoadingContext();
+    /**
+     * The unique modEventBus used.<br>
+     * It handles registration to different events
+     */
     private final ModEventBus modEventBus = new ModEventBus();
 
+    /**
+     * List of all listed mods (in the mod dir), with their annotation and their main class
+     */
     private static final Map<Mod, Class<?>> listedMods = new HashMap<>();
+    /**
+     * All mods that are loaded (will actually be executed on potoflux launch)
+     */
     private static final Map<String, Class<?>> loadedMods = new HashMap<>();
+    /**
+     * List of all mod IDs to load
+     */
     private static final List<String> modsToLoad = new ArrayList<>();
 
+    /**
+     * List of all modIds that cannot be claimed by mod, as they are used in potoflux core features
+     */
     private static final List<String> illegalModIds = new ArrayList<>();
     static {
         illegalModIds.add(PotoFlux.ID);
@@ -41,23 +64,51 @@ public class PotoFluxLoadingContext {
         ));
     }
 
+    /**
+     * This toggles if the app runs in a dev environment.<br>
+     * Using dev env is important in mod loading.
+     */
     private static boolean isDevEnv = false;
+    /**
+     * This toggle if the environment has been set : we don't want to switch to dev env in mid potoflux running
+     */
     private static boolean isEnvSet = false;
 
+    /**
+     * Stores the class loader used for loading mod's class
+     */
     private static URLClassLoader modsClassLoader = null;
 
+    /**
+     * Stores all optional features
+     */
     private static final Properties optionalFeatures = new Properties();
 
+    /**
+     * Make sure no one can create a second loading context.
+     */
     private PotoFluxLoadingContext() {}
 
+    /**
+     * Getter for the only loading context instance
+     * @return the potoflux loading context instance
+     */
     public static PotoFluxLoadingContext get() {
         return INSTANCE;
     }
 
+    /**
+     * Getter for the only mod event bus
+     * @return the mod event bus
+     */
     public ModEventBus getModEventBus() {
         return modEventBus;
     }
 
+    /**
+     * This should only be called once in the scope, setting the environment
+     * @param pIsDevEnv if the environment is dev
+     */
     public static void setDevEnv(boolean pIsDevEnv) {
         if (isEnvSet) {
             PtfLogger.error("Environment can't be set to dev twice !");
@@ -66,10 +117,17 @@ public class PotoFluxLoadingContext {
         isDevEnv = pIsDevEnv;
         isEnvSet = true;
     }
+    /**
+     * Checks if the env has been set
+     * @return if the env has been set
+     */
     public static boolean isDevEnv() {
         return isDevEnv;
     }
 
+    /**
+     * Called to load optional features from the file
+     */
     public static void loadFeatures() {
         Path featuresPath = PotoFlux.getProgramDir().resolve("optionalFeatures.properties");
 
@@ -90,10 +148,18 @@ public class PotoFluxLoadingContext {
             PtfLogger.error("Could not get optionalFeatures.properties !");
         }
     }
+    /**
+     * Getter for the optional features
+     * @return the optional features
+     */
     public static Properties getOptionalFeatures() {
         return optionalFeatures;
     }
 
+    /**
+     * Used to get the URLs to scan for mods in dev environment
+     * @return the URLs to scan for mod in dev env
+     */
     public static Collection<URL> getDevScanUrls() {
         if (!isDevEnv()) return Collections.emptyList();
 
@@ -108,6 +174,10 @@ public class PotoFluxLoadingContext {
         }
     }
 
+    /**
+     * Create and fill a class loader in prod environment
+     * @return a class loader filled with prod mods
+     */
     private static URLClassLoader mkModClassLoader() {
         Path modsDir = PotoFlux.getProgramDir().resolve("mods");
 
@@ -132,6 +202,10 @@ public class PotoFluxLoadingContext {
         }
     }
 
+    /**
+     * Get all addons existing in the mods folder, using the mod class loader from {@link #mkModClassLoader()}
+     * @return all the @{@link Mod} annotated classes (mods)
+     */
     public static Set<Class<?>> getAddons() {
         if (modsClassLoader == null) {
             modsClassLoader = mkModClassLoader();
@@ -178,29 +252,58 @@ public class PotoFluxLoadingContext {
         return addons;
     }
 
+    /**
+     * Getter for the mod class loader (prod)
+     * @return the prod class loader
+     */
     public static ClassLoader getModsClassLoader() {
         return modsClassLoader;
     }
 
+    /**
+     * Checks if a mod is loaded
+     * @param mod the mod to check loading status
+     * @return if the mod is loaded
+     */
     public static boolean isModLoaded(Mod mod) {
         if (illegalModIds.contains(mod.modId())) return true;
         return loadedMods.containsKey(mod.modId());
     }
+    /**
+     * Checks if a mod is loaded
+     * @param modId the modID to check loading status
+     * @return if the mod is loaded
+     */
     public static boolean isModLoaded(String modId) {
         if (illegalModIds.contains(modId)) return true;
         return loadedMods.containsKey(modId);
     }
 
+    /**
+     * Checks if a mod is listed (known)
+     * @param mod the mod to check if listed
+     * @return if the mod is listed
+     */
     public static boolean isModListed(Mod mod) {
         if (illegalModIds.contains(mod.modId())) return true;
         return listedMods.containsKey(mod);
     }
+    /**
+     * Checks if a mod is listed (known)
+     * @param modId the modID to check if listed
+     * @return if the mod is listed
+     */
     public static boolean isModListed(String modId) {
         if (illegalModIds.contains(modId)) return true;
         for (Mod entry : listedMods.keySet())
             if (entry.modId().equals(modId)) return true;
         return false;
     }
+    /**
+     * Gets a version of a mod.
+     * @param modId mod to get version
+     * @return the mod version if listed, {@code null} else
+     */
     public static String getModVersion(String modId) {
         if (!isModListed(modId)) return null;
 
@@ -210,11 +313,20 @@ public class PotoFluxLoadingContext {
         return null;
     }
 
+    /**
+     * Registers a mod to the listed
+     * @param mod mod to list
+     * @param modClass the main class (annotated with {@link Mod}) of the mod
+     * @return if the mod has been listed successfully
+     */
     public static boolean listMod(Mod mod, Class<?> modClass) {
         if (isModLoaded(mod)) return false;
         listedMods.put(mod, modClass);
         return true;
     }
+    /**
+     * File the {@link #modsToLoad} list with the list from the file
+     */
     private static void registerModList() {
         Path modListPath = PotoFlux.getProgramDir().resolve("modList.json");
 
@@ -241,6 +353,10 @@ public class PotoFluxLoadingContext {
             PtfLogger.error("Failed to read modList.json !", LogCategories.MOD_LOADER);
         }
     }
+    /**
+     * Load mods that in {@link #listedMods} and in the {@link #modsToLoad}.<br>
+     * TODO: if the optional feature {@code catalogTab} is not enabled, all listed mods will be loaded.
+     */
     public static void loadMods() {
         registerModList();
 
@@ -268,9 +384,16 @@ public class PotoFluxLoadingContext {
             }
         }
     }
+    /**
+     * Getter for a list of all loaded mods
+     * @return a list of all loaded mod IDs
+     */
     public static List<String> getLoadedMods() {
         return loadedMods.keySet().stream().toList();
     }
+    /**
+     * Used to save the mod list before exiting.
+     */
     public static void saveModList() {
         Path modListPath = PotoFlux.getProgramDir().resolve("modList.json");
 
