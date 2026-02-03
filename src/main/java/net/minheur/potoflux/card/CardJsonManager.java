@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Deprecated(since = "6.4", forRemoval = true)
 public class CardJsonManager {
     public static CardList fromJson(JsonObject json, boolean randomized) {
         if (json == null) return null;
