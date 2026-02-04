@@ -17,8 +17,17 @@ import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 
+/**
+ * The handler for the main potoflux screen
+ */
 public class PotoScreen {
+    /**
+     * The actual {@link JFrame} for the class
+     */
     private final JFrame frame;
+    /**
+     * The map containing the tabs, by there tab item and the tab class
+     */
     private final Map<Tab, BaseTab> tabMap = new HashMap<>();
     private final JTabbedPane tabs = new JTabbedPane(JTabbedPane.LEFT);
 
