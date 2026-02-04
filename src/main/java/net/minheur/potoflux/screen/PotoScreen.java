@@ -29,8 +29,14 @@ public class PotoScreen {
      * The map containing the tabs, by there tab item and the tab class
      */
     private final Map<Tab, BaseTab> tabMap = new HashMap<>();
+    /**
+     * Swing element added to the {@link #frame}, containing all added tabs
+     */
     private final JTabbedPane tabs = new JTabbedPane(JTabbedPane.LEFT);
 
+    /**
+     * Constructor for initializing the screen
+     */
     public PotoScreen() {
         frame = new JFrame("PotoFlux");
         frame.setSize(854, 512);
@@ -53,6 +59,9 @@ public class PotoScreen {
         frame.setVisible(true);
     }
 
+    /**
+     * Handle the adding part of the tabs and mod tabs to the {@link #tabs}
+     */
     private void addPanels() {
         tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
@@ -74,6 +83,9 @@ public class PotoScreen {
         frame.add(tabs);
     }
 
+    /**
+     * Adds the potoflux icon to the {@link #frame}
+     */
     private void addIcon() {
         Image icon600 = new ImageIcon(Objects.requireNonNull(getClass().getResource("/textures/main.png"))).getImage();
         List<Image> icons = new ArrayList<>();
@@ -83,9 +95,18 @@ public class PotoScreen {
         frame.setIconImages(icons);
     }
 
+    /**
+     * Getter for the {@link #tabMap}
+     * @return the {@link #tabMap}
+     */
     public Map<Tab, BaseTab> getTabMap() {
         return tabMap;
     }
+    /**
+     * Gets the tab from its resource location
+     * @param loc the loc to get the tab from
+     * @return the corresponding tab class
+     */
     public BaseTab getFromResourceLoc(ResourceLocation loc) {
         for (Map.Entry<Tab, BaseTab> entry : tabMap.entrySet())
             if (entry.getKey().id().equals(loc)) return entry.getValue();
@@ -94,10 +115,18 @@ public class PotoScreen {
         return null;
     }
 
+    /**
+     * Getter for the {@link #frame}
+     * @return the {@link #frame}
+     */
     public JFrame getFrame() {
         return frame;
     }
 
+    /**
+     * Sets the opened tab in the app.
+     * @param tab the tab to be set in the {@link #tabs}
+     */
     public void setOpenedTab(Tab tab) {
         if (!tabMap.containsKey(tab)) {
             JOptionPane.showMessageDialog(frame, Translations.get("potoflux:screen.tabHereNotHere"));
