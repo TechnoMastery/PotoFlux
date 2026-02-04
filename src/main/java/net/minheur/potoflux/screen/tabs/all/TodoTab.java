@@ -1,6 +1,5 @@
 package net.minheur.potoflux.screen.tabs.all;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseTab;
@@ -22,6 +21,10 @@ import java.util.List;
 
 import static net.minheur.potoflux.Functions.*;
 
+/**
+ * This has been moved to a mod, and should be removed soon
+ */
+@Deprecated(since = "6.4", forRemoval = true)
 public class TodoTab extends BaseTab {
     private final List<TodoItem> todos = new ArrayList<>();
     private final JPanel listPanel = new JPanel();
