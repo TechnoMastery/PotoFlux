@@ -13,7 +13,6 @@ import java.util.function.Consumer;
  */
 public class ModEventBus {
 
-    // Map event type -> list of listeners
     /**
      * Map storing all listeners.<br>
      * At each event, we give a list of listeners that will be executed when the event is posted.
