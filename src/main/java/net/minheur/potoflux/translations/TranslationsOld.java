@@ -1,6 +1,5 @@
 package net.minheur.potoflux.translations;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.minheur.potoflux.utils.Json;
 
@@ -14,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated(since = "6.4", forRemoval = true)
 public class TranslationsOld {
     private static final Map<Lang, List<Map<String, String>>> translationSources = new HashMap<>();
     private static final List<Map<String, String>> loadedTranslations = new ArrayList<>();
