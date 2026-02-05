@@ -34,10 +34,28 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+/**
+ * Main class for PotoFlux. This should be set as mainClass in Gradle.
+ */
 public class PotoFlux {
+    /**
+     * The ID for potoflux (namespace)
+     */
     public static final String ID = "potoflux";
-
+    /**
+     * The actual app.<br>
+     * This contains the JFrame and will be instantiated when the app will run.
+     */
     public static PotoScreen app;
+
+    /**
+     * The main method, that runs PotoFlux.<br>
+     * It will first check for args, then enable devEnv if args contains it.<br>
+     * We then get version and log it, load all optionalFeatures, set the theme and set the loaded translations.<br>
+     * We get the loading bus, register all into it then list and load mods.<br>
+     * We post all events to the bus, and invoke the app.
+     * @param args what you give to the app. Can contain 'devEnv' to enable PotoFlux's dev mod
+     */
     public static void main(String[] args) {
         // env setup
         if (args.length < 1) PotoFluxLoadingContext.setDevEnv(false);
@@ -95,12 +113,20 @@ public class PotoFlux {
         PotoFluxLoadingContext.checkUpdates();
     }
 
+    /**
+     * This register to the event all PotoFlux's translations
+     * @param event the event for langs in the mod bus
+     */
     private static void onRegisterLang(RegisterLangEvent event) {
         event.registerLang(new PotoFluxTranslations());
         event.registerLang(new CommonTranslations());
         event.registerLang(new FileTranslations());
     }
 
+    /**
+     * Getter for the main program AppData folder.
+     * @return the program's appData folder
+     */
     public static Path getProgramDir() {
         Path dir = Paths.get(System.getenv("APPDATA"), "TechnoMastery", "PotoFlux");
         try {
@@ -109,6 +135,11 @@ public class PotoFlux {
         return dir;
     }
 
+    /**
+     * Getter for the mod common folder in the appData folder.<br>
+     * Mods should use this to resolve their modIds: this will be their own appData folder
+     * @return the shared appData folder for mods
+     */
     public static Path getModDataDir() {
         Path dir = getProgramDir().resolve("mod-data");
         try {
@@ -117,6 +148,10 @@ public class PotoFlux {
         return dir;
     }
 
+    /**
+     * This method should be used to close the app. This allows the app to run extra saving code before exiting.
+     * @param exitCode the code given on closing.
+     */
     public static void runProgramClosing(int exitCode) {
         // executes when program close
 
@@ -125,6 +160,11 @@ public class PotoFlux {
         System.exit(exitCode); // close app
     }
 
+    /**
+     * Getter for the app's version.<br>
+     * If unable to get the version, return null.
+     * @return the app version
+     */
     public static String getVersion() {
         try {
             Properties props = new Properties();
@@ -138,6 +178,11 @@ public class PotoFlux {
         }
     }
 
+    /**
+     * PotoFlux's reserved method to get a {@link ResourceLocation} directly with PotoFlux's modId.
+     * @param loc the loc to add to the modId
+     * @return a built {@link ResourceLocation} with potoflux's modId and the loc given
+     */
     public static ResourceLocation fromModId(String loc) {
         return new ResourceLocation(ID, loc);
     }

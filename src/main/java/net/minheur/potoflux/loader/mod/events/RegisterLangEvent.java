@@ -4,10 +4,13 @@ import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
 import net.minheur.potoflux.translations.Translations;
 
 /**
- * Send your main class to search for your langs.<br>
- * {@code registerMod(YourModMainClass.class)}
+ * Event to register your lang registries.
  */
 public class RegisterLangEvent {
+    /**
+     * Call this to add your lang registry to the list
+     * @param registry the registry to add to the list
+     */
     public void registerLang(AbstractTranslationsRegistry registry) {
         Translations.registerTranslations(registry);
     }

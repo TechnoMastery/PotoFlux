@@ -26,6 +26,10 @@ import java.util.List;
 
 import static net.minheur.potoflux.Functions.removeProhibitedChar;
 
+/**
+ * This has been moved to a mod, and should be removed soon
+ */
+@Deprecated(since = "6.4", forRemoval = true)
 public class CardLearningTab extends BaseTab {
     public static final Path cardsDir = Paths.get(PotoFlux.getProgramDir().toString(), "cards");
 

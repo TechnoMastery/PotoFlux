@@ -11,9 +11,16 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * Class to get a {@link Gson}.<br>
+ * This allows to have less as possible in the project.
+ */
 public class Json {
     private Json() {}
 
+    /**
+     * Use this to do your simple JSON commands.
+     */
     public static final Gson GSON = new Gson();
 
     public static List<String> loadStringArray(String url) {

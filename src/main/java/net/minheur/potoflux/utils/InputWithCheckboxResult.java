@@ -4,6 +4,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Utility class used in the TodoMod.
+ * @deprecated because needs to be moved to mod, still used by it
+ */
+@Deprecated(since = "6.4", forRemoval = true)
 public class InputWithCheckboxResult {
     public final String text;
     public final boolean pinned;

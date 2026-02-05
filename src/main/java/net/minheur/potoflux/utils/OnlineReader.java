@@ -7,7 +7,15 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * Utility class to read online files.
+ */
 public class OnlineReader {
+    /**
+     * Reads the content of an online file as a string
+     * @param url the address of the file
+     * @return the content of the online file
+     */
     public static String read(String url) {
         try {
             HttpClient client = HttpClient.newHttpClient();

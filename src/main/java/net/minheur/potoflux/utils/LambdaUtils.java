@@ -5,6 +5,9 @@ import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
 import java.lang.reflect.*;
 
+/**
+ * Utility class for lambas, mainly used in loading mods
+ */
 public class LambdaUtils {
 
     private LambdaUtils() {}
@@ -52,6 +55,11 @@ public class LambdaUtils {
         }
     }
 
+    /**
+     * Gets the JVM's signature for a method
+     * @param m method to get the signature from
+     * @return the signature for the method
+     */
     private static String getJvmSignature(Method m) {
         StringBuilder sb = new StringBuilder();
         sb.append('(');
@@ -62,6 +70,11 @@ public class LambdaUtils {
         return sb.toString();
     }
 
+    /**
+     * Gets the JVM's type for a class
+     * @param c class to get the type from
+     * @return the type for the class
+     */
     private static String getJvmType(Class<?> c) {
         if (c.isPrimitive()) {
             if (c == void.class) return "V";
@@ -80,9 +93,11 @@ public class LambdaUtils {
     }
 
     /**
-     * Essaye d'extraire l'instance capturée (this) si la method reference est une référence d'instance.
-     * ATTENTION: ceci fonctionne pour la plupart des cas (method references non statiques),
-     * mais peut échouer pour certaines formes de lambda (ex : lambdas sans capture).
+     * Tries to extract caught instance (this) if the reference method is an instance reference.
+     * WARNING: this works in most cases (method references non-static),
+     * but can fail for certains lambda types (ex : lambdas without captures).
+     * @param lambda method to extract from
+     * @return caught instance
      */
     public static Object getCapturingInstance(Object lambda) {
         try {

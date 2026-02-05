@@ -15,10 +15,24 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * The catalog of mods of potoflux.<br>
+ * Used to download mods
+ */
 public class CatalogTab extends BaseTab {
+    /**
+     * The list of all mod catalog found
+     */
     private List<ModCatalog> catalog;
+    /**
+     * The tabbed pane containing all tabs of the catalog
+     */
     private JTabbedPane tabbedPane;
 
+    /**
+     * This is the actual method to set the panel.<br>
+     * The overriding class will have to use this to add content to the {@link #PANEL}.
+     */
     @Override
     protected void setPanel() {
         reloadCatalog();
@@ -45,6 +59,10 @@ public class CatalogTab extends BaseTab {
         PANEL.repaint();
     }
 
+    /**
+     * Creates the tab containing the list of all mods existing
+     * @return the catalog panel
+     */
     private JPanel mkModCatalog() {
         JPanel modsPanel = new JPanel();
         modsPanel.setLayout(new BoxLayout(modsPanel, BoxLayout.Y_AXIS));
@@ -75,6 +93,10 @@ public class CatalogTab extends BaseTab {
         return root;
     }
 
+    /**
+     * Creates the tab containing all installed mods
+     * @return the mod panel
+     */
     private JPanel mkMyMods() {
         JPanel root = new JPanel();
 
@@ -83,16 +105,18 @@ public class CatalogTab extends BaseTab {
         return root;
     }
 
+    /**
+     * Reloads the catalog content
+     */
     public void reloadCatalog() {
         CatalogGetterHandler.buildCatalog();
         this.catalog = CatalogGetterHandler.getCatalog();
     }
 
-    @Override
-    protected String getTitle() {
-        return Translations.get("potoflux:tabs.catalog.name");
-    }
-
+    /**
+     * Disables the preset
+     * @return false
+     */
     @Override
     protected boolean doPreset() {
         return false;

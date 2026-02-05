@@ -16,9 +16,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * This class is used to handle the processing of the commands, the input and the output
+ */
 public class CommandProcessor {
+    /**
+     * Gets the output area from the terminal tab.<br>
+     * Used to add content to the log
+     */
     private static final Supplier<JTextArea> outputArea = () -> ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().getOutputArea();
 
+    /**
+     * Process a raw command to an output in the terminal
+     * @param pCommand the raw command to process
+     */
     public static void processCommand(String pCommand) {
         // check command is empty
         if (pCommand == null || pCommand.trim().isEmpty()) {
@@ -43,27 +54,40 @@ public class CommandProcessor {
         // define & send command result
         Command command = CommandRegistry.getCommandWithKey(cmdKey);
         if (command == null) throw new IllegalCallerException("Command exist but is empty !");
-        command.getCommandOutput().accept(args);
+        command.commandOutput().accept(args);
     }
 
+    /**
+     * Method to write in the terminal that no commands has been found.
+     */
     public static void appendNoCommand() {
         appendOutput(Translations.get("potoflux:commandPro.none"));
     }
 
+    /**
+     * Method used to print something in the terminal.
+     * @param text the content to print
+     */
     public static void appendOutput(String text) {
         outputArea.get().append(text + "\n");
         outputArea.get().setCaretPosition(outputArea.get().getDocument().getLength());
     }
 
+    /**
+     * Empties all the terminal content
+     */
     public static void clearArea() {
         outputArea.get().setText("");
     }
 
+    /**
+     * Saves the terminal content to the file
+     */
     public static void runSaveTerminal() {
         String content = outputArea.get().getText();
         Path file = PotoFlux.getProgramDir().resolve("terminal.txt");
 
-        if (content.trim().isEmpty()) { // is string is empty : delete file
+        if (content.trim().isEmpty()) { // if string is empty : delete file
             try {
                 Files.deleteIfExists(file);
             } catch (IOException e) {

@@ -7,8 +7,14 @@ import net.minheur.potoflux.utils.UserPrefsManager;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The settings tab contains all user changeable vars (prefs)
+ */
 public class SettingsTab extends BaseTab {
-
+    /**
+     * This is the actual method to set the panel.<br>
+     * The overriding class will have to use this to add content to the {@link #PANEL}.
+     */
     @Override
     protected void setPanel() {
         addLangButton();
@@ -16,6 +22,9 @@ public class SettingsTab extends BaseTab {
         addThemeButton();
     }
 
+    /**
+     * Adds the button to change the terminal's ASCII
+     */
     private void addAsciiButton() {
         JButton asciiButton = new JButton(Translations.get("potoflux:prefs.ascii.button"));
         asciiButton.addActionListener(e -> {
@@ -27,6 +36,9 @@ public class SettingsTab extends BaseTab {
         PANEL.add(asciiButton);
     }
 
+    /**
+     * Adds the button to change the app's lang
+     */
     private void addLangButton() {
         JButton langButton = new JButton(Translations.get("potoflux:prefs.lang.button"));
         langButton.addActionListener(e -> {
@@ -38,6 +50,9 @@ public class SettingsTab extends BaseTab {
         PANEL.add(langButton);
     }
 
+    /**
+     * Adds the button to change the theme
+     */
     private void addThemeButton() {
         JButton themeButton = new JButton(Translations.get("potoflux:prefs.theme.button"));
         themeButton.addActionListener(e -> {
@@ -49,6 +64,10 @@ public class SettingsTab extends BaseTab {
         PANEL.add(themeButton);
     }
 
+    /**
+     * Used to set the title.
+     * @return the title of the tab.
+     */
     @Override
     protected String getTitle() {
         return Translations.get("potoflux:tabs.settings.title");

@@ -10,12 +10,27 @@ import net.minheur.potoflux.logger.PtfLogger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tab for the catalog
+ */
 public class CatalogGetterHandler {
+    /**
+     * Reference to the GSON
+     */
     private static final Gson GSON = Json.GSON;
+    /**
+     * Link to the root of the catalog
+     */
     private static final String baseDir = "https://technomastery.github.io/PotoFluxAppData/modCatalog/";
 
+    /**
+     * List of all mod catalogs
+     */
     private static final List<ModCatalog> catalog = new ArrayList<>();
 
+    /**
+     * Builder for filling the list if catalog
+     */
     public static void buildCatalog() {
         catalog.clear();
 
@@ -47,9 +62,18 @@ public class CatalogGetterHandler {
         }
     }
 
+    /**
+     * Gets the mod catalog list
+     * @return the mod catalog list
+     */
     public static List<ModCatalog> getCatalog() {
         return List.copyOf(catalog);
     }
+    /**
+     * Gets a mod catalog via its id
+     * @param id modId of the catalog to get
+     * @return the mod catalog of the given ID
+     */
     public static ModCatalog getById(String id) {
         for (ModCatalog c : catalog)
             if (c.modId.equals(id)) return c;
@@ -57,6 +81,11 @@ public class CatalogGetterHandler {
         PtfLogger.error("Getting unexisting mod catalog: " + id, LogCategories.CATALOG);
         return null;
     }
+    /**
+     * Checks if a modId is known to the catalog
+     * @param modId mod to check if known
+     * @return if the mod is known
+     */
     public static boolean isModKnown(String modId) {
         for (ModCatalog mod : catalog)
             if (mod.modId.equals(modId)) return true;

@@ -20,7 +20,14 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The class containing all potoflux command actions
+ */
 public class CommandActions {
+    /**
+     * Command execution for command {@code hello}.
+     * @param args all the args given to the command
+     */
     static void helloWorld(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendOutput(CommandHelp.helloWorld());
@@ -30,6 +37,10 @@ public class CommandActions {
         CommandProcessor.appendOutput("Hello world !");
     }
 
+    /**
+     * Command execution for command {@code time}.
+     * @param args all the args given to the command
+     */
     static void time(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendOutput(CommandHelp.time());
@@ -39,6 +50,10 @@ public class CommandActions {
         CommandProcessor.appendOutput(LocalTime.now().toString());
     }
 
+    /**
+     * Command execution for command {@code help}.
+     * @param args all the args given to the command
+     */
     static void help(List<String> args) {
         if (argAmountCheck(0, 1, args)) {
             CommandProcessor.appendOutput(CommandHelp.help());
@@ -48,8 +63,8 @@ public class CommandActions {
         if (args.isEmpty()) {
             StringBuilder out = new StringBuilder(Translations.get("potoflux:command.help.title"));
             for (Command command : CommandRegistry.getAll()) {
-                if (!command.isHidden()) {
-                    out.append("\n").append("→ ").append(command.getKey()).append(" : ").append(command.getCommandHelp());
+                if (!command.hidden()) {
+                    out.append("\n").append("→ ").append(command.key()).append(" : ").append(command.commandHelp());
                 }
             }
             CommandProcessor.appendOutput(out.toString());
@@ -57,14 +72,19 @@ public class CommandActions {
         } else {
             String commandHelp = args.get(0);
             for (Command command : CommandRegistry.getAll()) {
-                if (commandHelp.equals(command.getKey())) {
-                    CommandProcessor.appendOutput(command.getCommandHelp());
+                if (commandHelp.equals(command.key())) {
+                    CommandProcessor.appendOutput(command.commandHelp());
                     return;
                 }
             }
         }
-        CommandProcessor.appendOutput(Commands.INSTANCE.HELP.getCommandHelp());
+        CommandProcessor.appendOutput(Commands.INSTANCE.HELP.commandHelp());
     }
+
+    /**
+     * Command execution for command {@code source}.
+     * @param args all the args given to the command
+     */
     static void sourceCode(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendOutput(CommandHelp.source());
@@ -74,6 +94,10 @@ public class CommandActions {
         CommandProcessor.appendOutput(Translations.get("potoflux:command.source.out") + "https://github.com/TechnoMastery/PotoFlux");
     }
 
+    /**
+     * Command execution for command {@code quit}.
+     * @param args all the args given to the command
+     */
     static void quit(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendOutput(CommandHelp.quit());
@@ -84,6 +108,10 @@ public class CommandActions {
         Functions.exit(500, 0);
     }
 
+    /**
+     * Command execution for command {@code echo}.
+     * @param args all the args given to the command
+     */
     static void echo(List<String> args) {
         if (argAmountCheck(1, args)) {
             CommandProcessor.appendOutput(CommandHelp.echo());
@@ -94,6 +122,10 @@ public class CommandActions {
         CommandProcessor.appendOutput(message);
     }
 
+    /**
+     * Command execution for command {@code tab}.
+     * @param args all the args given to the command
+     */
     static void tab(List<String> args) {
         if (argAmountCheck(1, args)) {
             CommandProcessor.appendOutput(CommandHelp.tab());
@@ -113,6 +145,10 @@ public class CommandActions {
         CommandProcessor.appendOutput(Translations.get("potoflux:command.tab.null.start") + args.get(0) + Translations.get("potofluxcommand.tab.null.end"));
     }
 
+    /**
+     * Command execution for command {@code clear}.
+     * @param args all the args given to the command
+     */
     static void clear(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendOutput(CommandHelp.clear());
@@ -122,6 +158,10 @@ public class CommandActions {
         CommandProcessor.clearArea();
     }
 
+    /**
+     * Command execution for command {@code ascii}.
+     * @param args all the args given to the command
+     */
     static void writeAscii(List<String> args) {
         if (argAmountCheck(0, 1, args)) {
             CommandProcessor.appendOutput(CommandHelp.ascii());
@@ -138,6 +178,10 @@ public class CommandActions {
         CommandProcessor.appendOutput(Objects.requireNonNullElseGet(content, CommandHelp::ascii));
     }
 
+    /**
+     * Command execution for command {@code modList}.
+     * @param args all the args given to the command
+     */
     static void modList(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendOutput(CommandHelp.modList());
@@ -161,6 +205,10 @@ public class CommandActions {
         CommandProcessor.appendOutput(sb.toString());
     }
 
+    /**
+     * Command execution for command {@code modDir}.
+     * @param args all the args given to the command
+     */
     static void modDir(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendOutput(CommandHelp.modDir());
@@ -197,6 +245,10 @@ public class CommandActions {
         else CommandProcessor.appendOutput("PotoFlux version: " + version);
     }
 
+    /**
+     * Command execution for command {@code hide}.
+     * @param args all the args given to the command
+     */
     static void hidden(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendNoCommand();
@@ -206,6 +258,10 @@ public class CommandActions {
         CommandProcessor.appendOutput(Translations.get("potoflux:command.hidden.out"));
     }
 
+    /**
+     * Command execution for command {@code nope}.
+     * @param args all the args given to the command
+     */
     static void nope(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendNoCommand();
@@ -226,19 +282,43 @@ public class CommandActions {
     }
 
     // helper methods
+    /**
+     * Checks for an amount of args, contained between a min and a max
+     * @param min the minimum amount of args
+     * @param max the maximum amount of args
+     * @param args the args to check
+     * @return if the args are good
+     */
     private static boolean argAmountCheck(int min, int max, List<String> args) {
         int actual = args.size();
         return actual < min || actual > max;
     }
+    /**
+     * Checks for an amount of args, being a fixed amount
+     * @param amount the exact amount of args you want
+     * @param args the args to check
+     * @return if the args are good
+     */
     private static boolean argAmountCheck(int amount, List<String> args) {
         int actual = args.size();
         return actual != amount;
     }
+    /**
+     * Checks for an amount of args, being contained in a given list of allowed amounts
+     * @param args the args to check
+     * @param allowed the varargs of amount of args allowed
+     * @return if the arg are good
+     */
     private static boolean argAmountCheck(List<String> args, int... allowed) {
         int actual = args.size();
         for (int a : allowed) if (a == actual) return false;
         return true;
     }
+    /**
+     * Checks if there are no args
+     * @param args args to check
+     * @return if there are no args
+     */
     private static boolean checkNoArgs(List<String> args) {
         return !args.isEmpty();
     }
