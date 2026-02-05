@@ -6,14 +6,28 @@ import net.minheur.potoflux.logger.PtfLogger;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * the class that handle translations
+ */
 public class Translations {
+    /**
+     * The loaded translations
+     */
     private static Lang loadedLang = Lang.EN;
+    /**
+     * A map of all registered translations.<br>
+     * The main map is the lang one. For each lang, we have a map of keys and translations
+     */
     private static final Map<Lang, Map<String, String>> allTranslations = new HashMap<>();
     static {
         for (Lang lang : Lang.values()) allTranslations.put(lang, new HashMap<>());
     }
 
     // registry
+    /**
+     * Adds a translation registry to {@link #allTranslations}
+     * @param registry the reg to add translations from
+     */
     public static void registerTranslations(AbstractTranslationsRegistry registry) {
         registry.registerTranslations();
         Map<Lang, Map<String, String>> registryTranslations = registry.getTranslations();
@@ -29,7 +43,7 @@ public class Translations {
 
     // loading
     /**
-     * Allow to change loaded lang
+     * Allow to change {@link #loadedLang}
      * @param lang the lang you want to load
      * @return if the loaded lang has changed
      */
@@ -43,6 +57,11 @@ public class Translations {
         return true;
     }
 
+    /**
+     * Allow to change {@link #loadedLang}, by a lang code ({@link String})
+     * @param langCode the code of the lang you want to load
+     * @return if the loaded lang has changed
+     */
     public static boolean load(String langCode) {
         for (Lang l : Lang.values()) {
             if (l.code.equals(langCode)) return load(l);
@@ -51,6 +70,11 @@ public class Translations {
     }
 
     // getter
+    /**
+     * Get a translation in the {@link #loadedLang} from its key
+     * @param key the key of the translation to get
+     * @return the translation of the key in the {@link #loadedLang}
+     */
     public static String get(String key) {
         Map<String, String> tr = allTranslations.get(loadedLang);
         if (tr == null) throw new IllegalStateException("Translations missing lang !");
