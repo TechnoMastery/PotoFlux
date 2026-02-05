@@ -48,8 +48,8 @@ public class CommandActions {
         if (args.isEmpty()) {
             StringBuilder out = new StringBuilder(Translations.get("potoflux:command.help.title"));
             for (Command command : CommandRegistry.getAll()) {
-                if (!command.isHidden()) {
-                    out.append("\n").append("→ ").append(command.getKey()).append(" : ").append(command.getCommandHelp());
+                if (!command.hidden()) {
+                    out.append("\n").append("→ ").append(command.key()).append(" : ").append(command.commandHelp());
                 }
             }
             CommandProcessor.appendOutput(out.toString());
@@ -57,13 +57,13 @@ public class CommandActions {
         } else {
             String commandHelp = args.get(0);
             for (Command command : CommandRegistry.getAll()) {
-                if (commandHelp.equals(command.getKey())) {
-                    CommandProcessor.appendOutput(command.getCommandHelp());
+                if (commandHelp.equals(command.key())) {
+                    CommandProcessor.appendOutput(command.commandHelp());
                     return;
                 }
             }
         }
-        CommandProcessor.appendOutput(Commands.INSTANCE.HELP.getCommandHelp());
+        CommandProcessor.appendOutput(Commands.INSTANCE.HELP.commandHelp());
     }
     static void sourceCode(List<String> args) {
         if (checkNoArgs(args)) {

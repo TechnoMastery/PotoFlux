@@ -16,10 +16,23 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * The main tab used to handle the terminal
+ */
 public class Terminal {
+    /**
+     * The area to print the content of the terminal (log)
+     */
     private final JTextArea outputArea;
+    /**
+     * The area to write command in
+     */
     private final JTextField inputField;
 
+    /**
+     * Init the terminal
+     * @param panel the element that will contain the terminal. Should be empty
+     */
     public Terminal(JPanel panel) {
         panel.setLayout(new BorderLayout());
 
@@ -62,10 +75,17 @@ public class Terminal {
         panel.add(splitPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Getter for the {@link #outputArea}
+     * @return {@link #outputArea}
+     */
     public JTextArea getOutputArea() {
         return outputArea;
     }
 
+    /**
+     * Fills the output area with the content of the terminal, saved in the files
+     */
     public void fillOutputTextArea() {
         Path file = PotoFlux.getProgramDir().resolve("terminal.txt");
 
@@ -93,6 +113,11 @@ public class Terminal {
         }
     }
 
+    /**
+     * Gets the content of an ascii (in the files)
+     * @param file name of the ASCII file the get
+     * @return the content of the ASCII file
+     */
     public static String getAsciiFileContent(String file) {
         try (Reader reader = new InputStreamReader(
                 Terminal.class.getResourceAsStream("/ascii/" + file + ".txt"),
@@ -112,13 +137,17 @@ public class Terminal {
         return null;
     }
 
+    /**
+     * Write the ASCII (the one set in the user prefs).<br>
+     * By default, using {@code big}
+     */
     public static void buildASCII() {
         String asciiFile = UserPrefsManager.getTerminalASCII();
         if (asciiFile == null) asciiFile = "big";
 
         String asciiContent = getAsciiFileContent(asciiFile);
         if (asciiContent == null) {
-            JOptionPane.showMessageDialog(null, "ERROR: Failed loading translations ! Please report this error.");
+            JOptionPane.showMessageDialog(null, "ERROR: Failed getting ASCII ! Please report this error.");
             return;
         }
 
