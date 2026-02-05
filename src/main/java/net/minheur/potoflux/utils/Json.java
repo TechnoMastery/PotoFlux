@@ -25,12 +25,24 @@ public class Json {
 
     public static List<String> loadStringArray(String url) {
         String content = OnlineReader.read(url);
+
+        if (content == null) return null;
+
         Type type = new TypeToken<List<String>>(){}.getType();
         return GSON.fromJson(content, type);
     }
 
-    public static String getFromObject(String url, String key) throws Exception {
+    /**
+     * Gets a string item from an online JSON object
+     * @param url the link to your online JSON file containing your JSON object
+     * @param key the key to the member of your object
+     * @return the content of the member {@code key} in your online JSON object
+     */
+    public static String getFromObject(String url, String key) {
         String content = OnlineReader.read(url);
+
+        if (content == null) return null;
+
         JsonObject object = JsonParser.parseString(content).getAsJsonObject();
         return object.get(key).getAsString();
 

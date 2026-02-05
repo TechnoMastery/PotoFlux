@@ -102,8 +102,8 @@ public class PotoFluxLoadingContext {
     }
 
     /**
-     * Getter for the only mod event bus
-     * @return the mod event bus
+     * Checks online for a newer version of potoflux.<br>
+     * If there is one available, tells the user.
      */
     public static void checkUpdates() {
         try {
@@ -111,6 +111,10 @@ public class PotoFluxLoadingContext {
 
             String lastest = Json.getFromObject(target, "lastestVersion");
 
+            if (lastest == null) {
+                PtfLogger.error("Could not get online version of potoflux !");
+                return;
+            }
             if (lastest.equals(PotoFlux.getVersion())) return;
 
             PtfLogger.info("New version of PotoFlux available ! (" + PotoFlux.getVersion() + " → " + lastest + ")");
@@ -120,6 +124,10 @@ public class PotoFluxLoadingContext {
             PtfLogger.error("Could not get lastest version online file !");
         }
     }
+    /**
+     * Show the user a dialog to inform that there's a new potoflux version available
+     * @param lastest the version to tell the user it's the lastest
+     */
     private static void showUpdateContextDialog(String lastest) {
         int update = JOptionPane.showConfirmDialog(null, "New version of PotoFlux available !", "Update", JOptionPane.OK_CANCEL_OPTION);
         if (update == JOptionPane.OK_OPTION) {
@@ -133,6 +141,10 @@ public class PotoFluxLoadingContext {
         }
     }
 
+    /**
+     * Getter for the only mod event bus
+     * @return the mod event bus
+     */
     public ModEventBus getModEventBus() {
         return modEventBus;
     }
