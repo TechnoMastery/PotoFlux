@@ -232,6 +232,10 @@ public class CommandActions {
 
     }
 
+    /**
+     * Command execution for command {@code ptfVersion}
+     * @param args all the args given to the command
+     */
     static void ptfVersion(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendOutput(CommandHelp.ptfVersion());
@@ -271,6 +275,10 @@ public class CommandActions {
         CommandProcessor.appendOutput(Translations.get("potoflux:command.nope.out"));
     }
 
+    /**
+     * Command execution for command {@code LordHawima}
+     * @param args all the args given to the command
+     */
     static void lordHawima(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendNoCommand();

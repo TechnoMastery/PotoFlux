@@ -68,6 +68,9 @@ public class Commands {
      * Command for the {@code source} command.
      */
     public final Command SOURCE = LIST.add(new Command(fromModId("source"), "source", CommandActions::sourceCode, CommandHelp.source()));
+    /**
+     * Command for the {@code ptfVersion} command.
+     */
     public final Command VERSION = LIST.add(new Command(fromModId("version"), "ptfVersion", CommandActions::ptfVersion, CommandHelp.ptfVersion()));
     /**
      * Command for the {@code ascii} command.
@@ -89,7 +92,9 @@ public class Commands {
      * It's hidden
      */
     public final Command NOPE = LIST.add(new Command(fromModId("nope"), "nope", CommandActions::nope));
-    // easter egg for Mathis
+    /**
+     * An Easter egg for Mathis (aka. Maggacco666)
+     */
     public final Command POTATO_COMMAND = LIST.add(new Command(fromModId("mathis_easter_egg"), "LordHawima", CommandActions::lordHawima));
 
     /**
