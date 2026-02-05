@@ -9,12 +9,16 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.Json;
 import org.reflections.vfs.Vfs;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.*;
 import java.util.*;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -101,6 +105,34 @@ public class PotoFluxLoadingContext {
      * Getter for the only mod event bus
      * @return the mod event bus
      */
+    public static void checkUpdates() {
+        try {
+            String target = "https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json";
+
+            String lastest = Json.getFromObject(target, "lastestVersion");
+
+            if (lastest.equals(PotoFlux.getVersion())) return;
+
+            PtfLogger.info("New version of PotoFlux available ! (" + PotoFlux.getVersion() + " → " + lastest + ")");
+            showUpdateContextDialog(lastest);
+        } catch (Exception e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not get lastest version online file !");
+        }
+    }
+    private static void showUpdateContextDialog(String lastest) {
+        int update = JOptionPane.showConfirmDialog(null, "New version of PotoFlux available !", "Update", JOptionPane.OK_CANCEL_OPTION);
+        if (update == JOptionPane.OK_OPTION) {
+            try {
+                String url = "https://github.com/TechnoMastery/PotoFlux/releases/tag/" + lastest;
+                Desktop.getDesktop().browse(new URI(url));
+            } catch (Exception e) {
+                e.printStackTrace();
+                PtfLogger.error("Failed to open potoflux update page !");
+            }
+        }
+    }
+
     public ModEventBus getModEventBus() {
         return modEventBus;
     }
@@ -366,16 +398,67 @@ public class PotoFluxLoadingContext {
 
         for (Map.Entry<Mod, Class<?>> entry : listedMods.entrySet()) {
             if (modsToLoad.contains(entry.getKey().modId()) || !hasCatalogTab) {
-                if (Arrays.stream(
-                        entry.getKey().compatibleVersions()
-                ).toList().contains(
-                        PotoFlux.getVersion()
-                )) {
-                    loadedMods.put(
-                            entry.getKey().modId(),
-                            entry.getValue()
-                    );
-                    PtfLogger.info("Loaded mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+
+                List<String> compatibleVersions =
+                        Arrays.stream(
+                                entry.getKey().compatibleVersions()
+                        ).toList();
+                boolean isCompatible = false;
+
+                // check if using online compatible
+                if (compatibleVersions.contains("-1"))
+                {
+
+                    // check if online list exists
+                    if (entry.getKey().compatibleVersionUrl().equals("NONE")) {
+                        modsToLoad.remove(entry.getKey().modId());
+                        PtfLogger.error("No compatible version list system set for mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+                        continue;
+                    }
+
+                    // gets list
+                    try {
+
+                        List<String> compatibleVersionList = Json.loadStringArray(
+                                entry.getKey().compatibleVersionUrl()
+                        );
+
+                        if (compatibleVersionList.isEmpty()) {
+                            modsToLoad.remove(entry.getKey().modId());
+                            PtfLogger.error("Empty online compatible version list for mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+                            continue;
+                        }
+
+                        if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        PtfLogger.error("Failed to get online compatible version list for mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+                        continue;
+                    }
+
+                }
+                else if (compatibleVersions.contains(PotoFlux.getVersion()))
+                    isCompatible = true;
+
+                if (isCompatible)
+                {
+
+                    try { // try to create mod
+
+                        Object instance = entry.getValue().getDeclaredConstructor().newInstance();
+
+                        loadedMods.put(
+                                entry.getKey().modId(),
+                                entry.getValue()
+                        );
+                        PtfLogger.info("Loaded mod: " + entry.getKey().modId() + " in version " + entry.getKey().version(), LogCategories.MOD_LOADER);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        PtfLogger.error("Couldn't instance mod: " + entry.getKey().modId());
+                    }
+
                 }
                 else {
                     modsToLoad.remove(entry.getKey().modId());

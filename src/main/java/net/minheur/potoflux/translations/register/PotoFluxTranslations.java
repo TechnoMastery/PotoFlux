@@ -32,10 +32,15 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addCommandUse("clear")
                 .en("Usage: clear");
 
+        addCommand("ptfVersion")
+                .en("Get actual PotoFlux version");
+        addCommandUse("ptfVersion")
+                .en("Usage: version");
+
         addCommand("echo")
                 .en("Repeats what you give");
         addCommandUse("echo")
-                .en("Echo: usage <text>");
+                .en("Usage: echo <text>");
 
         addCommand("hello_world")
                 .en("Says hello world");

@@ -4,7 +4,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.List;
 
 /**
  * The class to annotate your main mod class with.<br>
@@ -28,5 +27,6 @@ public @interface Mod {
      * Should take the form of {@code compatibleVersions = {"6.0", "6.1"}}
      * @return potoflux versions compatible with your mod
      */
-    String[] compatibleVersions();
+    String[] compatibleVersions() default {"-1"};
+    String compatibleVersionUrl() default "NONE";
 }

@@ -3,10 +3,20 @@ plugins {
 }
 
 group = "net.minheur.potoflux"
-version = "5.32"
+version = "6.3"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 repositories {
     mavenCentral()
+}
+
+ext {
+    gdxVersion = "1.12.1"
 }
 
 dependencies {
@@ -20,6 +30,13 @@ dependencies {
 
     // dark theme
     implementation 'com.formdev:flatlaf:3.3'
+
+    // LibGDX core
+    implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+
+    // Desktop backend
+    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 
 }
 

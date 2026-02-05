@@ -232,6 +232,19 @@ public class CommandActions {
 
     }
 
+    static void ptfVersion(List<String> args) {
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendOutput(CommandHelp.ptfVersion());
+            return;
+        }
+
+        String version = PotoFlux.getVersion();
+        if (version == null)
+            CommandProcessor.appendOutput("Could not get potoflux version !");
+
+        else CommandProcessor.appendOutput("PotoFlux version: " + version);
+    }
+
     /**
      * Command execution for command {@code hide}.
      * @param args all the args given to the command
@@ -256,6 +269,16 @@ public class CommandActions {
         }
 
         CommandProcessor.appendOutput(Translations.get("potoflux:command.nope.out"));
+    }
+
+    static void lordHawima(List<String> args) {
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendNoCommand();
+            return;
+        }
+
+        CommandProcessor.appendOutput("!!!!!!!!!!!!!! Les patates c'est BON !!!!!!!!!!!!!!");
+        CommandProcessor.appendOutput("Cet easter egg vous est offert par Magaco");
     }
 
     // helper methods

@@ -105,4 +105,8 @@ public class CommandHelp {
         return Translations.get("potoflux:command.modDir") + tabLine +
                 Translations.get("potoflux:command.modDir.use");
     }
+    static String ptfVersion() {
+        return Translations.get("potoflux:command.ptfVersion") + tabLine +
+                Translations.get("potoflux:command.ptfVersion.use");
+    }
 }
