@@ -124,15 +124,31 @@ public abstract class AbstractTranslationsRegistry {
             this.key = getKeyMod(key);
         }
 
+        /**
+         * Adds an actual translation with the key
+         * @param lang the lang to add the translation to
+         * @param value the content of the translation
+         * @return the actual builder
+         */
         public TranslationBuilder lang(Lang lang, String value) {
             Map<String, String> translations = modTranslations.get(lang);
             if (translations.put(key, value) != null) throw new IllegalArgumentException("Duplicate translation key '" + key + "'");
             return this;
         }
 
+        /**
+         * Utility to create an English translation
+         * @param value the content of the translation
+         * @return the actual builder
+         */
         public TranslationBuilder en(String value) {
             return lang(Lang.EN, value);
         }
+        /**
+         * Utility to create a French translation
+         * @param value the content of the translation
+         * @return the actual builder
+         */
         public TranslationBuilder fr(String value) {
             return lang(Lang.FR, value);
         }
