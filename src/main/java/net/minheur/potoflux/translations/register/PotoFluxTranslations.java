@@ -3,11 +3,20 @@ package net.minheur.potoflux.translations.register;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
 
+/**
+ * Registry for all potoflux translations
+ */
 public class PotoFluxTranslations extends AbstractTranslationsRegistry {
+    /**
+     * Calls the constructor to set the modID
+     */
     public PotoFluxTranslations() {
         super(PotoFlux.ID);
     }
 
+    /**
+     * Actually add translation
+     */
     @Override
     protected void makeTranslation() {
         // commands
@@ -145,26 +154,61 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .fr("Catalogue");
     }
 
+    /**
+     * Add a translation for the command processor
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addCommandPro(String... children) {
         return add("commandPro", children);
     }
+    /**
+     * Add a translation for the preferences
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addPref(String... children) {
         return add("prefs", children);
     }
+    /**
+     * Add a translation for the screen
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addScreen(String... children) {
         return add("screen", children);
     }
 
     // tabs helpers
+    /**
+     * Add a translation for the home tab
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addHomeTab(String... children) {
         return addTab("home", children);
     }
+    /**
+     * Add a translation for the settings tab
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addSettingsTab(String... children) {
         return addTab("settings", children);
     }
+    /**
+     * Add a translation for the terminal tab
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addTerminalTab(String... children) {
         return addTab("term", children);
     }
+    /**
+     * Add a translation for the catalog tab
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addCatalogTab(String... children) {
         return addTab("catalog", children);
     }

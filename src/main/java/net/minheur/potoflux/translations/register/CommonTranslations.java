@@ -2,11 +2,17 @@ package net.minheur.potoflux.translations.register;
 
 import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
 
+/**
+ * Translation registry for all common words, that can be used a lot.
+ */
 public class CommonTranslations extends AbstractTranslationsRegistry {
     public CommonTranslations() {
         super("common");
     }
 
+    /**
+     * Actual registering
+     */
     @Override
     protected void makeTranslation() {
         add("back")
