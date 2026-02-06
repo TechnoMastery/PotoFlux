@@ -13,6 +13,7 @@ import net.minheur.potoflux.terminal.CommandRegistry;
 import net.minheur.potoflux.terminal.Terminal;
 import net.minheur.potoflux.translations.Translations;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -274,7 +275,14 @@ public class CommandActions {
             return;
         }
 
-        CommandProcessor.appendOutput(Translations.get("potoflux:command.nope.out"));
+        String url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1"; // don't worry ^^
+        boolean hasBrowse = Functions.browse(url);
+
+        if (hasBrowse)
+            CommandProcessor.appendOutput(Translations.get("potoflux:command.nope.out"));
+        else
+            CommandProcessor.appendNoCommand();
+
     }
 
     /**

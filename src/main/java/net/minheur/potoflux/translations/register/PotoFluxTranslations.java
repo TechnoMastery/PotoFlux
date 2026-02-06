@@ -60,7 +60,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Hidden command :)");
 
         addCommand("nope", "out")
-                .en("NOPE !!!!! :)");
+                .en("I got you !")
+                .fr("CHEH");
 
         addCommand("quit")
                 .en("Exit app");
