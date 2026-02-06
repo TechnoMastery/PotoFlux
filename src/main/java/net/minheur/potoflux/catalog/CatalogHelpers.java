@@ -139,7 +139,7 @@ public class CatalogHelpers {
 
     /**
      * Maker for the installation status.<br>
-     * Says if the mod is installed, not installed, downloaded & incompatible or unknown.
+     * Says if the mod is installed, not installed, downloaded andincompatible or unknown.
      * @param mod the mod to make the installation status from
      * @return the installation status (JLabel)
      */

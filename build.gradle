@@ -3,12 +3,14 @@ plugins {
 }
 
 group = "net.minheur.potoflux"
-version = "6.4"
+version = "6.5"
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+    withSourcesJar()
+    withJavadocJar()
 }
 
 repositories {
@@ -94,6 +96,12 @@ tasks.register("run", JavaExec) {
     mainClass.set("net.minheur.potoflux.PotoFlux")
 
     args("devEnv")
+}
+
+tasks.named("sourcesJar") {
+    dependsOn(generateVersionProperties)
+
+    exclude("**/*.json", "**/*.toml", "**/*.lang")
 }
 
 tasks.register("copyJar", Copy) {
