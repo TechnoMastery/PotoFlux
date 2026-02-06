@@ -4,6 +4,15 @@ import java.util.List;
 
 public class CommandMakerHelpers {
     /**
+     * A contant for the tabulation
+     */
+    public static final String tab = "    ";
+    /**
+     * A constant for a tabulation, preceded by a new line.
+     */
+    public static final String tabLine = "\n" + tab;
+
+    /**
      * Checks for an amount of args, contained between a min and a max
      * @param min the minimum amount of args
      * @param max the maximum amount of args

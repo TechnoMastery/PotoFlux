@@ -2,19 +2,12 @@ package net.minheur.potoflux.terminal.commands;
 
 import net.minheur.potoflux.translations.Translations;
 
+import static net.minheur.potoflux.terminal.commands.CommandMakerHelpers.tabLine;
+
 /**
  * The class containing all potoflux command helps
  */
 public class CommandHelp {
-    /**
-     * A contant for the tabulation
-     */
-    private static final String tab = "    ";
-    /**
-     * A constant for a tabulation, preceded by a new line.
-     */
-    private static final String tabLine = "\n" + tab;
-
     /**
      * The help for the command {@code hello}.
      * @return the help for {@code hello}.
