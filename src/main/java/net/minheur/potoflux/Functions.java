@@ -1,7 +1,9 @@
 package net.minheur.potoflux;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -104,5 +106,19 @@ public class Functions {
             result = result.replace("$$" + (i +1), args[i].toString());
 
         return result;
+    }
+
+    public static boolean browse(String url) {
+        try {
+            URI uri = new URI(url);
+
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().browse(uri);
+                return true;
+            } else return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

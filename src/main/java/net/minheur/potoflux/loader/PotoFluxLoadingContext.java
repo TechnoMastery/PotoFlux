@@ -1,6 +1,7 @@
 package net.minheur.potoflux.loader;
 
 import com.google.gson.reflect.TypeToken;
+import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModEventBus;
@@ -131,13 +132,12 @@ public class PotoFluxLoadingContext {
     private static void showUpdateContextDialog(String lastest) {
         int update = JOptionPane.showConfirmDialog(null, "New version of PotoFlux available !", "Update", JOptionPane.OK_CANCEL_OPTION);
         if (update == JOptionPane.OK_OPTION) {
-            try {
-                String url = "https://github.com/TechnoMastery/PotoFlux/releases/tag/" + lastest;
-                Desktop.getDesktop().browse(new URI(url));
-            } catch (Exception e) {
-                e.printStackTrace();
-                PtfLogger.error("Failed to open potoflux update page !");
-            }
+
+            String url = "https://github.com/TechnoMastery/PotoFlux/releases/tag/" + lastest;
+            boolean hasBrowse = Functions.browse(url);
+
+            if (!hasBrowse) PtfLogger.error("Failed to open potoflux update page !");
+
         }
     }
 
