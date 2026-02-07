@@ -163,11 +163,18 @@ public class PotoFluxLoadingContext {
         isEnvSet = true;
     }
     /**
-     * Checks if the env has been set
-     * @return if the env has been set
+     * Checks if the env is dev
+     * @return if the env is dev
      */
     public static boolean isDevEnv() {
         return isDevEnv;
+    }
+    /**
+     * Checks if the env is prod
+     * @return if the env is prod
+     */
+    public static boolean isProdEnv() {
+        return !isDevEnv;
     }
 
     /**
