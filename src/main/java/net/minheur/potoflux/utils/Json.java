@@ -33,6 +33,19 @@ public class Json {
     }
 
     /**
+     * Gets a JSON object from an online file
+     * @param url the path to file
+     * @return the JSON object of the file
+     */
+    public static JsonObject getOnlineJsonObject(String url) {
+        String content = OnlineReader.read(url);
+
+        if (content == null) return null;
+
+        return JsonParser.parseString(content).getAsJsonObject();
+    }
+
+    /**
      * Gets a string item from an online JSON object
      * @param url the link to your online JSON file containing your JSON object
      * @param key the key to the member of your object
