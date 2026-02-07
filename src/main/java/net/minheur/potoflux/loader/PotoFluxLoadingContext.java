@@ -410,11 +410,13 @@ public class PotoFluxLoadingContext {
         if (modsToLoad.isEmpty() && hasCatalogTab) return;
 
         for (Map.Entry<Mod, Class<?>> entry : listedMods.entrySet()) {
-            if (modsToLoad.contains(entry.getKey().modId()) || !hasCatalogTab) {
+            Mod mod = entry.getKey();
+
+            if (modsToLoad.contains(mod.modId()) || !hasCatalogTab) {
 
                 List<String> compatibleVersions =
                         Arrays.stream(
-                                entry.getKey().compatibleVersions()
+                                mod.compatibleVersions()
                         ).toList();
                 boolean isCompatible = false;
 
@@ -423,26 +425,29 @@ public class PotoFluxLoadingContext {
                 {
 
                     // check if online list exists
-                    if (entry.getKey().compatibleVersionUrl().equals("NONE")) {
-                        modsToLoad.remove(entry.getKey().modId());
-                        PtfLogger.error("No compatible version list system set for mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+                    if (mod.compatibleVersionUrl().equals("NONE")) {
+                        modsToLoad.remove(mod.modId());
+                        PtfLogger.error("No compatible version list system set for mod: " + mod.modId(), LogCategories.MOD_LOADER);
                         continue;
                     }
 
                     // gets list
                     try {
 
-                        JsonObject versionObject = Json.getOnlineJsonObject(entry.getKey().compatibleVersionUrl());
+                        JsonObject versionObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
 
-                        List<String> compatibleVersionList = Json.listFromObject(versionObject, entry.getKey().version());
+                        if (versionObject == null) {
+                            modsToLoad.remove(mod.modId());
+                            PtfLogger.error("Could not get corresponding online version for mod " + mod.modId() + ", for version " + mod.version(),
+                                    LogCategories.MOD_LOADER);
+                            continue;
+                        }
 
-                        // List<String> compatibleVersionList = Json.loadStringArray(
-                        //         entry.getKey().compatibleVersionUrl()
-                        // );
+                        List<String> compatibleVersionList = Json.listFromObject(versionObject, mod.version());
 
                         if (compatibleVersionList.isEmpty()) {
-                            modsToLoad.remove(entry.getKey().modId());
-                            PtfLogger.error("Empty online compatible version list for mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+                            modsToLoad.remove(mod.modId());
+                            PtfLogger.error("Empty online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
                             continue;
                         }
 
@@ -451,7 +456,7 @@ public class PotoFluxLoadingContext {
                     }
                     catch (Exception e) {
                         e.printStackTrace();
-                        PtfLogger.error("Failed to get online compatible version list for mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+                        PtfLogger.error("Failed to get online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
                         continue;
                     }
 
