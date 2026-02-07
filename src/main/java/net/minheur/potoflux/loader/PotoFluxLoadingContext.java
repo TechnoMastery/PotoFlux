@@ -1,5 +1,6 @@
 package net.minheur.potoflux.loader;
 
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
@@ -431,9 +432,13 @@ public class PotoFluxLoadingContext {
                     // gets list
                     try {
 
-                        List<String> compatibleVersionList = Json.loadStringArray(
-                                entry.getKey().compatibleVersionUrl()
-                        );
+                        JsonObject versionObject = Json.getOnlineJsonObject(entry.getKey().compatibleVersionUrl());
+
+                        List<String> compatibleVersionList = Json.listFromObject(versionObject, entry.getKey().version());
+
+                        // List<String> compatibleVersionList = Json.loadStringArray(
+                        //         entry.getKey().compatibleVersionUrl()
+                        // );
 
                         if (compatibleVersionList.isEmpty()) {
                             modsToLoad.remove(entry.getKey().modId());
@@ -443,7 +448,8 @@ public class PotoFluxLoadingContext {
 
                         if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
 
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         e.printStackTrace();
                         PtfLogger.error("Failed to get online compatible version list for mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
                         continue;
