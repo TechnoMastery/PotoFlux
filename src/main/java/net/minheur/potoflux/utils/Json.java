@@ -1,14 +1,9 @@
 package net.minheur.potoflux.utils;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -30,6 +25,22 @@ public class Json {
 
         Type type = new TypeToken<List<String>>(){}.getType();
         return GSON.fromJson(content, type);
+    }
+
+    /**
+     * Gets a {@link List} of {@link String} from a {@link JsonObject} and it's member name
+     * @param object the {@link JsonObject} to get the list from
+     * @param listName the member name of the list in the JSON
+     * @return the list of string contained in the object
+     */
+    public static List<String> listFromObject(JsonObject object, String listName) {
+
+        Type t = new TypeToken<List<String>>(){}.getType();
+
+        JsonElement jArray = object.get(listName);
+
+        return GSON.fromJson(jArray, t);
+
     }
 
     /**
