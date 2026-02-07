@@ -1,8 +1,15 @@
 package net.minheur.potoflux.loader.mod;
 
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
+import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
@@ -10,56 +17,39 @@ import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
 
+import javax.annotation.Nonnull;
+
+import static net.minheur.potoflux.loader.PotoFluxLoadingContext.*;
+
 public class AddonLoader {
 
+    private ClassLoader normalClassLoader;
+    private Set<Class<?>> addons;
+
     public void loadAddons() {
-        Set<Class<?>> addons;
 
-        // ===== CONTEXT CLASSLOADER (PROD ONLY) =====
-        ClassLoader old = Thread.currentThread().getContextClassLoader();
-        boolean switched = false;
+        // ===== MOD CONTEXT CLASSLOADER (PROD ONLY) =====
+        boolean isModClassLoaderActive = false;
+        if (isProdEnv()) {
 
-        if (!PotoFluxLoadingContext.isDevEnv()) {
+            saveNormalClassLoader();
+            setModClassLoader();
 
-            Thread.currentThread().setContextClassLoader(
-                    PotoFluxLoadingContext.getModsClassLoader()
-            );
-            switched = true;
+            isModClassLoaderActive = true;
 
         }
 
         try {
 
-            if (PotoFluxLoadingContext.isDevEnv()) {
+            if (isProdEnv()) {
 
-                // ===== DEV =====
-
-                Collection<URL> urls = PotoFluxLoadingContext.getDevScanUrls();
-
-                if (urls.isEmpty()) {
-                    PtfLogger.info("No mod file found !", LogCategories.MOD_LOADER);
-                    return;
-                }
-
-                Reflections reflections = new Reflections(
-                        new ConfigurationBuilder()
-                                .setUrls(urls)
-                                .addClassLoaders(
-                                        Thread.currentThread().getContextClassLoader()
-                                )
-                                .setScanners(
-                                        Scanners.TypesAnnotated,
-                                        Scanners.SubTypes
-                                )
-                );
-
-                addons = reflections.getTypesAnnotatedWith(Mod.class);
+                // ===== PROD =====
+                addons = getModProdEnv();
 
             } else {
 
-                // ===== PROD =====
-
-                addons = PotoFluxLoadingContext.getAddons();
+                // ===== DEV =====
+                addons = getModsDevEnv();
 
             }
 
@@ -97,9 +87,96 @@ public class AddonLoader {
             }
 
         } finally {
-            // replace classLoader
-            if (switched) Thread.currentThread().setContextClassLoader(old);
+            // replace normal classLoader
+            if (isModClassLoaderActive) setNormalClassLoader();
         }
+    }
+
+    private Set<Class<?>> getModsDevEnv() {
+        Collection<URL> urls = getDevScanUrls();
+
+        if (urls.isEmpty()) {
+            PtfLogger.info("No mod file found !", LogCategories.MOD_LOADER);
+            return new HashSet<>();
+        }
+
+        Reflections reflections = getDevReflection(urls);
+
+        return reflections.getTypesAnnotatedWith(Mod.class);
+    }
+
+    @Nonnull
+    private static Reflections getDevReflection(Collection<URL> urls) {
+        return new Reflections(
+
+                new ConfigurationBuilder()
+                        .setUrls(urls)
+                        .addClassLoaders(
+                                Thread.currentThread().getContextClassLoader()
+                        )
+                        .setScanners(
+                                Scanners.TypesAnnotated,
+                                Scanners.SubTypes
+                        )
+
+        );
+    }
+
+    private void saveNormalClassLoader() {
+        normalClassLoader = getCurrentClassLoader();
+    }
+
+    private void setNormalClassLoader() {
+        if (normalClassLoader == null) throw new IllegalThreadStateException("Normal class loader not saved ! Thread class loader stuck as mod !");
+
+        Thread.currentThread().setContextClassLoader(
+                normalClassLoader
+        );
+    }
+
+    public static Set<Class<?>> getModProdEnv() {
+        ClassLoader modsClassLoader = getModsClassLoader();
+
+        setModClassLoader();
+
+        Set<Class<?>> addons = new HashSet<>();
+        Path modsDir = PotoFlux.getProgramDir().resolve("mods");
+
+        // stream = all jar files
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(modsDir, "*.jar");) {
+            // for each, make the jarFile
+            for (Path jarPath : stream) try (JarFile jar = new JarFile(jarPath.toFile())) {
+                PtfLogger.info("Scanning jar " + jar.getName(), LogCategories.MOD_LOADER);
+
+                // list all jar entries (so classes)
+                Enumeration<JarEntry> entries = jar.entries();
+                // process classes
+                while (entries.hasMoreElements()) {
+                    JarEntry entry = entries.nextElement();
+
+                    if (!entry.getName().endsWith(".class")) continue; // continue on all non-class files
+
+                    String className = entry.getName()
+                            .replace('/', '.')
+                            .replace(".class", "");
+
+                    try {
+                        // turn to class
+                        Class<?> clazz = Class.forName(className, false, modsClassLoader);
+
+                        // if @Mod is present, add to addons
+                        if (clazz.isAnnotationPresent(Mod.class)) {
+                            PtfLogger.info("Found @Mod class: " + clazz.getName(), LogCategories.MOD_LOADER);
+                            addons.add(clazz);
+                        }
+                    } catch (ClassNotFoundException | NoClassDefFoundError ignored) {}
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return addons;
     }
 }
 

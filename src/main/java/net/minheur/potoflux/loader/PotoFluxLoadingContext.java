@@ -230,7 +230,7 @@ public class PotoFluxLoadingContext {
      * Create and fill a class loader in prod environment
      * @return a class loader filled with prod mods
      */
-    private static URLClassLoader mkModClassLoader() {
+    public static URLClassLoader mkModClassLoader() {
         Path modsDir = PotoFlux.getProgramDir().resolve("mods");
 
         try {
@@ -252,6 +252,15 @@ public class PotoFluxLoadingContext {
         } catch (IOException e) {
             throw new RuntimeException("Failed to create mods classloader", e);
         }
+    }
+
+    public static ClassLoader getCurrentClassLoader() {
+        return Thread.currentThread().getContextClassLoader();
+    }
+    public static void setModClassLoader() {
+        Thread.currentThread().setContextClassLoader(
+                getModsClassLoader()
+        );
     }
 
     /**
@@ -309,6 +318,9 @@ public class PotoFluxLoadingContext {
      * @return the prod class loader
      */
     public static ClassLoader getModsClassLoader() {
+        if (modsClassLoader == null)
+            modsClassLoader = mkModClassLoader();
+
         return modsClassLoader;
     }
 
