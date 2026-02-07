@@ -28,5 +28,13 @@ public @interface Mod {
      * @return potoflux versions compatible with your mod
      */
     String[] compatibleVersions() default {"-1"};
+    /**
+     * An online URL, leading to a JSON file.<br>
+     * The file must contain a JSON object.<br>
+     * The object must contain 1 entry by version :<br>
+     * The key of the entry is the version (same as set in {@link #version()}),<br>
+     * and the content an array of strings. Each string of the array is one potoflux version supported by the corresponding mod version
+     * @return the online compatible version URL
+     */
     String compatibleVersionUrl() default "NONE";
 }
