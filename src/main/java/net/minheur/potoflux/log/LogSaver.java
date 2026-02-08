@@ -1,7 +1,6 @@
 package net.minheur.potoflux.log;
 
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,17 +13,37 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
+/**
+ * Class responsible for saving logs.
+ */
 public class LogSaver {
+    /**
+     * If this session's logs will be saved
+     */
     private static boolean enabled = false;
 
+    /**
+     * Linked to {@link System#out}
+     */
     private static PrintStream originalOut;
+    /**
+     * Linked to {@link System#err}
+     */
     private static PrintStream originalErr;
 
+    /**
+     * Contains all the logs as bytes
+     */
     private static ByteArrayOutputStream buffer;
 
+    /**
+     * Disables this class instantiating
+     */
     private LogSaver() {}
 
+    /**
+     * Runs to set up the log saving system
+     */
     public static void init() {
 
         originalOut = System.out;
@@ -44,10 +63,16 @@ public class LogSaver {
         System.setErr(teeErr);
     }
 
+    /**
+     * Enables the log saving system
+     */
     public static void enable() {
         enabled = true;
     }
 
+    /**
+     * Saves the logs to file
+     */
     public static void flushAndSave() {
         if (!enabled || buffer == null) return;
 
@@ -79,6 +104,12 @@ public class LogSaver {
         }
     }
 
+    /**
+     * Make a zip file from a folder
+     * @param sourceDir the initial folder to zip
+     * @param zipFile where the zip folder will be
+     * @throws IOException if could not read / write on disc
+     */
     private static void zipFolder(Path sourceDir, Path zipFile) throws IOException {
         try (ZipOutputStream zos = new ZipOutputStream(
                 Files.newOutputStream(zipFile))) {
@@ -102,6 +133,11 @@ public class LogSaver {
         }
     }
 
+    /**
+     * Delete a folder and all its content
+     * @param path the folder to delete
+     * @throws IOException if could not modify the disc
+     */
     private static void deleteRecursively(Path path) throws IOException {
         if (!Files.exists(path))
             return;

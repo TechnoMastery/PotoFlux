@@ -3,6 +3,9 @@ package net.minheur.potoflux.log;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * Custom output stream
+ */
 public class TeeOutputStream extends OutputStream {
     private final OutputStream a;
     private final OutputStream b;
