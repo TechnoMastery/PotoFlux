@@ -14,6 +14,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
+import net.minheur.potoflux.log.LogSaver;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
@@ -60,6 +61,9 @@ public class PotoFlux {
         // env setup
         if (args.length < 1) PotoFluxLoadingContext.setDevEnv(false);
         else PotoFluxLoadingContext.setDevEnv(args[0].equals("devEnv"));
+
+        // log saving setup
+        LogSaver.init();
 
         if (PotoFluxLoadingContext.isDevEnv()) PtfLogger.info("App running in dev env !");
 
@@ -156,6 +160,9 @@ public class PotoFlux {
         // executes when program close
 
         for (ActionRun ar : CloseRunRegistry.getAll()) ar.run().run();
+
+        // saves logs
+        LogSaver.flushAndSave();
 
         System.exit(exitCode); // close app
     }
