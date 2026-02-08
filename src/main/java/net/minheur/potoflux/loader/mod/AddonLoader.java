@@ -9,7 +9,6 @@ import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
@@ -48,38 +47,77 @@ public class AddonLoader {
                 return;
             }
 
-            for (Class<?> clazz : addons) {
-                try {
-                    Mod modAnnotation = clazz.getAnnotation(Mod.class);
-                    if (modAnnotation == null) {
-                        PtfLogger.warning("Class " + clazz.getName() + " passed the check but is missing @Mod annotation ! Skipping...",
-                                LogCategories.MOD_LOADER); // should never append : we have here all classes annotated, got from reflection
-                        continue;
-                    }
-
-                    if (PotoFluxLoadingContext.isModLoaded(modAnnotation)) {
-                        PtfLogger.warning("Mod with modId '" + modAnnotation.modId() + "' is already loaded, or it's modId is illegal ! Skipping " + clazz.getName(),
-                                LogCategories.MOD_LOADER);
-                        continue;
-                    }
-
-                    // add it to the registry
-                    if (!PotoFluxLoadingContext.listMod(modAnnotation, clazz)) {
-                        PtfLogger.error("Failed to list mod : " + clazz.getName() + " ! Skipping...", LogCategories.MOD_LOADER);
-                        continue;
-                    }
-
-                    // laisse le constructeur faire son job : il peut accéder au bus via PotoFluxLoadingContext.get().getModEventBus()
-                    PtfLogger.info("Listed addon: " + clazz.getName() + ", modId '" + modAnnotation.modId() + "'", LogCategories.MOD_LOADER);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            for (Class<?> clazz : addons)
+                listModIfValid(clazz);
 
         } finally {
             // replace normal classLoader
             if (isModClassLoaderActive) setNormalClassLoader();
         }
+    }
+
+    /**
+     * First Checks if the mod is valid, then list it if so.
+     * @param clazz the main class of the mod to load (should be annotated with {@link Mod})
+     */
+    private static void listModIfValid(Class<?> clazz) {
+        Mod modAnnotation = clazz.getAnnotation(Mod.class);
+
+        if (isModIncorrectAfterCheck(
+                clazz, modAnnotation
+        )) return;
+
+        boolean hasBeenListed = listMod(modAnnotation, clazz);
+
+        if (hasBeenListed)
+            PtfLogger.info("Listed addon: " + clazz.getName() + ", modId '" + modAnnotation.modId() + "'", LogCategories.MOD_LOADER);
+
+        else PtfLogger.error("Failed to list mod : " + clazz.getName() + " ! Skipping...", LogCategories.MOD_LOADER);
+    }
+
+    /**
+     * Checks the mod for validity to listing
+     * @param clazz the potential mod's main class
+     * @param modAnnotation the mod's {@link Mod} annotation
+     * @return if the mod couldn't be listed
+     */
+    private static boolean isModIncorrectAfterCheck(Class<?> clazz, Mod modAnnotation) {
+        return noModAnnotation(clazz, modAnnotation) ||
+                isModIdIncorrect(clazz, modAnnotation);
+    }
+
+    /**
+     * Checks if the annotation of the mod is correct (not already loaded and not illegal)
+     * @param clazz the potential mod's main class
+     * @param modAnnotation the {@link Mod} annotation of the class.
+     * @return if the modId is incorrect
+     */
+    private static boolean isModIdIncorrect(Class<?> clazz, Mod modAnnotation) {
+        if (PotoFluxLoadingContext.isModLoaded(modAnnotation)) {
+            PtfLogger.warning("Mod with modId '" + modAnnotation.modId() + "' is already loaded, or it's modId is illegal ! Skipping " + clazz.getName(),
+                    LogCategories.MOD_LOADER);
+            return true;
+
+        }
+        else return false;
+    }
+
+    /**
+     * Checks if the mod has the {@link Mod} annotation.<br>
+     * Every classes getting there should have it, because reflection is filtered with it.
+     * @param clazz the potential mod's main class
+     * @param modAnnotation the {@link Mod} annotation of the class.
+     * @return if the {@code modAnnotation} exists
+     */
+    private static boolean noModAnnotation(Class<?> clazz, Mod modAnnotation) {
+        if (modAnnotation == null) {
+
+            PtfLogger.warning("Class " + clazz.getName() + " passed the check but is missing @Mod annotation ! Skipping...",
+                    LogCategories.MOD_LOADER); // should never append : we have here all classes annotated, got from reflection
+            return true;
+
+        }
+        else return false;
     }
 
     private void fillAddons() {
