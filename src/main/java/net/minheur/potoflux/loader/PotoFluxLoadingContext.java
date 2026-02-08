@@ -11,16 +11,16 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.Json;
 import org.reflections.vfs.Vfs;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.*;
 import java.util.*;
 import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 /**
  * This is the main class which handles the loading of potoflux and all mods related compounds
@@ -181,23 +181,34 @@ public class PotoFluxLoadingContext {
     public static void loadFeatures() {
         Path featuresPath = PotoFlux.getProgramDir().resolve("optionalFeatures.properties");
 
+        if (Files.notExists(featuresPath))
+            createOptionalFeatures(featuresPath);
 
-        if (Files.notExists(featuresPath)) {
-            try {
-                Files.createDirectories(featuresPath.getParent());
-                Files.createFile(featuresPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-                PtfLogger.error("Could not create optionalFeatures.properties !");
-            }
-        }
         else try (InputStream in = Files.newInputStream(featuresPath)) {
+
             optionalFeatures.load(in);
+
         } catch (IOException e) {
             e.printStackTrace();
             PtfLogger.error("Could not get optionalFeatures.properties !");
         }
     }
+
+    /**
+     * Creates the {@code optionalFeatures.properties} file
+     * @param featuresPath the path to create the file to
+     */
+    private static void createOptionalFeatures(Path featuresPath) {
+        try {
+            Files.createDirectories(featuresPath.getParent());
+            Files.createFile(featuresPath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not create optionalFeatures.properties !");
+        }
+    }
+
     /**
      * Getter for the optional features
      * @return the optional features
@@ -233,34 +244,68 @@ public class PotoFluxLoadingContext {
 
         try {
             Files.createDirectories(modsDir);
-
             List<URL> urls = new ArrayList<>();
+
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(modsDir, "*.jar")) {
-                for (Path jar : stream) {
-                    URL url = jar.toUri().toURL();
-                    urls.add(url);
-                    PtfLogger.info("Mod jar detected: " + url, LogCategories.MOD_LOADER);
-                }
+
+                for (Path jar : stream)
+                    registerJar(jar, urls);
+
             }
 
-            return new URLClassLoader(
-                    urls.toArray(new URL[0]),
-                    PotoFluxLoadingContext.class.getClassLoader() // parent = app
-            );
+            return buildModClassLoader(urls);
+
         } catch (IOException e) {
             throw new RuntimeException("Failed to create mods classloader", e);
         }
     }
 
+    /**
+     * Creates a parametrized class loader with a set of URLs
+     * @param urls the list of URLs loaded by the class loader
+     * @return a built class loader with the URLs
+     */
+    @Nonnull
+    private static URLClassLoader buildModClassLoader(List<URL> urls) {
+        return new URLClassLoader(
+                urls.toArray(new URL[0]),
+                PotoFluxLoadingContext.class.getClassLoader() // parent = app
+        );
+    }
+
+    /**
+     * Registers a jar in the URLs
+     * @param jarPath the path to the file to register
+     * @param urls the list to add the jar to
+     * @throws MalformedURLException if the URL is incorrect (from the path)
+     */
+    private static void registerJar(Path jarPath, List<URL> urls) throws MalformedURLException {
+        URL jarURL = jarPath.toUri().toURL();
+        urls.add(jarURL);
+        PtfLogger.info("Jar detected: " + jarURL, LogCategories.MOD_LOADER);
+    }
+
+    /**
+     * Gets the active {@link ClassLoader}.<br>
+     * Used when switching from main to mod class loader
+     * @return the active {@link ClassLoader}
+     */
     public static ClassLoader getCurrentClassLoader() {
         return Thread.currentThread().getContextClassLoader();
     }
+    /**
+     * Turns on the mod class loader
+     */
     public static void setModClassLoader() {
         Thread.currentThread().setContextClassLoader(
                 getModsClassLoader()
         );
     }
 
+    /**
+     * Getter for the potoflux mods dir
+     * @return the potoflux mods dir
+     */
     public static Path getPotofluxModDir() {
         return PotoFlux.getProgramDir().resolve("mods");
     }
@@ -346,29 +391,53 @@ public class PotoFluxLoadingContext {
     private static void registerModList() {
         Path modListPath = PotoFlux.getProgramDir().resolve("modList.json");
 
-        if (Files.notExists(modListPath)) {
-            try {
-                Files.writeString(modListPath, "[]", StandardOpenOption.CREATE);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to create modList.json !", e);
-            }
-        }
+        if (Files.notExists(modListPath))
+            createModListFile(modListPath);
 
         try {
-            String content = Files.readString(modListPath);
+            List<String> loadedModIds = getLoadedModIds(modListPath);
 
-            List<String> loadedModIds = Json.GSON.fromJson(
-                    content,
-                    new TypeToken<List<String>>() {}.getType()
-            );
+            resetModToLoadWith(loadedModIds);
 
-            modsToLoad.clear();
-            modsToLoad.addAll(loadedModIds);
         } catch (RuntimeException | IOException e) {
             e.printStackTrace();
             PtfLogger.error("Failed to read modList.json !", LogCategories.MOD_LOADER);
         }
     }
+    /**
+     * Gets a list of modIds to load from the path of the JSON file containing them
+     * @param modListPath the path to the {@code modList.json}  file
+     * @return the list of modIds to load
+     * @throws IOException if couldn't read the content of the file
+     */
+    private static List<String> getLoadedModIds(Path modListPath) throws IOException {
+        String content = Files.readString(modListPath);
+
+        return Json.GSON.fromJson(
+                content,
+                new TypeToken<List<String>>() {}.getType()
+        );
+    }
+    /**
+     * Creates the {@code modList.json} file to the given path
+     * @param modListPath where to create the mod list file
+     */
+    private static void createModListFile(Path modListPath) {
+        try {
+            Files.writeString(modListPath, "[]", StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create modList.json !", e);
+        }
+    }
+    /**
+     * Replaces all content of {@link #modsToLoad} with the given one
+     * @param listToLoad content to print in {@link #modsToLoad}.
+     */
+    private static void resetModToLoadWith(List<String> listToLoad) {
+        modsToLoad.clear();
+        modsToLoad.addAll(listToLoad);
+    }
+
     /**
      * Load mods that in {@link #listedMods} and in the {@link #modsToLoad}.<br>
      * TODO: if the optional feature {@code catalogTab} is not enabled, all listed mods will be loaded.
