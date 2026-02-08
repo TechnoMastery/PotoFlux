@@ -12,10 +12,8 @@ import net.minheur.potoflux.utils.Json;
 import org.reflections.vfs.Vfs;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.*;
@@ -261,6 +259,10 @@ public class PotoFluxLoadingContext {
         Thread.currentThread().setContextClassLoader(
                 getModsClassLoader()
         );
+    }
+
+    public static Path getPotofluxModDir() {
+        return PotoFlux.getProgramDir().resolve("mods");
     }
 
     /**

@@ -135,48 +135,84 @@ public class AddonLoader {
     }
 
     public static Set<Class<?>> getModProdEnv() {
-        ClassLoader modsClassLoader = getModsClassLoader();
-
         setModClassLoader();
 
         Set<Class<?>> addons = new HashSet<>();
-        Path modsDir = PotoFlux.getProgramDir().resolve("mods");
 
         // stream = all jar files
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(modsDir, "*.jar");) {
+        try (DirectoryStream<Path> stream = getModStream()) {
+
             // for each, make the jarFile
-            for (Path jarPath : stream) try (JarFile jar = new JarFile(jarPath.toFile())) {
-                PtfLogger.info("Scanning jar " + jar.getName(), LogCategories.MOD_LOADER);
+            for (Path jarPath : stream)
+                try (JarFile jar = getJar(jarPath)) {
 
-                // list all jar entries (so classes)
-                Enumeration<JarEntry> entries = jar.entries();
-                // process classes
-                while (entries.hasMoreElements()) {
-                    JarEntry entry = entries.nextElement();
+                    PtfLogger.info("Scanning jar " + jar.getName(), LogCategories.MOD_LOADER);
 
-                    if (!entry.getName().endsWith(".class")) continue; // continue on all non-class files
+                    // list all jar entries (so classes)
+                    Enumeration<JarEntry> entries = jar.entries();
 
-                    String className = entry.getName()
-                            .replace('/', '.')
-                            .replace(".class", "");
+                    // process classes
+                    while (entries.hasMoreElements()) {
 
-                    try {
-                        // turn to class
-                        Class<?> clazz = Class.forName(className, false, modsClassLoader);
+                        JarEntry entry = entries.nextElement();
+                        if (isNotClass(entry)) continue; // continue on all non-class files
 
-                        // if @Mod is present, add to addons
-                        if (clazz.isAnnotationPresent(Mod.class)) {
-                            PtfLogger.info("Found @Mod class: " + clazz.getName(), LogCategories.MOD_LOADER);
-                            addons.add(clazz);
+                        String className = getClassName(entry);
+
+                        try {
+                            // turn to class
+                            Class<?> clazz = getClassForName(className);
+
+                            if (isModPresent(clazz)) {
+
+                                PtfLogger.info("Found @Mod class: " + clazz.getName(), LogCategories.MOD_LOADER);
+                                addons.add(clazz);
+
+                            }
+
+                        } catch (ClassNotFoundException | NoClassDefFoundError e) {
+                            e.printStackTrace();
+                            PtfLogger.error("A class doesn't exist or is not loaded !", LogCategories.MOD_LOADER);
                         }
-                    } catch (ClassNotFoundException | NoClassDefFoundError ignored) {}
+
+                    }
                 }
-            }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         return addons;
+    }
+
+    @Nonnull
+    private static JarFile getJar(Path jarPath) throws IOException {
+        return new JarFile(jarPath.toFile());
+    }
+
+    private static boolean isNotClass(JarEntry entry) {
+        return !entry.getName().endsWith(".class");
+    }
+
+    @Nonnull
+    private static DirectoryStream<Path> getModStream() throws IOException {
+        return Files.newDirectoryStream(getPotofluxModDir(), "*.jar");
+    }
+
+    @Nonnull
+    private static Class<?> getClassForName(String className) throws ClassNotFoundException {
+        return Class.forName(className, false, getModsClassLoader());
+    }
+
+    private static boolean isModPresent(Class<?> clazz) {
+        return clazz.isAnnotationPresent(Mod.class);
+    }
+
+    @Nonnull
+    private static String getClassName(JarEntry entry) {
+        return entry.getName()
+                .replace('/', '.')
+                .replace(".class", "");
     }
 }
 
