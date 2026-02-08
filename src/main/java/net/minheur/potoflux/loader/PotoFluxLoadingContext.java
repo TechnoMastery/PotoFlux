@@ -391,7 +391,7 @@ public class PotoFluxLoadingContext {
         return true;
     }
     /**
-     * File the {@link #modsToLoad} list with the list from the file
+     * Fills the {@link #modsToLoad} list with the list from the file
      */
     private static void registerModList() {
         Path modListPath = PotoFlux.getProgramDir().resolve("modList.json");
