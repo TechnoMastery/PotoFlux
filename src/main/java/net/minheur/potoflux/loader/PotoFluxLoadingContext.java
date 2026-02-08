@@ -266,56 +266,6 @@ public class PotoFluxLoadingContext {
     }
 
     /**
-     * Get all addons existing in the mods folder, using the mod class loader from {@link #mkModClassLoader()}
-     * @return all the @{@link Mod} annotated classes (mods)
-     */
-    public static Set<Class<?>> getAddons() {
-        if (modsClassLoader == null) {
-            modsClassLoader = mkModClassLoader();
-            Thread.currentThread().setContextClassLoader(modsClassLoader);
-        }
-
-        Set<Class<?>> addons = new HashSet<>();
-        Path modsDir = PotoFlux.getProgramDir().resolve("mods");
-
-        // stream = all jar files
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(modsDir, "*.jar");) {
-            // for each, make the jarFile
-            for (Path jarPath : stream) try (JarFile jar = new JarFile(jarPath.toFile())) {
-                PtfLogger.info("Scanning jar " + jar.getName(), LogCategories.MOD_LOADER);
-
-                // list all jar entries (so classes)
-                Enumeration<JarEntry> entries = jar.entries();
-                // process classes
-                while (entries.hasMoreElements()) {
-                    JarEntry entry = entries.nextElement();
-
-                    if (!entry.getName().endsWith(".class")) continue; // continue on all non-class files
-
-                    String className = entry.getName()
-                            .replace('/', '.')
-                            .replace(".class", "");
-
-                    try {
-                        // turn to class
-                        Class<?> clazz = Class.forName(className, false, modsClassLoader);
-
-                        // if @Mod is present, add to addons
-                        if (clazz.isAnnotationPresent(Mod.class)) {
-                            PtfLogger.info("Found @Mod class: " + clazz.getName(), LogCategories.MOD_LOADER);
-                            addons.add(clazz);
-                        }
-                    } catch (ClassNotFoundException | NoClassDefFoundError ignored) {}
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return addons;
-    }
-
-    /**
      * Getter for the mod class loader (prod)
      * @return the prod class loader
      */
