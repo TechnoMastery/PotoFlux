@@ -14,6 +14,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
+import net.minheur.potoflux.log.LogSaver;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
@@ -61,6 +62,9 @@ public class PotoFlux {
         if (args.length < 1) PotoFluxLoadingContext.setDevEnv(false);
         else PotoFluxLoadingContext.setDevEnv(args[0].equals("devEnv"));
 
+        // log saving setup
+        LogSaver.init();
+
         if (PotoFluxLoadingContext.isDevEnv()) PtfLogger.info("App running in dev env !");
 
         // app version
@@ -69,6 +73,9 @@ public class PotoFlux {
 
         // load optional features
         PotoFluxLoadingContext.loadFeatures();
+
+        // enable or not log saving
+        runLogSavingEnablingLogic();
 
         // set theme
         String theme = UserPrefsManager.getTheme();
@@ -114,6 +121,25 @@ public class PotoFlux {
     }
 
     /**
+     * Executes the logic to know if the log saving system will be enabled
+     */
+    private static void runLogSavingEnablingLogic() {
+        String logSavingFeature = PotoFluxLoadingContext.getOptionalFeatures().getProperty("doLogSaving");
+
+        if (logSavingFeature == null) enableLogSavingDefault();
+
+        boolean isSavingEnabled = Boolean.parseBoolean(logSavingFeature);
+        if (isSavingEnabled) LogSaver.enable();
+    }
+    /**
+     * Executes the default logic to know if the log saving system will be enabled
+     */
+    private static void enableLogSavingDefault() {
+        if (!PotoFluxLoadingContext.isDevEnv())
+            LogSaver.enable();
+    }
+
+    /**
      * This register to the event all PotoFlux's translations
      * @param event the event for langs in the mod bus
      */
@@ -156,6 +182,9 @@ public class PotoFlux {
         // executes when program close
 
         for (ActionRun ar : CloseRunRegistry.getAll()) ar.run().run();
+
+        // saves logs
+        LogSaver.flushAndSave();
 
         System.exit(exitCode); // close app
     }
