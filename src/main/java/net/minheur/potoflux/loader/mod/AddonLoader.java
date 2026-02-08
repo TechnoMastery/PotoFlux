@@ -41,17 +41,7 @@ public class AddonLoader {
 
         try {
 
-            if (isProdEnv()) {
-
-                // ===== PROD =====
-                addons = getModProdEnv();
-
-            } else {
-
-                // ===== DEV =====
-                addons = getModsDevEnv();
-
-            }
+            fillAddons();
 
             if (addons.isEmpty()) {
                 PtfLogger.info("No mods found !", LogCategories.MOD_LOADER);
@@ -89,6 +79,20 @@ public class AddonLoader {
         } finally {
             // replace normal classLoader
             if (isModClassLoaderActive) setNormalClassLoader();
+        }
+    }
+
+    private void fillAddons() {
+        if (isProdEnv()) {
+
+            // ===== PROD =====
+            addons = getModProdEnv();
+
+        } else {
+
+            // ===== DEV =====
+            addons = getModsDevEnv();
+
         }
     }
 
