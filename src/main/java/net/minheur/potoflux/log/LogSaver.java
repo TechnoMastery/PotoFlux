@@ -16,7 +16,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class LogSaver {
-    private static boolean enabled = true;
+    private static boolean enabled = false;
 
     private static PrintStream originalOut;
     private static PrintStream originalErr;
@@ -26,9 +26,6 @@ public class LogSaver {
     private LogSaver() {}
 
     public static void init() {
-        // if (PotoFluxLoadingContext.isDevEnv()) return;
-
-        enabled = true;
 
         originalOut = System.out;
         originalErr = System.err;
@@ -45,6 +42,10 @@ public class LogSaver {
 
         System.setOut(tee);
         System.setErr(teeErr);
+    }
+
+    public static void enable() {
+        enabled = true;
     }
 
     public static void flushAndSave() {

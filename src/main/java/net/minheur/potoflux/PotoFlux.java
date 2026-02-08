@@ -74,6 +74,9 @@ public class PotoFlux {
         // load optional features
         PotoFluxLoadingContext.loadFeatures();
 
+        // enable or not log saving
+        runLogSavingEnablingLogic();
+
         // set theme
         String theme = UserPrefsManager.getTheme();
         if (theme.equals("dark")) FlatDarkLaf.setup(); // dark theme
@@ -115,6 +118,20 @@ public class PotoFlux {
         });
 
         PotoFluxLoadingContext.checkUpdates();
+    }
+
+    private static void runLogSavingEnablingLogic() {
+        String logSavingFeature = PotoFluxLoadingContext.getOptionalFeatures().getProperty("doLogSaving");
+
+        if (logSavingFeature == null) enableLogSavingDefault();
+
+        boolean isSavingEnabled = Boolean.parseBoolean(logSavingFeature);
+        if (isSavingEnabled) LogSaver.enable();
+    }
+
+    private static void enableLogSavingDefault() {
+        if (!PotoFluxLoadingContext.isDevEnv())
+            LogSaver.enable();
     }
 
     /**
