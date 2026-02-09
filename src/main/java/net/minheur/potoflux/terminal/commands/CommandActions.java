@@ -94,7 +94,15 @@ public class CommandActions {
             return;
         }
 
-        CommandProcessor.appendOutput(Translations.get("potoflux:command.source.out") + "https://github.com/TechnoMastery/PotoFlux");
+        String url = "https://github.com/TechnoMastery/PotoFlux";
+        boolean hasBrowse = Functions.browse(url);
+
+        if (hasBrowse)
+            CommandProcessor.appendOutput(Translations.get("potoflux:command.source.out"));
+        else {
+            CommandProcessor.appendOutput(Translations.get("potoflux:command.source.noBrowse"));
+            CommandProcessor.appendOutput(url);
+        }
     }
 
     /**

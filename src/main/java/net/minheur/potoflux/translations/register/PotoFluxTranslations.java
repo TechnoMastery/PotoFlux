@@ -73,7 +73,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addCommand("source")
                 .en("Link to source code");
         addCommand("source", "out")
-                .en("Source code availble at ");
+                .en("Opened code source in browser !");
+        addCommand("source", "noBrowse")
+                .en("Could not open source code ! Here is the link:");
         addCommandUse("source")
                 .en("Usage: source-code");
 
