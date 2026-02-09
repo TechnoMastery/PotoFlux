@@ -25,6 +25,7 @@ import net.minheur.potoflux.translations.register.CommonTranslations;
 import net.minheur.potoflux.translations.register.FileTranslations;
 import net.minheur.potoflux.translations.register.PotoFluxTranslations;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
@@ -62,8 +63,9 @@ public class PotoFlux {
         if (args.length < 1) PotoFluxLoadingContext.setDevEnv(false);
         else PotoFluxLoadingContext.setDevEnv(args[0].equals("devEnv"));
 
-        // log saving setup
+        // important inits
         LogSaver.init();
+        LogAmountManager.init();
 
         if (PotoFluxLoadingContext.isDevEnv()) PtfLogger.info("App running in dev env !");
 
