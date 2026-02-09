@@ -48,6 +48,7 @@ public class ActionRuns {
     public final ActionRun FILL_TERMINAL = LIST_START_UI.add(new ActionRun(fromModId("fill_terminal"), ActionRunRunnable::fillTerminal));
 
     // start logic
+    public final ActionRun CHECK_RICK_ROLL = LIST_START_LOGIC.add(new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll));
 
     // close
     /**
