@@ -4,6 +4,7 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.logger.PtfLogger;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -97,7 +98,7 @@ public class CatalogHelpers {
                 "$Actions.Red";
 
         JLabel status = new JLabel(statusContent);
-        status.setAlignmentX(Component.LEFT_ALIGNMENT);
+        status.setAlignmentX(Component.CENTER_ALIGNMENT);
         status.putClientProperty(
                 "FlatLaf.style",
                 "foreground: " + statusColor
@@ -172,6 +173,8 @@ public class CatalogHelpers {
                 statusColor = "$Actions.Red";
             }
         }
+
+        statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         statusLabel.putClientProperty(
                 "FlatLaf.style",
@@ -260,27 +263,7 @@ public class CatalogHelpers {
         JPanel modPanel = new JPanel();
         modPanel.setLayout(new BoxLayout(modPanel, BoxLayout.Y_AXIS));
 
-        // line 1: modId
-        JLabel modIdLabel = new JLabel(mod.modId);
-        modIdLabel.setFont(modIdLabel.getFont().deriveFont(Font.BOLD, 28f));
-        modIdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        modPanel.add(modIdLabel);
-
-        modPanel.add(Box.createVerticalStrut(5));
-
-        // line 2: main status
-        JLabel statusLabel = getStatusLabel(mod);
-        statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        modPanel.add(statusLabel);
-
-        modPanel.add(Box.createVerticalStrut(5));
-
-        // line 3: install status
-        JLabel installStatusLabel = getInstallationStatus(mod);
-        installStatusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        modPanel.add(installStatusLabel);
-
-        modPanel.add(Box.createVerticalStrut(10));
+        fillModPanel(mod, modPanel);
 
         // line 4: button panels
         JPanel buttonsPanel = new JPanel();
@@ -413,6 +396,34 @@ public class CatalogHelpers {
         dialog.setSize(size.width + 40, size.height);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
+    }
+
+    private static void fillModPanel(ModCatalog mod, JPanel modPanel) {
+        // line 1: modId
+        JLabel modIdLabel = getModIdLabel(mod);
+        modPanel.add(modIdLabel);
+
+        modPanel.add(Box.createVerticalStrut(5));
+
+        // line 2: main status
+        JLabel statusLabel = getStatusLabel(mod);
+        modPanel.add(statusLabel);
+
+        modPanel.add(Box.createVerticalStrut(5));
+
+        // line 3: install status
+        JLabel installStatusLabel = getInstallationStatus(mod);
+        modPanel.add(installStatusLabel);
+
+        modPanel.add(Box.createVerticalStrut(10));
+    }
+
+    @Nonnull
+    private static JLabel getModIdLabel(ModCatalog mod) {
+        JLabel modIdLabel = new JLabel(mod.modId);
+        modIdLabel.setFont(modIdLabel.getFont().deriveFont(Font.BOLD, 28f));
+        modIdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return modIdLabel;
     }
 
     /**
