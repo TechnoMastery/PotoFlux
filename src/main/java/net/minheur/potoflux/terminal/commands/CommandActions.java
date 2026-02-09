@@ -283,7 +283,7 @@ public class CommandActions {
             return;
         }
 
-        String url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // don't worry ^^
+        String url = "https://rickroll.it/rickroll.mp4"; // don't worry ^^
         boolean hasBrowse = Functions.browse(url);
 
         if (hasBrowse)
