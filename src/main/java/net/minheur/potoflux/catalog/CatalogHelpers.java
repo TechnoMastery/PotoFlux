@@ -338,66 +338,53 @@ public class CatalogHelpers {
         if (PotoFluxLoadingContext.isModLoaded(mod.modId)) {
 
             // if listed & loaded
-            performLoadedButtonDefLoaded(mod, dlButton, toggleButton, deleteButton);
+            performButtonDefUpdate(mod, dlButton);
 
             toggleButton.setText("Toggle - Disable"); // TODO
             toggleButton.setEnabled(true);
 
             deleteButton.setText("Delete and disable"); // TODO
 
+        }
+        // listed & unloaded
+        else performButtonDefUnloaded(mod, dlButton, toggleButton, deleteButton);
+    }
+
+    private static void performButtonDefUnloaded(ModCatalog mod, JButton dlButton, JButton toggleButton, JButton deleteButton) {
+        if (mod.isCompatible(PotoFluxLoadingContext.getModVersion(mod.modId))) {
+
+            performButtonDefUpdate(mod, dlButton);
+
+            // if listed & NOT loaded & compatible
+
+            toggleButton.setText("Toggle - Enable"); // TODO
+            toggleButton.setEnabled(true);
+
+            deleteButton.setText("Delete"); // TODO
+
         } else {
 
-            if (mod.isCompatible(PotoFluxLoadingContext.getModVersion(mod.modId))) {
+            if (mod.isCompatible()) {
 
-                if (mod.isLastestCompatibleVersion(PotoFluxLoadingContext.getModVersion(mod.modId))) {
+                // if listed & NOT loaded & NOT compatible ; but has compatible version
 
-                    // if listed & NOT loaded & compatible ; is lastest compatible version
-
-                    dlButton.setText("Lastest downloaded"); // TODO
-
-                } else {
-
-                    // if listed & NOT loaded & compatible ; is NOT lastest compatible version
-
-                    dlButton.setText("Update to lastest"); // TODO
-                    dlButton.setEnabled(true);
-
-                }
-
-                // if listed & NOT loaded & compatible
-
-                toggleButton.setText("Toggle - Enable"); // TODO
-                toggleButton.setEnabled(true);
+                dlButton.setText("Incompatible ! Update to compatible"); // TODO
+                dlButton.setEnabled(true);
 
                 deleteButton.setText("Delete"); // TODO
 
-            } else {
-
-                if (mod.isCompatible()) {
-
-                    // if listed & NOT loaded & NOT compatible ; but has compatible version
-
-                    dlButton.setText("Incompatible ! Update to compatible"); // TODO
-                    dlButton.setEnabled(true);
-
-                    deleteButton.setText("Delete"); // TODO
-
-                } else {
-
-                    // if listed & NOT loaded & NOT compatible ; just delete
-
-                    dlButton.setText("Incompatible"); // TODO
-
-                    deleteButton.setText("Delete incompatible mod"); // TODO
-
-                }
-
             }
+            else performButtonDefIncompatible(dlButton, deleteButton);
 
         }
     }
 
-    private static void performLoadedButtonDefLoaded(ModCatalog mod, JButton dlButton, JButton toggleButton, JButton deleteButton) {
+    private static void performButtonDefIncompatible(JButton dlButton, JButton deleteButton) {
+        dlButton.setText("Incompatible"); // TODO
+        deleteButton.setText("Delete incompatible mod"); // TODO
+    }
+
+    private static void performButtonDefUpdate(ModCatalog mod, JButton dlButton) {
         if (mod.isLastestCompatibleVersion(PotoFluxLoadingContext.getModVersion(mod.modId))) {
 
             // if listed & loaded ; is the lastest compatible version
