@@ -461,64 +461,23 @@ public class PotoFluxLoadingContext {
                 boolean isCompatible = false;
 
                 // check if using online compatible
-                if (compatibleVersions.contains("-1"))
+                if (modUsesOnlineList(compatibleVersions))
                 {
 
                     // check if online list exists
-                    if (checkOnlineModList(mod)) continue;
+                    if (checkOnlineListExists(mod)) continue;
 
                     // gets list
-                    try {
+                    List<String> compatibleVersionList = getOnlineCompatibleList(mod);
+                    if (compatibleVersionList == null) continue;
 
-                        JsonObject versionObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
-
-                        if (versionObject == null) {
-                            modsToLoad.remove(mod.modId());
-                            PtfLogger.error("Could not get corresponding online version for mod " + mod.modId() + ", for version " + mod.version(),
-                                    LogCategories.MOD_LOADER);
-                            continue;
-                        }
-
-                        List<String> compatibleVersionList = Json.listFromObject(versionObject, mod.version());
-
-                        if (compatibleVersionList.isEmpty()) {
-                            modsToLoad.remove(mod.modId());
-                            PtfLogger.error("Empty online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
-                            continue;
-                        }
-
-                        if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
-
-                    }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                        PtfLogger.error("Failed to get online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
-                        continue;
-                    }
+                    if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
 
                 }
                 else if (compatibleVersions.contains(PotoFlux.getVersion()))
                     isCompatible = true;
 
-                if (isCompatible)
-                {
-
-                    try { // try to create mod
-
-                        Object instance = entry.getValue().getDeclaredConstructor().newInstance();
-
-                        loadedMods.put(
-                                entry.getKey().modId(),
-                                entry.getValue()
-                        );
-                        PtfLogger.info("Loaded mod: " + entry.getKey().modId() + " in version " + entry.getKey().version(), LogCategories.MOD_LOADER);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        PtfLogger.error("Couldn't instance mod: " + entry.getKey().modId());
-                    }
-
-                }
+                if (isCompatible) loadMod(entry);
                 else {
                     modsToLoad.remove(entry.getKey().modId());
                     PtfLogger.error("Can't load incompatible mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
@@ -527,13 +486,72 @@ public class PotoFluxLoadingContext {
         }
     }
 
-    private static boolean checkOnlineModList(Mod mod) {
+    private static void loadMod(Map.Entry<Mod, Class<?>> entry) {
+        try { // try to create mod
+
+            Object instance = entry.getValue().getDeclaredConstructor().newInstance();
+
+            loadedMods.put(
+                    entry.getKey().modId(),
+                    entry.getValue()
+            );
+            PtfLogger.info("Loaded mod: " + entry.getKey().modId() + " in version " + entry.getKey().version(), LogCategories.MOD_LOADER);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            PtfLogger.error("Couldn't instance mod: " + entry.getKey().modId());
+        }
+    }
+
+    private static boolean modUsesOnlineList(List<String> compatibleVersions) {
+        return compatibleVersions.contains("-1");
+    }
+
+    private static List<String> getOnlineCompatibleList(Mod mod) {
+        try {
+
+            JsonObject versionObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
+            if (checkOnlineListNotnull(versionObject, mod)) return null;
+
+            List<String> compatibleVersionList = Json.listFromObject(versionObject, mod.version());
+            if (checkOnlineListEmpty(compatibleVersionList, mod)) return null;
+
+            return compatibleVersionList;
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            PtfLogger.error("Failed to get online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
+            return null;
+        }
+    }
+
+    private static boolean checkOnlineListEmpty(List<String> compatibleVersionList, Mod mod) {
+        if (compatibleVersionList.isEmpty()) {
+            modsToLoad.remove(mod.modId());
+            PtfLogger.error("Empty online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
+            return true;
+        }
+        else return false;
+    }
+
+    private static boolean checkOnlineListNotnull(JsonObject versionObject, Mod mod) {
+        if (versionObject == null) {
+            modsToLoad.remove(mod.modId());
+            PtfLogger.error("Could not get corresponding online version for mod " + mod.modId() + ", for version " + mod.version(),
+                    LogCategories.MOD_LOADER);
+            return true;
+        }
+        else return false;
+    }
+
+    private static boolean checkOnlineListExists(Mod mod) {
         if (mod.compatibleVersionUrl().equals("NONE")) {
             modsToLoad.remove(mod.modId());
             PtfLogger.error("No compatible version list system set for mod: " + mod.modId(), LogCategories.MOD_LOADER);
             return true;
         }
-        return false;
+        else return false;
     }
 
     /**
