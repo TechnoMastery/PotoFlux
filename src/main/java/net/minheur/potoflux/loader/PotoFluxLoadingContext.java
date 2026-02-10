@@ -465,11 +465,7 @@ public class PotoFluxLoadingContext {
                 {
 
                     // check if online list exists
-                    if (mod.compatibleVersionUrl().equals("NONE")) {
-                        modsToLoad.remove(mod.modId());
-                        PtfLogger.error("No compatible version list system set for mod: " + mod.modId(), LogCategories.MOD_LOADER);
-                        continue;
-                    }
+                    if (checkOnlineModList(mod)) continue;
 
                     // gets list
                     try {
@@ -530,6 +526,16 @@ public class PotoFluxLoadingContext {
             }
         }
     }
+
+    private static boolean checkOnlineModList(Mod mod) {
+        if (mod.compatibleVersionUrl().equals("NONE")) {
+            modsToLoad.remove(mod.modId());
+            PtfLogger.error("No compatible version list system set for mod: " + mod.modId(), LogCategories.MOD_LOADER);
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Getter for a list of all loaded mods
      * @return a list of all loaded mod IDs
