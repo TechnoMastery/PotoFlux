@@ -69,10 +69,7 @@ public class CatalogHelpers {
         // Statut
         JLabel status = getStatusLabel(mod);
 
-        JPanel textPanel = new JPanel();
-        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-        textPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        textPanel.setOpaque(false);
+        JPanel textPanel = getCardTextPanel();
 
         textPanel.add(mainPanel);
         textPanel.add(Box.createVerticalStrut(4));
@@ -81,6 +78,15 @@ public class CatalogHelpers {
         card.add(textPanel, BorderLayout.CENTER);
 
         return card;
+    }
+
+    @Nonnull
+    private static JPanel getCardTextPanel() {
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+        textPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        textPanel.setOpaque(false);
+        return textPanel;
     }
 
     /**
@@ -282,6 +288,30 @@ public class CatalogHelpers {
         toggleButton.setEnabled(false);
 
         // def buttons state
+        addDeleteButton = modDescButtonDefinition(mod, dlButton, toggleButton, deleteButton, addDeleteButton);
+
+        buttonsPanel.add(dlButton);
+        if (addDeleteButton) buttonsPanel.add(deleteButton);
+        buttonsPanel.add(toggleButton);
+
+        // ok button
+        JButton okButton = new JButton("Ok"); // TODO
+        okButton.addActionListener(e -> dialog.dispose());
+
+        buttonsPanel.add(okButton);
+
+        modPanel.add(buttonsPanel);
+
+        // dialog defs
+        dialog.setContentPane(modPanel);
+        dialog.pack();
+        Dimension size = dialog.getSize();
+        dialog.setSize(size.width + 40, size.height);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
+
+    private static boolean modDescButtonDefinition(ModCatalog mod, JButton dlButton, JButton toggleButton, JButton deleteButton, boolean addDeleteButton) {
         if (PotoFluxLoadingContext.isModListed(mod.modId)) {
 
             if (PotoFluxLoadingContext.isModLoaded(mod.modId)) {
@@ -377,25 +407,7 @@ public class CatalogHelpers {
 
         }
 
-        buttonsPanel.add(dlButton);
-        if (addDeleteButton) buttonsPanel.add(deleteButton);
-        buttonsPanel.add(toggleButton);
-
-        // ok button
-        JButton okButton = new JButton("Ok"); // TODO
-        okButton.addActionListener(e -> dialog.dispose());
-
-        buttonsPanel.add(okButton);
-
-        modPanel.add(buttonsPanel);
-
-        // dialog defs
-        dialog.setContentPane(modPanel);
-        dialog.pack();
-        Dimension size = dialog.getSize();
-        dialog.setSize(size.width + 40, size.height);
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+        return addDeleteButton;
     }
 
     private static void fillModPanel(ModCatalog mod, JPanel modPanel) {
