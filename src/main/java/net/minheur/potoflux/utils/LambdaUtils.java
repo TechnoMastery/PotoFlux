@@ -1,5 +1,7 @@
 package net.minheur.potoflux.utils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
@@ -30,29 +32,34 @@ public class LambdaUtils {
             String implMethodName = sl.getImplMethodName();
             String implSignature = sl.getImplMethodSignature();
 
-            ClassLoader cl = lambda.getClass().getClassLoader();
-            if (cl == null)
-                cl = Thread.currentThread().getContextClassLoader();
-            Class<?> implClass = Class.forName(implClassName, false, cl);
+            Class<?> implClass = getImplClass(lambda, implClassName);
 
-            for (Method m : implClass.getDeclaredMethods())
-                if (m.getName().equals(implMethodName) && getJvmSignature(m).equals(implSignature)) {
-                    m.setAccessible(true);
-                    return m;
-                }
-
-            for (Method m : implClass.getMethods())
-                if (m.getName().equals(implMethodName) && getJvmSignature(m).equals(implSignature)) {
-                    m.setAccessible(true);
-                    return m;
-                }
-
-            return null;
+            Method m = getMethodDeclared(implClass.getDeclaredMethods(), implMethodName, implSignature);
+            if (m != null) return m;
+            return getMethodDeclared(implClass.getMethods(), implMethodName, implSignature);
 
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Nullable
+    private static Method getMethodDeclared(@Nonnull Method[] implClass, String implMethodName, String implSignature) {
+        for (Method m : implClass)
+            if (m.getName().equals(implMethodName) && getJvmSignature(m).equals(implSignature)) {
+                m.setAccessible(true);
+                return m;
+            }
+        return null;
+    }
+
+    @Nonnull
+    private static Class<?> getImplClass(Serializable lambda, String implClassName) throws ClassNotFoundException {
+        ClassLoader cl = lambda.getClass().getClassLoader();
+        if (cl == null)
+            cl = Thread.currentThread().getContextClassLoader();
+        return Class.forName(implClassName, false, cl);
     }
 
     /**
