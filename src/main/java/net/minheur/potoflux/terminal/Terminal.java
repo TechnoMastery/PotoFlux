@@ -5,6 +5,7 @@ import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * The main tab used to handle the terminal
@@ -38,30 +40,11 @@ public class Terminal {
 
         // output system
         outputArea = new JTextArea();
-        outputArea.setEditable(false);
-        // style
-        outputArea.setFont(new Font("Consolas", Font.PLAIN, 20));
-        // adding
-        JScrollPane scrollPanel = new JScrollPane(outputArea);
+        JScrollPane scrollPanel = setupOutputAndGetScroll();
 
         // input system
-        inputField = new JTextField();
-        inputField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String command = inputField.getText();
-                CommandProcessor.processCommand(command);
-                inputField.setText("");
-            }
-        });
-
-        // input panel prefix
-        JPanel inputPanel = new JPanel(new BorderLayout());
-        JLabel prompt = new JLabel("  > " );
-        prompt.setFont(new Font("Consolas", Font.PLAIN, 20));
-        inputField.setFont(new Font("Consolas", Font.PLAIN, 20));
-        inputPanel.add(prompt, BorderLayout.WEST);
-        inputPanel.add(inputField, BorderLayout.CENTER);
+        inputField = setupInput();
+        JPanel inputPanel = setupInputPanel();
 
         // main adding to panel
         JSplitPane splitPane = new JSplitPane(
@@ -73,6 +56,39 @@ public class Terminal {
         splitPane.setDividerSize(5);
         splitPane.setDividerLocation(0.9);
         panel.add(splitPane, BorderLayout.CENTER);
+    }
+
+    @Nonnull
+    private JPanel setupInputPanel() {
+        JPanel inputPanel = new JPanel(new BorderLayout());
+        JLabel prompt = new JLabel("  > " );
+        prompt.setFont(new Font("Consolas", Font.PLAIN, 20));
+        inputField.setFont(new Font("Consolas", Font.PLAIN, 20));
+        inputPanel.add(prompt, BorderLayout.WEST);
+        inputPanel.add(inputField, BorderLayout.CENTER);
+        return inputPanel;
+    }
+
+    @Nonnull
+    private JTextField setupInput() {
+        final JTextField inputField;
+        inputField = new JTextField();
+        inputField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String command = inputField.getText();
+                CommandProcessor.processCommand(command);
+                inputField.setText("");
+            }
+        });
+        return inputField;
+    }
+
+    @Nonnull
+    private JScrollPane setupOutputAndGetScroll() {
+        outputArea.setEditable(false);
+        outputArea.setFont(new Font("Consolas", Font.PLAIN, 20));
+        return new JScrollPane(outputArea);
     }
 
     /**
@@ -120,21 +136,25 @@ public class Terminal {
      */
     public static String getAsciiFileContent(String file) {
         try (Reader reader = new InputStreamReader(
-                Terminal.class.getResourceAsStream("/ascii/" + file + ".txt"),
+                Objects.requireNonNull(Terminal.class.getResourceAsStream("/ascii/" + file + ".txt")),
                 StandardCharsets.UTF_8
         )) {
             StringBuilder content = new StringBuilder();
-            char[] buffer = new char[1024];
-            int len;
-            while ((len = reader.read(buffer)) != -1) {
-                content.append(buffer, 0, len);
-            }
+            fillContentFromReader(reader, content);
 
             return content.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static void fillContentFromReader(Reader reader, StringBuilder content) throws IOException {
+        char[] buffer = new char[1024];
+        int len;
+        while ((len = reader.read(buffer)) != -1) {
+            content.append(buffer, 0, len);
+        }
     }
 
     /**
