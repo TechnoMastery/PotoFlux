@@ -15,8 +15,8 @@ public class LambdaUtils {
     private LambdaUtils() {}
 
     /**
-     * Récupère la Method réelle implémentée par la method reference / lambda.
-     * Retourne la Method déclarée dans la classe impl (où la méthode existe).
+     * Gets the real method implemented by the reference / lambda.
+     * @return the method declared in the impl class (where it exists).
      */
     public static Method getImplMethod(Serializable lambda) {
         try {
@@ -44,9 +44,16 @@ public class LambdaUtils {
         }
     }
 
+    /**
+     * Gets a declared method
+     * @param methodImplClass the methods of the impl class
+     * @param implMethodName the name of the method
+     * @param implSignature the signature of the JVM
+     * @return the method, or {@code null} if the method is not found
+     */
     @Nullable
-    private static Method getMethodDeclared(@Nonnull Method[] implClass, String implMethodName, String implSignature) {
-        for (Method m : implClass)
+    private static Method getMethodDeclared(@Nonnull Method[] methodImplClass, String implMethodName, String implSignature) {
+        for (Method m : methodImplClass)
             if (m.getName().equals(implMethodName) && getJvmSignature(m).equals(implSignature)) {
                 m.setAccessible(true);
                 return m;
@@ -54,6 +61,13 @@ public class LambdaUtils {
         return null;
     }
 
+    /**
+     * Gets a class to get methods from
+     * @param lambda the lamba that should be the class
+     * @param implClassName the name of the class
+     * @return the found class
+     * @throws ClassNotFoundException if the class doesn't exist
+     */
     @Nonnull
     private static Class<?> getImplClass(Serializable lambda, String implClassName) throws ClassNotFoundException {
         ClassLoader cl = lambda.getClass().getClassLoader();
