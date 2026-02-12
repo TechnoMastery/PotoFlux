@@ -114,7 +114,7 @@ public class LambdaUtils {
     }
 
     /**
-     * Tries to extract caught instance (this) if the reference method is an instance reference.
+     * Tries to extract caught instance (this) if the reference method is an instance reference.<br>
      * WARNING: this works in most cases (method references non-static),
      * but can fail for certains lambda types (ex : lambdas without captures).
      * @param lambda method to extract from
