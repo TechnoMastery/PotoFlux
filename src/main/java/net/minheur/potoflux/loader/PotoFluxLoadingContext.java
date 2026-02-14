@@ -473,6 +473,11 @@ public class PotoFluxLoadingContext {
 
                     if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
 
+                    String declaredLastest = Json.getFromObject(mod.compatibleVersionUrl(), "lastestModVersion");
+                    if (declaredLastest != null && !declaredLastest.equals(mod.version())) {
+                        // TODO: handle message
+                    }
+
                 }
                 else if (compatibleVersions.contains(PotoFlux.getVersion()))
                     isCompatible = true;
