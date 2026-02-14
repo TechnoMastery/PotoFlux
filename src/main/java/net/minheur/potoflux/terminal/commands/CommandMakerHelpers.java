@@ -11,6 +11,10 @@ public class CommandMakerHelpers {
      * A constant for a tabulation, preceded by a new line.
      */
     public static final String tabLine = "\n" + tab;
+    /**
+     * A constant for a tab, preceding an arrow (and space at the end)
+     */
+    public static final String tabArrow = tab + "→ ";
 
     /**
      * Checks for an amount of args, contained between a min and a max
