@@ -81,10 +81,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
 
         addCommand("tab")
                 .en("Open given tab");
-        addCommand("tab", "null", "start")
-                .en("Tab ");
-        addCommand("tab", "null", "end")
-                .en(" doesn't exists !");
+        addCommand("tab", "null")
+                .en("Tab $$1 doesn't exists !")
+                .fr("L'onglet $$1 n'existe pas !");
         addCommand("tab", "opened")
                 .en("This tab is already opened !");
         addCommandUse("tab")

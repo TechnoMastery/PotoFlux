@@ -163,7 +163,10 @@ public class CommandActions {
         }
 
         CommandProcessor.appendOutput(CommandHelp.tab());
-        CommandProcessor.appendOutput(Translations.get("potoflux:command.tab.null.start") + args.get(0) + Translations.get("potofluxcommand.tab.null.end"));
+        CommandProcessor.appendOutput(Functions.formatMessage(
+                Translations.get("potoflux:command.tab.null"),
+                tabName
+        ));
     }
 
     /**
