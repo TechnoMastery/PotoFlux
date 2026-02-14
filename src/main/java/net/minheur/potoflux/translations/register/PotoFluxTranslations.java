@@ -138,14 +138,17 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("ERROR: this tab is detected but unexisting !");
 
         addHomeTab("credit")
-                .en("Created by Min_heur2000 - TechnoMastery");
+                .en("Created by Min_heur2000 - TechnoMastery")
+                .fr("Créé par Min_heur2000 - TechnoMastery");
         addHomeTab("name")
-                .en("home");
+                .en("Home")
+                .fr("Home");
         addHomeTab("title")
-                .en("Potoflux - Home");
+                .en("Potoflux - Home")
+                .fr("Potoflux - Home");
         addHomeTab("version")
                 .en("PotoFlux in version $$1")
-                .fr("PotoFlux version $$1");
+                .fr("PotoFlux en version $$1");
 
         addSettingsTab("name")
                 .en("Settings");
