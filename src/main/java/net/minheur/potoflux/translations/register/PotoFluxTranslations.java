@@ -87,7 +87,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addCommand("tab", "opened")
                 .en("This tab is already opened !");
         addCommandUse("tab")
-                .en("Usage: tab <tabName>");
+                .en("Usage: tab <tabResourceLoc>");
 
         addCommand("tabList")
                 .en("Lists all the tabs")

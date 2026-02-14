@@ -139,12 +139,12 @@ public class CommandActions {
      * @param args all the args given to the command
      */
     static void tab(List<String> args) {
-        if (!args.isEmpty()) {
+        if (argAmountCheck(1, args)) {
             CommandProcessor.appendOutput(CommandHelp.tab());
             return;
         }
 
-        String tabName = String.join(" ", args);
+        String tabName = args.get(0);
 
         if (tabName.equals(
                 Tabs.INSTANCE.TERMINAL.id().toString()
