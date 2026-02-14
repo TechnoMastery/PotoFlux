@@ -7,6 +7,7 @@ import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.Tab;
+import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.terminal.Command;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.CommandRegistry;
@@ -138,20 +139,29 @@ public class CommandActions {
      * @param args all the args given to the command
      */
     static void tab(List<String> args) {
-        if (argAmountCheck(1, args)) {
+        if (!args.isEmpty()) {
             CommandProcessor.appendOutput(CommandHelp.tab());
             return;
         }
 
-        if (args.get(0).equals("Terminal")) {
+        String tabName = String.join(" ", args);
+
+        if (tabName.equals(
+                Tabs.INSTANCE.TERMINAL.id().toString()
+        )) {
             CommandProcessor.appendOutput(Translations.get("potoflux:command.tab.opened"));
+            return;
         }
+
         for (Tab tab : TabRegistry.getAll()) {
-            if (Objects.equals(tab.name(), args.get(0))) {
+            if (tabName.equals(
+                    tab.id().toString()
+            )) {
                 PotoFlux.app.setOpenedTab(tab);
                 return;
             }
         }
+
         CommandProcessor.appendOutput(CommandHelp.tab());
         CommandProcessor.appendOutput(Translations.get("potoflux:command.tab.null.start") + args.get(0) + Translations.get("potofluxcommand.tab.null.end"));
     }
