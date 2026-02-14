@@ -4,6 +4,7 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.logger.PtfLogger;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -68,10 +69,7 @@ public class CatalogHelpers {
         // Statut
         JLabel status = getStatusLabel(mod);
 
-        JPanel textPanel = new JPanel();
-        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-        textPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        textPanel.setOpaque(false);
+        JPanel textPanel = getCardTextPanel();
 
         textPanel.add(mainPanel);
         textPanel.add(Box.createVerticalStrut(4));
@@ -80,6 +78,15 @@ public class CatalogHelpers {
         card.add(textPanel, BorderLayout.CENTER);
 
         return card;
+    }
+
+    @Nonnull
+    private static JPanel getCardTextPanel() {
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+        textPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        textPanel.setOpaque(false);
+        return textPanel;
     }
 
     /**
@@ -97,7 +104,7 @@ public class CatalogHelpers {
                 "$Actions.Red";
 
         JLabel status = new JLabel(statusContent);
-        status.setAlignmentX(Component.LEFT_ALIGNMENT);
+        status.setAlignmentX(Component.CENTER_ALIGNMENT);
         status.putClientProperty(
                 "FlatLaf.style",
                 "foreground: " + statusColor
@@ -172,6 +179,8 @@ public class CatalogHelpers {
                 statusColor = "$Actions.Red";
             }
         }
+
+        statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         statusLabel.putClientProperty(
                 "FlatLaf.style",
@@ -260,27 +269,7 @@ public class CatalogHelpers {
         JPanel modPanel = new JPanel();
         modPanel.setLayout(new BoxLayout(modPanel, BoxLayout.Y_AXIS));
 
-        // line 1: modId
-        JLabel modIdLabel = new JLabel(mod.modId);
-        modIdLabel.setFont(modIdLabel.getFont().deriveFont(Font.BOLD, 28f));
-        modIdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        modPanel.add(modIdLabel);
-
-        modPanel.add(Box.createVerticalStrut(5));
-
-        // line 2: main status
-        JLabel statusLabel = getStatusLabel(mod);
-        statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        modPanel.add(statusLabel);
-
-        modPanel.add(Box.createVerticalStrut(5));
-
-        // line 3: install status
-        JLabel installStatusLabel = getInstallationStatus(mod);
-        installStatusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        modPanel.add(installStatusLabel);
-
-        modPanel.add(Box.createVerticalStrut(10));
+        fillModPanel(mod, modPanel);
 
         // line 4: button panels
         JPanel buttonsPanel = new JPanel();
@@ -290,7 +279,6 @@ public class CatalogHelpers {
         JButton dlButton = new JButton("Unavailable"); // TODO
         dlButton.setEnabled(false);
         // delete button
-        boolean addDeleteButton = false;
         JButton deleteButton = new JButton("Delete"); // TODO
         deleteButton.setEnabled(false);
 
@@ -299,103 +287,10 @@ public class CatalogHelpers {
         toggleButton.setEnabled(false);
 
         // def buttons state
-        if (PotoFluxLoadingContext.isModListed(mod.modId)) {
-
-            if (PotoFluxLoadingContext.isModLoaded(mod.modId)) {
-
-                if (mod.isLastestCompatibleVersion(PotoFluxLoadingContext.getModVersion(mod.modId))) {
-
-                    // if listed & loaded ; is the lastest compatible version
-
-                    dlButton.setText("Lastest downloaded"); // TODO
-
-                } else {
-
-                    // if listed & loaded ; is NOT the lastest compatible version
-
-                    dlButton.setText("Update to lastest"); // TODO
-                    dlButton.setEnabled(true);
-
-                }
-
-                // if listed & loaded
-
-                toggleButton.setText("Toggle - Disable"); // TODO
-                toggleButton.setEnabled(true);
-
-                deleteButton.setText("Delete and disable"); // TODO
-
-            } else {
-
-                if (mod.isCompatible(PotoFluxLoadingContext.getModVersion(mod.modId))) {
-
-                    if (mod.isLastestCompatibleVersion(PotoFluxLoadingContext.getModVersion(mod.modId))) {
-
-                        // if listed & NOT loaded & compatible ; is lastest compatible version
-
-                        dlButton.setText("Lastest downloaded"); // TODO
-
-                    } else {
-
-                        // if listed & NOT loaded & compatible ; is NOT lastest compatible version
-
-                        dlButton.setText("Update to lastest"); // TODO
-                        dlButton.setEnabled(true);
-
-                    }
-
-                    // if listed & NOT loaded & compatible
-
-                    toggleButton.setText("Toggle - Enable"); // TODO
-                    toggleButton.setEnabled(true);
-
-                    deleteButton.setText("Delete"); // TODO
-
-                } else {
-
-                    if (mod.isCompatible()) {
-
-                        // if listed & NOT loaded & NOT compatible ; but has compatible version
-
-                        dlButton.setText("Incompatible ! Update to compatible"); // TODO
-                        dlButton.setEnabled(true);
-
-                        deleteButton.setText("Delete"); // TODO
-
-                    } else {
-
-                        // if listed & NOT loaded & NOT compatible ; just delete
-
-                        dlButton.setText("Incompatible"); // TODO
-
-                        deleteButton.setText("Delete incompatible mod"); // TODO
-
-                    }
-
-                }
-
-            }
-
-            // if listed
-
-            deleteButton.setEnabled(true);
-            addDeleteButton = true;
-
-        } else {
-
-            if (mod.isCompatible()) {
-
-                // if NOT listed & compatible
-
-                dlButton.setText("Download"); // TODO
-                dlButton.setEnabled(true);
-
-            }
-
-        }
+        modDescButtonDefinition(mod, dlButton, toggleButton, deleteButton);
 
         buttonsPanel.add(dlButton);
-        if (addDeleteButton) buttonsPanel.add(deleteButton);
+        if (PotoFluxLoadingContext.isModListed(mod.modId)) buttonsPanel.add(deleteButton);
         buttonsPanel.add(toggleButton);
 
         // ok button
@@ -413,6 +308,123 @@ public class CatalogHelpers {
         dialog.setSize(size.width + 40, size.height);
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
+    }
+
+    private static void modDescButtonDefinition(ModCatalog mod, JButton dlButton, JButton toggleButton, JButton deleteButton) {
+        if (PotoFluxLoadingContext.isModListed(mod.modId)) {
+
+            // if listed
+            performButtonDefListed(mod, dlButton, toggleButton, deleteButton);
+
+            deleteButton.setEnabled(true);
+
+        }
+        // unlisted
+        else performButtonDefUnlisted(mod, dlButton);
+    }
+
+    private static void performButtonDefUnlisted(ModCatalog mod, JButton dlButton) {
+        if (mod.isCompatible()) {
+
+            // if NOT listed & compatible
+
+            dlButton.setText("Download"); // TODO
+            dlButton.setEnabled(true);
+
+        }
+    }
+
+    private static void performButtonDefListed(ModCatalog mod, JButton dlButton, JButton toggleButton, JButton deleteButton) {
+        if (PotoFluxLoadingContext.isModLoaded(mod.modId)) {
+
+            // if listed & loaded
+            performButtonDefUpdate(mod, dlButton);
+
+            toggleButton.setText("Toggle - Disable"); // TODO
+            toggleButton.setEnabled(true);
+
+            deleteButton.setText("Delete and disable"); // TODO
+
+        }
+        // listed & unloaded
+        else performButtonDefUnloaded(mod, dlButton, toggleButton, deleteButton);
+    }
+
+    private static void performButtonDefUnloaded(ModCatalog mod, JButton dlButton, JButton toggleButton, JButton deleteButton) {
+        if (mod.isCompatible(PotoFluxLoadingContext.getModVersion(mod.modId))) {
+
+            performButtonDefUpdate(mod, dlButton);
+
+            // if listed & NOT loaded & compatible
+
+            toggleButton.setText("Toggle - Enable"); // TODO
+            toggleButton.setEnabled(true);
+
+            deleteButton.setText("Delete"); // TODO
+
+        } else {
+
+            if (mod.isCompatible()) {
+
+                // if listed & NOT loaded & NOT compatible ; but has compatible version
+
+                dlButton.setText("Incompatible ! Update to compatible"); // TODO
+                dlButton.setEnabled(true);
+
+                deleteButton.setText("Delete"); // TODO
+
+            }
+            else performButtonDefIncompatible(dlButton, deleteButton);
+
+        }
+    }
+
+    private static void performButtonDefIncompatible(JButton dlButton, JButton deleteButton) {
+        dlButton.setText("Incompatible"); // TODO
+        deleteButton.setText("Delete incompatible mod"); // TODO
+    }
+
+    private static void performButtonDefUpdate(ModCatalog mod, JButton dlButton) {
+        if (mod.isLastestCompatibleVersion(PotoFluxLoadingContext.getModVersion(mod.modId))) {
+
+            // if listed & loaded ; is the lastest compatible version
+            dlButton.setText("Lastest downloaded"); // TODO
+
+        } else {
+
+            // if listed & loaded ; is NOT the lastest compatible version
+            dlButton.setText("Update to lastest"); // TODO
+            dlButton.setEnabled(true);
+
+        }
+    }
+
+    private static void fillModPanel(ModCatalog mod, JPanel modPanel) {
+        // line 1: modId
+        JLabel modIdLabel = getModIdLabel(mod);
+        modPanel.add(modIdLabel);
+
+        modPanel.add(Box.createVerticalStrut(5));
+
+        // line 2: main status
+        JLabel statusLabel = getStatusLabel(mod);
+        modPanel.add(statusLabel);
+
+        modPanel.add(Box.createVerticalStrut(5));
+
+        // line 3: install status
+        JLabel installStatusLabel = getInstallationStatus(mod);
+        modPanel.add(installStatusLabel);
+
+        modPanel.add(Box.createVerticalStrut(10));
+    }
+
+    @Nonnull
+    private static JLabel getModIdLabel(ModCatalog mod) {
+        JLabel modIdLabel = new JLabel(mod.modId);
+        modIdLabel.setFont(modIdLabel.getFont().deriveFont(Font.BOLD, 28f));
+        modIdLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return modIdLabel;
     }
 
     /**

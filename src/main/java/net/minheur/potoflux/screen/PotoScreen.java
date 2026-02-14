@@ -10,6 +10,7 @@ import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -35,9 +36,20 @@ public class PotoScreen {
     private final JTabbedPane tabs = new JTabbedPane(JTabbedPane.LEFT);
 
     /**
-     * Constructor for initializing the screen
+     * Constructor for creating the screen
      */
     public PotoScreen() {
+        frame = setupFrame();
+
+        addIcon();
+        addPanels();
+
+        frame.setVisible(true);
+    }
+
+    @Nonnull
+    private JFrame setupFrame() {
+        final JFrame frame;
         frame = new JFrame("PotoFlux");
         frame.setSize(854, 512);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -52,11 +64,7 @@ public class PotoScreen {
         Properties optionalFeatures = PotoFluxLoadingContext.getOptionalFeatures();
         boolean isResizable = Boolean.parseBoolean(optionalFeatures.getProperty("resizableWindow", "false"));
         if (!isResizable) frame.setResizable(false);
-
-        addIcon();
-        addPanels();
-
-        frame.setVisible(true);
+        return frame;
     }
 
     /**
@@ -72,15 +80,19 @@ public class PotoScreen {
                 .toList();
 
         // register all tabs in ones
+        fillTabMap(allTabs);
+
+        frame.add(tabs);
+    }
+
+    private void fillTabMap(List<Tab> allTabs) {
         for (Tab tabType : allTabs) {
             BaseTab instance = tabType.createInstance();
             if (instance != null) {
                 tabs.add(tabType.name(), instance.getPanel());
-                this.tabMap.put(tabType, instance);
+                tabMap.put(tabType, instance);
             }
         }
-
-        frame.add(tabs);
     }
 
     /**

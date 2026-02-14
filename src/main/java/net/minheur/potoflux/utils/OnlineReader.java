@@ -2,6 +2,7 @@ package net.minheur.potoflux.utils;
 
 import net.minheur.potoflux.logger.PtfLogger;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -20,13 +21,9 @@ public class OnlineReader {
         try {
             HttpClient client = HttpClient.newHttpClient();
 
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
-                    .GET()
-                    .build();
+            HttpRequest request = getHttpRequest(url);
 
-            HttpResponse<String> response =
-                    client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = getHttpResponse(client, request);
 
             if (response.statusCode() != 200) throw new RuntimeException("HTTP " + response.statusCode());
 
@@ -36,5 +33,19 @@ public class OnlineReader {
             PtfLogger.error("Could not get online String for URL: " + url);
             return null;
         }
+    }
+
+    private static HttpResponse<String> getHttpResponse(HttpClient client, HttpRequest request) throws IOException, InterruptedException {
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response;
+    }
+
+    private static HttpRequest getHttpRequest(String url) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+        return request;
     }
 }

@@ -10,6 +10,7 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
@@ -64,10 +65,31 @@ public class CatalogTab extends BaseTab {
      * @return the catalog panel
      */
     private JPanel mkModCatalog() {
-        JPanel modsPanel = new JPanel();
-        modsPanel.setLayout(new BoxLayout(modsPanel, BoxLayout.Y_AXIS));
-        modsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel modsPanel = mkModPanel();
 
+        fillModPanel(modsPanel);
+
+        JScrollPane scrollPane = mkModScrollWithWrapper(modsPanel);
+
+        JPanel root = new JPanel(new BorderLayout());
+        root.add(scrollPane, BorderLayout.CENTER);
+
+        return root;
+    }
+
+    @Nonnull
+    private static JScrollPane mkModScrollWithWrapper(JPanel modsPanel) {
+        JPanel wrapper = new JPanel(new BorderLayout());
+        wrapper.add(modsPanel, BorderLayout.NORTH);
+        wrapper.setOpaque(false);
+
+        JScrollPane scrollPane = new JScrollPane(wrapper);
+        scrollPane.setBorder(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        return scrollPane;
+    }
+
+    private void fillModPanel(JPanel modsPanel) {
         if (catalog.isEmpty()) {
             JLabel empty = new JLabel("No mods available."); // TODO
             empty.setForeground(Color.LIGHT_GRAY);
@@ -78,19 +100,14 @@ public class CatalogTab extends BaseTab {
                 modsPanel.add(Box.createVerticalStrut(8)); // separate cards
             }
         }
+    }
 
-        JPanel wrapper = new JPanel(new BorderLayout());
-        wrapper.add(modsPanel, BorderLayout.NORTH);
-        wrapper.setOpaque(false);
-
-        JScrollPane scrollPane = new JScrollPane(wrapper);
-        scrollPane.setBorder(null);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-
-        JPanel root = new JPanel(new BorderLayout());
-        root.add(scrollPane, BorderLayout.CENTER);
-
-        return root;
+    @Nonnull
+    private static JPanel mkModPanel() {
+        JPanel modsPanel = new JPanel();
+        modsPanel.setLayout(new BoxLayout(modsPanel, BoxLayout.Y_AXIS));
+        modsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        return modsPanel;
     }
 
     /**

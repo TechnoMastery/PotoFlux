@@ -87,14 +87,7 @@ public class CommandProcessor {
         String content = outputArea.get().getText();
         Path file = PotoFlux.getProgramDir().resolve("terminal.txt");
 
-        if (content.trim().isEmpty()) { // if string is empty : delete file
-            try {
-                Files.deleteIfExists(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return;
-        }
+        if (checkEmptyTerminal(content, file)) return;
 
         try {
             Files.createDirectories(file.getParent());
@@ -105,6 +98,18 @@ public class CommandProcessor {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static boolean checkEmptyTerminal(String content, Path file) {
+        if (content.trim().isEmpty()) { // if string is empty : delete file
+            try {
+                Files.deleteIfExists(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+        return false;
     }
 
 }

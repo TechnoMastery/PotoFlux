@@ -1,5 +1,7 @@
 package net.minheur.potoflux.utils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
@@ -13,8 +15,8 @@ public class LambdaUtils {
     private LambdaUtils() {}
 
     /**
-     * Récupère la Method réelle implémentée par la method reference / lambda.
-     * Retourne la Method déclarée dans la classe impl (où la méthode existe).
+     * Gets the real method implemented by the reference / lambda.
+     * @return the method declared in the impl class (where it exists).
      */
     public static Method getImplMethod(Serializable lambda) {
         try {
@@ -30,29 +32,48 @@ public class LambdaUtils {
             String implMethodName = sl.getImplMethodName();
             String implSignature = sl.getImplMethodSignature();
 
-            ClassLoader cl = lambda.getClass().getClassLoader();
-            if (cl == null)
-                cl = Thread.currentThread().getContextClassLoader();
-            Class<?> implClass = Class.forName(implClassName, false, cl);
+            Class<?> implClass = getImplClass(lambda, implClassName);
 
-            for (Method m : implClass.getDeclaredMethods())
-                if (m.getName().equals(implMethodName) && getJvmSignature(m).equals(implSignature)) {
-                    m.setAccessible(true);
-                    return m;
-                }
-
-            for (Method m : implClass.getMethods())
-                if (m.getName().equals(implMethodName) && getJvmSignature(m).equals(implSignature)) {
-                    m.setAccessible(true);
-                    return m;
-                }
-
-            return null;
+            Method m = getMethodDeclared(implClass.getDeclaredMethods(), implMethodName, implSignature);
+            if (m != null) return m;
+            return getMethodDeclared(implClass.getMethods(), implMethodName, implSignature);
 
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Gets a declared method
+     * @param methodImplClass the methods of the impl class
+     * @param implMethodName the name of the method
+     * @param implSignature the signature of the JVM
+     * @return the method, or {@code null} if the method is not found
+     */
+    @Nullable
+    private static Method getMethodDeclared(@Nonnull Method[] methodImplClass, String implMethodName, String implSignature) {
+        for (Method m : methodImplClass)
+            if (m.getName().equals(implMethodName) && getJvmSignature(m).equals(implSignature)) {
+                m.setAccessible(true);
+                return m;
+            }
+        return null;
+    }
+
+    /**
+     * Gets a class to get methods from
+     * @param lambda the lamba that should be the class
+     * @param implClassName the name of the class
+     * @return the found class
+     * @throws ClassNotFoundException if the class doesn't exist
+     */
+    @Nonnull
+    private static Class<?> getImplClass(Serializable lambda, String implClassName) throws ClassNotFoundException {
+        ClassLoader cl = lambda.getClass().getClassLoader();
+        if (cl == null)
+            cl = Thread.currentThread().getContextClassLoader();
+        return Class.forName(implClassName, false, cl);
     }
 
     /**
@@ -93,7 +114,7 @@ public class LambdaUtils {
     }
 
     /**
-     * Tries to extract caught instance (this) if the reference method is an instance reference.
+     * Tries to extract caught instance (this) if the reference method is an instance reference.<br>
      * WARNING: this works in most cases (method references non-static),
      * but can fail for certains lambda types (ex : lambdas without captures).
      * @param lambda method to extract from
