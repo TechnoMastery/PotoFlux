@@ -89,6 +89,19 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addCommandUse("tab")
                 .en("Usage: tab <tabName>");
 
+        addCommand("tabList")
+                .en("Lists all the tabs")
+                .fr("Liste touts les onglets");
+        addCommand("tabList", "intro")
+                .en("Here is all the tabs: ")
+                .fr("Voici touts les onglets : ");
+        addCommandUse("tabList")
+                .en("Usage: tabList")
+                .fr("Utilisation : tabList");
+        addCommandUse("tabList", "resourceLoc")
+                .en("Usage: tabList --resourceLoc")
+                .fr("Utilisation : tabList --resourceLoc");
+
         addCommand("time")
                 .en("Tells the time");
         addCommandUse("time")

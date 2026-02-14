@@ -65,6 +65,10 @@ public class Commands {
      */
     public final Command TAB = LIST.add(new Command(fromModId("tab"), "tab", CommandActions::tab, CommandHelp.tab()));
     /**
+     * Command for the {@code tabList} command.
+     */
+    public final Command TAB_LIST = LIST.add(new Command(fromModId("tabList"), "tabList", CommandActions::tabList, CommandHelp.tabList()));
+    /**
      * Command for the {@code source} command.
      */
     public final Command SOURCE = LIST.add(new Command(fromModId("source"), "source", CommandActions::sourceCode, CommandHelp.source()));

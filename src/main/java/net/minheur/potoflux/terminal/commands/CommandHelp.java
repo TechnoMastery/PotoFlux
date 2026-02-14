@@ -2,6 +2,8 @@ package net.minheur.potoflux.terminal.commands;
 
 import net.minheur.potoflux.translations.Translations;
 
+import javax.annotation.Nonnull;
+
 import static net.minheur.potoflux.terminal.commands.CommandMakerHelpers.tabLine;
 
 /**
@@ -105,5 +107,14 @@ public class CommandHelp {
     static String ptfVersion() {
         return Translations.get("potoflux:command.ptfVersion") + tabLine +
                 Translations.get("potoflux:command.ptfVersion.use");
+    }
+    /**
+     * The help for the command {@code tabList}.
+     * @return the help for {@code tabList}.
+     */
+    static String tabList() {
+        return Translations.get("potoflux:command.tabList") + tabLine +
+                Translations.get("potoflux:command.tabList.use") + tabLine +
+                Translations.get("potoflux:command.tabList.use.resourceLoc");
     }
 }

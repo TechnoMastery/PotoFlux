@@ -273,6 +273,28 @@ public class CommandActions {
         else CommandProcessor.appendOutput("PotoFlux version: " + version);
     }
 
+    static void tabList(List<String> args) {
+        if (argAmountCheck(0, 1, args)) {
+            CommandProcessor.appendOutput(CommandHelp.tabList());
+            return;
+        }
+
+        boolean displayResourceLoc =
+                args.contains("--resourceLoc");
+
+        CommandProcessor.appendOutput(Translations.get("potoflux:command.tabList.intro"));
+
+        for (Tab tab : TabRegistry.getAll()) {
+
+            StringBuilder tabEntry = new StringBuilder(tabArrow);
+            tabEntry.append(tab.name());
+            if (displayResourceLoc) tabEntry.append(" : ").append(tab.id().toString());
+
+            CommandProcessor.appendOutput(tabEntry.toString());
+        }
+
+    }
+
     /**
      * Command execution for command {@code hide}.
      * @param args all the args given to the command
