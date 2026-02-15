@@ -1,5 +1,8 @@
 package net.minheur.potoflux.translations;
 
+import net.minheur.potoflux.screen.tabs.Tab;
+import net.minheur.potoflux.terminal.Command;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,14 +83,15 @@ public abstract class AbstractTranslationsRegistry {
         return add("tabs." + id, children);
     }
     /**
-     * Adds a translation for a command usage
-     * @param id the ID of the command
-     * @param children the optional children of the translation
+     * Uses {@link #addTab(String, String...)} with a {@link Tab} as ID
+     * @param tab the tab to make a translation for
+     * @param children the optional extra members
      * @return the new {@link TranslationBuilder}
      */
-    protected TranslationBuilder addCommandUse(String id, String... children) {
-        return add("command." + id + ".use", children);
+    protected TranslationBuilder addTab(Tab tab, String... children) {
+        return addTab(tab.id().getPath(), children);
     }
+
     /**
      * Adds a translation for a command
      * @param id the ID of the command
@@ -96,6 +100,33 @@ public abstract class AbstractTranslationsRegistry {
      */
     protected TranslationBuilder addCommand(String id, String... children) {
         return add("command." + id, children);
+    }
+    /**
+     * Uses {@link #addCommand(String, String...)} with a {@link Command} as ID
+     * @param command the command to make a translation for
+     * @param children the optional extra members
+     * @return the new {@link TranslationBuilder}
+     */
+    protected TranslationBuilder addCommand(Command command, String... children) {
+        return addCommand(command.id().getPath(), children);
+    }
+    /**
+     * Adds a translation for a command usage
+     * @param id the ID of the command
+     * @param children the optional children of the translation
+     * @return the new {@link TranslationBuilder}
+     */
+    protected TranslationBuilder addCommandUse(String id, String... children) {
+        return addCommand(id + ".use", children);
+    }
+    /**
+     * Uses {@link #addCommandUse(String, String...)} with a {@link Command} as ID
+     * @param command the tab to make a translation for
+     * @param children the optional extra members
+     * @return the new {@link TranslationBuilder}
+     */
+    protected TranslationBuilder addCommandUse(Command command, String... children) {
+        return addCommandUse(command.id().getPath(), children);
     }
 
     /**
