@@ -43,11 +43,11 @@ public class Commands {
     /**
      * Command for the {@code modList} command.
      */
-    public final Command MOD_LIST = LIST.add(new Command(fromModId("mod_list"), "modList", CommandActions::modList, CommandHelp.modList()));
+    public final Command MOD_LIST = LIST.add(new Command(fromModId("modList"), "modList", CommandActions::modList, CommandHelp.modList()));
     /**
      * Command for the {@code modDir} command.
      */
-    public final Command MOD_DIR = LIST.add(new Command(fromModId("mod_dir"), "modDir", CommandActions::modDir, CommandHelp.modDir()));
+    public final Command MOD_DIR = LIST.add(new Command(fromModId("modDir"), "modDir", CommandActions::modDir, CommandHelp.modDir()));
     /**
      * Command for the {@code time} command.
      */

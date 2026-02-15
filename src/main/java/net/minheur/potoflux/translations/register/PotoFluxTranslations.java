@@ -48,64 +48,64 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addCommandUse(Commands.INSTANCE.ECHO)
                 .en("Usage: hello");
 
-        addCommand("help")
+        addCommand(Commands.INSTANCE.HELP)
                 .en("Shows this menu");
-        addCommand("help", "title")
+        addCommand(Commands.INSTANCE.HELP, "title")
                 .en("Command list:");
-        addCommandUse("help")
+        addCommandUse(Commands.INSTANCE.HELP)
                 .en("Usage: help");
-        addCommandUse("help", "command")
+        addCommandUse(Commands.INSTANCE.HELP, "command")
                 .en("Usage: help <command>");
 
-        addCommand("hidden", "out")
+        addCommand(Commands.INSTANCE.HIDDEN, "out")
                 .en("Hidden command :)");
 
-        addCommand("nope", "out")
+        addCommand(Commands.INSTANCE.NOPE, "out")
                 .en("I got you !")
                 .fr("CHEH");
 
-        addCommand("quit")
-                .en("Exit app");
-        addCommand("quit", "out")
+        addCommand(Commands.INSTANCE.QUIT)
+                .en("Exits app");
+        addCommand(Commands.INSTANCE.QUIT, "out")
                 .en("Exiting...");
-        addCommandUse("quit")
+        addCommandUse(Commands.INSTANCE.QUIT)
                 .en("Usage: quit");
 
-        addCommand("source")
+        addCommand(Commands.INSTANCE.SOURCE)
                 .en("Link to source code");
-        addCommand("source", "out")
+        addCommand(Commands.INSTANCE.SOURCE, "out")
                 .en("Opened code source in browser !");
-        addCommand("source", "noBrowse")
+        addCommand(Commands.INSTANCE.SOURCE, "noBrowse")
                 .en("Could not open source code ! Here is the link:");
-        addCommandUse("source")
+        addCommandUse(Commands.INSTANCE.SOURCE)
                 .en("Usage: source-code");
 
-        addCommand("tab")
+        addCommand(Commands.INSTANCE.TAB)
                 .en("Open given tab");
-        addCommand("tab", "null")
+        addCommand(Commands.INSTANCE.TAB, "null")
                 .en("Tab $$1 doesn't exists !")
                 .fr("L'onglet $$1 n'existe pas !");
-        addCommand("tab", "opened")
+        addCommand(Commands.INSTANCE.TAB, "opened")
                 .en("This tab is already opened !");
-        addCommandUse("tab")
+        addCommandUse(Commands.INSTANCE.TAB)
                 .en("Usage: tab <tabResourceLoc>");
 
-        addCommand("tabList")
+        addCommand(Commands.INSTANCE.TAB_LIST)
                 .en("Lists all the tabs")
                 .fr("Liste touts les onglets");
-        addCommand("tabList", "intro")
+        addCommand(Commands.INSTANCE.TAB_LIST, "intro")
                 .en("Here is all the tabs: ")
                 .fr("Voici touts les onglets : ");
-        addCommandUse("tabList")
+        addCommandUse(Commands.INSTANCE.TAB_LIST)
                 .en("Usage: tabList")
                 .fr("Utilisation : tabList");
-        addCommandUse("tabList", "resourceLoc")
+        addCommandUse(Commands.INSTANCE.TAB_LIST, "resourceLoc")
                 .en("Usage: tabList --resourceLoc")
                 .fr("Utilisation : tabList --resourceLoc");
 
-        addCommand("time")
+        addCommand(Commands.INSTANCE.TIME)
                 .en("Tells the time");
-        addCommandUse("time")
+        addCommandUse(Commands.INSTANCE.TIME)
                 .en("Usage: time");
 
         addCommand("modList")
