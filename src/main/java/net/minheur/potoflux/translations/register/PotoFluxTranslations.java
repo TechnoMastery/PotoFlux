@@ -1,6 +1,7 @@
 package net.minheur.potoflux.translations.register;
 
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
 
 /**
@@ -20,31 +21,31 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
     @Override
     protected void makeTranslation() {
         // commands
-        addCommand("ascii")
+        addCommand(Commands.INSTANCE.ASCII)
                 .en("Show an ASCII");
-        addCommandUse("ascii")
+        addCommandUse(Commands.INSTANCE.ASCII)
                 .en("Usage: ascii");
-        addCommandUse("ascii","choose")
+        addCommandUse(Commands.INSTANCE.ASCII,"choose")
                 .en("Usage: ascii <name>");
 
-        addCommand("clear")
+        addCommand(Commands.INSTANCE.CLEAR)
                 .en("Clears the terminal");
-        addCommandUse("clear")
+        addCommandUse(Commands.INSTANCE.CLEAR)
                 .en("Usage: clear");
 
-        addCommand("ptfVersion")
+        addCommand(Commands.INSTANCE.VERSION)
                 .en("Get actual PotoFlux version");
-        addCommandUse("ptfVersion")
+        addCommandUse(Commands.INSTANCE.VERSION)
                 .en("Usage: version");
 
-        addCommand("echo")
+        addCommand(Commands.INSTANCE.ECHO)
                 .en("Repeats what you give");
-        addCommandUse("echo")
+        addCommandUse(Commands.INSTANCE.ECHO)
                 .en("Usage: echo <text>");
 
-        addCommand("hello_world")
+        addCommand(Commands.INSTANCE.HELLO_WORLD)
                 .en("Says hello world");
-        addCommandUse("hello_world")
+        addCommandUse(Commands.INSTANCE.ECHO)
                 .en("Usage: hello");
 
         addCommand("help")
