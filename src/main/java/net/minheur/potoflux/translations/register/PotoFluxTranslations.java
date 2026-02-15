@@ -1,6 +1,7 @@
 package net.minheur.potoflux.translations.register;
 
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
 
@@ -165,12 +166,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
 
         addSettingsTab("name")
                 .en("Settings");
-        addSettingsTab("title")
-                .en("Settings");
 
         addTerminalTab("name")
-                .en("Terminal");
-        addTerminalTab("title")
                 .en("Terminal");
 
         addCatalogTab("name")
@@ -210,7 +207,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      * @return the translation builder associated
      */
     private TranslationBuilder addHomeTab(String... children) {
-        return addTab("home", children);
+        return addTab(Tabs.INSTANCE.HOME, children);
     }
     /**
      * Add a translation for the settings tab
@@ -218,7 +215,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      * @return the translation builder associated
      */
     private TranslationBuilder addSettingsTab(String... children) {
-        return addTab("settings", children);
+        return addTab(Tabs.INSTANCE.SETTINGS, children);
     }
     /**
      * Add a translation for the terminal tab
@@ -226,7 +223,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      * @return the translation builder associated
      */
     private TranslationBuilder addTerminalTab(String... children) {
-        return addTab("term", children);
+        return addTab(Tabs.INSTANCE.TERMINAL, children);
     }
     /**
      * Add a translation for the catalog tab
@@ -234,6 +231,6 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      * @return the translation builder associated
      */
     private TranslationBuilder addCatalogTab(String... children) {
-        return addTab("catalog", children);
+        return addTab(Tabs.INSTANCE.CATALOG, children);
     }
 }
