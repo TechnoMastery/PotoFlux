@@ -108,14 +108,14 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addCommandUse(Commands.INSTANCE.TIME)
                 .en("Usage: time");
 
-        addCommand("modList")
+        addCommand(Commands.INSTANCE.MOD_LIST)
                 .en("Lists you loaded mods");
-        addCommandUse("modList")
+        addCommandUse(Commands.INSTANCE.MOD_LIST)
                 .en("Usage: modList");
 
-        addCommand("modDir")
+        addCommand(Commands.INSTANCE.MOD_DIR)
                 .en("Open mod directory");
-        addCommandUse("modDir")
+        addCommandUse(Commands.INSTANCE.MOD_DIR)
                 .en("Usage: modDir");
 
         addCommandPro("empty")
