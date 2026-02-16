@@ -41,11 +41,11 @@ public class Tabs {
     /**
      * The item of the terminal tab ({@link TerminalTab}).
      */
-    public final Tab TERMINAL = LIST.add(new Tab(fromModId("terminal"), Translations.get("potoflux:tabs.term.name"), TerminalTab.class));
+    public final Tab TERMINAL = LIST.add(new Tab(fromModId("terminal"), Translations.get("potoflux:tabs.terminal.name"), TerminalTab.class));
     /**
      * The item of the settings tab ({@link SettingsTab}).
      */
-    public final Tab SETTINGS = LIST.add(new Tab(fromModId("settings"), Translations.get("potoflux:tabs.settings.title"), SettingsTab.class));
+    public final Tab SETTINGS = LIST.add(new Tab(fromModId("settings"), Translations.get("potoflux:tabs.settings.name"), SettingsTab.class));
     /**
      * The item of the catalog tab ({@link CatalogTab}).
      */

@@ -105,8 +105,8 @@ public class CommandHelp {
      * @return the help for {@code ptfVersion}.
      */
     static String ptfVersion() {
-        return Translations.get("potoflux:command.ptfVersion") + tabLine +
-                Translations.get("potoflux:command.ptfVersion.use");
+        return Translations.get("potoflux:command.version") + tabLine +
+                Translations.get("potoflux:command.version.use");
     }
     /**
      * The help for the command {@code tabList}.
