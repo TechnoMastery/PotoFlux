@@ -16,53 +16,77 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
     @Override
     protected void makeTranslation() {
         add("back")
-                .en("Back");
+                .en("Back")
+                .fr("Retour");
         add("add")
-                .en("Add");
+                .en("Add")
+                .fr("Ajouter");
         add("pinned")
-                .en("Pinned");
+                .en("Pinned")
+                .fr("Épinglé");
         add("rename")
-                .en("Rename");
+                .en("Rename")
+                .fr("Renommer");
         add("cancel")
-                .en("Cancel");
+                .en("Cancel")
+                .fr("Annuler");
         add("cards")
-                .en("Cards");
+                .en("Cards")
+                .fr("Cartes");
         add("create")
-                .en("Create");
+                .en("Create")
+                .fr("Créer");
         add("list")
-                .en("List");
+                .en("List")
+                .fr("Liste");
         add("load")
-                .en("Load");
+                .en("Load")
+                .fr("Charger");
         add("main")
-                .en("Main");
+                .en("Main")
+                .fr("Principal");
         add("close")
-                .en("Close");
+                .en("Close")
+                .fr("Fermer");
         add("confirm")
-                .en("Confirm");
+                .en("Confirm")
+                .fr("Confirmer");
         add("error")
-                .en("Error");
+                .en("Error")
+                .fr("Erreur");
         add("export")
-                .en("Export");
+                .en("Export")
+                .fr("Exporter");
         add("finish")
-                .en("Finished");
+                .en("Finished")
+                .fr("Fini");
         add("flip")
-                .en("Flip");
+                .en("Flip")
+                .fr("Retourner");
         add("modify")
-                .en("Modify");
+                .en("Modify")
+                .fr("Modifier");
         add("next")
-                .en("Next");
+                .en("Next")
+                .fr("Suivant");
         add("override_check")
-                .en("Confirm override");
+                .en("Confirm override")
+                .fr("Confirmation d'écrasement");
         add("path")
-                .en("Path: ");
+                .en("Path: ")
+                .fr("Chemin : ");
         add("start")
-                .en("Start");
+                .en("Start")
+                .fr("Début");
         add("saveSuccess")
-                .en("Save successful");
+                .en("Save successful")
+                .fr("Sauvegardé avec succès");
         add("validate")
-                .en("Validate");
+                .en("Validate")
+                .fr("Valider");
         add("add_cancel")
-                .en("Adding has been canceled");
+                .en("Adding has been canceled")
+                .fr("Ajout annulé");
         add("info")
                 .en("Infos")
                 .fr("Infos");
@@ -70,12 +94,16 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
                 .en("Delete")
                 .fr("Supprimer");
         add("delete", "success")
-                .en("Delection successful");
+                .en("Delection successful")
+                .fr("Suppression réussi");
         add("read_error")
-                .en("Error while reading: ");
+                .en("Error while reading: ")
+                .fr("Erreur en lisant : ");
         add("nothing_save")
-                .en("There is nothing to save.");
+                .en("There is nothing to save.")
+                .fr("Il n'y a rien a sauvegarder.");
         add("select_list")
-                .en("<Select List>");
+                .en("<Select List>")
+                .fr("<Sélectionnez une liste>");
     }
 }
