@@ -473,10 +473,7 @@ public class PotoFluxLoadingContext {
 
                     if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
 
-                    String declaredLastest = Json.getFromObject(mod.compatibleVersionUrl(), "lastestModVersion");
-                    if (declaredLastest != null && !declaredLastest.equals(mod.version())) {
-                        // TODO: handle message
-                    }
+                    checkUpdate(mod);
 
                 }
                 else if (compatibleVersions.contains(PotoFlux.getVersion()))
@@ -488,6 +485,17 @@ public class PotoFluxLoadingContext {
                     PtfLogger.error("Can't load incompatible mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
                 }
             }
+        }
+    }
+
+    private static void checkUpdate(Mod mod) {
+        JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
+        JsonObject lastestObject = mainObject.getAsJsonObject("lastestForPtf");
+
+        String declaredLastest = lastestObject.get(PotoFlux.getVersion()).getAsString();
+
+        if (declaredLastest != null && !declaredLastest.equals(mod.version())) {
+            // TODO: handle message
         }
     }
 
@@ -515,7 +523,10 @@ public class PotoFluxLoadingContext {
     private static List<String> getOnlineCompatibleList(Mod mod) {
         try {
 
-            JsonObject versionObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
+            JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
+            if (checkOnlineListNotnull(mainObject, mod)) return null;
+
+            JsonObject versionObject = mainObject.getAsJsonObject("versions");
             if (checkOnlineListNotnull(versionObject, mod)) return null;
 
             List<String> compatibleVersionList = Json.listFromObject(versionObject, mod.version());
@@ -543,7 +554,7 @@ public class PotoFluxLoadingContext {
     private static boolean checkOnlineListNotnull(JsonObject versionObject, Mod mod) {
         if (versionObject == null) {
             modsToLoad.remove(mod.modId());
-            PtfLogger.error("Could not get corresponding online version for mod " + mod.modId() + ", for version " + mod.version(),
+            PtfLogger.error("Could not get corresponding online version for mod " + mod.modId(),
                     LogCategories.MOD_LOADER);
             return true;
         }
