@@ -473,7 +473,7 @@ public class PotoFluxLoadingContext {
 
                     if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
 
-                    checkUpdate(mod);
+                    checkUpdate(mod, isCompatible);
 
                 }
                 else if (compatibleVersions.contains(PotoFlux.getVersion()))
@@ -488,15 +488,21 @@ public class PotoFluxLoadingContext {
         }
     }
 
-    private static void checkUpdate(Mod mod) {
+    private static void checkUpdate(Mod mod, boolean isCompatible) {
         JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
         JsonObject lastestObject = mainObject.getAsJsonObject("lastestForPtf");
 
         String declaredLastest = lastestObject.get(PotoFlux.getVersion()).getAsString();
 
-        if (declaredLastest != null && !declaredLastest.equals(mod.version())) {
-            // TODO: handle message
-        }
+        if (declaredLastest != null && !declaredLastest.equals(mod.version()))
+            openUpdateDialog(mod, isCompatible);
+    }
+
+    private static void openUpdateDialog(Mod mod, boolean isCompatible) {
+        String message;
+
+        if (isCompatible)
+            message = "Le mod " + mod.modId(); // TODO: finish
     }
 
     private static void loadMod(Map.Entry<Mod, Class<?>> entry) {
