@@ -40,10 +40,4 @@ public class ActionRunRunnable {
     public static void saveTerminal() {
         CommandProcessor.runSaveTerminal();
     }
-    /**
-     * The action to execute for the mod list saving
-     */
-    public static void saveModList() {
-        PotoFluxLoadingContext.saveModList();
-    }
 }
