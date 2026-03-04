@@ -8,6 +8,7 @@ import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
 import org.reflections.vfs.Vfs;
 
@@ -495,14 +496,62 @@ public class PotoFluxLoadingContext {
         String declaredLastest = lastestObject.get(PotoFlux.getVersion()).getAsString();
 
         if (declaredLastest != null && !declaredLastest.equals(mod.version()))
-            openUpdateDialog(mod, isCompatible);
+            openUpdateDialog(mod, isCompatible, declaredLastest);
     }
 
-    private static void openUpdateDialog(Mod mod, boolean isCompatible) {
+    private static void openUpdateDialog(Mod mod, boolean isCompatible, String lastest) {
         String message;
 
         if (isCompatible)
-            message = "Le mod " + mod.modId(); // TODO: finish
+            message = Functions.formatMessage(Translations.get("potoflux:modUpdate.query.compatible"),
+                    mod.modId(), mod.version(), lastest);
+        else message = Functions.formatMessage(Translations.get("potoflux:modUpdate.query.notCompatible"),
+                mod.modId(), lastest);
+
+        int result = JOptionPane.showConfirmDialog(
+                null,
+                message,
+                Translations.get("potoflux:modUpdate.query.title"),
+                JOptionPane.YES_NO_OPTION,
+                isCompatible ? JOptionPane.INFORMATION_MESSAGE
+                        : JOptionPane.WARNING_MESSAGE
+        );
+
+        if (result == JOptionPane.YES_OPTION) {
+            PtfLogger.info("User wants to update mod " + mod.modId(), LogCategories.MOD_LOADER, "modUpdate");
+            openInstallModPage(mod, lastest);
+        }
+    }
+
+    private static void openInstallModPage(Mod mod, String version) {
+        JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
+        String installUrl = mainObject.get("installUrl").getAsString();
+
+        if (installUrl == null || installUrl.equals("NONE")) {
+            PtfLogger.error("No update link set.", LogCategories.MOD_LOADER, "modUpdate");
+            JOptionPane.showMessageDialog(
+                    null,
+                    Translations.get("potoflux:modUpdate.dl.noLink"),
+                    Translations.get("potoflux:modUpdate.dl.noLink.title"),
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        String finalUrl = installUrl + version;
+        boolean browsed = Functions.browse(finalUrl);
+
+        if (browsed)
+            PtfLogger.info("Opened install url in browser", LogCategories.MOD_LOADER, "modUpdate");
+        else {
+            PtfLogger.error("Failede to open install url in browser", LogCategories.MOD_LOADER, "modUpdate");
+            JOptionPane.showMessageDialog(
+                    null,
+                    Translations.get("potoflux:modUpdate.dl.failed"),
+                    Translations.get("potoflux:modUpdate.dl.failed.title"),
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     private static void loadMod(Map.Entry<Mod, Class<?>> entry) {
