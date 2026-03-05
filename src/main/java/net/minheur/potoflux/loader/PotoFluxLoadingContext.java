@@ -8,6 +8,7 @@ import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
 import org.reflections.vfs.Vfs;
 
@@ -409,15 +410,82 @@ public class PotoFluxLoadingContext {
 
                 if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
 
-            }
-            else if (compatibleVersions.contains(PotoFlux.getVersion()))
-                isCompatible = true;
+                    checkUpdate(mod, isCompatible);
+
+                }
+                else if (compatibleVersions.contains(PotoFlux.getVersion()))
+                    isCompatible = true;
 
             if (isCompatible) loadMod(entry);
             else {
                 PtfLogger.error("Can't load incompatible mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
             }
 
+        }
+    }
+
+    private static void checkUpdate(Mod mod, boolean isCompatible) {
+        JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
+        JsonObject lastestObject = mainObject.getAsJsonObject("lastestForPtf");
+
+        String declaredLastest = lastestObject.get(PotoFlux.getVersion()).getAsString();
+
+        if (declaredLastest != null && !declaredLastest.equals(mod.version()))
+            openUpdateDialog(mod, isCompatible, declaredLastest);
+    }
+
+    private static void openUpdateDialog(Mod mod, boolean isCompatible, String lastest) {
+        String message;
+
+        if (isCompatible)
+            message = Functions.formatMessage(Translations.get("potoflux:modUpdate.query.compatible"),
+                    mod.modId(), mod.version(), lastest);
+        else message = Functions.formatMessage(Translations.get("potoflux:modUpdate.query.notCompatible"),
+                mod.modId(), lastest);
+
+        int result = JOptionPane.showConfirmDialog(
+                null,
+                message,
+                Translations.get("potoflux:modUpdate.query.title"),
+                JOptionPane.YES_NO_OPTION,
+                isCompatible ? JOptionPane.INFORMATION_MESSAGE
+                        : JOptionPane.WARNING_MESSAGE
+        );
+
+        if (result == JOptionPane.YES_OPTION) {
+            PtfLogger.info("User wants to update mod " + mod.modId(), LogCategories.MOD_LOADER, "modUpdate");
+            openInstallModPage(mod, lastest);
+        }
+    }
+
+    private static void openInstallModPage(Mod mod, String version) {
+        JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
+        String installUrl = mainObject.get("installUrl").getAsString();
+
+        if (installUrl == null || installUrl.equals("NONE")) {
+            PtfLogger.error("No update link set.", LogCategories.MOD_LOADER, "modUpdate");
+            JOptionPane.showMessageDialog(
+                    null,
+                    Translations.get("potoflux:modUpdate.dl.noLink"),
+                    Translations.get("potoflux:modUpdate.dl.noLink.title"),
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        String finalUrl = installUrl + version;
+        boolean browsed = Functions.browse(finalUrl);
+
+        if (browsed)
+            PtfLogger.info("Opened install url in browser", LogCategories.MOD_LOADER, "modUpdate");
+        else {
+            PtfLogger.error("Failede to open install url in browser", LogCategories.MOD_LOADER, "modUpdate");
+            JOptionPane.showMessageDialog(
+                    null,
+                    Translations.get("potoflux:modUpdate.dl.failed"),
+                    Translations.get("potoflux:modUpdate.dl.failed.title"),
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
@@ -445,7 +513,10 @@ public class PotoFluxLoadingContext {
     private static List<String> getOnlineCompatibleList(Mod mod) {
         try {
 
-            JsonObject versionObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
+            JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
+            if (checkOnlineListNotnull(mainObject, mod)) return null;
+
+            JsonObject versionObject = mainObject.getAsJsonObject("versions");
             if (checkOnlineListNotnull(versionObject, mod)) return null;
 
             List<String> compatibleVersionList = Json.listFromObject(versionObject, mod.version());
@@ -471,7 +542,7 @@ public class PotoFluxLoadingContext {
 
     private static boolean checkOnlineListNotnull(JsonObject versionObject, Mod mod) {
         if (versionObject == null) {
-            PtfLogger.error("Could not get corresponding online version for mod " + mod.modId() + ", for version " + mod.version(),
+            PtfLogger.error("Could not get corresponding online version for mod " + mod.modId(),
                     LogCategories.MOD_LOADER);
             return true;
         }

@@ -173,6 +173,27 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addCatalogTab("name")
                 .en("Catalog")
                 .fr("Catalogue");
+
+        add("modUpdate", "query", "compatible")
+                .en("The mod $$1 has an available update: $$2 to $$3.\nDo you want to download it ?")
+                .fr("Le mod $$1 a une mise a jour disponible : $$2 vers $$3.\nVoulez-vous l'installer ?");
+        add("modUpdate", "query", "notCompatible")
+                .en("The mod $$1 is incompatible ! However, it's version $$2 is.\nDo you want to download it ?")
+                .fr("Le mod $$1 est incompatible ! Cependant, sa version $$2 l'est.\nVoulez-vous l'installer ?");
+
+        add("modUpdate", "dl", "noLink")
+                .en("There are no install link set !\nPlease contact the mod owner.")
+                .fr("Aucuns lien d'installation défini !\nRéferez vous au développeur du mod.");
+        add("modUpdate", "dl", "noLink", "title")
+                .en("No install link")
+                .fr("Lien d'installation manquant");
+
+        add("modUpdate", "dl", "failed")
+                .en("Failed to open install link in browser !")
+                .fr("Nous n'avons pas pu ouvrir le lien d'installation dans votre navigateur.");
+        add("modUpdate", "dl", "failed", "title")
+                .en("Browsing failed")
+                .fr("La navigation a échoué");
     }
 
     /**
