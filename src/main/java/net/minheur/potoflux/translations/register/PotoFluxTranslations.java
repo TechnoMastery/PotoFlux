@@ -1,6 +1,8 @@
 package net.minheur.potoflux.translations.register;
 
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.screen.tabs.Tabs;
+import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
 
 /**
@@ -20,89 +22,101 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
     @Override
     protected void makeTranslation() {
         // commands
-        addCommand("ascii")
+        addCommand(Commands.INSTANCE.ASCII)
                 .en("Show an ASCII");
-        addCommandUse("ascii")
+        addCommandUse(Commands.INSTANCE.ASCII)
                 .en("Usage: ascii");
-        addCommandUse("ascii","choose")
+        addCommandUse(Commands.INSTANCE.ASCII,"choose")
                 .en("Usage: ascii <name>");
 
-        addCommand("clear")
+        addCommand(Commands.INSTANCE.CLEAR)
                 .en("Clears the terminal");
-        addCommandUse("clear")
+        addCommandUse(Commands.INSTANCE.CLEAR)
                 .en("Usage: clear");
 
-        addCommand("ptfVersion")
+        addCommand(Commands.INSTANCE.VERSION)
                 .en("Get actual PotoFlux version");
-        addCommandUse("ptfVersion")
+        addCommandUse(Commands.INSTANCE.VERSION)
                 .en("Usage: version");
 
-        addCommand("echo")
+        addCommand(Commands.INSTANCE.ECHO)
                 .en("Repeats what you give");
-        addCommandUse("echo")
+        addCommandUse(Commands.INSTANCE.ECHO)
                 .en("Usage: echo <text>");
 
-        addCommand("hello_world")
+        addCommand(Commands.INSTANCE.HELLO_WORLD)
                 .en("Says hello world");
-        addCommandUse("hello_world")
+        addCommandUse(Commands.INSTANCE.ECHO)
                 .en("Usage: hello");
 
-        addCommand("help")
+        addCommand(Commands.INSTANCE.HELP)
                 .en("Shows this menu");
-        addCommand("help", "title")
+        addCommand(Commands.INSTANCE.HELP, "title")
                 .en("Command list:");
-        addCommandUse("help")
+        addCommandUse(Commands.INSTANCE.HELP)
                 .en("Usage: help");
-        addCommandUse("help", "command")
+        addCommandUse(Commands.INSTANCE.HELP, "command")
                 .en("Usage: help <command>");
 
-        addCommand("hidden", "out")
+        addCommand(Commands.INSTANCE.HIDDEN, "out")
                 .en("Hidden command :)");
 
-        addCommand("nope", "out")
+        addCommand(Commands.INSTANCE.NOPE, "out")
                 .en("I got you !")
                 .fr("CHEH");
 
-        addCommand("quit")
-                .en("Exit app");
-        addCommand("quit", "out")
+        addCommand(Commands.INSTANCE.QUIT)
+                .en("Exits app");
+        addCommand(Commands.INSTANCE.QUIT, "out")
                 .en("Exiting...");
-        addCommandUse("quit")
+        addCommandUse(Commands.INSTANCE.QUIT)
                 .en("Usage: quit");
 
-        addCommand("source")
+        addCommand(Commands.INSTANCE.SOURCE)
                 .en("Link to source code");
-        addCommand("source", "out")
+        addCommand(Commands.INSTANCE.SOURCE, "out")
                 .en("Opened code source in browser !");
-        addCommand("source", "noBrowse")
+        addCommand(Commands.INSTANCE.SOURCE, "noBrowse")
                 .en("Could not open source code ! Here is the link:");
-        addCommandUse("source")
+        addCommandUse(Commands.INSTANCE.SOURCE)
                 .en("Usage: source-code");
 
-        addCommand("tab")
+        addCommand(Commands.INSTANCE.TAB)
                 .en("Open given tab");
-        addCommand("tab", "null", "start")
-                .en("Tab ");
-        addCommand("tab", "null", "end")
-                .en(" doesn't exists !");
-        addCommand("tab", "opened")
+        addCommand(Commands.INSTANCE.TAB, "null")
+                .en("Tab $$1 doesn't exists !")
+                .fr("L'onglet $$1 n'existe pas !");
+        addCommand(Commands.INSTANCE.TAB, "opened")
                 .en("This tab is already opened !");
-        addCommandUse("tab")
-                .en("Usage: tab <tabName>");
+        addCommandUse(Commands.INSTANCE.TAB)
+                .en("Usage: tab <tabResourceLoc>");
 
-        addCommand("time")
+        addCommand(Commands.INSTANCE.TAB_LIST)
+                .en("Lists all the tabs")
+                .fr("Liste touts les onglets");
+        addCommand(Commands.INSTANCE.TAB_LIST, "intro")
+                .en("Here is all the tabs: ")
+                .fr("Voici touts les onglets : ");
+        addCommandUse(Commands.INSTANCE.TAB_LIST)
+                .en("Usage: tabList")
+                .fr("Utilisation : tabList");
+        addCommandUse(Commands.INSTANCE.TAB_LIST, "resourceLoc")
+                .en("Usage: tabList --resourceLoc")
+                .fr("Utilisation : tabList --resourceLoc");
+
+        addCommand(Commands.INSTANCE.TIME)
                 .en("Tells the time");
-        addCommandUse("time")
+        addCommandUse(Commands.INSTANCE.TIME)
                 .en("Usage: time");
 
-        addCommand("modList")
+        addCommand(Commands.INSTANCE.MOD_LIST)
                 .en("Lists you loaded mods");
-        addCommandUse("modList")
+        addCommandUse(Commands.INSTANCE.MOD_LIST)
                 .en("Usage: modList");
 
-        addCommand("modDir")
+        addCommand(Commands.INSTANCE.MOD_DIR)
                 .en("Open mod directory");
-        addCommandUse("modDir")
+        addCommandUse(Commands.INSTANCE.MOD_DIR)
                 .en("Usage: modDir");
 
         addCommandPro("empty")
@@ -138,23 +152,22 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("ERROR: this tab is detected but unexisting !");
 
         addHomeTab("credit")
-                .en("Created by Min_heur2000 - TechnoMastery");
+                .en("Created by Min_heur2000 - TechnoMastery")
+                .fr("Créé par Min_heur2000 - TechnoMastery");
         addHomeTab("name")
-                .en("home");
+                .en("Home")
+                .fr("Home");
         addHomeTab("title")
-                .en("Potoflux - Home");
+                .en("Potoflux - Home")
+                .fr("Potoflux - Home");
         addHomeTab("version")
                 .en("PotoFlux in version $$1")
-                .fr("PotoFlux version $$1");
+                .fr("PotoFlux en version $$1");
 
         addSettingsTab("name")
                 .en("Settings");
-        addSettingsTab("title")
-                .en("Settings");
 
         addTerminalTab("name")
-                .en("Terminal");
-        addTerminalTab("title")
                 .en("Terminal");
 
         addCatalogTab("name")
@@ -215,7 +228,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      * @return the translation builder associated
      */
     private TranslationBuilder addHomeTab(String... children) {
-        return addTab("home", children);
+        return addTab(Tabs.INSTANCE.HOME, children);
     }
     /**
      * Add a translation for the settings tab
@@ -223,7 +236,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      * @return the translation builder associated
      */
     private TranslationBuilder addSettingsTab(String... children) {
-        return addTab("settings", children);
+        return addTab(Tabs.INSTANCE.SETTINGS, children);
     }
     /**
      * Add a translation for the terminal tab
@@ -231,7 +244,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      * @return the translation builder associated
      */
     private TranslationBuilder addTerminalTab(String... children) {
-        return addTab("term", children);
+        return addTab(Tabs.INSTANCE.TERMINAL, children);
     }
     /**
      * Add a translation for the catalog tab
@@ -239,6 +252,6 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      * @return the translation builder associated
      */
     private TranslationBuilder addCatalogTab(String... children) {
-        return addTab("catalog", children);
+        return addTab(Tabs.INSTANCE.CATALOG, children);
     }
 }

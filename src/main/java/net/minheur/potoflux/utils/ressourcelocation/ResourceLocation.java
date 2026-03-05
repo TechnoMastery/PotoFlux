@@ -143,7 +143,7 @@ public class ResourceLocation {
      * @return if char is valid
      */
     public static boolean validPathChar(char pPathChar) {
-        return pPathChar == '_' || pPathChar == '-' || pPathChar >= 'a' && pPathChar <= 'z' || pPathChar >= '0' && pPathChar <= '9' || pPathChar == '/' || pPathChar == '.';
+        return pPathChar == '_' || pPathChar == '-' || pPathChar >= 'a' && pPathChar <= 'z' || pPathChar >= 'A' && pPathChar <= 'Z' || pPathChar >= '0' && pPathChar <= '9' || pPathChar == '/' || pPathChar == '.';
     }
     /**
      * Checks a char of the namespace
@@ -151,6 +151,6 @@ public class ResourceLocation {
      * @return if char is valid
      */
     public static boolean validNamespaceChar(char pNamespaceChar) {
-        return pNamespaceChar == '_' || pNamespaceChar == '-' || pNamespaceChar >= 'a' && pNamespaceChar <= 'z' || pNamespaceChar >= '0' && pNamespaceChar <= '9' || pNamespaceChar == '.';
+        return pNamespaceChar == '_' || pNamespaceChar == '-' || pNamespaceChar >= 'a' && pNamespaceChar <= 'z' || pNamespaceChar >= 'A' && pNamespaceChar <= 'Z' || pNamespaceChar >= '0' && pNamespaceChar <= '9' || pNamespaceChar == '.';
     }
 }

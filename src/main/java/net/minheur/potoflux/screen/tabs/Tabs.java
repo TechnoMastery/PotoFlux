@@ -41,17 +41,11 @@ public class Tabs {
     /**
      * The item of the terminal tab ({@link TerminalTab}).
      */
-    public final Tab TERMINAL = LIST.add(new Tab(fromModId("terminal"), Translations.get("potoflux:tabs.term.name"), TerminalTab.class));
+    public final Tab TERMINAL = LIST.add(new Tab(fromModId("terminal"), Translations.get("potoflux:tabs.terminal.name"), TerminalTab.class));
     /**
      * The item of the settings tab ({@link SettingsTab}).
      */
-    public final Tab SETTINGS = LIST.add(new Tab(fromModId("settings"), Translations.get("potoflux:tabs.settings.title"), SettingsTab.class));
-    /**
-     * The item of the catalog tab ({@link CatalogTab}).
-     */
-    public final Tab CATALOG =
-            Boolean.parseBoolean(PotoFluxLoadingContext.getOptionalFeatures().getProperty("catalogTab", "false")) ?
-            LIST.add(new Tab(fromModId("catalog"), Translations.get("potoflux:tabs.catalog.name"), CatalogTab.class)) : null;
+    public final Tab SETTINGS = LIST.add(new Tab(fromModId("settings"), Translations.get("potoflux:tabs.settings.name"), SettingsTab.class));
 
     /**
      * Create the instance of the class, then add the tabs to the events.<br>

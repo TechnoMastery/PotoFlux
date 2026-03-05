@@ -43,11 +43,11 @@ public class Commands {
     /**
      * Command for the {@code modList} command.
      */
-    public final Command MOD_LIST = LIST.add(new Command(fromModId("mod_list"), "modList", CommandActions::modList, CommandHelp.modList()));
+    public final Command MOD_LIST = LIST.add(new Command(fromModId("modList"), "modList", CommandActions::modList, CommandHelp.modList()));
     /**
      * Command for the {@code modDir} command.
      */
-    public final Command MOD_DIR = LIST.add(new Command(fromModId("mod_dir"), "modDir", CommandActions::modDir, CommandHelp.modDir()));
+    public final Command MOD_DIR = LIST.add(new Command(fromModId("modDir"), "modDir", CommandActions::modDir, CommandHelp.modDir()));
     /**
      * Command for the {@code time} command.
      */
@@ -64,6 +64,10 @@ public class Commands {
      * Command for the {@code tab} command.
      */
     public final Command TAB = LIST.add(new Command(fromModId("tab"), "tab", CommandActions::tab, CommandHelp.tab()));
+    /**
+     * Command for the {@code tabList} command.
+     */
+    public final Command TAB_LIST = LIST.add(new Command(fromModId("tabList"), "tabList", CommandActions::tabList, CommandHelp.tabList()));
     /**
      * Command for the {@code source} command.
      */

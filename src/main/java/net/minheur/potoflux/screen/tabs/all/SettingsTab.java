@@ -70,6 +70,6 @@ public class SettingsTab extends BaseTab {
      */
     @Override
     protected String getTitle() {
-        return Translations.get("potoflux:tabs.settings.title");
+        return Translations.get("potoflux:tabs.settings.name");
     }
 }

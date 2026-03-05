@@ -46,10 +46,6 @@ public class PotoFluxLoadingContext {
      * All mods that are loaded (will actually be executed on potoflux launch)
      */
     private static final Map<String, Class<?>> loadedMods = new HashMap<>();
-    /**
-     * List of all mod IDs to load
-     */
-    private static final List<String> modsToLoad = new ArrayList<>();
 
     /**
      * List of all modIds that cannot be claimed by mod, as they are used in potoflux core features
@@ -386,93 +382,33 @@ public class PotoFluxLoadingContext {
         listedMods.put(mod, modClass);
         return true;
     }
-    /**
-     * Fills the {@link #modsToLoad} list with the list from the file
-     */
-    private static void registerModList() {
-        Path modListPath = PotoFlux.getProgramDir().resolve("modList.json");
-
-        if (Files.notExists(modListPath))
-            createModListFile(modListPath);
-
-        try {
-            List<String> loadedModIds = getLoadedModIds(modListPath);
-
-            resetModToLoadWith(loadedModIds);
-
-        } catch (RuntimeException | IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Failed to read modList.json !", LogCategories.MOD_LOADER);
-        }
-    }
-    /**
-     * Gets a list of modIds to load from the path of the JSON file containing them
-     * @param modListPath the path to the {@code modList.json}  file
-     * @return the list of modIds to load
-     * @throws IOException if couldn't read the content of the file
-     */
-    private static List<String> getLoadedModIds(Path modListPath) throws IOException {
-        String content = Files.readString(modListPath);
-
-        return Json.GSON.fromJson(
-                content,
-                new TypeToken<List<String>>() {}.getType()
-        );
-    }
-    /**
-     * Creates the {@code modList.json} file to the given path
-     * @param modListPath where to create the mod list file
-     */
-    private static void createModListFile(Path modListPath) {
-        try {
-            Files.writeString(modListPath, "[]", StandardOpenOption.CREATE);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to create modList.json !", e);
-        }
-    }
-    /**
-     * Replaces all content of {@link #modsToLoad} with the given one
-     * @param listToLoad content to print in {@link #modsToLoad}.
-     */
-    private static void resetModToLoadWith(List<String> listToLoad) {
-        modsToLoad.clear();
-        modsToLoad.addAll(listToLoad);
-    }
 
     /**
-     * Load mods that in {@link #listedMods} and in the {@link #modsToLoad}.<br>
-     * TODO: if the optional feature {@code catalogTab} is not enabled, all listed mods will be loaded.
+     * Load mods that in {@link #listedMods} and compatible.
      */
     public static void loadMods() {
-        registerModList();
-
-        boolean hasCatalogTab = Boolean.parseBoolean(getOptionalFeatures().getProperty("catalogTab"));
-
-        if (modsToLoad.isEmpty() && hasCatalogTab) return;
 
         for (Map.Entry<Mod, Class<?>> entry : listedMods.entrySet()) {
             Mod mod = entry.getKey();
 
-            if (modsToLoad.contains(mod.modId()) || !hasCatalogTab) {
+            List<String> compatibleVersions =
+                    Arrays.stream(
+                            mod.compatibleVersions()
+                    ).toList();
+            boolean isCompatible = false;
 
-                List<String> compatibleVersions =
-                        Arrays.stream(
-                                mod.compatibleVersions()
-                        ).toList();
-                boolean isCompatible = false;
+            // check if using online compatible
+            if (modUsesOnlineList(compatibleVersions))
+            {
 
-                // check if using online compatible
-                if (modUsesOnlineList(compatibleVersions))
-                {
+                // check if online list exists
+                if (checkOnlineListExists(mod)) continue;
 
-                    // check if online list exists
-                    if (checkOnlineListExists(mod)) continue;
+                // gets list
+                List<String> compatibleVersionList = getOnlineCompatibleList(mod);
+                if (compatibleVersionList == null) continue;
 
-                    // gets list
-                    List<String> compatibleVersionList = getOnlineCompatibleList(mod);
-                    if (compatibleVersionList == null) continue;
-
-                    if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
+                if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
 
                     checkUpdate(mod, isCompatible);
 
@@ -480,12 +416,11 @@ public class PotoFluxLoadingContext {
                 else if (compatibleVersions.contains(PotoFlux.getVersion()))
                     isCompatible = true;
 
-                if (isCompatible) loadMod(entry);
-                else {
-                    modsToLoad.remove(entry.getKey().modId());
-                    PtfLogger.error("Can't load incompatible mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
-                }
+            if (isCompatible) loadMod(entry);
+            else {
+                PtfLogger.error("Can't load incompatible mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
             }
+
         }
     }
 
@@ -599,7 +534,6 @@ public class PotoFluxLoadingContext {
 
     private static boolean checkOnlineListEmpty(List<String> compatibleVersionList, Mod mod) {
         if (compatibleVersionList.isEmpty()) {
-            modsToLoad.remove(mod.modId());
             PtfLogger.error("Empty online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
             return true;
         }
@@ -608,7 +542,6 @@ public class PotoFluxLoadingContext {
 
     private static boolean checkOnlineListNotnull(JsonObject versionObject, Mod mod) {
         if (versionObject == null) {
-            modsToLoad.remove(mod.modId());
             PtfLogger.error("Could not get corresponding online version for mod " + mod.modId(),
                     LogCategories.MOD_LOADER);
             return true;
@@ -618,7 +551,6 @@ public class PotoFluxLoadingContext {
 
     private static boolean checkOnlineListExists(Mod mod) {
         if (mod.compatibleVersionUrl().equals("NONE")) {
-            modsToLoad.remove(mod.modId());
             PtfLogger.error("No compatible version list system set for mod: " + mod.modId(), LogCategories.MOD_LOADER);
             return true;
         }
@@ -631,21 +563,5 @@ public class PotoFluxLoadingContext {
      */
     public static List<String> getLoadedMods() {
         return loadedMods.keySet().stream().toList();
-    }
-    /**
-     * Used to save the mod list before exiting.
-     */
-    public static void saveModList() {
-        Path modListPath = PotoFlux.getProgramDir().resolve("modList.json");
-
-        String content = Json.GSON.toJson(modsToLoad);
-
-        if (Files.notExists(modListPath)) {
-            try {
-                Files.writeString(modListPath, content, StandardOpenOption.CREATE);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to create modList.json !", e);
-            }
-        }
     }
 }

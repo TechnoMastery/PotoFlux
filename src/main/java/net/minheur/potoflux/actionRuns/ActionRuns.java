@@ -55,10 +55,6 @@ public class ActionRuns {
      * This action saves the terminal when the app closes
      */
     public final ActionRun SAVE_TERMINAL = LIST_CLOSE.add(new ActionRun(fromModId("save_terminal"), ActionRunRunnable::saveTerminal));
-    /**
-     * This action saves the mod list when the app closes
-     */
-    public final ActionRun SAVE_MOD_LIST = LIST_CLOSE.add(new ActionRun(fromModId("save_mod_list"), ActionRunRunnable::saveModList));
 
     /**
      * This registers all action runs to the main reg

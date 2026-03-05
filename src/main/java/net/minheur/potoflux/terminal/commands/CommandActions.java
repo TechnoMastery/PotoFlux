@@ -7,6 +7,7 @@ import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.Tab;
+import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.terminal.Command;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.CommandRegistry;
@@ -143,17 +144,29 @@ public class CommandActions {
             return;
         }
 
-        if (args.get(0).equals("Terminal")) {
+        String tabName = args.get(0);
+
+        if (tabName.equals(
+                Tabs.INSTANCE.TERMINAL.id().toString()
+        )) {
             CommandProcessor.appendOutput(Translations.get("potoflux:command.tab.opened"));
+            return;
         }
+
         for (Tab tab : TabRegistry.getAll()) {
-            if (Objects.equals(tab.name(), args.get(0))) {
+            if (tabName.equals(
+                    tab.id().toString()
+            )) {
                 PotoFlux.app.setOpenedTab(tab);
                 return;
             }
         }
+
         CommandProcessor.appendOutput(CommandHelp.tab());
-        CommandProcessor.appendOutput(Translations.get("potoflux:command.tab.null.start") + args.get(0) + Translations.get("potofluxcommand.tab.null.end"));
+        CommandProcessor.appendOutput(Functions.formatMessage(
+                Translations.get("potoflux:command.tab.null"),
+                tabName
+        ));
     }
 
     /**
@@ -258,6 +271,28 @@ public class CommandActions {
             CommandProcessor.appendOutput("Could not get potoflux version !");
 
         else CommandProcessor.appendOutput("PotoFlux version: " + version);
+    }
+
+    static void tabList(List<String> args) {
+        if (argAmountCheck(0, 1, args)) {
+            CommandProcessor.appendOutput(CommandHelp.tabList());
+            return;
+        }
+
+        boolean displayResourceLoc =
+                args.contains("--resourceLoc");
+
+        CommandProcessor.appendOutput(Translations.get("potoflux:command.tabList.intro"));
+
+        for (Tab tab : TabRegistry.getAll()) {
+
+            StringBuilder tabEntry = new StringBuilder(tabArrow);
+            tabEntry.append(tab.name());
+            if (displayResourceLoc) tabEntry.append(" : ").append(tab.id().toString());
+
+            CommandProcessor.appendOutput(tabEntry.toString());
+        }
+
     }
 
     /**
