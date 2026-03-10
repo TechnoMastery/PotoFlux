@@ -22,132 +22,132 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
     @Override
     protected void makeTranslation() {
         // commands
-        addCommand(Commands.INSTANCE.ASCII)
+        addCommand("ascii")
                 .en("Show an ASCII")
                 .fr("Affiche un ASCII");
-        addCommandUse(Commands.INSTANCE.ASCII)
+        addCommandUse("ascii")
                 .en("Usage: ascii")
                 .fr("Utilisation : ascii");
-        addCommandUse(Commands.INSTANCE.ASCII,"choose")
+        addCommandUse("ascii","choose")
                 .en("Usage: ascii <name>")
                 .fr("Utilisation : ascii <nom>");
 
-        addCommand(Commands.INSTANCE.CLEAR)
+        addCommand("clear")
                 .en("Clears the terminal")
                 .fr("Vide le terminal");
-        addCommandUse(Commands.INSTANCE.CLEAR)
+        addCommandUse("clear")
                 .en("Usage: clear")
                 .fr("Utilisation : clear");
 
-        addCommand(Commands.INSTANCE.VERSION)
+        addCommand("version")
                 .en("Get actual PotoFlux version")
                 .fr("Affiche la version actuelle de PotoFLux");
-        addCommandUse(Commands.INSTANCE.VERSION)
+        addCommandUse("version")
                 .en("Usage: version")
                 .fr("Utilisation : version");
 
-        addCommand(Commands.INSTANCE.ECHO)
+        addCommand("echo")
                 .en("Repeats what you give")
                 .fr("Répète ce que vous écrivez");
-        addCommandUse(Commands.INSTANCE.ECHO)
+        addCommandUse("echo")
                 .en("Usage: echo <text>")
                 .fr("Utilisation : echo <texte>");
 
-        addCommand(Commands.INSTANCE.HELLO_WORLD)
+        addCommand("hello_world")
                 .en("Says hello world")
                 .fr("Dit hello world");
-        addCommandUse(Commands.INSTANCE.ECHO)
+        addCommandUse("hello_world")
                 .en("Usage: hello")
                 .fr("Utilisation : hello");
 
-        addCommand(Commands.INSTANCE.HELP)
+        addCommand("help")
                 .en("Shows this menu")
                 .fr("Affiche ce menu");
-        addCommand(Commands.INSTANCE.HELP, "title")
+        addCommand("help", "title")
                 .en("Command list:")
                 .fr("Liste des commandes :");
-        addCommandUse(Commands.INSTANCE.HELP)
+        addCommandUse("help")
                 .en("Usage: help")
                 .fr("Utilisation : help");
-        addCommandUse(Commands.INSTANCE.HELP, "command")
+        addCommandUse("help", "command")
                 .en("Usage: help <command>")
                 .fr("Utilisation : help <commande>");
 
-        addCommand(Commands.INSTANCE.HIDDEN, "out")
+        addCommand("hidden", "out")
                 .en("Hidden command :)")
                 .fr("Commande caché ;)");
 
-        addCommand(Commands.INSTANCE.NOPE, "out")
+        addCommand("nope", "out")
                 .en("I got you !")
                 .fr("CHEH");
 
-        addCommand(Commands.INSTANCE.QUIT)
+        addCommand("quit")
                 .en("Exits app")
                 .fr("Ferme l'app");
-        addCommand(Commands.INSTANCE.QUIT, "out")
+        addCommand("quit", "out")
                 .en("Exiting...")
                 .fr("Fermeture...");
-        addCommandUse(Commands.INSTANCE.QUIT)
+        addCommandUse("quit")
                 .en("Usage: quit")
                 .fr("Utilisation : quit");
 
-        addCommand(Commands.INSTANCE.SOURCE)
+        addCommand("source")
                 .en("Link to source code")
                 .fr("Lien vers le code source");
-        addCommand(Commands.INSTANCE.SOURCE, "out")
+        addCommand("source", "out")
                 .en("Opened code source in browser !")
                 .fr("Code source ouvert dans le navigateur !");
-        addCommand(Commands.INSTANCE.SOURCE, "noBrowse")
+        addCommand("source", "noBrowse")
                 .en("Could not open source code ! Here is the link:")
                 .fr("Impossible d'ouvrir le code source dans le navigateur. Voici le lien :");
-        addCommandUse(Commands.INSTANCE.SOURCE)
+        addCommandUse("source")
                 .en("Usage: source-code")
                 .fr("Utilisation : source-code");
 
-        addCommand(Commands.INSTANCE.TAB)
+        addCommand("tab")
                 .en("Open given tab")
                 .fr("Ouvre l'onglet donné");
-        addCommand(Commands.INSTANCE.TAB, "null")
+        addCommand("tab", "null")
                 .en("Tab $$1 doesn't exists !")
                 .fr("L'onglet $$1 n'existe pas !");
-        addCommand(Commands.INSTANCE.TAB, "opened")
+        addCommand("tab", "opened")
                 .en("This tab is already opened !")
                 .fr("Cet onglet est déjà ouvert !");
-        addCommandUse(Commands.INSTANCE.TAB)
+        addCommandUse("tab")
                 .en("Usage: tab <tabResourceLoc>")
                 .fr("Utilisation : tab <ressourceLocDeLaTab>");
 
-        addCommand(Commands.INSTANCE.TAB_LIST)
+        addCommand("listTab")
                 .en("Lists all the tabs")
                 .fr("Liste touts les onglets");
-        addCommand(Commands.INSTANCE.TAB_LIST, "intro")
+        addCommand("listTab", "intro")
                 .en("Here is all the tabs: ")
                 .fr("Voici touts les onglets : ");
-        addCommandUse(Commands.INSTANCE.TAB_LIST)
+        addCommandUse("listTab")
                 .en("Usage: tabList")
                 .fr("Utilisation : tabList");
-        addCommandUse(Commands.INSTANCE.TAB_LIST, "resourceLoc")
+        addCommandUse("listTab", "resourceLoc")
                 .en("Usage: tabList --resourceLoc")
                 .fr("Utilisation : tabList --resourceLoc");
 
-        addCommand(Commands.INSTANCE.TIME)
+        addCommand("time")
                 .en("Tells the time")
                 .fr("Dit le temps (très précis)");
-        addCommandUse(Commands.INSTANCE.TIME)
+        addCommandUse("time")
                 .en("Usage: time")
                 .fr("Utilisation : time");
 
-        addCommand(Commands.INSTANCE.MOD_LIST)
+        addCommand("modList")
                 .en("Lists you loaded mods")
                 .fr("Liste tous les mods chargé (activés)");
-        addCommandUse(Commands.INSTANCE.MOD_LIST)
+        addCommandUse("modList")
                 .en("Usage: modList")
                 .fr("Utilisation : modList");
 
-        addCommand(Commands.INSTANCE.MOD_DIR)
+        addCommand("modDir")
                 .en("Open mod directory")
                 .fr("Ouvre le dossier des mods");
-        addCommandUse(Commands.INSTANCE.MOD_DIR)
+        addCommandUse("modDir")
                 .en("Usage: modDir")
                 .fr("Utilisation : modDir");
 
@@ -268,7 +268,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      * @return the translation builder associated
      */
     private TranslationBuilder addHomeTab(String... children) {
-        return addTab(Tabs.INSTANCE.HOME, children);
+        return addTab("home", children);
     }
     /**
      * Add a translation for the settings tab
@@ -276,7 +276,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      * @return the translation builder associated
      */
     private TranslationBuilder addSettingsTab(String... children) {
-        return addTab(Tabs.INSTANCE.SETTINGS, children);
+        return addTab("settings", children);
     }
     /**
      * Add a translation for the terminal tab
@@ -284,6 +284,6 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      * @return the translation builder associated
      */
     private TranslationBuilder addTerminalTab(String... children) {
-        return addTab(Tabs.INSTANCE.TERMINAL, children);
+        return addTab("terminal", children);
     }
 }
