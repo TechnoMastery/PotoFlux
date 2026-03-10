@@ -214,10 +214,6 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Terminal")
                 .fr("Terminal");
 
-        addCatalogTab("name")
-                .en("Catalog")
-                .fr("Catalogue");
-
         add("modUpdate", "query", "compatible")
                 .en("The mod $$1 has an available update: $$2 to $$3.\nDo you want to download it ?")
                 .fr("Le mod $$1 a une mise a jour disponible : $$2 vers $$3.\nVoulez-vous l'installer ?");
@@ -289,13 +285,5 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      */
     private TranslationBuilder addTerminalTab(String... children) {
         return addTab(Tabs.INSTANCE.TERMINAL, children);
-    }
-    /**
-     * Add a translation for the catalog tab
-     * @param children optional extra members
-     * @return the translation builder associated
-     */
-    private TranslationBuilder addCatalogTab(String... children) {
-        return addTab(Tabs.INSTANCE.CATALOG, children);
     }
 }
