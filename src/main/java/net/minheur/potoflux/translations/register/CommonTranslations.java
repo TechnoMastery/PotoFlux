@@ -59,7 +59,8 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
                 .fr("Exporter");
         add("finish")
                 .en("Finished")
-                .fr("Fini");
+                .fr("Fini")
+                .es("Terminar");
         add("flip")
                 .en("Flip")
                 .fr("Retourner");
