@@ -183,5 +183,21 @@ public abstract class AbstractTranslationsRegistry {
         public TranslationBuilder fr(String value) {
             return lang(Lang.FR, value);
         }
+        /**
+         * Utility to create a German translation
+         * @param value the content of the translation
+         * @return the actual builder
+         */
+        public TranslationBuilder de(String value) {
+            return lang(Lang.DE, value);
+        }
+        /**
+         * Utility to create a Espagnol translation
+         * @param value the content of the translation
+         * @return the actual builder
+         */
+        public TranslationBuilder es(String value) {
+            return lang(Lang.ES, value);
+        }
     }
 }

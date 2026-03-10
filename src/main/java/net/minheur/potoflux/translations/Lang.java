@@ -11,7 +11,15 @@ public enum Lang {
     /**
      * English translations
      */
-    EN("en");
+    EN("en"),
+    /**
+     * German translations
+     */
+    DE("de"),
+    /**
+     * Espagnol translations
+     */
+    ES("es");
 
     /**
      * The code of the translations.<br>
