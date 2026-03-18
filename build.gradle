@@ -17,10 +17,6 @@ repositories {
     mavenCentral()
 }
 
-ext {
-    gdxVersion = "1.12.1"
-}
-
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
@@ -32,13 +28,6 @@ dependencies {
 
     // dark theme
     implementation 'com.formdev:flatlaf:3.3'
-
-    // LibGDX core
-    implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
-
-    // Desktop backend
-    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 
 }
 
