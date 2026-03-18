@@ -16,9 +16,8 @@ import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.log.LogSaver;
 import net.minheur.potoflux.screen.PotoScreen;
+import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.tabs.Tabs;
-import net.minheur.potoflux.screen.tabs.all.TerminalTab;
-import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.translations.register.CommonTranslations;
@@ -59,27 +58,37 @@ public class PotoFlux {
      * @param args what you give to the app. Can contain 'devEnv' to enable PotoFlux's dev mod
      */
     public static void main(String[] args) {
+
+        LoadingScreen startScreen = new LoadingScreen();
+        startScreen.setVisible(true);
+
         // env setup
+        startScreen.updateStage("Loading environment...");
         if (args.length < 1) PotoFluxLoadingContext.setDevEnv(false);
         else PotoFluxLoadingContext.setDevEnv(args[0].equals("devEnv"));
 
         // important inits
+        startScreen.updateStage("Init log saver...");
         LogSaver.init();
         LogAmountManager.init();
 
         if (PotoFluxLoadingContext.isDevEnv()) PtfLogger.info("App running in dev env !");
 
         // app version
+        startScreen.updateStage("Getting version...");
         String version = getVersion();
         if (version != null) PtfLogger.info("Running potoflux v" + version);
 
         // load optional features
+        startScreen.updateStage("Loading features...");
         PotoFluxLoadingContext.loadFeatures();
 
         // enable or not log saving
+        startScreen.updateStage("Loading log logic...");
         runLogSavingEnablingLogic();
 
         // set theme
+        startScreen.updateStage("Getting the theme...");
         String theme = UserPrefsManager.getTheme();
         if (theme.equals("dark")) FlatDarkLaf.setup(); // dark theme
         else if (theme.equals("light")) FlatLightLaf.setup(); // light theme
@@ -87,9 +96,11 @@ public class PotoFlux {
         PtfLogger.info("Theme set to " + theme);
 
         // load translations
+        startScreen.updateStage("Loading translations...");
         Translations.load(UserPrefsManager.getUserLang());
 
         // def modEventBus
+        startScreen.updateStage("Loading event bus...");
         ModEventBus bus = PotoFluxLoadingContext.get().getModEventBus();
 
         // subscribe PotoFlux's data to modEventBus
@@ -99,21 +110,26 @@ public class PotoFlux {
         bus.addListener(ActionRuns::register);
 
         // load all addons
+        startScreen.updateStage("Loading addons...");
         new AddonLoader().loadAddons();
         PotoFluxLoadingContext.loadMods();
 
         // post all registrations
+        startScreen.updateStage("Registering data...");
         bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
         bus.post(new RegisterTabsEvent());
         bus.post(new RegisterCommandsEvent());
         bus.post(new RegisterRunsEvent());
 
         // run all start logic runs
+        startScreen.updateStage("Running start logic...");
         for (ActionRun ar : StartLogicRunRegistry.getAll()) ar.run().run();
 
         // invoke app (start)
+        startScreen.updateStage("Launching app...");
         SwingUtilities.invokeLater(() -> {
             app = new PotoScreen();
+            startScreen.close();
 
             // run all start ui runs
             for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
