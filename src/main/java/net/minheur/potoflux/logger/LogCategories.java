@@ -17,6 +17,10 @@ public enum LogCategories implements ILogCategory {
      */
     MOD_LOADER("modLoader"),
     /**
+     * All logs in {@link #MOD_LOADER} category, under mod update
+     */
+    MOD_UPDATE(MOD_LOADER, "modUpdate"),
+    /**
      * All logs about the mod catalog
      */
     CATALOG("modCatalog"),
@@ -33,13 +37,20 @@ public enum LogCategories implements ILogCategory {
      * The actual String to be printed in the log
      */
     private final String code;
+    private final String[] more;
 
     /**
      * Registers a log category
      * @param code the code of the category
      */
-    LogCategories(String code) {
+    LogCategories(String code, String... more) {
         this.code = code;
+        this.more = more;
+    }
+
+    LogCategories(LogCategories parent, String... more) {
+        this.code = parent.code();
+        this.more = more;
     }
 
     /**
@@ -49,5 +60,10 @@ public enum LogCategories implements ILogCategory {
     @Override
     public String code() {
         return code;
+    }
+
+    @Override
+    public String[] more() {
+        return more;
     }
 }

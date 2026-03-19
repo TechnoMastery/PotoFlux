@@ -74,6 +74,7 @@ public final class PtfLogger {
         List<String> allCategories = new ArrayList<>();
 
         allCategories.add(category.code());
+        allCategories.addAll(List.of(category.more()));
         allCategories.addAll(List.of(extraCategories));
 
         System.out.println(buildWithCategory("INFO", message, allCategories));
@@ -97,6 +98,7 @@ public final class PtfLogger {
         List<String> allCategories = new ArrayList<>();
 
         allCategories.add(category.code());
+        allCategories.addAll(List.of(category.more()));
         allCategories.addAll(List.of(extraCategories));
 
         System.err.println(buildWithCategory("WARNING", message, allCategories));
@@ -120,6 +122,7 @@ public final class PtfLogger {
         List<String> allCategories = new ArrayList<>();
 
         allCategories.add(category.code());
+        allCategories.addAll(List.of(category.more()));
         allCategories.addAll(List.of(extraCategories));
 
         System.err.println(buildWithCategory("ERROR", message, allCategories));

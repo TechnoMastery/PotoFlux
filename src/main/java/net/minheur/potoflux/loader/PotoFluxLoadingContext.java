@@ -453,7 +453,7 @@ public class PotoFluxLoadingContext {
         );
 
         if (result == JOptionPane.YES_OPTION) {
-            PtfLogger.info("User wants to update mod " + mod.modId(), LogCategories.MOD_LOADER, "modUpdate");
+            PtfLogger.info("User wants to update mod " + mod.modId(), LogCategories.MOD_UPDATE);
             openInstallModPage(mod, lastest);
         }
     }
@@ -463,7 +463,7 @@ public class PotoFluxLoadingContext {
         String installUrl = mainObject.get("installUrl").getAsString();
 
         if (installUrl == null || installUrl.equals("NONE")) {
-            PtfLogger.error("No update link set.", LogCategories.MOD_LOADER, "modUpdate");
+            PtfLogger.error("No update link set.", LogCategories.MOD_UPDATE);
             JOptionPane.showMessageDialog(
                     null,
                     Translations.get("potoflux:modUpdate.dl.noLink"),
@@ -477,9 +477,9 @@ public class PotoFluxLoadingContext {
         boolean browsed = Functions.browse(finalUrl);
 
         if (browsed)
-            PtfLogger.info("Opened install url in browser", LogCategories.MOD_LOADER, "modUpdate");
+            PtfLogger.info("Opened install url in browser", LogCategories.MOD_UPDATE);
         else {
-            PtfLogger.error("Failede to open install url in browser", LogCategories.MOD_LOADER, "modUpdate");
+            PtfLogger.error("Failede to open install url in browser", LogCategories.MOD_UPDATE);
             JOptionPane.showMessageDialog(
                     null,
                     Translations.get("potoflux:modUpdate.dl.failed"),
