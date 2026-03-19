@@ -70,7 +70,14 @@ public class ActionRunRunnable {
             CommandHistorySaver.loadFrom(history);
 
     }
-    public static void saveCommandHistory() {}
+    public static void saveCommandHistory() {
+        File target = PotoFlux.getProgramDir().resolve("commandHistory.txt").toFile();
+        List<String> history = CommandHistorySaver.get();
+
+        if (history.isEmpty()) return;
+
+
+    }
 
     /**
      * The action to execute for the terminal saving
