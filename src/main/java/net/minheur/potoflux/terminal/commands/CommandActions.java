@@ -295,6 +295,29 @@ public class CommandActions {
 
     }
 
+    static void logDir(List<String> args) {
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendOutput(CommandHelp.logDir());
+            return;
+        }
+
+        File target = PotoFlux.getProgramDir().resolve("logs").toFile();
+
+        try {
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(target);
+                CommandProcessor.appendOutput("Opened in file explorer !");
+            } else {
+                CommandProcessor.appendOutput("Could not get desktop !");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not open logs folder !", LogCategories.TERMINAL, "command");
+            CommandProcessor.appendOutput("Could not get desktop !");
+        }
+
+    }
+
     /**
      * Command execution for command {@code hide}.
      * @param args all the args given to the command

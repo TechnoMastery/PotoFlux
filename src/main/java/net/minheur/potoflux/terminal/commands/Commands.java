@@ -48,6 +48,7 @@ public class Commands {
      * Command for the {@code modDir} command.
      */
     public final Command MOD_DIR = LIST.add(new Command(fromModId("modDir"), "modDir", CommandActions::modDir, CommandHelp.modDir()));
+    public final Command LOG_DIR = LIST.add(new Command(fromModId("logsDir"), "logDir", CommandActions::logDir, CommandHelp.logDir()));
     /**
      * Command for the {@code time} command.
      */

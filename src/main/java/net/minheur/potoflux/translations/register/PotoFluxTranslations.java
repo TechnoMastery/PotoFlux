@@ -151,6 +151,13 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Usage: modDir")
                 .fr("Utilisation : modDir");
 
+        addCommand("logDir")
+                .en("Open logs directory")
+                .fr("Ouvre le dossier des logs");
+        addCommandUse("logDir")
+                .en("Usage: logDir")
+                .fr("Utilisation : logDir");
+
         addCommandPro("empty")
                 .en("Could not execute empty command !")
                 .fr("Impossible d'exécuter une commande vide !");

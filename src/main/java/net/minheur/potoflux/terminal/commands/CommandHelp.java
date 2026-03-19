@@ -100,6 +100,10 @@ public class CommandHelp {
         return Translations.get("potoflux:command.modDir") + tabLine +
                 Translations.get("potoflux:command.modDir.use");
     }
+    static String logDir() {
+        return Translations.get("potoflux:command.logDir") + tabLine +
+                Translations.get("potoflux:command.logDir.use");
+    }
     /**
      * The help for the command {@code ptfVersion}.
      * @return the help for {@code ptfVersion}.
