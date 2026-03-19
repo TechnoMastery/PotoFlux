@@ -410,11 +410,11 @@ public class PotoFluxLoadingContext {
 
                 if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
 
-                    checkUpdate(mod, isCompatible);
+                checkUpdate(mod, isCompatible);
 
-                }
-                else if (compatibleVersions.contains(PotoFlux.getVersion()))
-                    isCompatible = true;
+            }
+            else if (compatibleVersions.contains(PotoFlux.getVersion()))
+                isCompatible = true;
 
             if (isCompatible) loadMod(entry);
             else {
