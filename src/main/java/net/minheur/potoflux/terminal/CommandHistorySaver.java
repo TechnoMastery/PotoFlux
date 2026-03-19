@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CommandHistorySaver {
     private static final List<String> history = new ArrayList<>();
-    private static final int MAX_SIZE = 100;
+    public static final int MAX_SIZE = 100;
 
     public static void save(String command) {
         if (!history.isEmpty() && history.get(0).equals(command)) return;
@@ -18,5 +18,10 @@ public class CommandHistorySaver {
 
     public static List<String> get() {
         return history;
+    }
+
+    public static void loadFrom(List<String> pHistory) {
+        history.clear();
+        history.addAll(pHistory);
     }
 }

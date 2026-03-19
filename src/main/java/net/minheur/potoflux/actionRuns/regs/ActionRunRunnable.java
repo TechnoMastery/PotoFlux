@@ -2,13 +2,22 @@ package net.minheur.potoflux.actionRuns.regs;
 
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
+import net.minheur.potoflux.terminal.CommandHistorySaver;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.utils.LogAmountManager;
 
 import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class stores all potoflux action run runnable
@@ -34,7 +43,33 @@ public class ActionRunRunnable {
         Functions.browse("https://rickroll.it/rickroll.mp4");
     }
 
-    public static void loadCommandHistory() {}
+    public static void loadCommandHistory() {
+        File target = PotoFlux.getProgramDir().resolve("commandHistory.txt").toFile();
+        List<String> history = new ArrayList<>();
+
+        if (!target.exists())
+            return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(target))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                if (history.size() >= CommandHistorySaver.MAX_SIZE) break;
+
+                if (!line.isBlank())
+                    history.add(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not load command history");
+        }
+
+        if (!history.isEmpty())
+            CommandHistorySaver.loadFrom(history);
+
+    }
     public static void saveCommandHistory() {}
 
     /**
