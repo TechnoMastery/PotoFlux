@@ -244,6 +244,13 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         add("modUpdate", "dl", "failed", "title")
                 .en("Browsing failed")
                 .fr("La navigation a échoué");
+
+        add("ptfUpdate", "title")
+                .en("Update")
+                .fr("Mise a jour");
+        add("ptfUpdate", "desc")
+                .en("New version of PotoFlux available !")
+                .fr("Nouvelle version de PotoFlux disponible !");
     }
 
     /**
