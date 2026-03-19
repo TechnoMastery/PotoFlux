@@ -215,12 +215,12 @@ public class CommandActions {
         List<String> modIds = PotoFluxLoadingContext.getLoadedMods();
 
         if (modIds.isEmpty()) {
-            CommandProcessor.appendOutput("No mods loaded !");
+            CommandProcessor.appendOutput("No mods loaded !"); // TODO
             return;
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Here are the loaded mods :");
+        sb.append("Here are the loaded mods :"); // TODO
 
         for (String modId : modIds) {
             sb.append("\n   → ").append(modId);
@@ -244,14 +244,14 @@ public class CommandActions {
         try {
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().open(target);
-                CommandProcessor.appendOutput("Opened in file explorer !");
+                CommandProcessor.appendOutput("Opened in file explorer !"); // TODO
             } else {
-                CommandProcessor.appendOutput("Could not get desktop !");
+                CommandProcessor.appendOutput("Could not get desktop !"); // TODO
             }
         } catch (IOException e) {
             e.printStackTrace();
             PtfLogger.error("Could not open mods folder !", LogCategories.TERMINAL, "command");
-            CommandProcessor.appendOutput("Could not get desktop !");
+            CommandProcessor.appendOutput("Could not get desktop !"); // TODO
         }
 
     }
@@ -268,9 +268,9 @@ public class CommandActions {
 
         String version = PotoFlux.getVersion();
         if (version == null)
-            CommandProcessor.appendOutput("Could not get potoflux version !");
+            CommandProcessor.appendOutput("Could not get potoflux version !"); // TODO
 
-        else CommandProcessor.appendOutput("PotoFlux version: " + version);
+        else CommandProcessor.appendOutput("PotoFlux version: " + version); // TODO
     }
 
     static void tabList(List<String> args) {
@@ -306,14 +306,14 @@ public class CommandActions {
         try {
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().open(target);
-                CommandProcessor.appendOutput("Opened in file explorer !");
+                CommandProcessor.appendOutput("Opened in file explorer !"); // TODO
             } else {
-                CommandProcessor.appendOutput("Could not get desktop !");
+                CommandProcessor.appendOutput("Could not get desktop !"); // TODO
             }
         } catch (IOException e) {
             e.printStackTrace();
             PtfLogger.error("Could not open logs folder !", LogCategories.TERMINAL, "command");
-            CommandProcessor.appendOutput("Could not get desktop !");
+            CommandProcessor.appendOutput("Could not get desktop !"); // TODO
         }
 
     }
