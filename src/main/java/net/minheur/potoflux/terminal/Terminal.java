@@ -3,6 +3,7 @@ package net.minheur.potoflux.terminal;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
+import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
 import javax.annotation.Nonnull;
@@ -164,6 +165,7 @@ public class Terminal {
         } catch (IOException e) {
             e.printStackTrace();
             CommandProcessor.appendOutput("ERROR loading terminal file");
+            PtfLogger.error("ERROR loading terminal file");
         }
     }
 
