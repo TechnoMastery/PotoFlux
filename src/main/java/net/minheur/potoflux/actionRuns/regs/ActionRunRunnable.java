@@ -34,6 +34,9 @@ public class ActionRunRunnable {
         Functions.browse("https://rickroll.it/rickroll.mp4");
     }
 
+    public static void loadCommandHistory() {}
+    public static void saveCommandHistory() {}
+
     /**
      * The action to execute for the terminal saving
      */
