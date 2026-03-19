@@ -10,12 +10,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,6 +33,7 @@ public class Terminal {
      * The area to write command in
      */
     private final JTextField inputField;
+    private int historyIndex = -1;
 
     /**
      * Init the terminal
@@ -73,14 +77,48 @@ public class Terminal {
     private JTextField setupInput() {
         final JTextField inputField;
         inputField = new JTextField();
+
         inputField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String command = inputField.getText();
                 CommandProcessor.processCommand(command);
                 inputField.setText("");
+                historyIndex = -1;
             }
         });
+        inputField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                List<String> history = CommandHistorySaver.get();
+
+                if (e.getKeyCode() == KeyEvent.VK_UP) {
+                    if (history.isEmpty()) return;
+
+                    if (historyIndex < history.size() -1) historyIndex++;
+
+                    inputField.setText(history.get(historyIndex));
+                }
+
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                    if (history.isEmpty()) return;
+
+                    if (historyIndex > 0) {
+                        historyIndex--;
+                        inputField.setText(history.get(historyIndex));
+                    } else {
+                        historyIndex = -1;
+                        inputField.setText("");
+                    }
+                }
+
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    historyIndex = -1;
+                    inputField.setText("");
+                }
+            }
+        });
+
         return inputField;
     }
 
