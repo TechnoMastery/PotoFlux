@@ -10,4 +10,7 @@ public interface ILogCategory {
      * @return the category's code
      */
     String code();
+    default String[] more() {
+        return new String[0];
+    }
 }
