@@ -221,6 +221,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Terminal")
                 .fr("Terminal");
 
+        add("modUpdate", "query", "title")
+                .en("Mod update available")
+                .fr("Mise a jour de mod disponible");
         add("modUpdate", "query", "compatible")
                 .en("The mod $$1 has an available update: $$2 to $$3.\nDo you want to download it ?")
                 .fr("Le mod $$1 a une mise a jour disponible : $$2 vers $$3.\nVoulez-vous l'installer ?");
