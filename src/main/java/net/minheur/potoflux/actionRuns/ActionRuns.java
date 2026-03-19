@@ -49,6 +49,7 @@ public class ActionRuns {
 
     // start logic
     public final ActionRun CHECK_RICK_ROLL = LIST_START_LOGIC.add(new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll));
+    public final ActionRun DISPLAY_MOD_UPDATES = LIST_START_LOGIC.add(new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
 
     // close
     /**

@@ -6,6 +6,7 @@ import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModEventBus;
+import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.translations.Translations;
@@ -422,6 +423,8 @@ public class PotoFluxLoadingContext {
             }
 
         }
+
+        ModUpdateReg.close();
     }
 
     private static void checkUpdate(Mod mod, boolean isCompatible) {
@@ -431,10 +434,10 @@ public class PotoFluxLoadingContext {
         String declaredLastest = lastestObject.get(PotoFlux.getVersion()).getAsString();
 
         if (declaredLastest != null && !declaredLastest.equals(mod.version()))
-            openUpdateDialog(mod, isCompatible, declaredLastest);
+            ModUpdateReg.add(mod, isCompatible, declaredLastest);
     }
 
-    private static void openUpdateDialog(Mod mod, boolean isCompatible, String lastest) {
+    public static void openUpdateDialog(Mod mod, boolean isCompatible, String lastest) {
         String message;
 
         if (isCompatible)
