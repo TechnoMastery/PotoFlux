@@ -135,7 +135,6 @@ public class PotoFlux {
             for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
         });
 
-        PotoFluxLoadingContext.checkUpdates();
     }
 
     /**
