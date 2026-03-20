@@ -77,6 +77,19 @@ tasks.register("copyLibs", Copy) {
 
 build.dependsOn jar
 
+tasks.named("assemble") {
+    finalizedBy("prepMsi")
+}
+
+tasks.register("prepMsi") {
+    group = "potoflux"
+    description = "Prepare for MSI package"
+
+    dependsOn("copyLibs", "copyJar")
+
+    finalizedBy("msiPackage")
+}
+
 tasks.register("run", JavaExec) {
     group = "potoflux"
     description = "Run PotoFlux"
@@ -94,7 +107,7 @@ tasks.named("sourcesJar") {
 }
 
 tasks.register("copyJar", Copy) {
-    dependsOn "copyLibs"
+    mustRunAfter("copyLibs")
 
     group = "potoflux"
     description = "copy .jar file to build dir"
@@ -104,7 +117,8 @@ tasks.register("copyJar", Copy) {
 }
 
 tasks.register("msiPackage") {
-    dependsOn "copyJar"
+    mustRunAfter("copyJar")
+
     group = "potoflux"
     description = "build as msi installer"
 
