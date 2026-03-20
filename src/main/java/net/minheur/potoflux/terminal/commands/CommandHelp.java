@@ -117,8 +117,8 @@ public class CommandHelp {
      * @return the help for {@code tabList}.
      */
     static String tabList() {
-        return Translations.get("potoflux:command.tabList") + tabLine +
-                Translations.get("potoflux:command.tabList.use") + tabLine +
-                Translations.get("potoflux:command.tabList.use.resourceLoc");
+        return Translations.get("potoflux:command.listTab") + tabLine +
+                Translations.get("potoflux:command.listTab.use") + tabLine +
+                Translations.get("potoflux:command.listTab.use.resourceLoc");
     }
 }

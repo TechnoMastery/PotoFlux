@@ -2,6 +2,7 @@ package net.minheur.potoflux.actionRuns;
 
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.actionRuns.regs.ActionRunRunnable;
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
 import net.minheur.potoflux.registry.RegistryList;
 
@@ -49,6 +50,8 @@ public class ActionRuns {
 
     // start logic
     public final ActionRun CHECK_RICK_ROLL = LIST_START_LOGIC.add(new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll));
+    public final ActionRun DISPLAY_MOD_UPDATES = LIST_START_LOGIC.add(new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
+    public final ActionRun CHECK_POTOFLUX_UPDATE= LIST_START_LOGIC.add(new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates));
     public final ActionRun LOAD_COMMAND_HISTORY = LIST_START_LOGIC.add(new ActionRun(fromModId("load_command_history"), ActionRunRunnable::loadCommandHistory));
 
     // close

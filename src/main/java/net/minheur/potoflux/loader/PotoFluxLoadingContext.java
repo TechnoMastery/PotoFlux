@@ -6,6 +6,7 @@ import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModEventBus;
+import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.translations.Translations;
@@ -126,7 +127,9 @@ public class PotoFluxLoadingContext {
      * @param lastest the version to tell the user it's the lastest
      */
     private static void showUpdateContextDialog(String lastest) {
-        int update = JOptionPane.showConfirmDialog(null, "New version of PotoFlux available !", "Update", JOptionPane.OK_CANCEL_OPTION);
+        int update = JOptionPane.showConfirmDialog(null, Translations.get("potoflux:ptfUpdate.desc"),
+                Translations.get("potoflux:ptfUpdate.title"),
+                JOptionPane.OK_CANCEL_OPTION);
         if (update == JOptionPane.OK_OPTION) {
 
             String url = "https://github.com/TechnoMastery/PotoFlux/releases/tag/" + lastest;
@@ -410,11 +413,11 @@ public class PotoFluxLoadingContext {
 
                 if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
 
-                    checkUpdate(mod, isCompatible);
+                checkUpdate(mod, isCompatible);
 
-                }
-                else if (compatibleVersions.contains(PotoFlux.getVersion()))
-                    isCompatible = true;
+            }
+            else if (compatibleVersions.contains(PotoFlux.getVersion()))
+                isCompatible = true;
 
             if (isCompatible) loadMod(entry);
             else {
@@ -422,6 +425,8 @@ public class PotoFluxLoadingContext {
             }
 
         }
+
+        ModUpdateReg.close();
     }
 
     private static void checkUpdate(Mod mod, boolean isCompatible) {
@@ -431,10 +436,10 @@ public class PotoFluxLoadingContext {
         String declaredLastest = lastestObject.get(PotoFlux.getVersion()).getAsString();
 
         if (declaredLastest != null && !declaredLastest.equals(mod.version()))
-            openUpdateDialog(mod, isCompatible, declaredLastest);
+            ModUpdateReg.add(mod, isCompatible, declaredLastest);
     }
 
-    private static void openUpdateDialog(Mod mod, boolean isCompatible, String lastest) {
+    public static void openUpdateDialog(Mod mod, boolean isCompatible, String lastest) {
         String message;
 
         if (isCompatible)
