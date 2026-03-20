@@ -40,6 +40,9 @@ public class CommandProcessor {
         // send command
         appendOutput("> " + pCommand);
 
+        // save command to history
+        CommandHistorySaver.save(pCommand);
+
         // split
         String[] split = pCommand.trim().split("\\s+");
         String cmdKey = split[0];
