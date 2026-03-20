@@ -52,12 +52,14 @@ public class ActionRuns {
     public final ActionRun CHECK_RICK_ROLL = LIST_START_LOGIC.add(new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll));
     public final ActionRun DISPLAY_MOD_UPDATES = LIST_START_LOGIC.add(new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
     public final ActionRun CHECK_POTOFLUX_UPDATE= LIST_START_LOGIC.add(new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates));
+    public final ActionRun LOAD_COMMAND_HISTORY = LIST_START_LOGIC.add(new ActionRun(fromModId("load_command_history"), ActionRunRunnable::loadCommandHistory));
 
     // close
     /**
      * This action saves the terminal when the app closes
      */
     public final ActionRun SAVE_TERMINAL = LIST_CLOSE.add(new ActionRun(fromModId("save_terminal"), ActionRunRunnable::saveTerminal));
+    public final ActionRun SAVE_COMMAND_HISTORY = LIST_CLOSE.add(new ActionRun(fromModId("save_command_history"), ActionRunRunnable::saveCommandHistory));
 
     /**
      * This registers all action runs to the main reg

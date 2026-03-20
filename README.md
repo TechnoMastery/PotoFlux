@@ -1,6 +1,10 @@
-# PotoFlux use
+# PotoFlux
 Potoflux is a simple JavaSwing tab based app :
 It has different purposes, each one having their very own tabs.
-It's recently have been implemented a mod system, allowing anyone technically add their own mods, but in facts there is still a proper mod download interface to add.
-If you want to know more about the project, learn how to create your own mods or even helping with code or translations, please confider joining my discord :
-[![Discord Server Invite](https://invite.casperiv.dev?inviteCode=Bv8KXUHs)](https://discord.gg/Bv8KXUHs)
+# User side
+An easy API, commands and tabs allow the user to download any mod he wants, granting a cool and fast setup.
+# Main features
+Potoflux on his own has no real usage. His utility comes from his simplicity and easy-to-use mod API.
+# Contacting us
+If you want to know more about the project, learn how to create your own mods or even help with code or translations, please consider joining my discord.<br>
+[![Discord Server Invite](https://invite.casperiv.dev?inviteCode=wCTcVnJFmx)](https://discord.gg/wCTcVnJFmx)

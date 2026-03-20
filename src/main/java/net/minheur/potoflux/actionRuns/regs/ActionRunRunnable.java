@@ -5,12 +5,22 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.update.Candidate;
 import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
+import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
+import net.minheur.potoflux.terminal.CommandHistorySaver;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.utils.LogAmountManager;
 
 import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +58,67 @@ public class ActionRunRunnable {
                     c.declaredLastest()
             );
         }
+    }
+
+    public static void loadCommandHistory() {
+        File target = PotoFlux.getProgramDir().resolve("commandHistory.txt").toFile();
+        List<String> history = new ArrayList<>();
+
+        if (!target.exists())
+            return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(target))) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                if (history.size() >= CommandHistorySaver.MAX_SIZE) break;
+
+                if (!line.isBlank())
+                    history.add(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not load command history");
+        }
+
+        if (!history.isEmpty())
+            CommandHistorySaver.loadFrom(history);
+
+    }
+    public static void saveCommandHistory() {
+        Path target = PotoFlux.getProgramDir().resolve("commandHistory.txt");
+        List<String> history = CommandHistorySaver.get();
+
+        if (history.isEmpty()) {
+
+            try {
+                Files.deleteIfExists(target);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return;
+        }
+
+        StringBuilder content = new StringBuilder();
+
+        content.append(history.get(0));
+        for (int i = 1; i < history.size(); i++) {
+            content.append("\n")
+                    .append(history.get(i));
+        }
+
+        try {
+
+            Files.createDirectories(target.getParent());
+            Files.writeString(target, content.toString(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
