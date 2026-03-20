@@ -16,6 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,11 +72,36 @@ public class ActionRunRunnable {
 
     }
     public static void saveCommandHistory() {
-        File target = PotoFlux.getProgramDir().resolve("commandHistory.txt").toFile();
+        Path target = PotoFlux.getProgramDir().resolve("commandHistory.txt");
         List<String> history = CommandHistorySaver.get();
 
-        if (history.isEmpty()) return;
+        if (history.isEmpty()) {
 
+            try {
+                Files.deleteIfExists(target);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return;
+        }
+
+        StringBuilder content = new StringBuilder();
+
+        content.append(history.get(0));
+        for (int i = 1; i < history.size(); i++) {
+            content.append("\n")
+                    .append(history.get(i));
+        }
+
+        try {
+
+            Files.createDirectories(target.getParent());
+            Files.writeString(target, content.toString(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
