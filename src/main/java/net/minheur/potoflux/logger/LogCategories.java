@@ -48,7 +48,7 @@ public enum LogCategories implements ILogCategory {
         this.more = more;
     }
 
-    LogCategories(LogCategories parent, String... more) {
+    LogCategories(ILogCategory parent, String... more) {
         this.code = parent.code();
         this.more = more;
     }
