@@ -1,0 +1,90 @@
+package net.minheur.potoflux.login;
+
+import net.minheur.potoflux.Functions;
+
+import javax.net.ssl.HttpsURLConnection;
+import java.io.*;
+import java.net.URL;
+
+import static net.minheur.potoflux.Functions.formatMessage;
+
+public class ConnectionPost {
+
+    private static final String address = "https://rkujwtknzfbyocjrrpbi.supabase.co/rest/v1/rpc/";
+    private static final String anonKey =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJrdWp3dGtuemZieW9janJycGJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNTM1MDQsImV4cCI6MjA4OTkyOTUwNH0.XwIF4tfLaMLz2FUVKdSOyDbxLeaT9YOeePsbDyeNy8o";
+
+    private static String get(String message, String method) throws IOException {
+
+        URL url = new URL(address + method);
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("apikey", anonKey);
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("Authorization", "Bearer " + anonKey);
+        conn.setDoOutput(true);
+
+        try (OutputStream os = conn.getOutputStream()) {
+            os.write(message.getBytes());
+        }
+
+        InputStream is;
+
+        if (conn.getResponseCode() >= 200 && conn.getResponseCode() < 300)
+            is = conn.getInputStream();
+        else
+            is = conn.getErrorStream();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder response = new StringBuilder();
+        String line;
+
+        while ((line = br.readLine()) != null)
+            response.append(line);
+
+        return response.toString();
+
+    }
+
+    private static String getFormatForToken(String token) {
+        return formatMessage(
+                """
+                        {
+                            "p_token": "$$1"
+                        }
+                        """,
+                token
+        );
+    }
+
+    public static String login(String email, String password) throws IOException {
+        String json = formatMessage(
+                """
+                        {
+                            "p_email": "$$1",
+                            "p_password": "$$2"
+                        }
+                        """,
+                email, password
+        );
+
+        return get(json, "login");
+    }
+
+    public static String checkToken(String token) throws IOException {
+        String json = getFormatForToken(token);
+        return get(json, "check_token");
+    }
+
+    public static String getInfos(String token) throws IOException {
+        String json = getFormatForToken(token);
+        return get(json, "get_infos");
+    }
+
+    public static void rmToken(String token) throws IOException {
+        String json = getFormatForToken(token);
+        get(json, "logout");
+    }
+
+}
