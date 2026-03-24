@@ -221,6 +221,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Terminal")
                 .fr("Terminal");
 
+        addAccountTab("name")
+                .en("Account").fr("Compte");
+
         add("modUpdate", "query", "title")
                 .en("Mod update available")
                 .fr("Mise a jour de mod disponible");
@@ -302,5 +305,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      */
     private TranslationBuilder addTerminalTab(String... children) {
         return addTab("terminal", children);
+    }
+    private TranslationBuilder addAccountTab(String... children) {
+        return addTab("account", children);
     }
 }
