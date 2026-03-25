@@ -1,4 +1,4 @@
-package net.minheur.potoflux.login;
+package net.minheur.potoflux.login.content;
 
 public class Account {
 
