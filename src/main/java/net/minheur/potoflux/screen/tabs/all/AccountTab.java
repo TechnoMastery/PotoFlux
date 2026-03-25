@@ -54,9 +54,7 @@ public class AccountTab extends BaseTab {
                 getPermBorder(),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)
         ));
-
-        permsScroll.setPreferredSize(new Dimension(180, 100));
-        permsScroll.setMaximumSize(new Dimension(180, 120));
+        permsScroll.setMaximumSize(new Dimension(permsScroll.getPreferredSize().width, 125));
 
         authButton = new JButton();
 
