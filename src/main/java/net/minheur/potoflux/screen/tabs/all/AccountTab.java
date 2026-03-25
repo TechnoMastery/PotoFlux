@@ -6,8 +6,6 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.login.Account;
 import net.minheur.potoflux.screen.tabs.BaseTab;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,7 +15,6 @@ import java.io.IOException;
 
 public class AccountTab extends BaseTab {
 
-    private static final Logger log = LoggerFactory.getLogger(AccountTab.class);
     private Account account;
 
     private JLabel titleLabel;
