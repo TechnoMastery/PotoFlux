@@ -20,9 +20,6 @@ public class ConnectionHandler {
         if (token == null) return;
 
         accountFor(token);
-        if (account == null) return;
-
-        PtfLogger.info("Logged in as " + account.email, LogCategories.ACCOUNT);
 
     }
 
