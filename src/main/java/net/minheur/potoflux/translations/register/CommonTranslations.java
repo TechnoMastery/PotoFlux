@@ -117,7 +117,7 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
                 .fr("Mail :");
         add("passwordField")
                 .en("Password:")
-                .en("Mot de passe :");
+                .fr("Mot de passe :");
         add("connect")
                 .en("Connect")
                 .fr("Se connecter");
