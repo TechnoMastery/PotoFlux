@@ -1,5 +1,8 @@
 package net.minheur.potoflux.login;
 
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
+
 import java.util.prefs.Preferences;
 
 public class TokenHandler {
@@ -12,6 +15,7 @@ public class TokenHandler {
             return;
 
         prefs.put(key, token);
+        PtfLogger.info("Saved token !", LogCategories.TOKEN);
     }
 
     public static String get() {
@@ -20,6 +24,7 @@ public class TokenHandler {
 
     public static void clear() {
         prefs.remove(key);
+        PtfLogger.info("Cleared token !", LogCategories.TOKEN);
     }
 
     public static boolean has() {
