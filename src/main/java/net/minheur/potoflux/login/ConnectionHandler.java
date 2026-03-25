@@ -26,7 +26,7 @@ public class ConnectionHandler {
 
     }
 
-    private static void accountFor(String token) {
+    public static void accountFor(String token) {
         String response;
         try {
             response = ConnectionPost.getInfos(token);
