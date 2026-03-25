@@ -4,7 +4,7 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.*;
-import net.minheur.potoflux.login.content.Account;
+import net.minheur.potoflux.login.Account;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
