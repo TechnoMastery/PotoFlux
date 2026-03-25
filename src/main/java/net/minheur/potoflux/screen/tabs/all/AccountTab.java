@@ -13,6 +13,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
+import static net.minheur.potoflux.Functions.showErrorPane;
 import static net.minheur.potoflux.login.ConnectionHandler.*;
 
 public class AccountTab extends BaseTab {
@@ -49,7 +50,7 @@ public class AccountTab extends BaseTab {
         permsList.setFont(new Font("Consolas", Font.PLAIN, 13));
         permsList.setVisibleRowCount(5);
 
-        executePerm = new JButton("Execute perm");
+        executePerm = new JButton(Translations.get("potoflux:tabs.account.executePermButton"));
 
         permsScroll = new JScrollPane(permsList);
 
@@ -117,7 +118,15 @@ public class AccountTab extends BaseTab {
         });
 
         executePerm.addActionListener(e -> {
-            if (isLogged) {}
+            if (!isLogged) return;
+
+            Perms selected = permsList.getSelectedValue();
+            if (selected.getPermAction() == null) {
+                showErrorPane(Translations.get("potoflux:tabs.account.error.noPermRun"));
+                return;
+            }
+
+            selected.getPermAction().run();
         });
     }
 

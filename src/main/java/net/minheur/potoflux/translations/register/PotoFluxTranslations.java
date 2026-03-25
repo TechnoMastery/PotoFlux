@@ -257,6 +257,11 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("error", "token", "expired")
                 .en("Your token has expired.\nPlease reconnect.")
                 .fr("Votre token a éxpiré.\nVeillez vous reconnecter");
+        addAccountTab("error", "noPermRun")
+                .en("This permission can't be run !")
+                .fr("Cette permission ne peut pas être executé !");
+        addAccountTab("executePermButton")
+                .en("Run permission action").fr("Utiliser la permission");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
