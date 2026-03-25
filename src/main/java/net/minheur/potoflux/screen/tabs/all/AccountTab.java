@@ -1,10 +1,12 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.screen.tabs.BaseTab;
+import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -72,7 +74,7 @@ public class AccountTab extends BaseTab {
     private Border getPermBorder() {
         return BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(100, 100, 100)),
-                "Perms", // TODO
+                Translations.get("common:perms"),
                 TitledBorder.CENTER,
                 TitledBorder.TOP,
                 new Font("Segeo UI", Font.BOLD, 12),
@@ -108,7 +110,7 @@ public class AccountTab extends BaseTab {
     private void login() {
         PtfLogger.info("Logging in...", LogCategories.ACCOUNT);
 
-        JDialog dialog = new JDialog(PotoFlux.app.getFrame(), "Connexion", true); // TODO
+        JDialog dialog = new JDialog(PotoFlux.app.getFrame(), Translations.get("common:connection"), true);
         dialog.setSize(300, 200);
         dialog.setLocationRelativeTo(null);
         dialog.setLayout(new BorderLayout());
@@ -119,10 +121,10 @@ public class AccountTab extends BaseTab {
         fieldsPanel.setLayout(new GridLayout(2, 2, 5, 5));
         fieldsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JLabel emailLabel = new JLabel("Email:"); // TODO
+        JLabel emailLabel = new JLabel(Translations.get("common:emailField"));
         JTextField emailField = new JTextField();
 
-        JLabel passwordLabel = new JLabel("Password:"); // TODO
+        JLabel passwordLabel = new JLabel(Translations.get("common:passwordField"));
         JPasswordField passwordField = new JPasswordField();
 
         fieldsPanel.add(emailLabel);
@@ -135,8 +137,8 @@ public class AccountTab extends BaseTab {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-        JButton cancelButton = new JButton("Cancel"); // TODO
-        JButton loginButton = new JButton("Connexion"); // TODO
+        JButton cancelButton = new JButton(Translations.get("common:cancel"));
+        JButton loginButton = new JButton(Translations.get("common:connection"));
 
         buttonsPanel.add(cancelButton);
         buttonsPanel.add(loginButton);
@@ -171,14 +173,17 @@ public class AccountTab extends BaseTab {
 
     private void updateTitle() {
         if (isLogged)
-            titleLabel.setText("Bienvenu, "); // TODO
-        else titleLabel.setText("Yo"); // TODO
+            titleLabel.setText(Functions.formatMessage(
+                    Translations.get("potoflux:tabs.account.title.connected"),
+                    account.firstName, account.lastName
+            ));
+        else titleLabel.setText(Translations.get("potoflux:tabs.account.title"));
     }
 
     private void updateEmail() {
         if (isLogged) {
             emailLabel.setVisible(true);
-            emailLabel.setText("email"); // TODO
+            emailLabel.setText(account.email);
         }
         else emailLabel.setVisible(false);
     }
@@ -189,8 +194,7 @@ public class AccountTab extends BaseTab {
         if (isLogged) {
             permsScroll.setVisible(true);
 
-            // TODO: import String[]
-            String[] perms = {};
+            String[] perms = account.perms;
 
             for (String perm : perms)
                 permsModel.addElement(perm);
@@ -200,8 +204,8 @@ public class AccountTab extends BaseTab {
 
     private void updateButton() {
         if (isLogged)
-            authButton.setText("Se déconnecter"); // TODO
-        else authButton.setText("Se connecter"); // TODO
+            authButton.setText(Translations.get("common:disconnect"));
+        else authButton.setText(Translations.get("common:connect"));
     }
 
     @Override

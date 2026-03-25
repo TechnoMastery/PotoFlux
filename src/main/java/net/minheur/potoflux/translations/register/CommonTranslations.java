@@ -106,5 +106,23 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
         add("select_list")
                 .en("<Select List>")
                 .fr("<Sélectionnez une liste>");
+        add("perms")
+                .en("Permissions")
+                .fr("Permissions");
+        add("connection")
+                .en("Connection")
+                .fr("Connexion");
+        add("emailField")
+                .en("Email:")
+                .fr("Mail :");
+        add("passwordField")
+                .en("Password:")
+                .en("Mot de passe :");
+        add("connect")
+                .en("Connect")
+                .fr("Se connecter");
+        add("disconnect")
+                .en("Disconnect")
+                .fr("Se déconnecter");
     }
 }

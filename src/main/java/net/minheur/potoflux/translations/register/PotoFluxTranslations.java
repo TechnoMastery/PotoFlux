@@ -223,6 +223,10 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
 
         addAccountTab("name")
                 .en("Account").fr("Compte");
+        addAccountTab("title")
+                .en("Welcome !").fr("Bienvenu");
+        addAccountTab("title", "connected")
+                .en("Welcome, $$1 $$2");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
