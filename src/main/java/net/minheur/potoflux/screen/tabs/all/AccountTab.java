@@ -159,6 +159,8 @@ public class AccountTab extends BaseTab {
 
             dialog.dispose();
         });
+
+        dialog.setVisible(true);
     }
 
     private void reload() {
