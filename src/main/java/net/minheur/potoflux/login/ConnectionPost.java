@@ -1,5 +1,8 @@
 package net.minheur.potoflux.login;
 
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
@@ -103,6 +106,7 @@ public class ConnectionPost {
         try {
             checkTokenFormat(token);
         } catch (InvalidTokenException ignored) {
+            PtfLogger.warning("Removing incorrect token...", LogCategories.TOKEN);
             return;
         }
 

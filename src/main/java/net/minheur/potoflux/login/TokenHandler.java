@@ -25,7 +25,7 @@ public class TokenHandler {
 
     public static void clear() {
         prefs.remove(key);
-        PtfLogger.info("Cleared token !", LogCategories.TOKEN);
+        PtfLogger.info("Cleared local token !", LogCategories.TOKEN);
     }
 
     public static boolean has() {
