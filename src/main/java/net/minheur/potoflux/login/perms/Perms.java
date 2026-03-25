@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 
 public enum Perms {
     VIEW_USERS("viewUsers", "See user's infos"),
-    CREATE_USERS("mkUsers", "Create new users"),
+    CREATE_USERS("mkUsers", "Create new users", PermRuns::addUser),
     DELETE_USERS("rmUsers", "Delete users"),
     CHANGE_INFORMATIONS("mdInfos", "Change user's infos"),
     CHANGE_PASSWORD("mdPassword", "Change user's passwords");
@@ -36,6 +36,11 @@ public enum Perms {
     @Nonnull
     public String getName() {
         return name;
+    }
+
+    @CheckForNull
+    public Runnable getPermAction() {
+        return permAction;
     }
 
     @Nullable
