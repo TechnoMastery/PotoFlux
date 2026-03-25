@@ -13,7 +13,7 @@ public class ConnectionHandler {
     private static Account account;
 
     public static Account logWith(String email, String password) {
-        checkExistingToken();
+        checkAndRemoveExistingToken();
 
         String token = getToken(email, password);
         if (token == null) return null;
@@ -60,7 +60,7 @@ public class ConnectionHandler {
     }
 
     @Nullable
-    private static String getToken(String email, String password) {
+    public static String getToken(String email, String password) {
         String response;
         try {
             response = ConnectionPost.login(email, password);
@@ -85,7 +85,7 @@ public class ConnectionHandler {
         return token;
     }
 
-    private static void checkExistingToken() {
+     public static void checkAndRemoveExistingToken() {
         if (TokenHandler.has()) {
             PtfLogger.warning("Connecting while already having a token ! Removing...", LogCategories.ACCOUNT);
             try {
@@ -99,6 +99,6 @@ public class ConnectionHandler {
             }
             TokenHandler.clear();
         }
-    }
+     }
 
 }
