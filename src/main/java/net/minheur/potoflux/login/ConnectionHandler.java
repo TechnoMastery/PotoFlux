@@ -8,7 +8,6 @@ import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
 
 import javax.annotation.Nullable;
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class ConnectionHandler {
     public static void accountFor(String token) {
         String response;
         try {
-            response = ConnectionPost.getInfos(token);
+            response = RequestPoster.getInfos(token);
         } catch (InvalidTokenException e) {
             e.printStackTrace();
             PtfLogger.error("Token malformed !", LogCategories.ACCOUNT);
@@ -93,7 +92,7 @@ public class ConnectionHandler {
     public static String getToken(String email, String password) {
         String response;
         try {
-            response = ConnectionPost.login(email, password);
+            response = RequestPoster.login(email, password);
         } catch (IOException e) {
             e.printStackTrace();
             PtfLogger.error("Could not get response !", LogCategories.CONNEXION_POST);
@@ -130,7 +129,7 @@ public class ConnectionHandler {
         if (TokenHandler.has()) {
             PtfLogger.warning("Connecting while already having a token ! Removing...", LogCategories.ACCOUNT);
             try {
-                ConnectionPost.rmToken(TokenHandler.get());
+                RequestPoster.rmToken(TokenHandler.get());
             } catch (IOException e) {
                 e.printStackTrace();
                 PtfLogger.error("Failed to remove old token", LogCategories.CONNEXION_POST);

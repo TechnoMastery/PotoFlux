@@ -35,7 +35,7 @@ public class TokenHandler {
 
     public static void rmOnlineToken() {
         try {
-            ConnectionPost.rmToken(
+            RequestPoster.rmToken(
                     TokenHandler.get()
             );
         } catch (IOException e) {

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import static net.minheur.potoflux.Functions.formatMessage;
 
-public class ConnectionPost {
+public class RequestPoster {
 
     private static final String address = "https://rkujwtknzfbyocjrrpbi.supabase.co/rest/v1/rpc/";
     private static final String anonKey =
