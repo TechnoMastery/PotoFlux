@@ -160,6 +160,9 @@ public class AccountTab extends BaseTab {
             dialog.dispose();
         });
 
+        dialog.add(fieldsPanel, BorderLayout.CENTER);
+        dialog.add(buttonsPanel, BorderLayout.SOUTH);
+
         dialog.setVisible(true);
     }
 
