@@ -101,8 +101,13 @@ public class ConnectionPost {
         return get(json, "get_infos");
     }
 
-    public static void rmToken(String token) throws IOException, InvalidTokenException {
-        checkTokenFormat(token);
+    public static void rmToken(String token) throws IOException {
+        try {
+            checkTokenFormat(token);
+        } catch (InvalidTokenException ignored) {
+            return;
+        }
+
         String json = getFormatForToken(token);
         get(json, "logout");
     }

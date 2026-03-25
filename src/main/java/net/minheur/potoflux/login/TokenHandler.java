@@ -41,9 +41,6 @@ public class TokenHandler {
         } catch (IOException e) {
             e.printStackTrace();
             PtfLogger.error("Could not remove token", LogCategories.CONNEXION_POST);
-        } catch (InvalidTokenException e) {
-            e.printStackTrace();
-            PtfLogger.error("Invalid token stored", LogCategories.ACCOUNT);
         }
     }
 }

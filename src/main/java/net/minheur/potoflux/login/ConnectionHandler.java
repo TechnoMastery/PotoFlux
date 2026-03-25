@@ -96,9 +96,6 @@ public class ConnectionHandler {
             } catch (IOException e) {
                 e.printStackTrace();
                 PtfLogger.error("Failed to remove old token", LogCategories.CONNEXION_POST);
-            } catch (InvalidTokenException e) {
-                e.printStackTrace();
-                PtfLogger.warning("Previously saved token is invalid", LogCategories.ACCOUNT);
             }
             TokenHandler.clear();
         }
