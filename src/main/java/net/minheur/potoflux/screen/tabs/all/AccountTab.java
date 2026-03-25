@@ -4,18 +4,16 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.*;
-import net.minheur.potoflux.login.Account;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.io.IOException;
+
+import static net.minheur.potoflux.login.ConnectionHandler.*;
 
 public class AccountTab extends BaseTab {
-
-    private Account account;
 
     private JLabel titleLabel;
     private JLabel emailLabel;
@@ -25,8 +23,6 @@ public class AccountTab extends BaseTab {
     private JScrollPane permsScroll;
 
     private JButton authButton;
-
-    private boolean isLogged = false;
 
     @Override
     protected void setPanel() {
@@ -156,13 +152,7 @@ public class AccountTab extends BaseTab {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
 
-            Account a = ConnectionHandler.logWith(email, password);
-
-            if (a != null) {
-                account = a;
-                isLogged = true;
-                PtfLogger.info("Logged in as " + account.email, LogCategories.ACCOUNT);
-            }
+            ConnectionHandler.logWith(email, password);
 
             dialog.dispose();
         });

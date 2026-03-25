@@ -10,15 +10,19 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 
 public class ConnectionHandler {
-    private static Account account;
+    public static Account account;
+    public static boolean isLogged = false;
 
-    public static Account logWith(String email, String password) {
+    public static void logWith(String email, String password) {
         checkAndRemoveExistingToken();
 
         String token = getToken(email, password);
-        if (token == null) return null;
+        if (token == null) return;
 
-        return getAccountFor(token);
+        account = getAccountFor(token);
+        if (account == null) return;
+
+        PtfLogger.info("Logged in as " + account.email, LogCategories.ACCOUNT);
 
     }
 
