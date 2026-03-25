@@ -6,7 +6,9 @@ import net.minheur.potoflux.logger.PtfLogger;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static net.minheur.potoflux.Functions.formatMessage;
 
@@ -100,6 +102,35 @@ public class RequestPoster {
         checkTokenFormat(token);
         String json = getFormatForToken(token);
         return get(json, "get_infos");
+    }
+
+    public static String addUser(
+            String token,
+            String email,
+            String password,
+            String firstName,
+            String lastName,
+            String[] perms
+    ) throws InvalidTokenException, IOException {
+        checkTokenFormat(token);
+        String json = formatMessage(
+                """
+                        {
+                            "p_token": "$$1",
+                            "p_email": "$$2",
+                            "p_password": "$$3",
+                            "p_first_name": "$$4",
+                            "p_last_name": "$$5",
+                            "p_perms": $$6
+                        }
+                        """,
+                token, email, password, firstName, lastName,
+                Arrays.stream(perms)
+                        .map(s -> "\"" + s + "\"")
+                        .collect(Collectors.joining(",", "[", "]"))
+        );
+
+        return get(json, "add_user");
     }
 
     public static void rmToken(String token) throws IOException {
