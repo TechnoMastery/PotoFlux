@@ -111,7 +111,7 @@ public class AccountTab extends BaseTab {
         PtfLogger.info("Logging in...", LogCategories.ACCOUNT);
 
         JDialog dialog = new JDialog(PotoFlux.app.getFrame(), Translations.get("common:connection"), true);
-        dialog.setSize(300, 200);
+        dialog.setSize(450, 150);
         dialog.setLocationRelativeTo(null);
         dialog.setLayout(new BorderLayout());
 
@@ -159,6 +159,8 @@ public class AccountTab extends BaseTab {
 
             dialog.dispose();
         });
+
+        dialog.getRootPane().setDefaultButton(loginButton);
 
         dialog.add(fieldsPanel, BorderLayout.CENTER);
         dialog.add(buttonsPanel, BorderLayout.SOUTH);
