@@ -37,4 +37,10 @@ public enum Perms {
 
         return null;
     }
+
+    @Override
+    @Nonnull
+    public String toString() {
+        return getName();
+    }
 }

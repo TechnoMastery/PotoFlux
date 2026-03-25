@@ -21,8 +21,8 @@ public class AccountTab extends BaseTab {
     private JLabel emailLabel;
 
     private JPanel permsPanel;
-    private JList<String> permsList;
-    private DefaultListModel<String> permsModel;
+    private JList<Perms> permsList;
+    private DefaultListModel<Perms> permsModel;
     private JScrollPane permsScroll;
     private JButton executePerm;
 
@@ -216,7 +216,7 @@ public class AccountTab extends BaseTab {
             permsScroll.setVisible(true);
 
             for (Perms perm : Perms.values())
-                permsModel.addElement(perm.getName());
+                permsModel.addElement(perm);
         }
         else permsScroll.setVisible(false);
     }
