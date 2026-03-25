@@ -10,6 +10,8 @@ import net.minheur.potoflux.utils.Json;
 import javax.annotation.Nullable;
 import javax.swing.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static net.minheur.potoflux.Functions.showErrorPane;
 
@@ -56,7 +58,7 @@ public class ConnectionHandler {
         account.email = infoResponse.email;
         account.firstName = infoResponse.firstName;
         account.lastName = infoResponse.lastName;
-        account.perms = infoResponse.perms;
+        fillPerms(infoResponse.perms);
 
         isLogged = true;
 
@@ -64,6 +66,18 @@ public class ConnectionHandler {
         PtfLogger.info("User " + account.email + " has UUID: " + account.uuid, LogCategories.ACCOUNT_IDS);
 
         TokenHandler.save(token);
+    }
+
+    private static void fillPerms(String[] perms) {
+        List<Perms> newPerms = new ArrayList<>();
+
+        for (String perm : perms) {
+            Perms p = Perms.getFromCode(perm);
+            if (p == null) continue;
+            newPerms.add(p);
+        }
+
+        account.perms = newPerms.toArray(Perms[]::new);
     }
 
     private static void displayInfoError(InfoResponse infoResponse) {
