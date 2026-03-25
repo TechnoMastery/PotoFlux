@@ -49,6 +49,7 @@ public class ConnectionHandler {
         PtfLogger.info("User " + email + " has UUID: " + account.uuid, LogCategories.ACCOUNT_IDS);
 
         ConnectionHandler.account = account;
+        TokenHandler.save(token);
         return account;
 
     }
