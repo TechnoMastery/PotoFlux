@@ -158,12 +158,6 @@ public class AccountTab extends BaseTab {
             dialog.dispose();
         });
     }
-    private void logout() {
-        ConnectionHandler.logout();
-
-        isLogged = false;
-        account = null;
-    }
 
     private void reload() {
         updateTitle();

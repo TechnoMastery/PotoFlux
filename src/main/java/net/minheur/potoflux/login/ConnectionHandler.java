@@ -19,48 +19,47 @@ public class ConnectionHandler {
         String token = getToken(email, password);
         if (token == null) return;
 
-        account = getAccountFor(token);
+        accountFor(token);
         if (account == null) return;
 
         PtfLogger.info("Logged in as " + account.email, LogCategories.ACCOUNT);
 
     }
 
-    @Nullable
-    private static Account getAccountFor(String token) {
+    private static void accountFor(String token) {
         String response;
         try {
             response = ConnectionPost.getInfos(token);
         } catch (InvalidTokenException e) {
             e.printStackTrace();
             PtfLogger.error("Token malformed !", LogCategories.ACCOUNT);
-            return null;
+            return;
         } catch (IOException e) {
             e.printStackTrace();
             PtfLogger.error("Could not get response !", LogCategories.CONNEXION_POST);
-            return null;
+            return;
         }
 
         InfoResponse infoResponse = Json.GSON.fromJson(response, InfoResponse.class);
 
         if (!infoResponse.success) {
             PtfLogger.error("Could not get user info: " + infoResponse.error, LogCategories.CONNEXION_POST);
-            return null;
+            return;
         }
 
-        Account account = new Account();
+        account = new Account();
         account.uuid = infoResponse.uuid;
         account.email = infoResponse.email;
         account.firstName = infoResponse.firstName;
         account.lastName = infoResponse.lastName;
         account.perms = infoResponse.perms;
 
+        isLogged = true;
+
         PtfLogger.info("Logged in as " + account.email, LogCategories.ACCOUNT);
         PtfLogger.info("User " + account.email + " has UUID: " + account.uuid, LogCategories.ACCOUNT_IDS);
 
-        ConnectionHandler.account = account;
         TokenHandler.save(token);
-        return account;
     }
 
     @Nullable
@@ -116,6 +115,7 @@ public class ConnectionHandler {
          TokenHandler.clear();
 
          account = null;
+         isLogged = false;
 
          PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
      }
