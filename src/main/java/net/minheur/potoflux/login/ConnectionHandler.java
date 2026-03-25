@@ -103,7 +103,9 @@ public class ConnectionHandler {
         return account;
      }
      public static void logout() {
-         PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
+        if (!isLogged) return;
+
+        PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
 
          TokenHandler.rmOnlineToken();
          TokenHandler.clear();
