@@ -125,10 +125,6 @@ public class ConnectionHandler {
         }
      }
 
-     @Nullable
-     public static Account getAccount() {
-        return account;
-     }
      public static void logout() {
         if (!isLogged) return;
 
