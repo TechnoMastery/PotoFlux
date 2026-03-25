@@ -22,6 +22,7 @@ public enum LogCategories implements ILogCategory {
     MOD_UPDATE(MOD_LOADER, "modUpdate"),
     ACCOUNT("account"),
     CONNEXION_POST(ACCOUNT, "requests"),
+    ACCOUNT_IDS(ACCOUNT, "IDs"),
     /**
      * All logs about the mod catalog
      */
