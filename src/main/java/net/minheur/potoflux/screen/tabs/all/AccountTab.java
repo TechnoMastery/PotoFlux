@@ -151,8 +151,8 @@ public class AccountTab extends BaseTab {
         });
 
         loginButton.addActionListener(e -> {
-            String email = emailField.getText();
-            String password = new String(passwordField.getPassword());
+            String email = emailField.getText().trim().toLowerCase();
+            String password = new String(passwordField.getPassword()).trim();
 
             ConnectionHandler.logout();
             ConnectionHandler.logWith(email, password);

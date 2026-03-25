@@ -1,7 +1,5 @@
 package net.minheur.potoflux.login;
 
-import net.minheur.potoflux.Functions;
-
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
