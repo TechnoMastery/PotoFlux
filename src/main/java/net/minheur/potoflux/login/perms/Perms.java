@@ -1,5 +1,6 @@
-package net.minheur.potoflux.login;
+package net.minheur.potoflux.login.perms;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -12,10 +13,19 @@ public enum Perms {
 
     private final String sqlCode;
     private final String name;
+    @CheckForNull
+    private final Runnable permAction;
 
     Perms(String sqlCode, String name) {
         this.sqlCode = sqlCode;
         this.name = name;
+        this.permAction = null;
+    }
+
+    Perms(String sqlCode, String name, Runnable permAction) {
+        this.sqlCode = sqlCode;
+        this.name = name;
+        this.permAction = permAction;
     }
 
     @Nonnull

@@ -4,7 +4,7 @@ import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
-import net.minheur.potoflux.login.*;
+import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
 

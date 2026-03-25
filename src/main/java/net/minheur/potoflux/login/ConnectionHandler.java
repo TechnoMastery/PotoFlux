@@ -2,6 +2,7 @@ package net.minheur.potoflux.login;
 
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.login.response.InfoResponse;
 import net.minheur.potoflux.login.response.LoginResponse;
 import net.minheur.potoflux.translations.Translations;
