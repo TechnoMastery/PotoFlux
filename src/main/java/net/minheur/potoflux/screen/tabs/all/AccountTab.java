@@ -213,12 +213,12 @@ public class AccountTab extends BaseTab {
         permsModel.clear();
 
         if (isLogged) {
-            permsScroll.setVisible(true);
+            permsPanel.setVisible(true);
 
             for (Perms perm : Perms.values())
                 permsModel.addElement(perm);
         }
-        else permsScroll.setVisible(false);
+        else permsPanel.setVisible(false);
     }
 
     private void updateButton() {
