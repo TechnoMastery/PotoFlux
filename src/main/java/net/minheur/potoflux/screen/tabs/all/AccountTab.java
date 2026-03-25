@@ -1,12 +1,12 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
-import net.minheur.potoflux.login.Account;
-import net.minheur.potoflux.login.ConnectionPost;
-import net.minheur.potoflux.login.InvalidTokenException;
-import net.minheur.potoflux.login.TokenHandler;
+import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.screen.tabs.BaseTab;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -16,6 +16,7 @@ import java.io.IOException;
 
 public class AccountTab extends BaseTab {
 
+    private static final Logger log = LoggerFactory.getLogger(AccountTab.class);
     private Account account;
 
     private JLabel titleLabel;
@@ -111,8 +112,62 @@ public class AccountTab extends BaseTab {
     }
 
     private void login() {
-        isLogged = true;
-        // TODO
+        PtfLogger.info("Logging in...", LogCategories.ACCOUNT);
+
+        JDialog dialog = new JDialog(PotoFlux.app.getFrame(), "Connexion", true); // TODO
+        dialog.setSize(300, 200);
+        dialog.setLocationRelativeTo(null);
+        dialog.setLayout(new BorderLayout());
+
+        // FIELDS
+
+        JPanel fieldsPanel = new JPanel();
+        fieldsPanel.setLayout(new GridLayout(2, 2, 5, 5));
+        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JLabel emailLabel = new JLabel("Email:"); // TODO
+        JTextField emailField = new JTextField();
+
+        JLabel passwordLabel = new JLabel("Password:"); // TODO
+        JPasswordField passwordField = new JPasswordField();
+
+        fieldsPanel.add(emailLabel);
+        fieldsPanel.add(emailField);
+        fieldsPanel.add(passwordLabel);
+        fieldsPanel.add(passwordField);
+
+        // BUTTONS
+
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+        JButton cancelButton = new JButton("Cancel"); // TODO
+        JButton loginButton = new JButton("Connexion"); // TODO
+
+        buttonsPanel.add(cancelButton);
+        buttonsPanel.add(loginButton);
+
+        // ACTIONS
+
+        cancelButton.addActionListener(e -> {
+            dialog.dispose();
+            PtfLogger.info("Connection canceled.", LogCategories.ACCOUNT);
+        });
+
+        loginButton.addActionListener(e -> {
+            String email = emailField.getText();
+            String password = new String(passwordField.getPassword());
+
+            Account a = ConnectionHandler.logWith(email, password);
+
+            if (a != null) {
+                account = a;
+                isLogged = true;
+                PtfLogger.info("Logged in as " + account.email, LogCategories.ACCOUNT);
+            }
+
+            dialog.dispose();
+        });
     }
     private void logout() {
         PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
