@@ -105,5 +105,15 @@ public class ConnectionHandler {
      public static Account getAccount() {
         return account;
      }
+     public static void logout() {
+         PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
+
+         TokenHandler.rmOnlineToken();
+         TokenHandler.clear();
+
+         account = null;
+
+         PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
+     }
 
 }

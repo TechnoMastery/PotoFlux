@@ -3,6 +3,7 @@ package net.minheur.potoflux.login;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 
+import java.io.IOException;
 import java.util.prefs.Preferences;
 
 public class TokenHandler {
@@ -30,5 +31,19 @@ public class TokenHandler {
     public static boolean has() {
         String token = get();
         return token != null && !token.isEmpty();
+    }
+
+    public static void rmOnlineToken() {
+        try {
+            ConnectionPost.rmToken(
+                    TokenHandler.get()
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not remove token", LogCategories.CONNEXION_POST);
+        } catch (InvalidTokenException e) {
+            e.printStackTrace();
+            PtfLogger.error("Invalid token stored", LogCategories.ACCOUNT);
+        }
     }
 }

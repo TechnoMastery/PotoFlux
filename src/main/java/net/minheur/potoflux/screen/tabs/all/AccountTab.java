@@ -168,25 +168,10 @@ public class AccountTab extends BaseTab {
         });
     }
     private void logout() {
-        PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
+        ConnectionHandler.logout();
 
         isLogged = false;
         account = null;
-
-        try {
-            ConnectionPost.rmToken(
-                    TokenHandler.get()
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not remove token", LogCategories.CONNEXION_POST);
-        } catch (InvalidTokenException e) {
-            e.printStackTrace();
-            PtfLogger.error("Invalid token stored", LogCategories.ACCOUNT);
-        }
-
-        TokenHandler.clear();
-        PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
     }
 
     private void reload() {
