@@ -23,6 +23,7 @@ public enum LogCategories implements ILogCategory {
     ACCOUNT("account"),
     CONNEXION_POST(ACCOUNT, "requests"),
     ACCOUNT_IDS(ACCOUNT, "IDs"),
+    TOKEN(ACCOUNT, "token"),
     /**
      * All logs about the mod catalog
      */
