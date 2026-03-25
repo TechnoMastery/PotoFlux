@@ -222,11 +222,41 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .fr("Terminal");
 
         addAccountTab("name")
-                .en("Account").fr("Compte");
+                .en("Account")
+                .fr("Compte");
         addAccountTab("title")
-                .en("Welcome !").fr("Bienvenu");
+                .en("Welcome !")
+                .fr("Bienvenu");
         addAccountTab("title", "connected")
-                .en("Welcome, $$1 $$2").fr("Bienvenu, $$1 $$2");
+                .en("Welcome, $$1 $$2")
+                .fr("Bienvenu, $$1 $$2");
+        addAccountTab("failed")
+                .en("Couldn't connect to server !")
+                .fr("La connexion au serveur a échoué.");
+        addAccountTab("error", "tokenMalformed")
+                .en("Your connection token is malformed")
+                .fr("Votre token de connexion est malformé");
+        addAccountTab("error", "noToken")
+                .en("Server didn't send a token ! Please retry.\nIf the error persists, please contact the devs.")
+                .fr("Le serveur n'a pas envoyé de token ! Réessayez.\nSi l'erreur persiste, contactez les développeurs.");
+        addAccountTab("error", "noUser")
+                .en("User not found.\nIs the email correct?")
+                .fr("Utilisateur inconnu.\nVérifiez l'adresse mail.");
+        addAccountTab("error", "invalidPassword")
+                .en("Password invalid !\nPlease retry.")
+                .fr("Mot de passe invalide !\nRéessayez.");
+        addAccountTab("error", "noResponse")
+                .en("Could not contact server.\nPlease retry later")
+                .fr("Impossible de contacter le serveur.\nRéessayez plus tard");
+        addAccountTab("error", "token", "noUser")
+                .en("Your token is not linked \nPlease reconnect.!")
+                .fr("Votre token n'est pas lié !\nVeillez vous reconnecter");
+        addAccountTab("error", "token", "notExists")
+                .en("Your token doesn't exists !\nPlease reconnect.")
+                .fr("Votre token n'existe pas !\nVeillez vous reconnecter");
+        addAccountTab("error", "token", "expired")
+                .en("Your token has expired.\nPlease reconnect.")
+                .fr("Votre token a éxpiré.\nVeillez vous reconnecter");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")

@@ -4,10 +4,14 @@ import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.response.InfoResponse;
 import net.minheur.potoflux.login.response.LoginResponse;
+import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
 
 import javax.annotation.Nullable;
+import javax.swing.*;
 import java.io.IOException;
+
+import static net.minheur.potoflux.Functions.showErrorPane;
 
 public class ConnectionHandler {
     public static Account account;
@@ -30,10 +34,12 @@ public class ConnectionHandler {
         } catch (InvalidTokenException e) {
             e.printStackTrace();
             PtfLogger.error("Token malformed !", LogCategories.ACCOUNT);
+            showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
             return;
         } catch (IOException e) {
             e.printStackTrace();
             PtfLogger.error("Could not get response !", LogCategories.CONNEXION_POST);
+            showErrorPane(Translations.get("potoflux:tabs.account.error.noResponse"));
             return;
         }
 
@@ -41,6 +47,7 @@ public class ConnectionHandler {
 
         if (!infoResponse.success) {
             PtfLogger.error("Could not get user info: " + infoResponse.error, LogCategories.CONNEXION_POST);
+            displayInfoError(infoResponse);
             return;
         }
 
@@ -59,6 +66,15 @@ public class ConnectionHandler {
         TokenHandler.save(token);
     }
 
+    private static void displayInfoError(InfoResponse infoResponse) {
+        switch (infoResponse.error) {
+            case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.noUser"));
+            case "not_exists" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.notExists"));
+            case "token_expired" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.expired"));
+            default -> showErrorPane(infoResponse.error);
+        }
+    }
+
     @Nullable
     public static String getToken(String email, String password) {
         String response;
@@ -66,7 +82,8 @@ public class ConnectionHandler {
             response = ConnectionPost.login(email, password);
         } catch (IOException e) {
             e.printStackTrace();
-            PtfLogger.error("Could not connect !", LogCategories.CONNEXION_POST);
+            PtfLogger.error("Could not get response !", LogCategories.CONNEXION_POST);
+            showErrorPane(Translations.get("potoflux:tabs.account.error.noResponse"));
             return null;
         }
 
@@ -74,15 +91,25 @@ public class ConnectionHandler {
 
         if (!loginResponse.success) {
             PtfLogger.error("Failed to connect: " + loginResponse.error, LogCategories.ACCOUNT_IDS);
+            displayLoggingError(loginResponse);
             return null;
         }
 
         String token = loginResponse.token;
         if (token == null) {
             PtfLogger.error("No token received !", LogCategories.CONNEXION_POST);
+            showErrorPane(Translations.get("potoflux:tabs.account.error.noToken"));
             return null;
         }
         return token;
+    }
+
+    private static void displayLoggingError(LoginResponse loginResponse) {
+        switch (loginResponse.error) {
+            case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.noUser"));
+            case "invalid_password" -> showErrorPane(Translations.get("potoflux:tabs.account.error.invalidPassword"));
+            default -> showErrorPane(loginResponse.error);
+        }
     }
 
      public static void checkAndRemoveExistingToken() {

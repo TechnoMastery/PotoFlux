@@ -1,5 +1,7 @@
 package net.minheur.potoflux;
 
+import net.minheur.potoflux.translations.Translations;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -91,6 +93,15 @@ public class Functions {
             }
         }
         return result;
+    }
+
+    public static void showErrorPane(String message) {
+        JOptionPane.showMessageDialog(
+                PotoFlux.app.getFrame(),
+                message,
+                Translations.get("common:error"),
+                JOptionPane.ERROR_MESSAGE
+        );
     }
 
     /**
