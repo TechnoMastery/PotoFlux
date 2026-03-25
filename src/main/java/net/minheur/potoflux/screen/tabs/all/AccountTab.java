@@ -12,8 +12,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import static net.minheur.potoflux.login.ConnectionHandler.*;
 
