@@ -1,13 +1,21 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.login.Account;
+import net.minheur.potoflux.login.ConnectionPost;
+import net.minheur.potoflux.login.TokenHandler;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.io.IOException;
 
 public class AccountTab extends BaseTab {
+
+    private Account account;
 
     private JLabel titleLabel;
     private JLabel emailLabel;
@@ -18,7 +26,7 @@ public class AccountTab extends BaseTab {
 
     private JButton authButton;
 
-    private boolean isLogged = false; // TODO
+    private boolean isLogged = false;
 
     @Override
     protected void setPanel() {
@@ -86,7 +94,6 @@ public class AccountTab extends BaseTab {
         PANEL.add(emailLabel);
         PANEL.add(Box.createVerticalStrut(10));
 
-        // PANEL.add(permsPanel);
         PANEL.add(permsScroll);
         PANEL.add(Box.createVerticalStrut(15));
 
@@ -107,8 +114,22 @@ public class AccountTab extends BaseTab {
         // TODO
     }
     private void logout() {
+        PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
+
         isLogged = false;
-        // TODO
+        account = null;
+
+        try {
+            ConnectionPost.rmToken(
+                    TokenHandler.get()
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not remove token !", LogCategories.CONNEXION_POST);
+        }
+
+        TokenHandler.clear();
+        PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
     }
 
     private void reload() {
@@ -142,7 +163,7 @@ public class AccountTab extends BaseTab {
             permsScroll.setVisible(true);
 
             // TODO: import String[]
-            String[] perms = {"read", "mael", "manger"};
+            String[] perms = {};
 
             for (String perm : perms)
                 permsModel.addElement(perm);
