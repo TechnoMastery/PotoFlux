@@ -20,9 +20,11 @@ public class AccountTab extends BaseTab {
     private JLabel titleLabel;
     private JLabel emailLabel;
 
+    private JPanel permsPanel;
     private JList<String> permsList;
     private DefaultListModel<String> permsModel;
     private JScrollPane permsScroll;
+    private JButton executePerm;
 
     private JButton authButton;
 
@@ -47,12 +49,21 @@ public class AccountTab extends BaseTab {
         permsList.setFont(new Font("Consolas", Font.PLAIN, 13));
         permsList.setVisibleRowCount(5);
 
+        executePerm = new JButton("Execute perm");
+
         permsScroll = new JScrollPane(permsList);
-        permsScroll.setBorder(BorderFactory.createCompoundBorder(
+
+        permsPanel = new JPanel();
+        permsPanel.setLayout(new BorderLayout());
+
+        permsPanel.add(permsScroll, BorderLayout.CENTER);
+        permsPanel.add(executePerm, BorderLayout.SOUTH);
+
+        permsPanel.setBorder(BorderFactory.createCompoundBorder(
                 getPermBorder(),
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)
         ));
-        permsScroll.setMaximumSize(new Dimension(permsScroll.getPreferredSize().width, 125));
+        permsPanel.setMaximumSize(new Dimension(permsPanel.getPreferredSize().width, 150));
 
         authButton = new JButton();
 
@@ -62,8 +73,9 @@ public class AccountTab extends BaseTab {
     private void align() {
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         emailLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        permsScroll.setAlignmentX(Component.CENTER_ALIGNMENT);
         authButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        executePerm.setAlignmentX(Component.CENTER_ALIGNMENT);
+        permsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         emailLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -90,7 +102,7 @@ public class AccountTab extends BaseTab {
         PANEL.add(emailLabel);
         PANEL.add(Box.createVerticalStrut(10));
 
-        PANEL.add(permsScroll);
+        PANEL.add(permsPanel);
         PANEL.add(Box.createVerticalStrut(15));
 
         PANEL.add(authButton);
@@ -102,6 +114,10 @@ public class AccountTab extends BaseTab {
                 logout();
             else login();
             reload();
+        });
+
+        executePerm.addActionListener(e -> {
+            if (isLogged) {}
         });
     }
 
