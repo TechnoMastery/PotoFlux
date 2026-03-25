@@ -18,6 +18,12 @@ public class ConnectionHandler {
         String token = getToken(email, password);
         if (token == null) return null;
 
+        return getAccountFor(token);
+
+    }
+
+    @Nullable
+    private static Account getAccountFor(String token) {
         String response;
         try {
             response = ConnectionPost.getInfos(token);
@@ -45,13 +51,12 @@ public class ConnectionHandler {
         account.lastName = infoResponse.lastName;
         account.perms = infoResponse.perms;
 
-        PtfLogger.info("Logged in as " + email, LogCategories.ACCOUNT);
-        PtfLogger.info("User " + email + " has UUID: " + account.uuid, LogCategories.ACCOUNT_IDS);
+        PtfLogger.info("Logged in as " + account.email, LogCategories.ACCOUNT);
+        PtfLogger.info("User " + account.email + " has UUID: " + account.uuid, LogCategories.ACCOUNT_IDS);
 
         ConnectionHandler.account = account;
         TokenHandler.save(token);
         return account;
-
     }
 
     @Nullable
