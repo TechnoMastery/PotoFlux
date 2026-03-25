@@ -4,6 +4,7 @@ import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.Account;
 import net.minheur.potoflux.login.ConnectionPost;
+import net.minheur.potoflux.login.InvalidTokenException;
 import net.minheur.potoflux.login.TokenHandler;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 
@@ -125,7 +126,10 @@ public class AccountTab extends BaseTab {
             );
         } catch (IOException e) {
             e.printStackTrace();
-            PtfLogger.error("Could not remove token !", LogCategories.CONNEXION_POST);
+            PtfLogger.error("Could not remove token", LogCategories.CONNEXION_POST);
+        } catch (InvalidTokenException e) {
+            e.printStackTrace();
+            PtfLogger.error("Invalid token stored", LogCategories.ACCOUNT);
         }
 
         TokenHandler.clear();

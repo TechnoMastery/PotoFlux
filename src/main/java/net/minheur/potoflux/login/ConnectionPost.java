@@ -5,6 +5,7 @@ import net.minheur.potoflux.Functions;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
+import java.util.UUID;
 
 import static net.minheur.potoflux.Functions.formatMessage;
 
@@ -47,6 +48,22 @@ public class ConnectionPost {
 
     }
 
+    private static void checkTokenFormat(String token) throws InvalidTokenException {
+        if (token == null) {
+            throw new InvalidTokenException("Token is null");
+        }
+
+        if (token.isEmpty()) {
+            throw new InvalidTokenException("Token is empty");
+        }
+
+        try {
+            UUID.fromString(token);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidTokenException("Token is not a valid UUID", e);
+        }
+    }
+
     private static String getFormatForToken(String token) {
         return formatMessage(
                 """
@@ -72,17 +89,20 @@ public class ConnectionPost {
         return get(json, "login");
     }
 
-    public static String checkToken(String token) throws IOException {
+    public static String checkToken(String token) throws IOException, InvalidTokenException {
+        checkTokenFormat(token);
         String json = getFormatForToken(token);
         return get(json, "check_token");
     }
 
-    public static String getInfos(String token) throws IOException {
+    public static String getInfos(String token) throws IOException, InvalidTokenException {
+        checkTokenFormat(token);
         String json = getFormatForToken(token);
         return get(json, "get_infos");
     }
 
-    public static void rmToken(String token) throws IOException {
+    public static void rmToken(String token) throws IOException, InvalidTokenException {
+        checkTokenFormat(token);
         String json = getFormatForToken(token);
         get(json, "logout");
     }
