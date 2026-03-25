@@ -152,6 +152,7 @@ public class AccountTab extends BaseTab {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
 
+            ConnectionHandler.logout();
             ConnectionHandler.logWith(email, password);
 
             dialog.dispose();
