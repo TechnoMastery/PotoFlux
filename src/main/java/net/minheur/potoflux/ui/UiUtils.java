@@ -16,4 +16,13 @@ public class UiUtils {
         );
     }
 
+    public static void showMessagePane(String message) {
+        JOptionPane.showMessageDialog(
+                PotoFlux.app.getFrame(),
+                message,
+                Translations.get("common:info"),
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
 }
