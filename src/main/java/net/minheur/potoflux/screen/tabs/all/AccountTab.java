@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.util.Arrays;
 
 import static net.minheur.potoflux.Functions.showErrorPane;
 import static net.minheur.potoflux.login.ConnectionHandler.*;
@@ -225,7 +226,8 @@ public class AccountTab extends BaseTab {
             permsPanel.setVisible(true);
 
             for (Perms perm : Perms.values())
-                permsModel.addElement(perm);
+                if (Arrays.asList(account.perms).contains(perm))
+                    permsModel.addElement(perm);
         }
         else permsPanel.setVisible(false);
     }
