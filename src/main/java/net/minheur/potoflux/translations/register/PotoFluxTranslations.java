@@ -262,6 +262,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .fr("Cette permission ne peut pas être executé !");
         addAccountTab("executePermButton")
                 .en("Run permission action").fr("Utiliser la permission");
+        addAccountTab("addUser", "success")
+                .en("Account $$1 has been created !").fr("Le compte $$1 a été créer avec succès");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
