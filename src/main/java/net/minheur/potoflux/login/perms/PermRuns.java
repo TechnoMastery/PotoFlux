@@ -8,6 +8,7 @@ import net.minheur.potoflux.login.TokenHandler;
 import net.minheur.potoflux.login.response.BaseResponse;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.AddUserDialog;
+import net.minheur.potoflux.ui.RmUserDialog;
 import net.minheur.potoflux.utils.Json;
 
 import javax.swing.*;
@@ -70,5 +71,10 @@ public class PermRuns {
                     default -> response.error;
                 }
         );
+    }
+
+    public static void rmUser() {
+        RmUserDialog dialog = new RmUserDialog(PotoFlux.app.getFrame());
+        dialog.setVisible(true);
     }
 }

@@ -264,6 +264,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Run permission action").fr("Utiliser la permission");
         addAccountTab("addUser", "success")
                 .en("Account $$1 has been created !").fr("Le compte $$1 a été créer avec succès");
+        addAccountTab("rmUser", "check")
+                .en("Are you sure you want to delete the account of the person ?\n$$1")
+                .fr("Êtes vous sûr(e) de vouloir supprimer ce compte ?\n$$1");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")

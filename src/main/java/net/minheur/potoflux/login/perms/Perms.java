@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 public enum Perms {
     VIEW_USERS("viewUsers", "See user's infos"),
     CREATE_USERS("mkUsers", "Create new users", PermRuns::addUser),
-    DELETE_USERS("rmUsers", "Delete users"),
+    DELETE_USERS("rmUsers", "Delete users", PermRuns::rmUser),
     CHANGE_INFORMATIONS("mdInfos", "Change user's infos"),
     CHANGE_PASSWORD("mdPasswords", "Change user's passwords");
 
