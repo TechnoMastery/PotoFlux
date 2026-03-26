@@ -89,8 +89,8 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
                 .en("Adding has been canceled")
                 .fr("Ajout annulé");
         add("info")
-                .en("Infos")
-                .fr("Infos");
+                .en("Information")
+                .fr("Information");
         add("delete")
                 .en("Delete")
                 .fr("Supprimer");
