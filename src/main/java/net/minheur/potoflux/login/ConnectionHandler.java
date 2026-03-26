@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.minheur.potoflux.Functions.showErrorPane;
+import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 
 public class ConnectionHandler {
     public static Account account;

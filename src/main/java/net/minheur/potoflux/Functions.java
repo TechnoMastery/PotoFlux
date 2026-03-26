@@ -95,15 +95,6 @@ public class Functions {
         return result;
     }
 
-    public static void showErrorPane(String message) {
-        JOptionPane.showMessageDialog(
-                PotoFlux.app.getFrame(),
-                message,
-                Translations.get("common:error"),
-                JOptionPane.ERROR_MESSAGE
-        );
-    }
-
     /**
      * Format a message with placeholders.
      * @param message your initial message. Use $$ and an int to set your placeholders

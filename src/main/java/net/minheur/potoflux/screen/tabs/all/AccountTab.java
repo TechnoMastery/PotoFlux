@@ -14,7 +14,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.Arrays;
 
-import static net.minheur.potoflux.Functions.showErrorPane;
+import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 import static net.minheur.potoflux.login.ConnectionHandler.*;
 
 public class AccountTab extends BaseTab {
