@@ -9,7 +9,7 @@ public enum Perms {
     CREATE_USERS("mkUsers", "Create new users", PermRuns::addUser),
     DELETE_USERS("rmUsers", "Delete users"),
     CHANGE_INFORMATIONS("mdInfos", "Change user's infos"),
-    CHANGE_PASSWORD("mdPassword", "Change user's passwords");
+    CHANGE_PASSWORD("mdPasswords", "Change user's passwords");
 
     private final String sqlCode;
     private final String name;
