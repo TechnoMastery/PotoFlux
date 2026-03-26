@@ -2,10 +2,8 @@ package net.minheur.potoflux.login.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public class InfoResponse {
+public class InfoResponse extends BaseResponse {
 
-    public boolean success;
-    public String error;
     public String uuid;
     @SerializedName("first_name")
     public String firstName;
