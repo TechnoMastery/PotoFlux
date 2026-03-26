@@ -1,5 +1,6 @@
 package net.minheur.potoflux.login.perms;
 
+import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.InvalidTokenException;
 import net.minheur.potoflux.login.RequestPoster;
@@ -10,6 +11,8 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.minheur.potoflux.Functions.showErrorPane;
 
 public class PermRuns {
     static void addUser() {
@@ -29,8 +32,9 @@ public class PermRuns {
         for (Perms p : perms)
             permsCode.add(p.getCode());
 
+        String content;
         try {
-            RequestPoster.addUser(
+            content = RequestPoster.addUser(
                     TokenHandler.get(),
                     email, password,
                     firstName, lastName,
@@ -38,8 +42,11 @@ public class PermRuns {
             );
         } catch (InvalidTokenException e) {
             e.printStackTrace();
+            showErrorPane("Invalid token error !");
+            return;
         } catch (IOException e) {
-            e.printStackTrace();
+            showErrorPane("Failed to contact the server !");
+            return;
         }
     }
 }
