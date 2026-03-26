@@ -1,9 +1,14 @@
 package net.minheur.potoflux.login.perms;
 
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.login.InvalidTokenException;
+import net.minheur.potoflux.login.RequestPoster;
+import net.minheur.potoflux.login.TokenHandler;
 import net.minheur.potoflux.ui.AddUserDialog;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PermRuns {
@@ -17,6 +22,24 @@ public class PermRuns {
         String password = dialog.getPassword();
         String firstName = dialog.getFirstName();
         String lastName = dialog.getLastName();
+
         List<Perms> perms = dialog.getSelectedPerms();
+        List<String> permsCode = new ArrayList<>();
+
+        for (Perms p : perms)
+            permsCode.add(p.getCode());
+
+        try {
+            RequestPoster.addUser(
+                    TokenHandler.get(),
+                    email, password,
+                    firstName, lastName,
+                    permsCode.toArray(new String[0])
+            );
+        } catch (InvalidTokenException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
