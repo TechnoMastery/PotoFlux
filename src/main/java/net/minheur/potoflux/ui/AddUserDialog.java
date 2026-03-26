@@ -4,6 +4,8 @@ import net.minheur.potoflux.login.perms.Perms;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -84,7 +86,26 @@ public class AddUserDialog extends JDialog {
         gbc.fill = GridBagConstraints.BOTH;
 
         permsList = new JList<>();
+        permsList.setCellRenderer(new CheckboxListRenderer());
         permsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        permsList.setFocusable(false);
+
+        permsList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int index = permsList.locationToIndex(e.getPoint());
+
+                if (index >= 0) {
+                    if (permsList.isSelectedIndex(index))
+                        permsList.removeSelectionInterval(index, index);
+                    else permsList.addSelectionInterval(index, index);
+                }
+            }
+        });
+        permsList.setSelectionModel(new DefaultListSelectionModel() {
+            @Override
+            public void setSelectionInterval(int index0, int index1) {}
+        });
 
         List<Perms> available = new ArrayList<>();
         for (Perms perm : Perms.values()) {
