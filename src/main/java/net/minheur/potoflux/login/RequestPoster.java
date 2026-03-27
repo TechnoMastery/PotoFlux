@@ -132,6 +132,20 @@ public class RequestPoster {
 
         return get(json, "add_user");
     }
+    public static String rmUser(String token, String email) throws InvalidTokenException, IOException {
+        checkTokenFormat(token);
+        String json = formatMessage(
+                """
+                        {
+                            "p_token": "$$1",
+                            "p_user": "$$2"
+                        }
+                        """,
+                token, email
+        );
+
+        return get(json, "delete_user");
+    }
 
     public static void rmToken(String token) throws IOException {
         try {
