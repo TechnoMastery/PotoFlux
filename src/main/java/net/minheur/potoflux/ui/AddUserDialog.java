@@ -21,6 +21,7 @@ public class AddUserDialog extends JDialog {
     private JPasswordField passwordField;
     private JTextField firstName;
     private JTextField lastName;
+    private JSpinner rankSpinner;
 
     private JScrollPane permScroll;
     private JList<Perms> permsList;
@@ -45,6 +46,7 @@ public class AddUserDialog extends JDialog {
         addPassword();
         addFirstName();
         addLastName();
+        addRank();
         addPermList();
 
         add(formPanel, BorderLayout.CENTER);
@@ -56,6 +58,26 @@ public class AddUserDialog extends JDialog {
         setLocationRelativeTo(getParent());
 
         getRootPane().setDefaultButton(validateButton);
+    }
+
+    private void addRank() {
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.anchor = GridBagConstraints.NORTH;
+        formPanel.add(new JLabel("Rank :"), gbc);
+
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+
+        rankSpinner = new JSpinner(
+                new SpinnerNumberModel(
+                        account.rank +1, 0, 100, 1
+                )
+        );
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(rankSpinner, "#");
+        rankSpinner.setEditor(editor);
+
+        formPanel.add(rankSpinner, gbc);
     }
 
     private void addButtons() {
@@ -192,5 +214,9 @@ public class AddUserDialog extends JDialog {
 
     public List<Perms> getSelectedPerms() {
         return permsList.getSelectedValuesList();
+    }
+
+    public int getRank() {
+        return ((int) rankSpinner.getValue());
     }
 }

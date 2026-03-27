@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.minheur.potoflux.login.ConnectionHandler.account;
 import static net.minheur.potoflux.ui.UiUtils.*;
 
 public class PermRuns {
@@ -29,6 +30,7 @@ public class PermRuns {
         String password = dialog.getPassword();
         String firstName = dialog.getFirstName();
         String lastName = dialog.getLastName();
+        int rank = dialog.getRank();
 
         List<Perms> perms = dialog.getSelectedPerms();
         List<String> permsCode = new ArrayList<>();
@@ -36,13 +38,19 @@ public class PermRuns {
         for (Perms p : perms)
             permsCode.add(p.getCode());
 
+        if (!(rank >= 0 && rank <= 100)) {
+            showErrorPane(Translations.get("potoflux:tabs.account.addUser.outOfRangeRank"));
+            return;
+        }
+
         String content;
         try {
             content = RequestPoster.addUser(
                     TokenHandler.get(),
                     email, password,
                     firstName, lastName,
-                    permsCode.toArray(new String[0])
+                    permsCode.toArray(new String[0]),
+                    rank
             );
         } catch (InvalidTokenException e) {
             e.printStackTrace();
@@ -69,6 +77,8 @@ public class PermRuns {
                     case "email_used" -> Translations.get("potoflux:tabs.account.addUser.emailUsed");
                     case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
                     case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                    case "rank_too_big" -> Functions.formatMessage(Translations.get("potoflux:tabs.account.error.rankToBig"),
+                            rank, account.rank);
                     default -> response.error;
                 }
         );

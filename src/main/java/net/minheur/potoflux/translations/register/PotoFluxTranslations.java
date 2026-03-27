@@ -275,6 +275,12 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("rmUser", "notExists")
                 .en("User $$1 doesn't exists !")
                 .fr("$$1 n'est pas un utilisateur !");
+        addAccountTab("addUser", "outOfRangeRank")
+                .en("Uhm... it seems like the rank you game isn't in the range.\nTry getting it between 0 and 100 !")
+                .fr("Oula... Tu es dans un endroit étrange.\nEssaye de garder le rang entre 0 et 100 !");
+        addAccountTab("error", "rankToBig")
+                .en("The rank you gave ($$1) is to high for yours ($$2) !\nRemember that a smaller number means a bigger rank.\nYou can create account with a rank at least one level down from yours !")
+                .fr("Le rang fournit ($$1) est trop haut pour le tien ($$2) !\nRappelle-toi qu'un nombre petit indique un rang plus haut.\nTu ne peut créer un compte qu'avec un rang ayant au moins un niveau en dessous du tien !");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")

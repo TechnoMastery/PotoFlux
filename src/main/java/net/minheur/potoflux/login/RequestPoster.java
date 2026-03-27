@@ -110,7 +110,8 @@ public class RequestPoster {
             String password,
             String firstName,
             String lastName,
-            String[] perms
+            String[] perms,
+            int rank
     ) throws InvalidTokenException, IOException {
         checkTokenFormat(token);
         String json = formatMessage(
@@ -121,13 +122,15 @@ public class RequestPoster {
                             "p_password": "$$3",
                             "p_first_name": "$$4",
                             "p_last_name": "$$5",
-                            "p_perms": $$6
+                            "p_perms": $$6,
+                            "p_rank": $$7
                         }
                         """,
                 token, email, password, firstName, lastName,
                 Arrays.stream(perms)
                         .map(s -> "\"" + s + "\"")
-                        .collect(Collectors.joining(",", "[", "]"))
+                        .collect(Collectors.joining(",", "[", "]")),
+                rank
         );
 
         return get(json, "add_user");
