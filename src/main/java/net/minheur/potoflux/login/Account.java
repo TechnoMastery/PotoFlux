@@ -9,5 +9,6 @@ public class Account {
     public String lastName;
     public String email;
     public Perms[] perms;
+    public int rank;
 
 }
