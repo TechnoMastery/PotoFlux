@@ -65,7 +65,7 @@ public class PermRuns {
 
         showErrorPane(
                 switch (response.error) {
-                    case "no_permission" -> Translations.get("potoflux:tabs.account.addUser.noPerm");
+                    case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
                     case "email_used" -> Translations.get("potoflux:tabs.account.addUser.emailUsed");
                     case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
                     case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
@@ -106,6 +106,19 @@ public class PermRuns {
             ));
             return;
         }
+
+        showErrorPane(
+                switch (response.error) {
+                    case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                    case "no_user" -> Functions.formatMessage(
+                            Translations.get("potoflux:tabs.account.rmUser.notExists"),
+                            email
+                    );
+                    case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
+                    case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                    default -> response.error;
+                }
+        );
 
     }
 }
