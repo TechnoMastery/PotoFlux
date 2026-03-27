@@ -37,6 +37,8 @@ public class RmUserDialog extends JDialog {
 
         pack();
         setLocationRelativeTo(getParent());
+
+        getRootPane().setDefaultButton(validateButton);
     }
 
     private void addButtons() {

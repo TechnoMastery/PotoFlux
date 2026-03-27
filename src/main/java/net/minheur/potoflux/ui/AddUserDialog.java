@@ -54,6 +54,8 @@ public class AddUserDialog extends JDialog {
 
         pack();
         setLocationRelativeTo(getParent());
+
+        getRootPane().setDefaultButton(validateButton);
     }
 
     private void addButtons() {
