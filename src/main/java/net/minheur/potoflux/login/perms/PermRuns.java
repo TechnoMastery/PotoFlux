@@ -49,6 +49,7 @@ public class PermRuns {
             showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
             return;
         } catch (IOException e) {
+            e.printStackTrace();
             showErrorPane(Translations.get("potoflux:tabs.account.failed"));
             return;
         }
@@ -76,5 +77,35 @@ public class PermRuns {
     public static void rmUser() {
         RmUserDialog dialog = new RmUserDialog(PotoFlux.app.getFrame());
         dialog.setVisible(true);
+
+        if (!dialog.isConfirmed()) return;
+
+        String email = dialog.getEmail();
+
+        String content;
+        try {
+            content = RequestPoster.rmUser(
+                    TokenHandler.get(),
+                    email
+            );
+        } catch (InvalidTokenException e) {
+            e.printStackTrace();
+            showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorPane(Translations.get("potoflux:tabs.account.failed"));
+            return;
+        }
+
+        BaseResponse response = Json.GSON.fromJson(content, BaseResponse.class);
+        if (response.success) {
+            showMessagePane(Functions.formatMessage(
+                    Translations.get("potoflux:tabs.account.rmUser.success"),
+                    email
+            ));
+            return;
+        }
+
     }
 }

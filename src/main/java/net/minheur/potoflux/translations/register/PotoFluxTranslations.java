@@ -267,6 +267,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("rmUser", "check")
                 .en("Are you sure you want to delete the account of the person ?\n$$1")
                 .fr("Êtes vous sûr(e) de vouloir supprimer ce compte ?\n$$1");
+        addAccountTab("rmUser", "success")
+                .en("Account $$1 has been removed !").fr("Le compte $$1 a été supprimé avec succès");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
