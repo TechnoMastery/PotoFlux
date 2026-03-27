@@ -6,6 +6,7 @@ import net.minheur.potoflux.login.InvalidTokenException;
 import net.minheur.potoflux.login.RequestPoster;
 import net.minheur.potoflux.login.TokenHandler;
 import net.minheur.potoflux.login.response.BaseResponse;
+import net.minheur.potoflux.login.response.RmUserResponse;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.AddUserDialog;
 import net.minheur.potoflux.ui.RmUserDialog;
@@ -108,7 +109,7 @@ public class PermRuns {
             return;
         }
 
-        BaseResponse response = Json.GSON.fromJson(content, BaseResponse.class);
+        RmUserResponse response = Json.GSON.fromJson(content, RmUserResponse.class);
         if (response.success) {
             showMessagePane(Functions.formatMessage(
                     Translations.get("potoflux:tabs.account.rmUser.success"),
@@ -126,6 +127,10 @@ public class PermRuns {
                     );
                     case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
                     case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                    case "rank_to_small" -> Functions.formatMessage(
+                            Translations.get("potoflux:tabs.account.error.rankToSmall"),
+                            response.targetRank, account.rank
+                    );
                     default -> response.error;
                 }
         );
