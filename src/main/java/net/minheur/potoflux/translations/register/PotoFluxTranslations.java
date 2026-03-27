@@ -283,7 +283,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .fr("Le rang fournit ($$1) est trop haut pour le tien ($$2) !\nRappelle-toi qu'un nombre petit indique un rang plus haut.\nTu ne peut créer un compte qu'avec un rang ayant au moins un niveau en dessous du tien !");
         addAccountTab("error", "rankToSmall")
                 .en("The rank of the account you're trying to delete ($$1) is to big for yours ($$2) !\nRemember that a smaller number means a bigger rank.\nYou can delete accounts with a rank at least one level down from yours !")
-                .fr("Le rang du compte que tu essaye de supprimer ($$1) est trop grand pour le tien ($$2) !Rappelle-toi qu'un nombre petit indique un rang plus haut.\nTu ne peut supprimmer un compte qu'avec un rang ayant au moins un niveau en dessous du tien !");
+                .fr("Le rang du compte que tu essaye de supprimer ($$1) est trop grand pour le tien ($$2) !\nRappelle-toi qu'un nombre petit indique un rang plus haut.\nTu ne peut supprimmer un compte qu'avec un rang ayant au moins un niveau en dessous du tien !");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
