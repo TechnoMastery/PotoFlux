@@ -1,7 +1,6 @@
 package net.minheur.potoflux.ui;
 
 import net.minheur.potoflux.Functions;
-import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
@@ -69,13 +68,15 @@ public class RmUserDialog extends JDialog {
                 Translations.get("common:confirm"),
                 JOptionPane.YES_NO_OPTION
         );
-        // TODO
+
+        if (check == JOptionPane.YES_OPTION)
+            confirmed = true;
     }
 
     private void addEmail() {
         gbc.gridx = 0;
         gbc.gridy = 0;
-        formPanel.add(new JLabel("Email :"), gbc);
+        formPanel.add(new JLabel(Translations.get("common:emailField")), gbc);
 
         gbc.gridx = 1;
         rmUserEmail = new JTextField(20);
@@ -88,5 +89,13 @@ public class RmUserDialog extends JDialog {
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
+    }
+
+    public String getEmail() {
+        return rmUserEmail.getText();
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
     }
 }
