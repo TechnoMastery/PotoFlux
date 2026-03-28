@@ -150,6 +150,20 @@ public class RequestPoster {
         return get(json, "delete_user");
     }
 
+    public static String listUsers(String token) throws InvalidTokenException, IOException {
+        checkTokenFormat(token);
+        String json = formatMessage(
+                """
+                        {
+                            "p_token": "$$1"
+                        }
+                        """,
+                token
+        );
+
+        return get(json, "list_users");
+    }
+
     public static void rmToken(String token) throws IOException {
         try {
             checkTokenFormat(token);
