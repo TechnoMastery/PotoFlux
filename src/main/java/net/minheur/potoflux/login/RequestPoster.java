@@ -163,6 +163,20 @@ public class RequestPoster {
 
         return get(json, "list_users");
     }
+    public static String getUserInfos(String token, String userUuid) throws InvalidTokenException, IOException {
+        checkTokenFormat(token);
+        String json = formatMessage(
+                """
+                        {
+                            "p_token": "$$1",
+                            "p_user": "$$2"
+                        }
+                        """,
+                token, userUuid
+        );
+
+        return get(json, "get_user_info");
+    }
 
     public static void rmToken(String token) throws IOException {
         try {
