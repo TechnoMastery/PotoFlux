@@ -276,7 +276,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("User $$1 doesn't exists !")
                 .fr("$$1 n'est pas un utilisateur !");
         addAccountTab("addUser", "outOfRangeRank")
-                .en("Uhm... it seems like the rank you game isn't in the range.\nTry getting it between 0 and 100 !")
+                .en("Uhm... it seems like the rank you gave isn't in the range.\nTry getting it between 0 and 100 !")
                 .fr("Oula... Tu es dans un endroit étrange.\nEssaye de garder le rang entre 0 et 100 !");
         addAccountTab("error", "rankToBig")
                 .en("The rank you gave ($$1) is to high for yours ($$2) !\nRemember that a smaller number means a bigger rank.\nYou can create accounts with a rank at least one level down from yours !")
@@ -284,6 +284,12 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("error", "rankToSmall")
                 .en("The rank of the account you're trying to delete ($$1) is to big for yours ($$2) !\nRemember that a smaller number means a bigger rank.\nYou can delete accounts with a rank at least one level down from yours !")
                 .fr("Le rang du compte que tu essaye de supprimer ($$1) est trop grand pour le tien ($$2) !\nRappelle-toi qu'un nombre petit indique un rang plus haut.\nTu ne peut supprimmer un compte qu'avec un rang ayant au moins un niveau en dessous du tien !");
+        addAccountTab("listUsers", "failedUsers")
+                .en("Some errors happened while getting users.\nInformations where not received for $$1 of them.\nFor more details, please check the logs, or/and contact the devs.")
+                .fr("Quelques erreurs sont parvenu en essayant de lister les utilisateurs.\nLes informations n'ont pas été récupéré pour $$1 d'entre eux.\nPour plus d'informations, regardez les logs et/ou contactez les développeurs.");
+        addAccountTab("listUsers", "empty")
+                .en("It seems like there are no users listed.")
+                .fr("Il n'y a aucuns utilisateurs à lister.");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
