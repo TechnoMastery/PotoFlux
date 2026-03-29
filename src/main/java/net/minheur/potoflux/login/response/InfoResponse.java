@@ -12,5 +12,6 @@ public class InfoResponse extends BaseResponse {
     @SerializedName("mail")
     public String email;
     public String[] perms;
+    public int rank;
 
 }

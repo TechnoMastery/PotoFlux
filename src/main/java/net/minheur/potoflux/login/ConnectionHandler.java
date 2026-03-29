@@ -58,6 +58,7 @@ public class ConnectionHandler {
         account.email = infoResponse.email;
         account.firstName = infoResponse.firstName;
         account.lastName = infoResponse.lastName;
+        account.rank = infoResponse.rank;
         fillPerms(infoResponse.perms);
 
         isLogged = true;
