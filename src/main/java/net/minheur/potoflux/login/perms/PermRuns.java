@@ -14,6 +14,7 @@ import net.minheur.potoflux.login.response.ListUserResponse;
 import net.minheur.potoflux.login.response.RmUserResponse;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.AddUserDialog;
+import net.minheur.potoflux.ui.AllUsersDialog;
 import net.minheur.potoflux.ui.RmUserDialog;
 import net.minheur.potoflux.utils.Json;
 
@@ -248,7 +249,12 @@ public class PermRuns {
             return;
         }
 
+        AllUsersDialog dialog = new AllUsersDialog(
+                PotoFlux.app.getFrame(),
+                usersAccounts
+        );
 
+        dialog.setVisible(true);
 
     }
 }
