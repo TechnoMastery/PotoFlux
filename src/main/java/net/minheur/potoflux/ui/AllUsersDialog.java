@@ -99,7 +99,7 @@ public class AllUsersDialog extends JDialog {
     }
 
     private void setupPanel() {
-        JPanel listPanel = new JPanel();
+        listPanel = new JPanel();
         listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
     }
 }
