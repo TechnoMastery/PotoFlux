@@ -59,7 +59,7 @@ public class ConnectionHandler {
         account.firstName = infoResponse.firstName;
         account.lastName = infoResponse.lastName;
         account.rank = infoResponse.rank;
-        fillPerms(infoResponse.perms);
+        account.perms = fillPerms(infoResponse.perms);
 
         isLogged = true;
 
@@ -69,7 +69,7 @@ public class ConnectionHandler {
         TokenHandler.save(token);
     }
 
-    private static void fillPerms(String[] perms) {
+    public static Perms[] fillPerms(String[] perms) {
         List<Perms> newPerms = new ArrayList<>();
 
         for (String perm : perms) {
@@ -78,7 +78,7 @@ public class ConnectionHandler {
             newPerms.add(p);
         }
 
-        account.perms = newPerms.toArray(Perms[]::new);
+        return newPerms.toArray(Perms[]::new);
     }
 
     private static void displayInfoError(InfoResponse infoResponse) {
