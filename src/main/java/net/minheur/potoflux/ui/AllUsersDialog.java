@@ -1,11 +1,16 @@
 package net.minheur.potoflux.ui;
 
 import net.minheur.potoflux.login.Account;
+import net.minheur.potoflux.login.perms.Perms;
+import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
+
+import static net.minheur.potoflux.Functions.formatMessage;
 
 public class AllUsersDialog extends JDialog {
 
@@ -78,13 +83,15 @@ public class AllUsersDialog extends JDialog {
 
     private void showDetails(Account account) {
         JOptionPane.showMessageDialog(this,
-                "Email: " + account.email +
-                        "\nName: " + account.firstName + " " + account.lastName +
-                        "\nRank: " + account.rank +
-                        "\nPerms: " + String.join(", ",
-                        account.perms != null
-                                ? java.util.Arrays.stream(account.perms).map(Enum::name).toList()
-                                : java.util.List.of()
+                formatMessage(
+                        Translations.get("potoflux:tabs.account.listUsers.details"),
+                        account.email,
+                        account.firstName, account.lastName,
+                        account.rank,
+                        String.join(", ",
+                                account.perms.length > 0 ?
+                                Arrays.stream(account.perms).map(Perms::getName).toList()
+                                : List.of(Translations.get("potoflux:tabs.account.listUsers.details.emptyPerms")))
                 ),
                 "Account Details",
                 JOptionPane.INFORMATION_MESSAGE

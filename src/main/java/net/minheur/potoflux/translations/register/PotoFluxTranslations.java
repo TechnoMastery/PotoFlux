@@ -290,6 +290,12 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("listUsers", "empty")
                 .en("It seems like there are no users listed.")
                 .fr("Il n'y a aucuns utilisateurs à lister.");
+        addAccountTab("listUsers", "details")
+                .en("Email: $$1\nName: $$2 $$3\nRank: $$4\nPerms: $$5")
+                .fr("Mail: $$1\nNom: $$2 $$3\nRank: $$4\nPermissions: $$5");
+        addAccountTab("listUsers", "details", "emptyPerms")
+                .en("None")
+                .fr("Aucunes");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
