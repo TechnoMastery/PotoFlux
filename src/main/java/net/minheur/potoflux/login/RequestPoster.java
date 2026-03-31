@@ -158,10 +158,10 @@ public class RequestPoster {
         String json = formatMessage(
                 """
                         {
-                            "p_email", "$$1",
-                            "p_password", "$$2",
-                            "p_first_name", "$$3",
-                            "p_last_name", "$$4"
+                            "p_email": "$$1",
+                            "p_password": "$$2",
+                            "p_first_name": "$$3",
+                            "p_last_name": "$$4"
                         }
                         """,
                 email, password, firstName, lastName
