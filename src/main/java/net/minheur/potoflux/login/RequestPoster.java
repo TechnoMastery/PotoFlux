@@ -149,6 +149,26 @@ public class RequestPoster {
 
         return get(json, "delete_user");
     }
+    public static String createAccount(
+            String email,
+            String password,
+            String firstName,
+            String lastName
+    ) throws IOException {
+        String json = formatMessage(
+                """
+                        {
+                            "p_email", "$$1",
+                            "p_password", "$$2",
+                            "p_first_name", "$$3",
+                            "p_last_name", "$$4"
+                        }
+                        """,
+                email, password, firstName, lastName
+        );
+
+        return get(json, "create_account");
+    }
 
     public static String listUsers(String token) throws InvalidTokenException, IOException {
         checkTokenFormat(token);
