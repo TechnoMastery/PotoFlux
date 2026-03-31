@@ -4,6 +4,7 @@ import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.login.CreateAccountHandler;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
@@ -29,6 +30,7 @@ public class AccountTab extends BaseTab {
     private JButton executePerm;
 
     private JButton authButton;
+    private JButton createAccountButton;
 
     @Override
     protected void setPanel() {
@@ -68,6 +70,7 @@ public class AccountTab extends BaseTab {
         permsPanel.setMaximumSize(new Dimension(permsPanel.getPreferredSize().width, 150));
 
         authButton = new JButton();
+        createAccountButton = new JButton(Translations.get("potoflux:tabs.account.createAccount.button"));
 
         align();
     }
@@ -76,6 +79,7 @@ public class AccountTab extends BaseTab {
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         emailLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         authButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        createAccountButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         executePerm.setAlignmentX(Component.CENTER_ALIGNMENT);
         permsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -108,6 +112,8 @@ public class AccountTab extends BaseTab {
         PANEL.add(Box.createVerticalStrut(15));
 
         PANEL.add(authButton);
+        PANEL.add(Box.createVerticalStrut(5));
+        PANEL.add(createAccountButton);
     }
 
     private void setupActions() {
@@ -128,6 +134,11 @@ public class AccountTab extends BaseTab {
             }
 
             selected.getPermAction().run();
+        });
+
+        createAccountButton.addActionListener(e -> {
+            if (isLogged) return;
+            CreateAccountHandler.create();
         });
     }
 
@@ -236,6 +247,7 @@ public class AccountTab extends BaseTab {
         if (isLogged)
             authButton.setText(Translations.get("common:disconnect"));
         else authButton.setText(Translations.get("common:connect"));
+        createAccountButton.setVisible(!isLogged);
     }
 
     @Override
