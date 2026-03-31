@@ -308,6 +308,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("createAccount", "emailUsed")
                 .en("This email is already used. Do you have an account ?")
                 .fr("Cet adresse mail est déjà utilisé. Avez vous un compte ?");
+        addAccountTab("createAccount", "button")
+                .en("Create an account")
+                .fr("Créer un compte");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
