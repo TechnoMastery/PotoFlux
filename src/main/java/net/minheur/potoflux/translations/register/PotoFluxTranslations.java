@@ -296,6 +296,18 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("listUsers", "details", "emptyPerms")
                 .en("None")
                 .fr("Aucunes");
+        addAccountTab("createAccount", "success")
+                .en("Account created successfully ! You can now connect with those ids:\nEmail: $$1\nPassword: $$2")
+                .fr("Compte créé avec succès ! Vous pouvez maintenant vous connecter avec ces identifiants :\nMail : $$1\nMot de passe : $$2");
+        addAccountTab("createAccount", "disabled")
+                .en("Sorry, but account creation is disabled. You can try again later !")
+                .fr("Désolé, mais la création de compte est désactivé. Vous pouvez réessayer plus tard !");
+        addAccountTab("createAccount", "invalidEmail")
+                .en("It seems like the email you gave is invalid. Is it empty ?")
+                .fr("L'adresse mail que vous avez fournit est invalide. Est elle vide ?");
+        addAccountTab("createAccount", "emailUsed")
+                .en("This email is already used. Do you have an account ?")
+                .fr("Cet adresse mail est déjà utilisé. Avez vous un compte ?");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
