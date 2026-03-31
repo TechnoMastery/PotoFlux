@@ -113,10 +113,10 @@ public class CreateAccountDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
     }
 
-    public String getEmailField() {
+    public String getEmail() {
         return emailField.getText();
     }
-    public String getPasswordField() {
+    public String getPassword() {
         return new String(passwordField.getPassword());
     }
     public String getFirstName() {
