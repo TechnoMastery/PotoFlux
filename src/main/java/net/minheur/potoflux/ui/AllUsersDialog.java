@@ -88,7 +88,7 @@ public class AllUsersDialog extends JDialog {
                         account.email,
                         account.firstName, account.lastName,
                         account.rank,
-                        String.join(", ",
+                        "\n→ " + String.join(",\n→ ",
                                 account.perms.length > 0 ?
                                 Arrays.stream(account.perms).map(Perms::getName).toList()
                                 : List.of(Translations.get("potoflux:tabs.account.listUsers.details.emptyPerms")))
