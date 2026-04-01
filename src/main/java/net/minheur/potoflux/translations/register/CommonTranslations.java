@@ -124,5 +124,8 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
         add("disconnect")
                 .en("Disconnect")
                 .fr("Se déconnecter");
+        add("details")
+                .en("Details")
+                .fr("Détails");
     }
 }

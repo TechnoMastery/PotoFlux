@@ -4,6 +4,7 @@ import net.minheur.potoflux.login.Account;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.translations.Translations;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -26,18 +27,17 @@ public class AllUsersDialog extends JDialog {
         this.accounts = accounts;
 
         setLayout(new BorderLayout());
-        setSize(400, 500);
-        setLocationRelativeTo(parent);
 
         setupPanel();
         setupBorder();
-
-        fillAccount();
-
+        fillAccounts();
         setupScroll();
-
         setupButton();
 
+        pack();
+        setMaximumSize(new Dimension(400, 500));
+
+        setLocationRelativeTo(parent);
     }
 
     private void setupButton() {
@@ -55,30 +55,39 @@ public class AllUsersDialog extends JDialog {
         add(listScrollPane);
     }
 
-    private void fillAccount() {
-        for (Account account : accounts)
-            listPanel.add(buildLine(account));
+    private void fillAccounts() {
+        for (Account account : accounts) {
+            JPanel row = mkRow(account);
+
+            JPanel wrapper = new JPanel(new BorderLayout());
+            wrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            wrapper.add(row, BorderLayout.CENTER);
+
+            listPanel.add(wrapper);
+        }
     }
 
-    private JPanel buildLine(Account account) {
-        JPanel row = new JPanel(new BorderLayout());
+    @Nonnull
+    private JPanel mkRow(Account account) {
+        JPanel row = new JPanel();
+        row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
+
         row.setBorder(BorderFactory.createCompoundBorder(
                 lineBorder,
                 BorderFactory.createEmptyBorder(5, 5, 5, 5)
         ));
 
         JLabel emailLabel = new JLabel(account.email);
-        row.add(emailLabel, BorderLayout.WEST);
 
-        JButton detailsButton = new JButton("Details");
+        JButton detailsButton = new JButton(Translations.get("common:details"));
         detailsButton.addActionListener(e -> showDetails(account));
-        row.add(detailsButton, BorderLayout.EAST);
 
-        JPanel wrapper = new JPanel(new BorderLayout());
-        wrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        wrapper.add(row, BorderLayout.CENTER);
+        row.add(emailLabel);
+        row.add(Box.createHorizontalGlue());
+        row.add(Box.createHorizontalStrut(15));
+        row.add(detailsButton);
 
-        return wrapper;
+        return row;
     }
 
     private void showDetails(Account account) {
