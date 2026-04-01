@@ -1,4 +1,4 @@
-package net.minheur.potoflux.ui;
+package net.minheur.potoflux.ui.dialogs;
 
 import javax.swing.*;
 import java.awt.*;

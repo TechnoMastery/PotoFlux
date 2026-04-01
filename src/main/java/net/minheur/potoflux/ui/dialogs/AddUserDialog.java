@@ -1,6 +1,7 @@
-package net.minheur.potoflux.ui;
+package net.minheur.potoflux.ui.dialogs;
 
 import net.minheur.potoflux.login.perms.Perms;
+import net.minheur.potoflux.ui.CheckboxListRenderer;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package net.minheur.potoflux.ui;
+package net.minheur.potoflux.ui.dialogs;
 
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.translations.Translations;

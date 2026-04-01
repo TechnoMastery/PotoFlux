@@ -13,12 +13,11 @@ import net.minheur.potoflux.login.response.InfoResponse;
 import net.minheur.potoflux.login.response.ListUserResponse;
 import net.minheur.potoflux.login.response.RmUserResponse;
 import net.minheur.potoflux.translations.Translations;
-import net.minheur.potoflux.ui.AddUserDialog;
-import net.minheur.potoflux.ui.AllUsersDialog;
-import net.minheur.potoflux.ui.RmUserDialog;
+import net.minheur.potoflux.ui.dialogs.AddUserDialog;
+import net.minheur.potoflux.ui.dialogs.AllUsersDialog;
+import net.minheur.potoflux.ui.dialogs.RmUserDialog;
 import net.minheur.potoflux.utils.Json;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

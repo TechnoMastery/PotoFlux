@@ -1,4 +1,4 @@
-package net.minheur.potoflux.ui;
+package net.minheur.potoflux.ui.dialogs;
 
 import net.minheur.potoflux.login.Account;
 import net.minheur.potoflux.login.perms.Perms;
