@@ -44,7 +44,23 @@ public class AccountDetailsDialog extends JDialog {
         setLocationRelativeTo(owner);
 
         fillActualPerms();
+        reload();
 
+    }
+
+    private void reload() {
+        if (!actualPerms.contains(Perms.CHANGE_INFORMATIONS)) {
+            okButton.setVisible(true);
+            confirmButton.setVisible(false);
+            cancelButton.setVisible(false);
+
+            getRootPane().setDefaultButton(okButton);
+
+            emailField.setEditable(false);
+            firstNameField.setEditable(false);
+            lastNameField.setEditable(false);
+            // TODO: rank spinner
+        }
     }
 
     private void fillActualPerms() {
