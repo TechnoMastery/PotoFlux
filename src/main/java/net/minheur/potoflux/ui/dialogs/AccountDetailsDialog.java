@@ -17,7 +17,11 @@ public class AccountDetailsDialog extends JDialog {
     private JTextField lastNameField;
     private JSpinner rankSpinner;
 
+    private JPanel buttonsPanel;
     private JButton okButton;
+    private JButton confirmButton;
+    private JButton cancelButton;
+    private JButton changePasswordButton;
 
     public AccountDetailsDialog(Frame owner, Account account) {
         super(owner, "Account details", true);
@@ -28,22 +32,36 @@ public class AccountDetailsDialog extends JDialog {
         addName();
         addRank();
 
-        setupButton();
+        setupButtons();
 
         setContentPane(panel);
         pack();
         setLocationRelativeTo(owner);
     }
 
-    private void setupButton() {
+    private void setupButtons() {
         okButton = new JButton("OK");
+        confirmButton = new JButton("Confirm");
+        cancelButton = new JButton("Cancel");
+        changePasswordButton = new JButton("Password");
+
         okButton.addActionListener(e -> dispose());
+        cancelButton.addActionListener(e -> dispose());
+
+        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+
+        buttonsPanel.add(changePasswordButton);
+        buttonsPanel.add(cancelButton);
+        buttonsPanel.add(confirmButton);
+        buttonsPanel.add(okButton);
 
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(okButton, gbc);
+        gbc.fill = GridBagConstraints.NONE;
+
+        panel.add(buttonsPanel, gbc);
     }
 
     private void addRank() {
