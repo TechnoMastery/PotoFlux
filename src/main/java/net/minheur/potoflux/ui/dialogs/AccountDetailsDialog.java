@@ -1,13 +1,18 @@
 package net.minheur.potoflux.ui.dialogs;
 
 import net.minheur.potoflux.login.Account;
+import net.minheur.potoflux.login.ConnectionHandler;
+import net.minheur.potoflux.login.perms.Perms;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountDetailsDialog extends JDialog {
 
     private final Account account;
+    private final List<Perms> actualPerms = new ArrayList<>();
 
     private JPanel panel;
     private GridBagConstraints gbc;
@@ -37,6 +42,14 @@ public class AccountDetailsDialog extends JDialog {
         setContentPane(panel);
         pack();
         setLocationRelativeTo(owner);
+
+        fillActualPerms();
+
+    }
+
+    private void fillActualPerms() {
+        Perms[] permsArray = ConnectionHandler.account.perms;
+        actualPerms.addAll(List.of(permsArray));
     }
 
     private void setupButtons() {
