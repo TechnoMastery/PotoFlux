@@ -59,7 +59,7 @@ public class AccountDetailsDialog extends JDialog {
             emailField.setEditable(false);
             firstNameField.setEditable(false);
             lastNameField.setEditable(false);
-            // TODO: rank spinner
+            rankSpinner.setEnabled(false);
         }
     }
 
