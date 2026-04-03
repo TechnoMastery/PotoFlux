@@ -10,7 +10,7 @@ public enum Perms {
     DELETE_USERS("rmUsers", "Delete users", PermRuns::rmUser),
     CHANGE_INFORMATIONS("mdInfos", "Change user's infos"),
     CHANGE_PASSWORD("mdPasswords", "Change user's passwords"),
-    LOCK("lockAccounts", "Lock or unlock account so they can't be modified");
+    LOCK("lockAccounts", "Lock or unlock accounts");
 
     private final String sqlCode;
     private final String name;
