@@ -68,7 +68,7 @@ public class PotoFlux {
         else PotoFluxLoadingContext.setDevEnv(args[0].equals("devEnv"));
 
         // important inits
-        startScreen.updateStage("Init log saver...");
+        startScreen.updateStage("Init...");
         LogSaver.init();
         LogAmountManager.init();
 
