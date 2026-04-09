@@ -14,7 +14,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
-import net.minheur.potoflux.log.LogSaver;
+import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.tabs.Tabs;
