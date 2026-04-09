@@ -92,6 +92,27 @@ public class AccountDetailsDialog extends JDialog {
         okButton.addActionListener(e -> dispose());
         cancelButton.addActionListener(e -> dispose());
 
+        confirmButton.addActionListener(e -> {
+            String mail = emailField.getText();
+            String firstName = firstNameField.getText();
+            String lastName = lastNameField.getText();
+            int rank = ((int) rankSpinner.getValue());
+
+            boolean isMailModified = !account.email.equals(mail);
+            boolean isFirstNameModified = !account.firstName.equals(firstName);
+            boolean isLastNameModified = !account.lastName.equals(lastName);
+            boolean isRankModified = account.rank != rank;
+
+            if (isMailModified || isFirstNameModified || isLastNameModified || isRankModified) {
+
+                // TODO
+
+            }
+
+            dispose();
+
+        });
+
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         buttonsPanel.add(changePasswordButton);
