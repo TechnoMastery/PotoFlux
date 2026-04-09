@@ -49,7 +49,18 @@ public class AccountDetailsDialog extends JDialog {
     }
 
     private void reload() {
-        if (!actualPerms.contains(Perms.CHANGE_INFORMATIONS)) {
+        if (actualPerms.contains(Perms.CHANGE_INFORMATIONS)) {
+            okButton.setVisible(false);
+            confirmButton.setVisible(true);
+            cancelButton.setVisible(true);
+
+            getRootPane().setDefaultButton(confirmButton);
+
+            emailField.setEditable(true);
+            firstNameField.setEditable(true);
+            lastNameField.setEditable(true);
+            rankSpinner.setEnabled(true);
+        } else {
             okButton.setVisible(true);
             confirmButton.setVisible(false);
             cancelButton.setVisible(false);
@@ -61,6 +72,10 @@ public class AccountDetailsDialog extends JDialog {
             lastNameField.setEditable(false);
             rankSpinner.setEnabled(false);
         }
+
+        changePasswordButton.setEnabled(
+                actualPerms.contains(Perms.CHANGE_PASSWORD)
+        );
     }
 
     private void fillActualPerms() {
