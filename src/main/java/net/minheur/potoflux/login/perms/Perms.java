@@ -1,8 +1,11 @@
 package net.minheur.potoflux.login.perms;
 
+import net.minheur.potoflux.translations.Translations;
+
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public enum Perms {
     VIEW_USERS("viewUsers", "See user's infos", PermRuns::seeUsersInfos),
@@ -13,31 +16,31 @@ public enum Perms {
     LOCK("lockAccounts", "Lock or unlock accounts");
 
     private final String sqlCode;
-    private final String name;
+    private final Supplier<String> name;
     @CheckForNull
     private final Runnable permAction;
     @CheckForNull
     private final String noRunFallback;
 
-    Perms(String sqlCode, String name) {
+    Perms(String sqlCode, String nameTranslationKey) {
         this.sqlCode = sqlCode;
-        this.name = name;
+        this.name = () -> Translations.get(nameTranslationKey);
 
         this.permAction = null;
         this.noRunFallback = null;
     }
 
-    Perms(String sqlCode, String name, @Nonnull Runnable permAction) {
+    Perms(String sqlCode, String nameTranslationKey, @Nonnull Runnable permAction) {
         this.sqlCode = sqlCode;
-        this.name = name;
+        this.name = () -> Translations.get(nameTranslationKey);
         this.permAction = permAction;
 
         this.noRunFallback = null;
     }
 
-    Perms(String sqlCode, String name, @Nonnull String noRunFallback) {
+    Perms(String sqlCode, String nameTranslationKey, @Nonnull String noRunFallback) {
         this.sqlCode = sqlCode;
-        this.name = name;
+        this.name = () -> Translations.get(nameTranslationKey);
         this.noRunFallback = noRunFallback;
 
         this.permAction = null;
@@ -50,7 +53,7 @@ public enum Perms {
 
     @Nonnull
     public String getName() {
-        return name;
+        return name.get();
     }
 
     @CheckForNull
