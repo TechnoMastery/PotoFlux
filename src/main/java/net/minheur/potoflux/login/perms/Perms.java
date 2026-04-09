@@ -8,12 +8,12 @@ import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public enum Perms {
-    VIEW_USERS("viewUsers", "See user's infos", PermRuns::seeUsersInfos),
-    CREATE_USERS("mkUsers", "Create new users", PermRuns::addUser),
-    DELETE_USERS("rmUsers", "Delete users", PermRuns::rmUser),
-    CHANGE_INFORMATIONS("mdInfos", "Change user's infos", "potoflux:perms.executesInDetailsMenu"),
-    CHANGE_PASSWORD("mdPasswords", "Change user's passwords", "potoflux:perms.executesInDetailsMenu"),
-    LOCK("lockAccounts", "Lock or unlock accounts");
+    VIEW_USERS("viewUsers", "potoflux:perms.viewUsers", PermRuns::seeUsersInfos),
+    CREATE_USERS("mkUsers", "potoflux:perms.mkUsers", PermRuns::addUser),
+    DELETE_USERS("rmUsers", "potoflux:perms.rmUsers", PermRuns::rmUser),
+    CHANGE_INFORMATIONS("mdInfos", "potoflux:perms.mdUserInfos", "potoflux:perms.executesInDetailsMenu"),
+    CHANGE_PASSWORD("mdPasswords", "potoflux:perms.mdUserPasswords", "potoflux:perms.executesInDetailsMenu"),
+    LOCK("lockAccounts", "potoflux:perms.lock");
 
     private final String sqlCode;
     private final Supplier<String> name;
