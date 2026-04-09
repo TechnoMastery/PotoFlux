@@ -16,17 +16,31 @@ public enum Perms {
     private final String name;
     @CheckForNull
     private final Runnable permAction;
+    @CheckForNull
+    private final String noRunFallback;
 
     Perms(String sqlCode, String name) {
         this.sqlCode = sqlCode;
         this.name = name;
+
         this.permAction = null;
+        this.noRunFallback = null;
     }
 
-    Perms(String sqlCode, String name, Runnable permAction) {
+    Perms(String sqlCode, String name, @Nonnull Runnable permAction) {
         this.sqlCode = sqlCode;
         this.name = name;
         this.permAction = permAction;
+
+        this.noRunFallback = null;
+    }
+
+    Perms(String sqlCode, String name, @Nonnull String noRunFallback) {
+        this.sqlCode = sqlCode;
+        this.name = name;
+        this.noRunFallback = noRunFallback;
+
+        this.permAction = null;
     }
 
     @Nonnull
@@ -42,6 +56,10 @@ public enum Perms {
     @CheckForNull
     public Runnable getPermAction() {
         return permAction;
+    }
+    @CheckForNull
+    public String getNoRunFallback() {
+        return noRunFallback;
     }
 
     @Nullable
