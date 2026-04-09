@@ -20,7 +20,7 @@ public enum Perms {
     @CheckForNull
     private final Runnable permAction;
     @CheckForNull
-    private final String noRunFallback;
+    private final Supplier<String> noRunFallback;
 
     Perms(String sqlCode, String nameTranslationKey) {
         this.sqlCode = sqlCode;
@@ -41,7 +41,7 @@ public enum Perms {
     Perms(String sqlCode, String nameTranslationKey, @Nonnull String noRunFallback) {
         this.sqlCode = sqlCode;
         this.name = () -> Translations.get(nameTranslationKey);
-        this.noRunFallback = noRunFallback;
+        this.noRunFallback = () -> Translations.get(noRunFallback);
 
         this.permAction = null;
     }
@@ -62,7 +62,8 @@ public enum Perms {
     }
     @CheckForNull
     public String getNoRunFallback() {
-        return noRunFallback;
+        if (noRunFallback == null) return null;
+        return noRunFallback.get();
     }
 
     @Nullable
