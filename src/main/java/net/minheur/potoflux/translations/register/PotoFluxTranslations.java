@@ -5,6 +5,8 @@ import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
 
+import java.util.Arrays;
+
 /**
  * Registry for all potoflux translations
  */
@@ -200,6 +202,10 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("ERROR: this tab is detected but unexisting !")
                 .fr("Erreur : cette onglet est détecté mais inéxistante !");
 
+        addPerm("executesInDetailsMenu")
+                .en("This perm needs to be executed in the user details menu !\nIf you don't have it, please contact a referent")
+                .fr("Cette permission doit être executé dans le menu des détails de l'utilisateur.\nSi vous ne l'avez pas, contactez votre référent");
+
         addHomeTab("credit")
                 .en("Created by Min_heur2000 - TechnoMastery")
                 .fr("Créé par Min_heur2000 - TechnoMastery");
@@ -367,6 +373,10 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      */
     private TranslationBuilder addScreen(String... children) {
         return add("screen", children);
+    }
+
+    private TranslationBuilder addPerm(String... children) {
+        return add("perms", children);
     }
 
     // tabs helpers
