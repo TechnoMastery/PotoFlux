@@ -3,6 +3,7 @@ package net.minheur.potoflux.login;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 
+import javax.annotation.CheckForNull;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
@@ -196,6 +197,17 @@ public class RequestPoster {
         );
 
         return get(json, "get_user_info");
+    }
+
+    public static String mdUserInfos(
+            String token,
+            String targetUuid,
+            @CheckForNull String newEmail,
+            @CheckForNull String newFirstName,
+            @CheckForNull String newLastName,
+            int newRank
+    ) {
+        return null;
     }
 
     public static void rmToken(String token) throws IOException {
