@@ -210,6 +210,21 @@ public class RequestPoster {
         return get(obj.toString(), "md_user_infos");
 
     }
+    public static String mdUserPassword(
+            String token,
+            String targetUuid,
+            String newPassword
+    ) throws InvalidTokenException, IOException {
+        checkTokenFormat(token);
+        if (targetUuid == null) return null;
+
+        JsonObject obj = new JsonObject();
+        obj.addProperty("p_token", token);
+        obj.addProperty("p_user_id", targetUuid);
+        obj.addProperty("p_new_password", newPassword);
+
+        return get(obj.toString(), "md_user_password");
+    }
 
     public static void rmToken(String token) throws IOException {
         try {
