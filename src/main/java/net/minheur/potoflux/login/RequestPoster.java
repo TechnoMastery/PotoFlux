@@ -1,6 +1,7 @@
 package net.minheur.potoflux.login;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
@@ -175,8 +176,39 @@ public class RequestPoster {
             @CheckForNull String newFirstName,
             @CheckForNull String newLastName,
             int newRank
-    ) {
-        return null;
+    ) throws InvalidTokenException, IOException {
+
+        checkTokenFormat(token);
+        if (targetUuid == null) return null;
+
+        boolean emailChanged = newEmail != null;
+        boolean fNameChanged = newFirstName != null;
+        boolean lNameChanged = newLastName != null;
+        boolean rankChanged = newRank <= 100 && newRank >0;
+
+        JsonObject obj = new JsonObject();
+        obj.addProperty("p_token", token);
+        obj.addProperty("p_user_id", targetUuid);
+
+        // email
+        if (emailChanged) obj.addProperty("p_email", newEmail);
+        else obj.add("p_email", JsonNull.INSTANCE);
+
+        // first name
+        if (fNameChanged) obj.addProperty("p_first_name", newFirstName);
+        else obj.add("p_first_name", JsonNull.INSTANCE);
+
+        // last name
+        if (lNameChanged) obj.addProperty("p_last_name", newLastName);
+        else obj.add("p_last_name", JsonNull.INSTANCE);
+
+        // rank
+        obj.addProperty("p_rank",
+                rankChanged ? newRank : 0
+        );
+
+        return get(obj.toString(), "md_user_infos");
+
     }
 
     public static void rmToken(String token) throws IOException {
