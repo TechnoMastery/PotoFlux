@@ -127,5 +127,17 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
         add("details")
                 .en("Details")
                 .fr("Détails");
+        add("email")
+                .en("Email")
+                .fr("Mail");
+        add("firstName")
+                .en("First name")
+                .fr("Prénom");
+        add("lastName")
+                .en("Last name")
+                .fr("Nom de famille");
+        add("rank")
+                .en("Rank")
+                .fr("Rang");
     }
 }

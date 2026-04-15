@@ -1,13 +1,17 @@
 package net.minheur.potoflux.ui.dialogs;
 
-import net.minheur.potoflux.login.Account;
-import net.minheur.potoflux.login.ConnectionHandler;
+import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.login.perms.Perms;
+import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 
 public class AccountDetailsDialog extends JDialog {
 
@@ -103,11 +107,57 @@ public class AccountDetailsDialog extends JDialog {
             boolean isLastNameModified = !account.lastName.equals(lastName);
             boolean isRankModified = account.rank != rank;
 
-            if (isMailModified || isFirstNameModified || isLastNameModified || isRankModified) {
-
-                // TODO
-
+            // if nothing changed, return
+            if (!(isMailModified || isFirstNameModified || isLastNameModified || isRankModified)) {
+                dispose();
+                return;
             }
+
+            // confirm
+            StringBuilder sb = new StringBuilder(Translations.get("potoflux:tabs.account.mdUserInfos.confirm"));
+
+            if (isMailModified) sb.append("\n").append(Translations.get("common:email"));
+            if (isFirstNameModified) sb.append("\n").append(Translations.get("common:firstName"));
+            if (isLastNameModified) sb.append("\n").append(Translations.get("common:lastName"));
+            if (isRankModified) sb.append("\n").append(Translations.get("common:rank"));
+
+            int check = JOptionPane.showConfirmDialog(
+                    PotoFlux.app.getFrame(),
+                    sb.toString(),
+                    Translations.get("common:confirm"),
+                    JOptionPane.OK_CANCEL_OPTION
+            );
+
+            if (check == JOptionPane.CANCEL_OPTION) {
+                dispose();
+                return;
+            }
+
+            // post request
+            String content;
+            try {
+                content = RequestPoster.mdUserInfos(
+                        TokenHandler.get(), // current token
+                        account.uuid, // target user's uuid
+                        // new data
+                        isMailModified ? mail : null,
+                        isFirstNameModified ? firstName : null,
+                        isLastNameModified ? lastName : null,
+                        isRankModified ? rank : 0
+                );
+            } catch (InvalidTokenException ex) {
+                ex.printStackTrace();
+                showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+                dispose();
+                return;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                showErrorPane(Translations.get("potoflux:tabs.account.failed"));
+                dispose();
+                return;
+            }
+
+            // TODO
 
             dispose();
 

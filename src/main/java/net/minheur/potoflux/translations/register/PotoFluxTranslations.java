@@ -311,6 +311,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("createAccount", "button")
                 .en("Create an account")
                 .fr("Créer un compte");
+        addAccountTab("mdUserInfos.confirm")
+                .en("Are you sure you want to modify those infos :")
+                .fr("Êtes vous sûr de vouloir modifier ces informations :");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
