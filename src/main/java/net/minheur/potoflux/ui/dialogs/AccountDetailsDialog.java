@@ -172,6 +172,7 @@ public class AccountDetailsDialog extends JDialog {
                             case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
                             case "new_email_used" -> Translations.get("potoflux:tabs.account.createAccount.emailUsed");
                             case "nothing_changed" -> Translations.get("potoflux:tabs.account.mdUserInfos.noMods");
+                            case "insufficient_rank" -> Translations.get("potoflux:tabs.account.error.insufficientRank");
                             default -> response.error;
                         }
                 );
