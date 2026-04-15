@@ -139,5 +139,8 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
         add("rank")
                 .en("Rank")
                 .fr("Rang");
+        add("ok")
+                .en("OK")
+                .fr("Ok");
     }
 }

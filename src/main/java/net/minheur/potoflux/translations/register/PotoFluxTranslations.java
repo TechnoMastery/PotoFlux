@@ -354,6 +354,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("error", "insufficientRank")
                 .en("Looks like your rank is insufficient to perform this action on this user.")
                 .fr("On dirait que ton rank est insuffisant pour exécuter cette action sur cet utilisateur.");
+        addAccountTab("mdUserPassword", "button")
+                .en("Modify password")
+                .fr("Modifier le mot de passe");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")

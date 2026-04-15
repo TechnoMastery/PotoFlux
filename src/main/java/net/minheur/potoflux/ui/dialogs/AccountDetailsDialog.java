@@ -93,10 +93,10 @@ public class AccountDetailsDialog extends JDialog {
     }
 
     private void setupButtons() {
-        okButton = new JButton("OK"); //  TODO
-        confirmButton = new JButton("Confirm"); //  TODO
-        cancelButton = new JButton("Cancel"); //  TODO
-        changePasswordButton = new JButton("Password"); //  TODO
+        okButton = new JButton(Translations.get("common:ok"));
+        confirmButton = new JButton(Translations.get("common:confirm"));
+        cancelButton = new JButton(Translations.get("common:cancel"));
+        changePasswordButton = new JButton(Translations.get("potoflux:tabs.account.mdUserPassword.button"));
 
         okButton.addActionListener(e -> dispose());
         cancelButton.addActionListener(e -> dispose());
