@@ -145,13 +145,13 @@ public class ConnectionHandler {
 
         PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
 
-         TokenHandler.rmOnlineToken();
-         TokenHandler.clear();
+        TokenHandler.rmOnlineToken();
+        TokenHandler.clear();
 
-         account = null;
-         isLogged = false;
+        account = null;
+        isLogged = false;
 
-         PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
+        PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
      }
 
 }
