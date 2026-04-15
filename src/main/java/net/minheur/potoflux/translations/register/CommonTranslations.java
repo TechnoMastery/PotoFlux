@@ -89,8 +89,8 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
                 .en("Adding has been canceled")
                 .fr("Ajout annulé");
         add("info")
-                .en("Information")
-                .fr("Information");
+                .en("Infos")
+                .fr("Infos");
         add("delete")
                 .en("Delete")
                 .fr("Supprimer");
@@ -106,26 +106,5 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
         add("select_list")
                 .en("<Select List>")
                 .fr("<Sélectionnez une liste>");
-        add("perms")
-                .en("Permissions")
-                .fr("Permissions");
-        add("connection")
-                .en("Connection")
-                .fr("Connexion");
-        add("emailField")
-                .en("Email:")
-                .fr("Mail :");
-        add("passwordField")
-                .en("Password:")
-                .fr("Mot de passe :");
-        add("connect")
-                .en("Connect")
-                .fr("Se connecter");
-        add("disconnect")
-                .en("Disconnect")
-                .fr("Se déconnecter");
-        add("details")
-                .en("Details")
-                .fr("Détails");
     }
 }

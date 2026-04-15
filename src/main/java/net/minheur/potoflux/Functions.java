@@ -1,7 +1,5 @@
 package net.minheur.potoflux;
 
-import net.minheur.potoflux.translations.Translations;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;

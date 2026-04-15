@@ -6,8 +6,6 @@ import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.update.Candidate;
 import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
 import net.minheur.potoflux.logger.PtfLogger;
-import net.minheur.potoflux.login.ConnectionHandler;
-import net.minheur.potoflux.login.TokenHandler;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.terminal.CommandHistorySaver;
@@ -121,12 +119,6 @@ public class ActionRunRunnable {
             e.printStackTrace();
         }
 
-    }
-
-    public static void connectToken() {
-        if (!TokenHandler.has()) return;
-
-        ConnectionHandler.accountFor(TokenHandler.get());
     }
 
     /**

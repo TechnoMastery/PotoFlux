@@ -53,7 +53,6 @@ public class ActionRuns {
     public final ActionRun DISPLAY_MOD_UPDATES = LIST_START_LOGIC.add(new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
     public final ActionRun CHECK_POTOFLUX_UPDATE= LIST_START_LOGIC.add(new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates));
     public final ActionRun LOAD_COMMAND_HISTORY = LIST_START_LOGIC.add(new ActionRun(fromModId("load_command_history"), ActionRunRunnable::loadCommandHistory));
-    public final ActionRun CONNECT_TOKEN = LIST_START_LOGIC.add(new ActionRun(fromModId("connect_token"), ActionRunRunnable::connectToken));
 
     // close
     /**
