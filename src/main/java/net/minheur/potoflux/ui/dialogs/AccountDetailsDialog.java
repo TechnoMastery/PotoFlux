@@ -196,6 +196,17 @@ public class AccountDetailsDialog extends JDialog {
 
         });
 
+        changePasswordButton.addActionListener(e -> {
+            JTextField newPasswordField = new JTextField();
+
+            JOptionPane.showInputDialog(
+                    this,
+                    newPasswordField,
+                    "Please input user's new password",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         buttonsPanel.add(changePasswordButton);
