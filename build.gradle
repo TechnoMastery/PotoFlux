@@ -1,9 +1,10 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group = "net.minheur"
-version = "6.9"
+version = "6.9.1"
 
 java {
     toolchain {
@@ -11,6 +12,26 @@ java {
     }
     withSourcesJar()
     withJavadocJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId = "potoflux"
+        }
+    }
+
+    repositories {
+        maven {
+            name 'GitHubPackages'
+            url = uri("https://maven.pkg.github.com/TechnoMastery/PotoFlux")
+            credentials {
+                username = project.findProperty("gpr.user")
+                password = project.findProperty("gpr.key")
+            }
+        }
+    }
 }
 
 repositories {
