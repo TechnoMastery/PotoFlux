@@ -239,6 +239,7 @@ public class AccountDetailsDialog extends JDialog {
                             case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
                             case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
                             case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                            case "insufficient_rank" -> Translations.get("potoflux:tabs.account.error.insufficientRank");
                             default -> response.error;
                         }
                 );
