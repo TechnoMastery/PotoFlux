@@ -3,7 +3,9 @@ package net.minheur.potoflux.ui.dialogs;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.login.perms.Perms;
+import net.minheur.potoflux.login.response.MdUserInfosResponse;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.Json;
 
 import javax.swing.*;
 import java.awt.*;
@@ -114,16 +116,16 @@ public class AccountDetailsDialog extends JDialog {
             }
 
             // confirm
-            StringBuilder sb = new StringBuilder(Translations.get("potoflux:tabs.account.mdUserInfos.confirm"));
+            StringBuilder confirmSb = new StringBuilder(Translations.get("potoflux:tabs.account.mdUserInfos.confirm"));
 
-            if (isMailModified) sb.append("\n").append(Translations.get("common:email"));
-            if (isFirstNameModified) sb.append("\n").append(Translations.get("common:firstName"));
-            if (isLastNameModified) sb.append("\n").append(Translations.get("common:lastName"));
-            if (isRankModified) sb.append("\n").append(Translations.get("common:rank"));
+            if (isMailModified) confirmSb.append("\n").append(Translations.get("common:email"));
+            if (isFirstNameModified) confirmSb.append("\n").append(Translations.get("common:firstName"));
+            if (isLastNameModified) confirmSb.append("\n").append(Translations.get("common:lastName"));
+            if (isRankModified) confirmSb.append("\n").append(Translations.get("common:rank"));
 
             int check = JOptionPane.showConfirmDialog(
                     PotoFlux.app.getFrame(),
-                    sb.toString(),
+                    confirmSb.toString(),
                     Translations.get("common:confirm"),
                     JOptionPane.OK_CANCEL_OPTION
             );
@@ -157,7 +159,38 @@ public class AccountDetailsDialog extends JDialog {
                 return;
             }
 
-            // TODO
+            MdUserInfosResponse response = Json.GSON.fromJson(content, MdUserInfosResponse.class);
+
+            if (!response.success) {
+                showErrorPane(
+                        switch (response.error) {
+                            case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
+                            case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                            case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                            case "new_email_used" -> Translations.get("potoflux:tabs.account.createAccount.emailUsed");
+                            case "nothing_changed" -> Translations.get("potoflux:tabs.account.mdUserInfos.noMods");
+                            default -> response.error;
+                        }
+                );
+                dispose();
+                return;
+            }
+
+            StringBuilder doneSb = new StringBuilder(Translations.get("potoflux:tabs.account.mdUserInfos.done"));
+
+            if (response.emailChanged) doneSb.append("\n").append(Translations.get("common:email"));
+            if (response.firstNameChanged) doneSb.append("\n").append(Translations.get("common:firstName"));
+            if (response.lastNameChanged) doneSb.append("\n").append(Translations.get("common:lastName"));
+            if (response.rankChanged) doneSb.append("\n").append(Translations.get("common:rank"));
+
+            if (response.emailChanged) doneSb.append("\n").append(Translations.get("potoflux:tabs.account.mdUserInfos.idRemember"));
+
+            JOptionPane.showMessageDialog(
+                    PotoFlux.app.getFrame(),
+                    doneSb.toString(),
+                    Translations.get("common:finish"),
+                    JOptionPane.INFORMATION_MESSAGE
+            );
 
             dispose();
 

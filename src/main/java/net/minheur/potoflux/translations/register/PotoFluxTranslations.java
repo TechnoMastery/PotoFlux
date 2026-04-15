@@ -311,9 +311,18 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("createAccount", "button")
                 .en("Create an account")
                 .fr("Créer un compte");
-        addAccountTab("mdUserInfos.confirm")
+        addAccountTab("mdUserInfos", "confirm")
                 .en("Are you sure you want to modify those infos :")
                 .fr("Êtes vous sûr de vouloir modifier ces informations :");
+        addAccountTab("mdUserInfos", "noMods")
+                .en("No modifications were done.")
+                .fr("Aucunes modifications apportées.");
+        addAccountTab("mdUserInfos", "done")
+                .en("Operation finished! Here's what changed:")
+                .fr("Opération terminée ! Voici ce qui a changé :");
+        addAccountTab("mdUserInfos", "idRemember")
+                .en("Please remember to tell the user that it's email changed !")
+                .fr("Merci de penser à notifier l'utilisateur de la modification de son mail !");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
