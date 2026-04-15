@@ -306,8 +306,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("It seems like the email you gave is invalid. Is it empty ?")
                 .fr("L'adresse mail que vous avez fournit est invalide. Est elle vide ?");
         addAccountTab("createAccount", "emailUsed")
-                .en("This email is already used. Do you have an account ?")
-                .fr("Cet adresse mail est déjà utilisé. Avez vous un compte ?");
+                .en("This email is already used.")
+                .fr("Cet adresse mail est déjà utilisé.");
         addAccountTab("createAccount", "button")
                 .en("Create an account")
                 .fr("Créer un compte");
