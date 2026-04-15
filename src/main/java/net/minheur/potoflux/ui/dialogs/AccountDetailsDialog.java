@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
+import static net.minheur.potoflux.ui.UiUtils.showMessagePane;
 
 public class AccountDetailsDialog extends JDialog {
 
@@ -90,10 +91,10 @@ public class AccountDetailsDialog extends JDialog {
     }
 
     private void setupButtons() {
-        okButton = new JButton("OK");
-        confirmButton = new JButton("Confirm");
-        cancelButton = new JButton("Cancel");
-        changePasswordButton = new JButton("Password");
+        okButton = new JButton("OK"); //  TODO
+        confirmButton = new JButton("Confirm"); //  TODO
+        cancelButton = new JButton("Cancel"); //  TODO
+        changePasswordButton = new JButton("Password"); //  TODO
 
         okButton.addActionListener(e -> dispose());
         cancelButton.addActionListener(e -> dispose());
@@ -185,12 +186,7 @@ public class AccountDetailsDialog extends JDialog {
 
             if (response.emailChanged) doneSb.append("\n").append(Translations.get("potoflux:tabs.account.mdUserInfos.idRemember"));
 
-            JOptionPane.showMessageDialog(
-                    PotoFlux.app.getFrame(),
-                    doneSb.toString(),
-                    Translations.get("common:finish"),
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            showMessagePane(doneSb.toString());
 
             dispose();
 
