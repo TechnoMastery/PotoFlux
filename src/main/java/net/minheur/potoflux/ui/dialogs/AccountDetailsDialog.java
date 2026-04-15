@@ -124,7 +124,7 @@ public class AccountDetailsDialog extends JDialog {
             if (isRankModified) confirmSb.append("\n").append(Translations.get("common:rank"));
 
             int check = JOptionPane.showConfirmDialog(
-                    PotoFlux.app.getFrame(),
+                    this,
                     confirmSb.toString(),
                     Translations.get("common:confirm"),
                     JOptionPane.OK_CANCEL_OPTION
