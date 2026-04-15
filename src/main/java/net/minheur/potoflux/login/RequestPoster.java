@@ -1,5 +1,7 @@
 package net.minheur.potoflux.login;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 
@@ -69,28 +71,18 @@ public class RequestPoster {
     }
 
     private static String getFormatForToken(String token) {
-        return formatMessage(
-                """
-                        {
-                            "p_token": "$$1"
-                        }
-                        """,
-                token
-        );
+        JsonObject obj = new JsonObject();
+        obj.addProperty("p_token", token);
+        return obj.toString();
     }
 
     public static String login(String email, String password) throws IOException {
-        String json = formatMessage(
-                """
-                        {
-                            "p_email": "$$1",
-                            "p_password": "$$2"
-                        }
-                        """,
-                email, password
-        );
 
-        return get(json, "login");
+        JsonObject obj = new JsonObject();
+        obj.addProperty("p_email", email);
+        obj.addProperty("p_password", password);
+
+        return get(obj.toString(), "login");
     }
 
     public static String checkToken(String token) throws IOException, InvalidTokenException {
@@ -115,40 +107,32 @@ public class RequestPoster {
             int rank
     ) throws InvalidTokenException, IOException {
         checkTokenFormat(token);
-        String json = formatMessage(
-                """
-                        {
-                            "p_token": "$$1",
-                            "p_email": "$$2",
-                            "p_password": "$$3",
-                            "p_first_name": "$$4",
-                            "p_last_name": "$$5",
-                            "p_perms": $$6,
-                            "p_rank": $$7
-                        }
-                        """,
-                token, email, password, firstName, lastName,
-                Arrays.stream(perms)
-                        .map(s -> "\"" + s + "\"")
-                        .collect(Collectors.joining(",", "[", "]")),
-                rank
-        );
 
-        return get(json, "add_user");
+        JsonObject obj = new JsonObject();
+
+        obj.addProperty("p_token", token);
+        obj.addProperty("p_email", email);
+        obj.addProperty("p_password", password);
+        obj.addProperty("p_first_name", firstName);
+        obj.addProperty("p_last_name", lastName);
+
+        JsonArray jPerms = new JsonArray();
+        for (String p : perms) jPerms.add(p);
+
+        obj.add("p_perms", jPerms);
+        obj.addProperty("p_rank", rank);
+
+
+        return get(obj.toString(), "add_user");
     }
     public static String rmUser(String token, String email) throws InvalidTokenException, IOException {
         checkTokenFormat(token);
-        String json = formatMessage(
-                """
-                        {
-                            "p_token": "$$1",
-                            "p_user": "$$2"
-                        }
-                        """,
-                token, email
-        );
 
-        return get(json, "delete_user");
+        JsonObject obj = new JsonObject();
+        obj.addProperty("p_token", token);
+        obj.addProperty("p_user", email);
+
+        return get(obj.toString(), "delete_user");
     }
     public static String createAccount(
             String email,
@@ -156,47 +140,32 @@ public class RequestPoster {
             String firstName,
             String lastName
     ) throws IOException {
-        String json = formatMessage(
-                """
-                        {
-                            "p_email": "$$1",
-                            "p_password": "$$2",
-                            "p_first_name": "$$3",
-                            "p_last_name": "$$4"
-                        }
-                        """,
-                email, password, firstName, lastName
-        );
 
-        return get(json, "create_account");
+        JsonObject obj = new JsonObject();
+        obj.addProperty("p_email", email);
+        obj.addProperty("p_password", password);
+        obj.addProperty("p_first_name", firstName);
+        obj.addProperty("p_last_name", lastName);
+
+        return get(obj.toString(), "create_account");
     }
 
     public static String listUsers(String token) throws InvalidTokenException, IOException {
         checkTokenFormat(token);
-        String json = formatMessage(
-                """
-                        {
-                            "p_token": "$$1"
-                        }
-                        """,
-                token
-        );
 
-        return get(json, "list_users");
+        JsonObject obj = new JsonObject();
+        obj.addProperty("p_token", token);
+
+        return get(obj.toString(), "list_users");
     }
     public static String getUserInfos(String token, String userUuid) throws InvalidTokenException, IOException {
         checkTokenFormat(token);
-        String json = formatMessage(
-                """
-                        {
-                            "p_token": "$$1",
-                            "p_user": "$$2"
-                        }
-                        """,
-                token, userUuid
-        );
 
-        return get(json, "get_user_info");
+        JsonObject obj = new JsonObject();
+        obj.addProperty("p_token", token);
+        obj.addProperty("p_user", userUuid);
+
+        return get(obj.toString(), "get_user_info");
     }
 
     public static String mdUserInfos(
