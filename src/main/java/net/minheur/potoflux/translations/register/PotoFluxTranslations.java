@@ -348,6 +348,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("mdUserInfos", "idRemember")
                 .en("Please remember to tell the user that it's email changed !")
                 .fr("Merci de penser à notifier l'utilisateur de la modification de son mail !");
+        addAccountTab("mdUserPassword", "done")
+                .en("You modified $$1's password successfully.\nIt is now $$2 !\nPlease remember to let him now.")
+                .fr("Vous avez modifié le mot de passe de $$1 avec succès !\nC'est maintenant $$2.\nMerci de le prévenir !");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")

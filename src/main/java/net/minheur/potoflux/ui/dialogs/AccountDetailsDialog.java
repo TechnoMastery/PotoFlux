@@ -3,6 +3,7 @@ package net.minheur.potoflux.ui.dialogs;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.login.perms.Perms;
+import net.minheur.potoflux.login.response.BaseResponse;
 import net.minheur.potoflux.login.response.MdUserInfosResponse;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.minheur.potoflux.Functions.formatMessage;
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 import static net.minheur.potoflux.ui.UiUtils.showMessagePane;
 
@@ -195,12 +197,59 @@ public class AccountDetailsDialog extends JDialog {
         changePasswordButton.addActionListener(e -> {
             JTextField newPasswordField = new JTextField();
 
-            JOptionPane.showInputDialog(
+            int check = JOptionPane.showConfirmDialog(
                     this,
                     newPasswordField,
-                    "Please input user's new password",
-                    JOptionPane.INFORMATION_MESSAGE
+                    "Please enter user's new password", // TODO
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE
             );
+
+            if (check == JOptionPane.CANCEL_OPTION) {
+                dispose();
+                return;
+            }
+
+            String newPassword = newPasswordField.getText();
+
+            String content;
+            try {
+                content = RequestPoster.mdUserPassword(
+                        TokenHandler.get(),
+                        account.uuid,
+                        newPassword
+                );
+            } catch (InvalidTokenException ex) {
+                ex.printStackTrace();
+                showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+                dispose();
+                return;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                showErrorPane(Translations.get("potoflux:tabs.account.failed"));
+                dispose();
+                return;
+            }
+
+            BaseResponse response = Json.GSON.fromJson(content, BaseResponse.class);
+
+            if (!response.success) {
+                showErrorPane(
+                        switch (response.error) {
+                            case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
+                            case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                            case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                            default -> response.error;
+                        }
+                );
+                return;
+            }
+
+            showMessagePane(formatMessage(
+                    Translations.get("potoflux:tabs.account.mdUserPassword.done"),
+                    account.email, newPassword
+            ));
+
         });
 
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
