@@ -15,6 +15,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.log.LogSaver;
+import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.tabs.Tabs;
@@ -58,6 +59,11 @@ public class PotoFlux {
      * @param args what you give to the app. Can contain 'devEnv' to enable PotoFlux's dev mod
      */
     public static void main(String[] args) {
+
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+            throwable.printStackTrace();
+            runProgramClosing(1);
+        });
 
         LoadingScreen startScreen = new LoadingScreen();
         startScreen.setVisible(true);
@@ -116,10 +122,16 @@ public class PotoFlux {
 
         // post all registrations
         startScreen.updateStage("Registering data...");
-        bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
-        bus.post(new RegisterTabsEvent());
-        bus.post(new RegisterCommandsEvent());
-        bus.post(new RegisterRunsEvent());
+
+        try {
+            bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
+            bus.post(new RegisterTabsEvent());
+            bus.post(new RegisterCommandsEvent());
+            bus.post(new RegisterRunsEvent());
+        } catch (Throwable e) {
+            e.printStackTrace();
+            runProgramClosing(-1);
+        }
 
         // run all start logic runs
         startScreen.updateStage("Running start logic...");
@@ -198,7 +210,13 @@ public class PotoFlux {
     public static void runProgramClosing(int exitCode) {
         // executes when program close
 
-        for (ActionRun ar : CloseRunRegistry.getAll()) ar.run().run();
+        if (exitCode == 0) for (ActionRun ar : CloseRunRegistry.getAll()) {
+            try {
+                ar.run().run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         // saves logs
         LogSaver.flushAndSave();
