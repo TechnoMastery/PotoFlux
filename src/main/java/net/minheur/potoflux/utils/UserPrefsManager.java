@@ -148,10 +148,8 @@ public class UserPrefsManager {
                 themeOptions,
                 themeOptions[actualThemeId]
         );
-        String newTheme = response == null ? null : response.toString();
 
-        if (newTheme == null) newTheme = actualTheme;
-        return newTheme;
+        return response == null ? null : response.toString();
     }
 
 
