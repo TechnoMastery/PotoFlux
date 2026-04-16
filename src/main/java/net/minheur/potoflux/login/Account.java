@@ -10,5 +10,6 @@ public class Account {
     public String email;
     public Perms[] perms;
     public int rank;
+    public boolean locked;
 
 }

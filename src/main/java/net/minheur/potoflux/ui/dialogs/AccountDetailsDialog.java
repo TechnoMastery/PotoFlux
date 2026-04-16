@@ -1,6 +1,5 @@
 package net.minheur.potoflux.ui.dialogs;
 
-import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.login.response.BaseResponse;
@@ -36,6 +35,7 @@ public class AccountDetailsDialog extends JDialog {
     private JButton confirmButton;
     private JButton cancelButton;
     private JButton changePasswordButton;
+    private JButton lockButton;
 
     public AccountDetailsDialog(Frame owner, Account account) {
         super(owner, "Account details", true);
@@ -82,9 +82,15 @@ public class AccountDetailsDialog extends JDialog {
             rankSpinner.setEnabled(false);
         }
 
-        changePasswordButton.setEnabled(
+        changePasswordButton.setVisible(
                 actualPerms.contains(Perms.CHANGE_PASSWORD)
         );
+        lockButton.setVisible(
+            actualPerms.contains(Perms.LOCK)
+        );
+        lockButton.setText(Translations.get(
+                "potoflux:tabs.account." + (account.locked ? "unlock" : "lock") + ".button"
+        ));
     }
 
     private void fillActualPerms() {
@@ -97,6 +103,7 @@ public class AccountDetailsDialog extends JDialog {
         confirmButton = new JButton(Translations.get("common:confirm"));
         cancelButton = new JButton(Translations.get("common:cancel"));
         changePasswordButton = new JButton(Translations.get("potoflux:tabs.account.mdUserPassword.button"));
+        lockButton = new JButton(Translations.get("potoflux:tabs.account.lock.button"));
 
         okButton.addActionListener(e -> dispose());
         cancelButton.addActionListener(e -> dispose());
@@ -256,6 +263,7 @@ public class AccountDetailsDialog extends JDialog {
 
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
+        buttonsPanel.add(lockButton);
         buttonsPanel.add(changePasswordButton);
         buttonsPanel.add(cancelButton);
         buttonsPanel.add(confirmButton);

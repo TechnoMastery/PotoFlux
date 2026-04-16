@@ -360,6 +360,12 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("mdUserPassword", "title")
                 .en("Please enter user's new password")
                 .fr("Veuillez renseigner le nouveau mot de passe");
+        addAccountTab("lock", "button")
+                .en("Lock")
+                .fr("Verrouiller");
+        addAccountTab("unlock", "button")
+                .en("Unlock")
+                .fr("Déverrouiller");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
