@@ -139,7 +139,7 @@ public class UserPrefsManager {
         String actualTheme = getTheme();
         int actualThemeId = Arrays.asList(themeOptions).indexOf(actualTheme);
 
-        String newTheme = JOptionPane.showInputDialog(
+        Object response = JOptionPane.showInputDialog(
                 null,
                 Translations.get("potoflux:prefs.theme.select"),
                 Translations.get("potoflux:prefs.theme"),
@@ -147,7 +147,8 @@ public class UserPrefsManager {
                 null,
                 themeOptions,
                 themeOptions[actualThemeId]
-        ).toString();
+        );
+        String newTheme = response == null ? null : response.toString();
 
         if (newTheme == null) newTheme = actualTheme;
         return newTheme;
