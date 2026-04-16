@@ -2,6 +2,8 @@ package net.minheur.potoflux.screen;
 
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.screen.menu.MenuRegistry;
+import net.minheur.potoflux.screen.menu.PotoMenuItem;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
@@ -26,7 +28,8 @@ public class PotoScreen {
      * The actual {@link JFrame} for the class
      */
     private final JFrame frame;
-    private final PotoMenu menu = new PotoMenu();
+    private final JMenuBar menu = new JMenuBar();
+    private final List<PotoMenuItem> menuItems = new ArrayList<>();
     /**
      * The map containing the tabs, by there tab item and the tab class
      */
@@ -50,6 +53,16 @@ public class PotoScreen {
     }
 
     private void addMenu() {
+        menuItems.clear();
+        menuItems.addAll(MenuRegistry.getAll().stream()
+                .sorted(Comparator.comparing(
+                        item -> !item.id().getNamespace().equals(PotoFlux.ID)
+                ))
+                .toList()
+        );
+
+        for (PotoMenuItem item : menuItems) menu.add(item.content());
+
         frame.setJMenuBar(menu);
     }
 

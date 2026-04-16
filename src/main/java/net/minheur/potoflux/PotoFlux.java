@@ -10,14 +10,12 @@ import net.minheur.potoflux.actionRuns.regs.StartUiRunRegistry;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
-import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
-import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
-import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
-import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
+import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.log.LogSaver;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.LoadingScreen;
+import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.Translations;
@@ -114,6 +112,7 @@ public class PotoFlux {
         bus.addListener(Tabs::register);
         bus.addListener(Commands::register);
         bus.addListener(ActionRuns::register);
+        bus.addListener(MenuContent::register);
 
         // load all addons
         startScreen.updateStage("Loading addons...");
@@ -128,6 +127,7 @@ public class PotoFlux {
             bus.post(new RegisterTabsEvent());
             bus.post(new RegisterCommandsEvent());
             bus.post(new RegisterRunsEvent());
+            bus.post(new RegisterMenuEvent());
         } catch (Throwable e) {
             e.printStackTrace();
             runProgramClosing(-1);
