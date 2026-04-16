@@ -6,6 +6,7 @@ import net.minheur.potoflux.registry.RegistryList;
 import javax.swing.*;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
+import static net.minheur.potoflux.screen.menu.ItemDefiners.*;
 
 public class MenuContent {
     private final RegistryList<PotoMenuItem> LIST = new RegistryList<>();
@@ -17,7 +18,8 @@ public class MenuContent {
         hasGenerated = true;
     }
 
-    public final PotoMenuItem FILE = LIST.add(new PotoMenuItem(fromModId("file"), new JMenu("File")));
+    // --- file ---
+    public final PotoMenuItem FILE = LIST.add(new PotoMenuItem(fromModId("file"), getFileMenu()));
 
     public static void register(RegisterMenuEvent event) {
         INSTANCE = new MenuContent();
