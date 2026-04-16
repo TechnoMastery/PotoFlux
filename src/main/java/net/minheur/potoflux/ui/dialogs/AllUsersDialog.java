@@ -93,7 +93,7 @@ public class AllUsersDialog extends JDialog {
 
     private void showDetails(Account account) {
 
-        AccountDetailsDialog dialog = new AccountDetailsDialog(PotoFlux.app.getFrame(), account);
+        AccountDetailsDialog dialog = new AccountDetailsDialog(this, account);
         dialog.setVisible(true);
 
     }

@@ -37,7 +37,7 @@ public class AccountDetailsDialog extends JDialog {
     private JButton changePasswordButton;
     private JButton lockButton;
 
-    public AccountDetailsDialog(Frame owner, Account account) {
+    public AccountDetailsDialog(JDialog owner, Account account) {
         super(owner, "Account details", true);
         this.account = account;
 
@@ -105,8 +105,8 @@ public class AccountDetailsDialog extends JDialog {
         changePasswordButton = new JButton(Translations.get("potoflux:tabs.account.mdUserPassword.button"));
         lockButton = new JButton(Translations.get("potoflux:tabs.account.lock.button"));
 
-        okButton.addActionListener(e -> dispose());
-        cancelButton.addActionListener(e -> dispose());
+        okButton.addActionListener(e -> disposeWithParent());
+        cancelButton.addActionListener(e -> disposeWithParent());
 
         confirmButton.addActionListener(e -> {
             String mail = emailField.getText();
@@ -121,7 +121,7 @@ public class AccountDetailsDialog extends JDialog {
 
             // if nothing changed, return
             if (!(isMailModified || isFirstNameModified || isLastNameModified || isRankModified)) {
-                dispose();
+                disposeWithParent();
                 return;
             }
 
@@ -141,7 +141,7 @@ public class AccountDetailsDialog extends JDialog {
             );
 
             if (check == JOptionPane.CANCEL_OPTION) {
-                dispose();
+                disposeWithParent();
                 return;
             }
 
@@ -160,12 +160,12 @@ public class AccountDetailsDialog extends JDialog {
             } catch (InvalidTokenException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
-                dispose();
+                disposeWithParent();
                 return;
             } catch (IOException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.failed"));
-                dispose();
+                disposeWithParent();
                 return;
             }
 
@@ -184,7 +184,7 @@ public class AccountDetailsDialog extends JDialog {
                             default -> response.error;
                         }
                 );
-                dispose();
+                disposeWithParent();
                 return;
             }
 
@@ -199,7 +199,7 @@ public class AccountDetailsDialog extends JDialog {
 
             showMessagePane(doneSb.toString());
 
-            dispose();
+            disposeWithParent();
 
         });
         changePasswordButton.addActionListener(e -> {
@@ -214,7 +214,7 @@ public class AccountDetailsDialog extends JDialog {
             );
 
             if (check == JOptionPane.CANCEL_OPTION) {
-                dispose();
+                disposeWithParent();
                 return;
             }
 
@@ -308,6 +308,11 @@ public class AccountDetailsDialog extends JDialog {
         gbc.fill = GridBagConstraints.NONE;
 
         panel.add(buttonsPanel, gbc);
+    }
+
+    private void disposeWithParent() {
+        dispose();
+        ((JDialog) getParent()).dispose();
     }
 
     private void addRank() {
