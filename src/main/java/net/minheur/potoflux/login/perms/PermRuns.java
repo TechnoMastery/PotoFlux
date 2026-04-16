@@ -137,6 +137,7 @@ public class PermRuns {
                             Translations.get("potoflux:tabs.account.error.rankToSmall"),
                             response.targetRank, account.rank
                     );
+                    case "target_locked" -> Translations.get("potoflux:tabs.account.error.targetLocked");
                     default -> response.error;
                 }
         );

@@ -180,6 +180,7 @@ public class AccountDetailsDialog extends JDialog {
                             case "new_email_used" -> Translations.get("potoflux:tabs.account.createAccount.emailUsed");
                             case "nothing_changed" -> Translations.get("potoflux:tabs.account.mdUserInfos.noMods");
                             case "insufficient_rank" -> Translations.get("potoflux:tabs.account.error.insufficientRank");
+                            case "target_locked" -> Translations.get("potoflux:tabs.account.error.targetLocked");
                             default -> response.error;
                         }
                 );
@@ -248,6 +249,7 @@ public class AccountDetailsDialog extends JDialog {
                             case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
                             case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
                             case "insufficient_rank" -> Translations.get("potoflux:tabs.account.error.insufficientRank");
+                            case "target_locked" -> Translations.get("potoflux:tabs.account.error.targetLocked");
                             default -> response.error;
                         }
                 );
