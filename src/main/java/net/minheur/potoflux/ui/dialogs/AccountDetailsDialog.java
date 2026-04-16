@@ -295,8 +295,9 @@ public class AccountDetailsDialog extends JDialog {
             JOptionPane.showMessageDialog(
                     this,
                     Translations.get("potoflux:tabs.account." + (newState ? "lock" : "unlock") + ".done"),
-                    Translations.get("common:finisg"), JOptionPane.INFORMATION_MESSAGE
+                    Translations.get("common:finish"), JOptionPane.INFORMATION_MESSAGE
             );
+            disposeWithParent();
 
         });
 
