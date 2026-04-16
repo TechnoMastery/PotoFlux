@@ -155,7 +155,6 @@ public class UserPrefsManager {
     }
 
 
-
     // resets
     /**
      * Runs the reset for the user lang
