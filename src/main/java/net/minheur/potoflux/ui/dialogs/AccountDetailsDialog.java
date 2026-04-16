@@ -202,7 +202,6 @@ public class AccountDetailsDialog extends JDialog {
             dispose();
 
         });
-
         changePasswordButton.addActionListener(e -> {
             JTextField newPasswordField = new JTextField();
 
@@ -231,12 +230,10 @@ public class AccountDetailsDialog extends JDialog {
             } catch (InvalidTokenException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
-                dispose();
                 return;
             } catch (IOException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.failed"));
-                dispose();
                 return;
             }
 
@@ -260,6 +257,39 @@ public class AccountDetailsDialog extends JDialog {
                     Translations.get("potoflux:tabs.account.mdUserPassword.done"),
                     account.email, newPassword
             ));
+
+        });
+        lockButton.addActionListener(e -> {
+            boolean newState = !account.locked;
+
+            String content;
+            try {
+                content = RequestPoster.lockUser(
+                        TokenHandler.get(),
+                        account.uuid,
+                        newState
+                );
+            } catch (InvalidTokenException ex) {
+                ex.printStackTrace();
+                showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+                return;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                showErrorPane(Translations.get("potoflux:tabs.account.failed"));
+                return;
+            }
+
+            BaseResponse response = Json.GSON.fromJson(content, BaseResponse.class);
+
+            if (!response.success) showErrorPane(
+                    switch (response.error) {
+                        case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
+                        case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                        case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                        case "insufficient_rank" -> Translations.get("potoflux:tabs.account.error.insufficientRank");
+                        default -> response.error;
+                    }
+            );
 
         });
 
