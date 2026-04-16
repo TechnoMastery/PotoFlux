@@ -201,7 +201,7 @@ public class AccountDetailsDialog extends JDialog {
             int check = JOptionPane.showConfirmDialog(
                     this,
                     newPasswordField,
-                    "Please enter user's new password", // TODO
+                    Translations.get("potoflux:tabs.account.mdUserPassword.title"),
                     JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.PLAIN_MESSAGE
             );

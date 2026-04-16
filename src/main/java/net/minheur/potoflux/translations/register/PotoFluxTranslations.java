@@ -357,6 +357,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("mdUserPassword", "button")
                 .en("Modify password")
                 .fr("Modifier le mot de passe");
+        addAccountTab("mdUserPassword", "title")
+                .en("Please enter user's new password")
+                .fr("Veuillez renseigner le nouveau mot de passe");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
