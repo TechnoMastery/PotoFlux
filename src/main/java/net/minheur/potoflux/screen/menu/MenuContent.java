@@ -17,7 +17,7 @@ public class MenuContent {
         hasGenerated = true;
     }
 
-    public final PotoMenuItem FILE = new PotoMenuItem(fromModId("file"), new JMenu("File"));
+    public final PotoMenuItem FILE = LIST.add(new PotoMenuItem(fromModId("file"), new JMenu("File")));
 
     public static void register(RegisterMenuEvent event) {
         INSTANCE = new MenuContent();
