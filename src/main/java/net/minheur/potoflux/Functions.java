@@ -2,6 +2,7 @@ package net.minheur.potoflux;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -120,5 +121,18 @@ public class Functions {
             e.printStackTrace();
             return false;
         }
+    }
+    public static boolean openDir(File dir) {
+
+        if (!Desktop.isDesktopSupported()) return false;
+
+        try {
+            Desktop.getDesktop().open(dir);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }
