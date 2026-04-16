@@ -218,6 +218,11 @@ public class PotoFlux {
             }
         }
 
+        if (exitCode != 0) {
+            PtfLogger.error("Execution finished with non-0 exit code: " + exitCode);
+            PtfLogger.error("For more info, please check the github page at https://github.com/TechnoMastery/PotoFlux");
+        }
+
         // saves logs
         LogSaver.flushAndSave();
 
