@@ -369,6 +369,12 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("error", "targetLocked")
                 .en("This account is locked !\nYou can't modify it until it's unlocked.")
                 .fr("Ce compte est verrouillé !\nVous ne pouvez pas le modifier tant qu'il l'est.");
+        addAccountTab("lock", "done")
+                .en("Account locked successfully !")
+                .fr("Le compte a été vérrouillé avec succès !");
+        addAccountTab("unlock", "done")
+                .en("Account unlocked successfully !")
+                .fr("Le compte a été déverrouillé avec succès !");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")

@@ -105,8 +105,8 @@ public class AccountDetailsDialog extends JDialog {
         changePasswordButton = new JButton(Translations.get("potoflux:tabs.account.mdUserPassword.button"));
         lockButton = new JButton(Translations.get("potoflux:tabs.account.lock.button"));
 
-        okButton.addActionListener(e -> disposeWithParent());
-        cancelButton.addActionListener(e -> disposeWithParent());
+        okButton.addActionListener(e -> dispose());
+        cancelButton.addActionListener(e -> dispose());
 
         confirmButton.addActionListener(e -> {
             String mail = emailField.getText();
@@ -141,7 +141,7 @@ public class AccountDetailsDialog extends JDialog {
             );
 
             if (check == JOptionPane.CANCEL_OPTION) {
-                disposeWithParent();
+                dispose();
                 return;
             }
 
@@ -184,7 +184,7 @@ public class AccountDetailsDialog extends JDialog {
                             default -> response.error;
                         }
                 );
-                disposeWithParent();
+                dispose();
                 return;
             }
 
@@ -213,10 +213,7 @@ public class AccountDetailsDialog extends JDialog {
                     JOptionPane.PLAIN_MESSAGE
             );
 
-            if (check == JOptionPane.CANCEL_OPTION) {
-                disposeWithParent();
-                return;
-            }
+            if (check == JOptionPane.CANCEL_OPTION) return;
 
             String newPassword = newPasswordField.getText();
 
@@ -281,14 +278,24 @@ public class AccountDetailsDialog extends JDialog {
 
             BaseResponse response = Json.GSON.fromJson(content, BaseResponse.class);
 
-            if (!response.success) showErrorPane(
-                    switch (response.error) {
-                        case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
-                        case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
-                        case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
-                        case "insufficient_rank" -> Translations.get("potoflux:tabs.account.error.insufficientRank");
-                        default -> response.error;
-                    }
+            if (!response.success) {
+                showErrorPane(
+                        switch (response.error) {
+                            case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
+                            case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                            case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                            case "insufficient_rank" ->
+                                    Translations.get("potoflux:tabs.account.error.insufficientRank");
+                            default -> response.error;
+                        }
+                );
+                return;
+            }
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    Translations.get("potoflux:tabs.account." + (newState ? "lock" : "unlock") + ".done"),
+                    Translations.get("common:finisg"), JOptionPane.INFORMATION_MESSAGE
             );
 
         });
