@@ -9,8 +9,8 @@ import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -26,6 +26,7 @@ public class PotoScreen {
      * The actual {@link JFrame} for the class
      */
     private final JFrame frame;
+    private final PotoMenu menu = new PotoMenu();
     /**
      * The map containing the tabs, by there tab item and the tab class
      */
@@ -42,12 +43,17 @@ public class PotoScreen {
         frame = setupFrame();
 
         addIcon();
-        addPanels();
+        addMenu();
+        addTabs();
 
         frame.setVisible(true);
     }
 
-    @Nonnull
+    private void addMenu() {
+        frame.setJMenuBar(menu);
+    }
+
+    @NotNull
     private JFrame setupFrame() {
         final JFrame frame;
         frame = new JFrame("PotoFlux");
@@ -70,7 +76,7 @@ public class PotoScreen {
     /**
      * Handle the adding part of the tabs and mod tabs to the {@link #tabs}
      */
-    private void addPanels() {
+    private void addTabs() {
         tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
         List<Tab> allTabs = TabRegistry.getAll().stream() // get all tabs
