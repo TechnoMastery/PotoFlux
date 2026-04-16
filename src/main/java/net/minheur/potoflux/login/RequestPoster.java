@@ -225,6 +225,21 @@ public class RequestPoster {
 
         return get(obj.toString(), "md_user_password");
     }
+    public static String lockUser(
+            String token,
+            String targetUuid,
+            boolean newState
+    ) throws InvalidTokenException, IOException {
+        checkTokenFormat(token);
+        if (targetUuid == null) return null;
+
+        JsonObject obj = new JsonObject();
+        obj.addProperty("p_token", token);
+        obj.addProperty("p_target_id", targetUuid);
+        obj.addProperty("p_is_locked", newState);
+
+        return get(obj.toString(), "lock_account");
+    }
 
     public static void rmToken(String token) throws IOException {
         try {
