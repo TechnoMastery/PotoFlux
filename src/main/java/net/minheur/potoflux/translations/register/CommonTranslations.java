@@ -106,5 +106,8 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
         add("select_list")
                 .en("<Select List>")
                 .fr("<Sélectionnez une liste>");
+        add("file")
+                .en("File")
+                .fr("Fichier");
     }
 }

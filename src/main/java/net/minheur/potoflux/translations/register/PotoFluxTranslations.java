@@ -196,6 +196,13 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Change theme")
                 .fr("Changer le thème");
 
+        addMenu("file", "openModDir")
+                .en("Open mods directory")
+                .fr("Ouvrir le dossier des mods");
+        addMenu("file", "openLogDir")
+                .en("Open logs directory")
+                .fr("Ouvrir le dossier des logs");
+
         addScreen("tabHereNotHere")
                 .en("ERROR: this tab is detected but unexisting !")
                 .fr("Erreur : cette onglet est détecté mais inéxistante !");
@@ -276,6 +283,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      */
     private TranslationBuilder addScreen(String... children) {
         return add("screen", children);
+    }
+    private TranslationBuilder addMenu(String... children) {
+        return add("menu", children);
     }
 
     // tabs helpers

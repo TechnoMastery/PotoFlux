@@ -2,6 +2,7 @@ package net.minheur.potoflux.screen.menu;
 
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ public class ItemDefiners {
 
     static JMenu getFileMenu() {
 
-        JMenuItem openModDir = new JMenuItem("Open mod dir");
+        JMenuItem openModDir = new JMenuItem(Translations.get("potoflux:menu.file.openModDir"));
         if (!Desktop.isDesktopSupported()) openModDir.setEnabled(false);
 
         openModDir.addActionListener(e -> {
@@ -22,7 +23,7 @@ public class ItemDefiners {
 
         });
 
-        JMenuItem openLogDir = new JMenuItem("Open log dir");
+        JMenuItem openLogDir = new JMenuItem(Translations.get("potoflux:menu.file.openLogDir"));
         if (!Desktop.isDesktopSupported()) openModDir.setEnabled(false);
 
         openLogDir.addActionListener(e -> {
@@ -33,7 +34,7 @@ public class ItemDefiners {
 
         });
 
-        JMenu fileMenu = new JMenu("File");
+        JMenu fileMenu = new JMenu(Translations.get("common:file"));
 
         fileMenu.add(openModDir);
         fileMenu.add(openLogDir);
