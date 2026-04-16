@@ -229,6 +229,7 @@ public class PermRuns {
             userAccount.firstName = userResponse.firstName;
             userAccount.lastName = userResponse.lastName;
             userAccount.rank = userResponse.rank;
+            userAccount.locked = userResponse.locked;
 
             usersAccounts.add(userAccount);
 

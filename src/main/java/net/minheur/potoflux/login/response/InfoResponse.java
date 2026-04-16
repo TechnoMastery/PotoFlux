@@ -13,5 +13,6 @@ public class InfoResponse extends BaseResponse {
     public String email;
     public String[] perms;
     public int rank;
+    public boolean locked;
 
 }
