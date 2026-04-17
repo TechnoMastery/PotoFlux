@@ -1,19 +1,17 @@
 package net.minheur.potoflux.ui.dialogs;
 
-import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.Account;
-import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.translations.Translations;
 
 import javax.annotation.Nonnull;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.util.Arrays;
 import java.util.List;
 
-import static net.minheur.potoflux.Functions.formatMessage;
-
+/**
+ * Contains the list of all users, each with a button allowing the user to see their details.
+ */
 public class AllUsersDialog extends JDialog {
 
     private final List<Account> accounts;

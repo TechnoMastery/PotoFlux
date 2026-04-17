@@ -17,6 +17,9 @@ import static net.minheur.potoflux.Functions.formatMessage;
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 import static net.minheur.potoflux.ui.UiUtils.showMessagePane;
 
+/**
+ * When you ask for a user's details, this dialogs pops up
+ */
 public class AccountDetailsDialog extends JDialog {
 
     private final Account account;

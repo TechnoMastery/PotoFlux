@@ -6,6 +6,9 @@ import net.minheur.potoflux.logger.PtfLogger;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
+/**
+ * This saves, stores and retrieve your connection token
+ */
 public class TokenHandler {
     private static final Preferences prefs = Preferences.userNodeForPackage(TokenHandler.class);
 

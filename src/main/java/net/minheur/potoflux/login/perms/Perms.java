@@ -7,6 +7,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
+/**
+ * Registers all perms of the app
+ */
 public enum Perms {
     VIEW_USERS("viewUsers", "potoflux:perms.viewUsers", PermRuns::seeUsersInfos),
     CREATE_USERS("mkUsers", "potoflux:perms.mkUsers", PermRuns::addUser),

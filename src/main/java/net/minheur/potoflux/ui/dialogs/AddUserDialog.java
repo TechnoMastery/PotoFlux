@@ -13,6 +13,9 @@ import java.util.List;
 
 import static net.minheur.potoflux.login.ConnectionHandler.account;
 
+/**
+ * Used by admins when creating a new account for someone
+ */
 public class AddUserDialog extends JDialog {
 
     private JPanel formPanel;

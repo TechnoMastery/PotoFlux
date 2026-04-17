@@ -3,6 +3,9 @@ package net.minheur.potoflux.ui.dialogs;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This dialog is used when you create your own account
+ */
 public class CreateAccountDialog extends JDialog {
 
     private JPanel formPanel;

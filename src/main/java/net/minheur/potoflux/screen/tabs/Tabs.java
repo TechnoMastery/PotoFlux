@@ -38,6 +38,9 @@ public class Tabs {
      * The item of the home tab ({@link HomeTab}).
      */
     public final Tab HOME = LIST.add(new Tab(fromModId("home"), Translations.get("potoflux:tabs.home.name"), HomeTab.class));
+    /**
+     * The item of the account tab ({@link AccountTab})
+     */
     public final Tab ACCOUNT = LIST.add(new Tab(fromModId("account"), Translations.get("potoflux:tabs.account.name"), AccountTab.class));
     /**
      * The item of the terminal tab ({@link TerminalTab}).

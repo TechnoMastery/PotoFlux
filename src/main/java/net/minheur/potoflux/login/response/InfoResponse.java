@@ -2,6 +2,10 @@ package net.minheur.potoflux.login.response;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Response when you ask for a specific user's info.<br>
+ * You can then use it to fill an {@link net.minheur.potoflux.login.Account} class
+ */
 public class InfoResponse extends BaseResponse {
 
     public String uuid;

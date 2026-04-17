@@ -18,6 +18,9 @@ import java.util.Arrays;
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 import static net.minheur.potoflux.login.ConnectionHandler.*;
 
+/**
+ * Tab class for account tab
+ */
 public class AccountTab extends BaseTab {
 
     private JLabel titleLabel;

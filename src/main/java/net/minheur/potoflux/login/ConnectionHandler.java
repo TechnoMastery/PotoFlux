@@ -15,6 +15,10 @@ import java.util.List;
 
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 
+/**
+ * Handles all things related to connecting you to your account, disconnecting you, and keeping your {@link #account}<br>
+ * It synchronizes multiple other classes to do so
+ */
 public class ConnectionHandler {
     public static Account account;
     public static boolean isLogged = false;

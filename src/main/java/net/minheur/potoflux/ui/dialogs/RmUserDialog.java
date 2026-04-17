@@ -6,6 +6,9 @@ import net.minheur.potoflux.translations.Translations;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This dialog asks an admin for a username, to delete his account.
+ */
 public class RmUserDialog extends JDialog {
 
     private JPanel formPanel;

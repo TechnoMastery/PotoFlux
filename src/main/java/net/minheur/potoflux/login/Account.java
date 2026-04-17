@@ -2,6 +2,9 @@ package net.minheur.potoflux.login;
 
 import net.minheur.potoflux.login.perms.Perms;
 
+/**
+ * A class that stores every useful info about an account
+ */
 public class Account {
 
     public String uuid;

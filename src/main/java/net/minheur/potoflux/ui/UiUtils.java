@@ -6,6 +6,9 @@ import net.minheur.potoflux.translations.Translations;
 import javax.annotation.CheckForNull;
 import javax.swing.*;
 
+/**
+ * A utility class for UI related
+ */
 public class UiUtils {
 
     public static void showErrorPane(String message) {

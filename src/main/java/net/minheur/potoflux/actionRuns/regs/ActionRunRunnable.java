@@ -123,6 +123,10 @@ public class ActionRunRunnable {
 
     }
 
+    /**
+     * Checks if you have a token.
+     * If you do, sends a request to connect to your account
+     */
     public static void connectToken() {
         if (!TokenHandler.has()) return;
 

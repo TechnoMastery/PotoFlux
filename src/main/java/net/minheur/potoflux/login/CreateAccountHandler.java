@@ -11,6 +11,10 @@ import java.io.IOException;
 import static net.minheur.potoflux.Functions.formatMessage;
 import static net.minheur.potoflux.ui.UiUtils.*;
 
+/**
+ * This class is in charge when you click the create account button.<br>
+ * It only handles when you create your own account, not when an admin creates one.
+ */
 public class CreateAccountHandler {
 
     public static void create() {

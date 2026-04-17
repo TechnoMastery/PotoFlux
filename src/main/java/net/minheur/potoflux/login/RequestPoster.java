@@ -12,6 +12,9 @@ import java.io.*;
 import java.net.URL;
 import java.util.UUID;
 
+/**
+ * This posts all requests to the SQL database.
+ */
 public class RequestPoster {
 
     private static final String address = "https://rkujwtknzfbyocjrrpbi.supabase.co/rest/v1/rpc/";

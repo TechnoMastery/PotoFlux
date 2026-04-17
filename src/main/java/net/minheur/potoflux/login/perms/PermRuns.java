@@ -28,6 +28,9 @@ import static net.minheur.potoflux.login.ConnectionHandler.account;
 import static net.minheur.potoflux.login.ConnectionHandler.fillPerms;
 import static net.minheur.potoflux.ui.UiUtils.*;
 
+/**
+ * Runnable called by perms when you run them
+ */
 public class PermRuns {
     static void addUser() {
         AddUserDialog dialog = new AddUserDialog(PotoFlux.app.getFrame());
