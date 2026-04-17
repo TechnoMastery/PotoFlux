@@ -73,8 +73,10 @@ public class ModEventBus {
                 } else {
                     method.invoke(target, event);
                 }
-            } catch (IllegalAccessException | InvocationTargetException e) {
+            } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e.getCause());
             }
         }
     }

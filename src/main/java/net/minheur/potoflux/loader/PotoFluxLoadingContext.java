@@ -104,6 +104,8 @@ public class PotoFluxLoadingContext {
      * If there is one available, tells the user.
      */
     public static void checkUpdates() {
+        if (isDevEnv()) return;
+
         try {
             String target = "https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json";
 

@@ -5,8 +5,6 @@ import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
 
-import java.util.Arrays;
-
 /**
  * Registry for all potoflux translations
  */
