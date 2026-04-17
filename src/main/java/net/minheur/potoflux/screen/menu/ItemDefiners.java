@@ -1,0 +1,54 @@
+package net.minheur.potoflux.screen.menu;
+
+import net.minheur.potoflux.Functions;
+import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.translations.Translations;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+
+public class ItemDefiners {
+
+    static JMenu getFileMenu() {
+
+        JMenuItem openModDir = new JMenuItem(Translations.get("potoflux:menu.file.openModDir"));
+        if (!Desktop.isDesktopSupported()) openModDir.setEnabled(false);
+
+        openModDir.addActionListener(e -> {
+
+            File target = PotoFlux.getProgramDir().resolve("mods").toFile();
+
+            if (!Functions.openDir(target)) return; // TODO: error pane
+
+        });
+
+        JMenuItem openLogDir = new JMenuItem(Translations.get("potoflux:menu.file.openLogDir"));
+        if (!Desktop.isDesktopSupported()) openModDir.setEnabled(false);
+
+        openLogDir.addActionListener(e -> {
+
+            File target = PotoFlux.getProgramDir().resolve("logs").toFile();
+
+            if (!Functions.openDir(target)) return; // TODO: error pane
+
+        });
+
+        JMenu fileMenu = new JMenu(Translations.get("common:file"));
+
+        fileMenu.add(openModDir);
+        fileMenu.add(openLogDir);
+
+        return fileMenu;
+    }
+
+    static JMenu getAccountMenu() {
+
+        JMenu accountMenu = new JMenu(Translations.get("common:account"));
+        accountMenu.setEnabled(false);
+
+        return accountMenu;
+
+    }
+
+}

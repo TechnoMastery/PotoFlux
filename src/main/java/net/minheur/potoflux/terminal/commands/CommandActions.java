@@ -241,15 +241,11 @@ public class CommandActions {
 
         File target = PotoFlux.getProgramDir().resolve("mods").toFile();
 
-        try {
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().open(target);
-                CommandProcessor.appendOutput("Opened in file explorer !"); // TODO
-            } else {
-                CommandProcessor.appendOutput("Could not get desktop !"); // TODO
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        boolean opened = Functions.openDir(target);
+
+        if (opened) {
+            CommandProcessor.appendOutput("Opened in file explorer !"); // TODO
+        } else {
             PtfLogger.error("Could not open mods folder !", LogCategories.TERMINAL, "command");
             CommandProcessor.appendOutput("Could not get desktop !"); // TODO
         }
@@ -303,15 +299,11 @@ public class CommandActions {
 
         File target = PotoFlux.getProgramDir().resolve("logs").toFile();
 
-        try {
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().open(target);
-                CommandProcessor.appendOutput("Opened in file explorer !"); // TODO
-            } else {
-                CommandProcessor.appendOutput("Could not get desktop !"); // TODO
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        boolean opened = Functions.openDir(target);
+
+        if (opened) {
+            CommandProcessor.appendOutput("Opened in file explorer !"); // TODO
+        } else {
             PtfLogger.error("Could not open logs folder !", LogCategories.TERMINAL, "command");
             CommandProcessor.appendOutput("Could not get desktop !"); // TODO
         }

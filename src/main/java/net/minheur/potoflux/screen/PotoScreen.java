@@ -2,6 +2,8 @@ package net.minheur.potoflux.screen;
 
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.screen.menu.MenuRegistry;
+import net.minheur.potoflux.screen.menu.PotoMenuItem;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
@@ -9,8 +11,8 @@ import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -26,6 +28,8 @@ public class PotoScreen {
      * The actual {@link JFrame} for the class
      */
     private final JFrame frame;
+    private final JMenuBar menu = new JMenuBar();
+    private final List<PotoMenuItem> menuItems = new ArrayList<>();
     /**
      * The map containing the tabs, by there tab item and the tab class
      */
@@ -42,12 +46,27 @@ public class PotoScreen {
         frame = setupFrame();
 
         addIcon();
-        addPanels();
+        addMenu();
+        addTabs();
 
         frame.setVisible(true);
     }
 
-    @Nonnull
+    private void addMenu() {
+        menuItems.clear();
+        menuItems.addAll(MenuRegistry.getAll().stream()
+                .sorted(Comparator.comparing(
+                        item -> !item.id().getNamespace().equals(PotoFlux.ID)
+                ))
+                .toList()
+        );
+
+        for (PotoMenuItem item : menuItems) menu.add(item.content());
+
+        frame.setJMenuBar(menu);
+    }
+
+    @NotNull
     private JFrame setupFrame() {
         final JFrame frame;
         frame = new JFrame("PotoFlux");
@@ -70,7 +89,7 @@ public class PotoScreen {
     /**
      * Handle the adding part of the tabs and mod tabs to the {@link #tabs}
      */
-    private void addPanels() {
+    private void addTabs() {
         tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
         List<Tab> allTabs = TabRegistry.getAll().stream() // get all tabs
