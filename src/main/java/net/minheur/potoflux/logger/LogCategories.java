@@ -21,6 +21,22 @@ public enum LogCategories implements ILogCategory {
      */
     MOD_UPDATE(MOD_LOADER, "modUpdate"),
     /**
+     * All logs related to your account
+     */
+    ACCOUNT("account"),
+    /**
+     * All logs related to posting requests, with your account (this englobes connection and admin actions)
+     */
+    CONNEXION_POST(ACCOUNT, "requests"),
+    /**
+     * All logs related to your account's IDs
+     */
+    ACCOUNT_IDS(ACCOUNT, "IDs"),
+    /**
+     * All logs related to your account's token
+     */
+    TOKEN(ACCOUNT, "token"),
+    /**
      * All logs about the mod catalog
      */
     CATALOG("modCatalog"),

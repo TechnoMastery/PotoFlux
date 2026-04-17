@@ -108,6 +108,11 @@ public class Functions {
         return result;
     }
 
+    /**
+     * Opens a directory in your file explorer
+     * @param url directory to open
+     * @return weather the directory got opened or if an error happened
+     */
     public static boolean browse(String url) {
         try {
             URI uri = new URI(url);
