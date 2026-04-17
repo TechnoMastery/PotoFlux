@@ -13,11 +13,13 @@ import net.minheur.potoflux.login.response.InfoResponse;
 import net.minheur.potoflux.login.response.ListUserResponse;
 import net.minheur.potoflux.login.response.RmUserResponse;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.ui.dialogs.AddUserDialog;
 import net.minheur.potoflux.ui.dialogs.AllUsersDialog;
 import net.minheur.potoflux.ui.dialogs.RmUserDialog;
 import net.minheur.potoflux.utils.Json;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +140,49 @@ public class PermRuns {
                             response.targetRank, account.rank
                     );
                     case "target_locked" -> Translations.get("potoflux:tabs.account.error.targetLocked");
+                    default -> response.error;
+                }
+        );
+
+    }
+
+    public static void setAccountCreationState() {
+
+        JCheckBox check = new JCheckBox(Translations.get("potoflux:tabs.account.accountCreationState.box"));
+        int validation = JOptionPane.showConfirmDialog(
+                UiUtils.getAppAnchor(),
+                check,
+                Translations.get("potoflux:tabs.account.accountCreationState.title"),
+                JOptionPane.OK_CANCEL_OPTION
+        );
+
+        if (validation == JOptionPane.CANCEL_OPTION) return;
+
+        String content;
+        try {
+            content = RequestPoster.lockAccountCreation(
+                    TokenHandler.get(),
+                    check.isSelected()
+            );
+        } catch (InvalidTokenException e) {
+            e.printStackTrace();
+            showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorPane(Translations.get("potoflux:tabs.account.failed"));
+            return;
+        }
+
+        BaseResponse response = Json.GSON.fromJson(content, BaseResponse.class);
+
+        if (response.success) return;
+
+        showErrorPane(
+                switch (response.error) {
+                    case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                    case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
+                    case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
                     default -> response.error;
                 }
         );

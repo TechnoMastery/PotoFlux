@@ -378,6 +378,12 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("unlock", "done")
                 .en("Account unlocked successfully !")
                 .fr("Le compte a été déverrouillé avec succès !");
+        addAccountTab("accountCreationState", "box")
+                .en("Do you want to allow account creation ?")
+                .fr("Autorisez vous la création de comptes ?");
+        addAccountTab("accountCreationState", "title")
+                .en("Account creation authorization")
+                .fr("Autorisation de création de comptes");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
