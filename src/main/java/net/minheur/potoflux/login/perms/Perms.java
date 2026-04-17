@@ -13,7 +13,8 @@ public enum Perms {
     DELETE_USERS("rmUsers", "potoflux:perms.rmUsers", PermRuns::rmUser),
     CHANGE_INFORMATIONS("mdInfos", "potoflux:perms.mdUserInfos", "potoflux:perms.executesInDetailsMenu"),
     CHANGE_PASSWORD("mdPasswords", "potoflux:perms.mdUserPasswords", "potoflux:perms.executesInDetailsMenu"),
-    LOCK("lockAccounts", "potoflux:perms.lock", "potoflux:perms.executesInDetailsMenu");
+    LOCK("lockAccounts", "potoflux:perms.lock", "potoflux:perms.executesInDetailsMenu"),
+    LOCK_ACCOUNT_CREATION("lockMkAccounts", "potoflux:perms.lockAccountCreation");
 
     private final String sqlCode;
     private final Supplier<String> name;

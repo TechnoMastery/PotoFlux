@@ -220,6 +220,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addPerm("lock")
                 .en("Lock accounts")
                 .fr("Vérrouiller des comptes");
+        addPerm("lockAccountCreation")
+                .en("Toggle account creation")
+                .fr("Contrôler l'activation de la création de compte");
 
         addPerm("executesInDetailsMenu")
                 .en("This perm needs to be executed in the user details menu !\nIf you don't have it, please contact a referent")
