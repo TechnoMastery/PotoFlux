@@ -10,11 +10,7 @@ import javax.annotation.CheckForNull;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
-import static net.minheur.potoflux.Functions.formatMessage;
 
 public class RequestPoster {
 
