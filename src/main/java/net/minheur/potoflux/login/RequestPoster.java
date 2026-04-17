@@ -237,6 +237,19 @@ public class RequestPoster {
         return get(obj.toString(), "lock_account");
     }
 
+    public static String lockAccountCreation(
+            String token,
+            boolean newState
+    ) throws InvalidTokenException, IOException {
+        checkTokenFormat(token);
+
+        JsonObject obj = new JsonObject();
+        obj.addProperty("p_token", token);
+        obj.addProperty("p_new_state", newState);
+
+        return get(obj.toString(), "account_creation_state");
+    }
+
     public static void rmToken(String token) throws IOException {
         try {
             checkTokenFormat(token);
