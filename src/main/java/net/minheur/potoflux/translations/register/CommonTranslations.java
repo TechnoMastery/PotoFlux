@@ -112,5 +112,41 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
         add("account")
                 .en("Account")
                 .fr("Compte");
+        add("perms")
+                .en("Permissions")
+                .fr("Permissions");
+        add("connection")
+                .en("Connection")
+                .fr("Connexion");
+        add("emailField")
+                .en("Email:")
+                .fr("Mail :");
+        add("passwordField")
+                .en("Password:")
+                .fr("Mot de passe :");
+        add("connect")
+                .en("Connect")
+                .fr("Se connecter");
+        add("disconnect")
+                .en("Disconnect")
+                .fr("Se déconnecter");
+        add("details")
+                .en("Details")
+                .fr("Détails");
+        add("email")
+                .en("Email")
+                .fr("Mail");
+        add("firstName")
+                .en("First name")
+                .fr("Prénom");
+        add("lastName")
+                .en("Last name")
+                .fr("Nom de famille");
+        add("rank")
+                .en("Rank")
+                .fr("Rang");
+        add("ok")
+                .en("OK")
+                .fr("Ok");
     }
 }
