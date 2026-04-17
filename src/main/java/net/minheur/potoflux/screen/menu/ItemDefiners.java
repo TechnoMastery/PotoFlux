@@ -42,4 +42,13 @@ public class ItemDefiners {
         return fileMenu;
     }
 
+    static JMenu getAccountMenu() {
+
+        JMenu accountMenu = new JMenu(Translations.get("common:account"));
+        accountMenu.setEnabled(false);
+
+        return accountMenu;
+
+    }
+
 }

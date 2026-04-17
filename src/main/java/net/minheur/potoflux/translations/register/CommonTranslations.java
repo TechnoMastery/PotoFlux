@@ -109,5 +109,8 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
         add("file")
                 .en("File")
                 .fr("Fichier");
+        add("account")
+                .en("Account")
+                .fr("Compte");
     }
 }
