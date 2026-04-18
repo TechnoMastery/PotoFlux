@@ -2,8 +2,8 @@ package net.minheur.potoflux.ui.dialogs;
 
 import net.minheur.potoflux.login.Account;
 import net.minheur.potoflux.translations.Translations;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -66,8 +66,7 @@ public class AllUsersDialog extends JDialog {
         }
     }
 
-    @Nonnull
-    private JPanel mkRow(Account account) {
+    private @NotNull JPanel mkRow(Account account) {
         JPanel row = new JPanel();
         row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
 

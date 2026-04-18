@@ -1,10 +1,9 @@
 package net.minheur.potoflux.login.perms;
 
 import net.minheur.potoflux.translations.Translations;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 /**
@@ -19,14 +18,12 @@ public enum Perms {
     LOCK("lockAccounts", "potoflux:perms.lock", "potoflux:perms.executesInDetailsMenu"),
     LOCK_ACCOUNT_CREATION("lockMkAccounts", "potoflux:perms.lockAccountCreation", PermRuns::setAccountCreationState);
 
-    private final String sqlCode;
-    private final Supplier<String> name;
-    @CheckForNull
-    private final Runnable permAction;
-    @CheckForNull
-    private final Supplier<String> noRunFallback;
+    private final @NotNull String sqlCode;
+    private final @NotNull Supplier<String> name;
+    private final @Nullable Runnable permAction;
+    private final @Nullable Supplier<String> noRunFallback;
 
-    Perms(String sqlCode, String nameTranslationKey) {
+    Perms(@NotNull String sqlCode, String nameTranslationKey) {
         this.sqlCode = sqlCode;
         this.name = () -> Translations.get(nameTranslationKey);
 
@@ -34,7 +31,7 @@ public enum Perms {
         this.noRunFallback = null;
     }
 
-    Perms(String sqlCode, String nameTranslationKey, @Nonnull Runnable permAction) {
+    Perms(@NotNull String sqlCode, String nameTranslationKey, @NotNull Runnable permAction) {
         this.sqlCode = sqlCode;
         this.name = () -> Translations.get(nameTranslationKey);
         this.permAction = permAction;
@@ -42,7 +39,7 @@ public enum Perms {
         this.noRunFallback = null;
     }
 
-    Perms(String sqlCode, String nameTranslationKey, @Nonnull String noRunFallback) {
+    Perms(@NotNull String sqlCode, String nameTranslationKey, @NotNull String noRunFallback) {
         this.sqlCode = sqlCode;
         this.name = () -> Translations.get(nameTranslationKey);
         this.noRunFallback = () -> Translations.get(noRunFallback);
@@ -50,28 +47,23 @@ public enum Perms {
         this.permAction = null;
     }
 
-    @Nonnull
-    public String getCode() {
+    public @NotNull String getCode() {
         return sqlCode;
     }
 
-    @Nonnull
-    public String getName() {
+    public @NotNull String getName() {
         return name.get();
     }
 
-    @CheckForNull
-    public Runnable getPermAction() {
+    public @Nullable Runnable getPermAction() {
         return permAction;
     }
-    @CheckForNull
-    public String getNoRunFallback() {
+    public @Nullable String getNoRunFallback() {
         if (noRunFallback == null) return null;
         return noRunFallback.get();
     }
 
-    @Nullable
-    public static Perms getFromCode(String sqlCode) {
+    public static @Nullable Perms getFromCode(String sqlCode) {
         for (Perms p : Perms.values()) {
             if (p.sqlCode.equals(sqlCode))
                 return p;
@@ -81,8 +73,7 @@ public enum Perms {
     }
 
     @Override
-    @Nonnull
-    public String toString() {
+    public @NotNull String toString() {
         return getName();
     }
 }

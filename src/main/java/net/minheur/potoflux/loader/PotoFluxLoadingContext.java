@@ -1,7 +1,6 @@
 package net.minheur.potoflux.loader;
 
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.Mod;
@@ -11,9 +10,9 @@ import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
+import org.jetbrains.annotations.NotNull;
 import org.reflections.vfs.Vfs;
 
-import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -267,8 +266,7 @@ public class PotoFluxLoadingContext {
      * @param urls the list of URLs loaded by the class loader
      * @return a built class loader with the URLs
      */
-    @Nonnull
-    private static URLClassLoader buildModClassLoader(List<URL> urls) {
+    private static @NotNull URLClassLoader buildModClassLoader(List<URL> urls) {
         return new URLClassLoader(
                 urls.toArray(new URL[0]),
                 PotoFluxLoadingContext.class.getClassLoader() // parent = app

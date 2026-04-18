@@ -1,12 +1,10 @@
 package net.minheur.potoflux.terminal;
 
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.loader.PotoFluxLoadingContext;
-import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.UserPrefsManager;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -63,8 +61,7 @@ public class Terminal {
         panel.add(splitPane, BorderLayout.CENTER);
     }
 
-    @Nonnull
-    private JPanel setupInputPanel() {
+    private @NotNull JPanel setupInputPanel() {
         JPanel inputPanel = new JPanel(new BorderLayout());
         JLabel prompt = new JLabel("  > " );
         prompt.setFont(new Font("Consolas", Font.PLAIN, 20));
@@ -74,8 +71,7 @@ public class Terminal {
         return inputPanel;
     }
 
-    @Nonnull
-    private JTextField setupInput() {
+    private @NotNull JTextField setupInput() {
         final JTextField inputField;
         inputField = new JTextField();
 
@@ -123,8 +119,7 @@ public class Terminal {
         return inputField;
     }
 
-    @Nonnull
-    private JScrollPane setupOutputAndGetScroll() {
+    private @NotNull JScrollPane setupOutputAndGetScroll() {
         outputArea.setEditable(false);
         outputArea.setFont(new Font("Consolas", Font.PLAIN, 20));
         return new JScrollPane(outputArea);
