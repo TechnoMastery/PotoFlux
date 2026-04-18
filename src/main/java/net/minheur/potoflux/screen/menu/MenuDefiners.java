@@ -13,6 +13,7 @@ public class MenuDefiners {
 
     static JMenu getFileMenu() {
 
+        // open mod dir
         JMenuItem openModDir = new JMenuItem(Translations.get("potoflux:menu.file.openModDir"));
         if (!Desktop.isDesktopSupported()) openModDir.setEnabled(false);
 
@@ -24,6 +25,7 @@ public class MenuDefiners {
 
         });
 
+        // open log dir
         JMenuItem openLogDir = new JMenuItem(Translations.get("potoflux:menu.file.openLogDir"));
         if (!Desktop.isDesktopSupported()) openModDir.setEnabled(false);
 
@@ -35,6 +37,7 @@ public class MenuDefiners {
 
         });
 
+        // main setup
         JMenu fileMenu = new JMenu(Translations.get("common:file"));
 
         fileMenu.add(openModDir);
