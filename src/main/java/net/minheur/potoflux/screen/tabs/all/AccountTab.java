@@ -120,12 +120,7 @@ public class AccountTab extends BaseTab {
     }
 
     private void setupActions() {
-        authButton.addActionListener(e -> {
-            if (isLogged)
-                logout();
-            else login();
-            reload();
-        });
+        authButton.addActionListener(e -> performAuthAction());
 
         executePerm.addActionListener(e -> {
             if (!isLogged) return;
@@ -149,7 +144,7 @@ public class AccountTab extends BaseTab {
         });
     }
 
-    private void reload() {
+    public void reload() {
         updateTitle();
         updateEmail();
         updatePerms();

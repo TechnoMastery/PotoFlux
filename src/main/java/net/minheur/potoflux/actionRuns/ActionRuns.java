@@ -4,6 +4,7 @@ import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.actionRuns.regs.ActionRunRunnable;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
+import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.registry.RegistryList;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
@@ -47,6 +48,7 @@ public class ActionRuns {
      * This action fills the terminal when the UI starts
      */
     public final ActionRun FILL_TERMINAL = LIST_START_UI.add(new ActionRun(fromModId("fill_terminal"), ActionRunRunnable::fillTerminal));
+    public final ActionRun UPDATE_AUTH_BUTTONS = LIST_START_UI.add(new ActionRun(fromModId("update_auth_buttons"), ConnectionHandler::reloadAuthUi));
 
     // start logic
     public final ActionRun CHECK_RICK_ROLL = LIST_START_LOGIC.add(new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll));

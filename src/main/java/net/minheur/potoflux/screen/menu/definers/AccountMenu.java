@@ -12,5 +12,25 @@ public class AccountMenu extends JMenu {
 
     private final JMenuItem auth = new JMenuItem(getAuthButtonStatus());
 
+    public AccountMenu() {
+        super(Translations.get("common:account"));
+
+        setupButtonActions();
+
+        addAll();
+    }
+
+    private void setupButtonActions() {
+        auth.addActionListener(e -> performAuthAction());
+    }
+
+    public void reload() {
+        auth.setText(getAuthButtonStatus());
+    }
+
+    public void addAll() {
+        add(openTab);
+        add(auth);
+    }
 
 }

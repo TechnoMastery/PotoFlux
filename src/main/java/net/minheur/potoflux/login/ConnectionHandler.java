@@ -6,6 +6,10 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.login.response.InfoResponse;
 import net.minheur.potoflux.login.response.LoginResponse;
+import net.minheur.potoflux.screen.menu.MenuContent;
+import net.minheur.potoflux.screen.menu.definers.AccountMenu;
+import net.minheur.potoflux.screen.tabs.Tabs;
+import net.minheur.potoflux.screen.tabs.all.AccountTab;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
 
@@ -147,6 +151,17 @@ public class ConnectionHandler {
        }
     }
 
+    public static void performAuthAction() {
+        if (isLogged) logout();
+        else login();
+        reloadAuthUi();
+    }
+    public static void reloadAuthUi() {
+
+        ((AccountTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.ACCOUNT)).reload();
+
+        ((AccountMenu) MenuContent.INSTANCE.ACCOUNT.content()).reload();
+    }
     public static void logout() {
        if (!isLogged) return;
 
