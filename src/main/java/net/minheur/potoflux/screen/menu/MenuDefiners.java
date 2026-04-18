@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-public class ItemDefiners {
+public class MenuDefiners {
 
     static JMenu getFileMenu() {
 
