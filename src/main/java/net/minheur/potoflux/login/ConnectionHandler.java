@@ -1,5 +1,6 @@
 package net.minheur.potoflux.login;
 
+import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.perms.Perms;
@@ -9,6 +10,8 @@ import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
 
 import javax.annotation.Nullable;
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -131,31 +134,92 @@ public class ConnectionHandler {
         }
     }
 
-     public static void checkAndRemoveExistingToken() {
-        if (TokenHandler.has()) {
-            PtfLogger.warning("Connecting while already having a token ! Removing...", LogCategories.ACCOUNT);
-            try {
-                RequestPoster.rmToken(TokenHandler.get());
-            } catch (IOException e) {
-                e.printStackTrace();
-                PtfLogger.error("Failed to remove old token", LogCategories.CONNEXION_POST);
-            }
-            TokenHandler.clear();
-        }
-     }
+    public static void checkAndRemoveExistingToken() {
+       if (TokenHandler.has()) {
+           PtfLogger.warning("Connecting while already having a token ! Removing...", LogCategories.ACCOUNT);
+           try {
+               RequestPoster.rmToken(TokenHandler.get());
+           } catch (IOException e) {
+               e.printStackTrace();
+               PtfLogger.error("Failed to remove old token", LogCategories.CONNEXION_POST);
+           }
+           TokenHandler.clear();
+       }
+    }
 
-     public static void logout() {
-        if (!isLogged) return;
+    public static void logout() {
+       if (!isLogged) return;
 
-        PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
+       PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
 
-        TokenHandler.rmOnlineToken();
-        TokenHandler.clear();
+       TokenHandler.rmOnlineToken();
+       TokenHandler.clear();
 
-        account = null;
-        isLogged = false;
+       account = null;
+       isLogged = false;
 
-        PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
-     }
+       PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
+    }
+
+    public static void login() {
+       PtfLogger.info("Logging in...", LogCategories.ACCOUNT);
+
+       JDialog dialog = new JDialog(PotoFlux.app.getFrame(), Translations.get("common:connection"), true);
+       dialog.setSize(450, 150);
+       dialog.setLocationRelativeTo(null);
+       dialog.setLayout(new BorderLayout());
+
+       // FIELDS
+
+       JPanel fieldsPanel = new JPanel();
+       fieldsPanel.setLayout(new GridLayout(2, 2, 5, 5));
+       fieldsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+       JLabel emailLabel = new JLabel(Translations.get("common:emailField"));
+       JTextField emailField = new JTextField();
+
+       JLabel passwordLabel = new JLabel(Translations.get("common:passwordField"));
+       JPasswordField passwordField = new JPasswordField();
+
+       fieldsPanel.add(emailLabel);
+       fieldsPanel.add(emailField);
+       fieldsPanel.add(passwordLabel);
+       fieldsPanel.add(passwordField);
+
+       // BUTTONS
+
+       JPanel buttonsPanel = new JPanel();
+       buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+       JButton cancelButton = new JButton(Translations.get("common:cancel"));
+       JButton loginButton = new JButton(Translations.get("common:connection"));
+
+       buttonsPanel.add(cancelButton);
+       buttonsPanel.add(loginButton);
+
+       // ACTIONS
+
+       cancelButton.addActionListener(e -> {
+           dialog.dispose();
+           PtfLogger.info("Connection canceled.", LogCategories.ACCOUNT);
+       });
+
+       loginButton.addActionListener(e -> {
+           String email = emailField.getText().trim().toLowerCase();
+           String password = new String(passwordField.getPassword()).trim();
+
+           logout();
+           logWith(email, password);
+
+           dialog.dispose();
+       });
+
+       dialog.getRootPane().setDefaultButton(loginButton);
+
+       dialog.add(fieldsPanel, BorderLayout.CENTER);
+       dialog.add(buttonsPanel, BorderLayout.SOUTH);
+
+       dialog.setVisible(true);
+    }
 
 }
