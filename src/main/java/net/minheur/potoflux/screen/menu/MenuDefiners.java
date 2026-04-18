@@ -3,6 +3,7 @@ package net.minheur.potoflux.screen.menu;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ public class MenuDefiners {
 
             File target = PotoFlux.getProgramDir().resolve("mods").toFile();
 
-            if (!Functions.openDir(target)) return; // TODO: error pane
+            if (!Functions.openDir(target)) UiUtils.showErrorPane(Translations.get("file:error.getDesktopFailed"));
 
         });
 
@@ -30,7 +31,7 @@ public class MenuDefiners {
 
             File target = PotoFlux.getProgramDir().resolve("logs").toFile();
 
-            if (!Functions.openDir(target)) return; // TODO: error pane
+            if (!Functions.openDir(target)) UiUtils.showErrorPane(Translations.get("file:error.getDesktopFailed"));
 
         });
 
