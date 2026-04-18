@@ -2,6 +2,7 @@ package net.minheur.potoflux.screen.menu;
 
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
 
@@ -48,8 +49,14 @@ public class MenuDefiners {
 
     static JMenu getAccountMenu() {
 
+        // open tab
+        JMenuItem openAccountTab = new JMenuItem(Translations.get("potoflux:menu.account.openTab"));
+        openAccountTab.addActionListener(e -> PotoFlux.app.setOpenedTab(Tabs.INSTANCE.ACCOUNT));
+
+        // main setup
         JMenu accountMenu = new JMenu(Translations.get("common:account"));
-        accountMenu.setEnabled(false);
+
+        accountMenu.add(openAccountTab);
 
         return accountMenu;
 

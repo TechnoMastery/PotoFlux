@@ -203,6 +203,10 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Open logs directory")
                 .fr("Ouvrir le dossier des logs");
 
+        addMenu("account", "openTab")
+                .en("Open account tab")
+                .fr("Ouvrir l'onglet 'compte'");
+
         addScreen("tabHereNotHere")
                 .en("ERROR: this tab is detected but unexisting !")
                 .fr("Erreur : cette onglet est détecté mais inéxistante !");
