@@ -12,7 +12,6 @@ import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.log.LogSaver;
-import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.menu.MenuContent;

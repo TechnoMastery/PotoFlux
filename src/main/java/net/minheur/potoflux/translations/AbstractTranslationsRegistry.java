@@ -1,8 +1,5 @@
 package net.minheur.potoflux.translations;
 
-import net.minheur.potoflux.screen.tabs.Tab;
-import net.minheur.potoflux.terminal.Command;
-
 import java.util.HashMap;
 import java.util.Map;
 
