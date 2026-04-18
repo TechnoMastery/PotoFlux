@@ -206,12 +206,6 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addMenu("account", "openTab")
                 .en("Open account tab")
                 .fr("Ouvrir l'onglet 'compte'");
-        addMenu("account", "login")
-                .en("Login")
-                .fr("Connexion");
-        addMenu("account", "logout")
-                .en("Logout")
-                .fr("Déconnexion");
 
         addScreen("tabHereNotHere")
                 .en("ERROR: this tab is detected but unexisting !")

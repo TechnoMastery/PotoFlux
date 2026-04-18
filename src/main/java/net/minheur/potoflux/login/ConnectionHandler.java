@@ -221,5 +221,10 @@ public class ConnectionHandler {
 
        dialog.setVisible(true);
     }
+    public static String getAuthButtonStatus() {
+        return isLogged ?
+                Translations.get("common:disconnect") :
+                Translations.get("common:connect");
+    }
 
 }

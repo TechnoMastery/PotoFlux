@@ -2,6 +2,7 @@ package net.minheur.potoflux.screen.menu;
 
 import net.minheur.potoflux.loader.mod.events.RegisterMenuEvent;
 import net.minheur.potoflux.registry.RegistryList;
+import net.minheur.potoflux.screen.menu.definers.AccountMenu;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 import static net.minheur.potoflux.screen.menu.definers.MenuDefiners.*;
@@ -18,7 +19,7 @@ public class MenuContent {
 
     // --- file ---
     public final PotoMenuItem FILE = LIST.add(new PotoMenuItem(fromModId("file"), getFileMenu()));
-    public final PotoMenuItem ACCOUNT = LIST.add(new PotoMenuItem(fromModId("account"), getAccountMenu()));
+    public final PotoMenuItem ACCOUNT = LIST.add(new PotoMenuItem(fromModId("account"), new AccountMenu()));
 
     public static void register(RegisterMenuEvent event) {
         INSTANCE = new MenuContent();

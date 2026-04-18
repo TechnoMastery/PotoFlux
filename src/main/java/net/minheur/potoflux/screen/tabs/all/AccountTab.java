@@ -190,9 +190,7 @@ public class AccountTab extends BaseTab {
     }
 
     private void updateButton() {
-        if (isLogged)
-            authButton.setText(Translations.get("common:disconnect"));
-        else authButton.setText(Translations.get("common:connect"));
+        authButton.setText(getAuthButtonStatus());
         createAccountButton.setVisible(!isLogged);
     }
 
