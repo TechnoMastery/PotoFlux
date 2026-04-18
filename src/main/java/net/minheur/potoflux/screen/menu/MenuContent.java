@@ -4,7 +4,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterMenuEvent;
 import net.minheur.potoflux.registry.RegistryList;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
-import static net.minheur.potoflux.screen.menu.MenuDefiners.*;
+import static net.minheur.potoflux.screen.menu.definers.MenuDefiners.*;
 
 public class MenuContent {
     private final RegistryList<PotoMenuItem> LIST = new RegistryList<>();

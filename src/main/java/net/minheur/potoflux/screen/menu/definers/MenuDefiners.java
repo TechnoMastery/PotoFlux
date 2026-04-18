@@ -1,4 +1,4 @@
-package net.minheur.potoflux.screen.menu;
+package net.minheur.potoflux.screen.menu.definers;
 
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
@@ -10,9 +10,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
+import static net.minheur.potoflux.login.ConnectionHandler.*;
+
 public class MenuDefiners {
 
-    static JMenu getFileMenu() {
+    public static JMenu getFileMenu() {
 
         // open mod dir
         JMenuItem openModDir = new JMenuItem(Translations.get("potoflux:menu.file.openModDir"));
@@ -47,11 +49,16 @@ public class MenuDefiners {
         return fileMenu;
     }
 
-    static JMenu getAccountMenu() {
+    public static JMenu getAccountMenu() {
 
         // open tab
         JMenuItem openAccountTab = new JMenuItem(Translations.get("potoflux:menu.account.openTab"));
         openAccountTab.addActionListener(e -> PotoFlux.app.setOpenedTab(Tabs.INSTANCE.ACCOUNT));
+
+        // log in/out
+        JMenuItem auth = new JMenuItem(isLogged ?
+                Translations.get("potoflux:menu.account.logout") :
+                Translations.get("potoflux:menu.account.login"));
 
         // main setup
         JMenu accountMenu = new JMenu(Translations.get("common:account"));
