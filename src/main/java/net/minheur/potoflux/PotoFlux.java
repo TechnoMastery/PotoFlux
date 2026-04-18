@@ -101,7 +101,8 @@ public class PotoFlux {
 
         // load translations
         startScreen.updateStage("Loading translations...");
-        Translations.load(UserPrefsManager.getUserLang());
+        if (!UserPrefsManager.getUserLang().equals("en"))
+            Translations.load(UserPrefsManager.getUserLang());
 
         // def modEventBus
         startScreen.updateStage("Loading event bus...");
