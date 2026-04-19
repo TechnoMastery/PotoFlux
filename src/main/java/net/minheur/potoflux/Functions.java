@@ -2,6 +2,7 @@ package net.minheur.potoflux;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -108,6 +109,11 @@ public class Functions {
         return result;
     }
 
+    /**
+     * Opens a directory in your file explorer
+     * @param url directory to open
+     * @return weather the directory got opened or if an error happened
+     */
     public static boolean browse(String url) {
         try {
             URI uri = new URI(url);
@@ -120,5 +126,18 @@ public class Functions {
             e.printStackTrace();
             return false;
         }
+    }
+    public static boolean openDir(File dir) {
+
+        if (!Desktop.isDesktopSupported()) return false;
+
+        try {
+            Desktop.getDesktop().open(dir);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }

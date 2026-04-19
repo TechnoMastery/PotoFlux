@@ -1,9 +1,10 @@
 plugins {
-    id 'java'
+    id 'java-library'
+    id 'maven-publish'
 }
 
-group = "net.minheur.potoflux"
-version = "6.9"
+group = "net.minheur"
+version = "6.10"
 
 java {
     toolchain {
@@ -11,6 +12,26 @@ java {
     }
     withSourcesJar()
     withJavadocJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId = "potoflux"
+        }
+    }
+
+    repositories {
+        maven {
+            name 'GitHubPackages'
+            url = uri("https://maven.pkg.github.com/TechnoMastery/PotoFlux")
+            credentials {
+                username = project.findProperty("gpr.user")
+                password = project.findProperty("gpr.key")
+            }
+        }
+    }
 }
 
 repositories {
@@ -21,7 +42,8 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    implementation 'com.google.code.gson:gson:2.11.0'
+    api 'com.google.code.gson:gson:2.11.0'
+    api "org.jetbrains:annotations:24.1.0"
 
     // scan classes
     implementation "org.reflections:reflections:0.10.2"

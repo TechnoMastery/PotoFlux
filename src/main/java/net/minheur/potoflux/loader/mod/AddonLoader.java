@@ -12,11 +12,10 @@ import java.util.jar.JarFile;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
-
-import javax.annotation.Nonnull;
 
 import static net.minheur.potoflux.loader.PotoFluxLoadingContext.*;
 
@@ -147,8 +146,7 @@ public class AddonLoader {
         return reflections.getTypesAnnotatedWith(Mod.class);
     }
 
-    @Nonnull
-    private static Reflections getDevReflection(Collection<URL> urls) {
+    private static @NotNull Reflections getDevReflection(Collection<URL> urls) {
         return new Reflections(
 
                 new ConfigurationBuilder()
@@ -227,8 +225,7 @@ public class AddonLoader {
         return addons;
     }
 
-    @Nonnull
-    private static JarFile getJar(Path jarPath) throws IOException {
+    private static @NotNull JarFile getJar(Path jarPath) throws IOException {
         return new JarFile(jarPath.toFile());
     }
 
@@ -236,13 +233,11 @@ public class AddonLoader {
         return !entry.getName().endsWith(".class");
     }
 
-    @Nonnull
-    private static DirectoryStream<Path> getModStream() throws IOException {
+    private static @NotNull DirectoryStream<Path> getModStream() throws IOException {
         return Files.newDirectoryStream(getPotofluxModDir(), "*.jar");
     }
 
-    @Nonnull
-    private static Class<?> getClassForName(String className) throws ClassNotFoundException {
+    private static @NotNull Class<?> getClassForName(String className) throws ClassNotFoundException {
         return Class.forName(className, false, getModsClassLoader());
     }
 
@@ -250,8 +245,7 @@ public class AddonLoader {
         return clazz.isAnnotationPresent(Mod.class);
     }
 
-    @Nonnull
-    private static String getClassName(JarEntry entry) {
+    private static @NotNull String getClassName(JarEntry entry) {
         return entry.getName()
                 .replace('/', '.')
                 .replace(".class", "");

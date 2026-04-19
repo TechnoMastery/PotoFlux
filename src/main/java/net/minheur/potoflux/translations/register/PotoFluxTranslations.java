@@ -196,9 +196,58 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Change theme")
                 .fr("Changer le thème");
 
+        addMenu("file", "openModDir")
+                .en("Open mods directory")
+                .fr("Ouvrir le dossier des mods");
+        addMenu("file", "openLogDir")
+                .en("Open logs directory")
+                .fr("Ouvrir le dossier des logs");
+
+        addMenu("account", "openTab")
+                .en("Open account tab")
+                .fr("Ouvrir l'onglet 'compte'");
+        addMenu("account", "perms")
+                .en("Permissions")
+                .fr("Permissions");
+        addMenu("account", "createUsers")
+                .en("Create a user")
+                .fr("Créer un utilisateur");
+        addMenu("account", "deleteUsers")
+                .en("Delete a user")
+                .fr("Supprimer un utilisateur");
+        addMenu("account", "lockAccountCreation")
+                .en("Authorize account creation ?")
+                .fr("Autoriser la création de comptes ?");
+
         addScreen("tabHereNotHere")
                 .en("ERROR: this tab is detected but unexisting !")
                 .fr("Erreur : cette onglet est détecté mais inéxistante !");
+
+        addPerm("viewUsers")
+                .en("See user's informations")
+                .fr("Consulter les informations des utilisateurs");
+        addPerm("mkUsers")
+                .en("Create new users")
+                .fr("Créer de nouveaux utilisateurs");
+        addPerm("rmUsers")
+                .en("Delete users")
+                .fr("Supprimer des comptes");
+        addPerm("mdUserInfos")
+                .en("Modify user's informations")
+                .fr("Modifier les informations des utilisateurs");
+        addPerm("mdUserPasswords")
+                .en("Reset user's passwords")
+                .fr("Réinitialiser les mots de passe");
+        addPerm("lock")
+                .en("Lock accounts")
+                .fr("Vérrouiller des comptes");
+        addPerm("lockAccountCreation")
+                .en("Toggle account creation")
+                .fr("Contrôler l'activation de la création de compte");
+
+        addPerm("executesInDetailsMenu")
+                .en("This perm needs to be executed in the user details menu !\nIf you don't have it, please contact a referent")
+                .fr("Cette permission doit être executé dans le menu des détails de l'utilisateur.\nSi vous ne l'avez pas, contactez votre référent");
 
         addHomeTab("credit")
                 .en("Created by Min_heur2000 - TechnoMastery")
@@ -220,6 +269,142 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addTerminalTab("name")
                 .en("Terminal")
                 .fr("Terminal");
+
+        addAccountTab("name")
+                .en("Account")
+                .fr("Compte");
+        addAccountTab("title")
+                .en("Welcome !")
+                .fr("Bienvenu");
+        addAccountTab("title", "connected")
+                .en("Welcome, $$1 $$2")
+                .fr("Bienvenu, $$1 $$2");
+        addAccountTab("failed")
+                .en("Couldn't connect to server !")
+                .fr("La connexion au serveur a échoué.");
+        addAccountTab("error", "tokenMalformed")
+                .en("Your connection token is malformed")
+                .fr("Votre token de connexion est malformé");
+        addAccountTab("error", "noToken")
+                .en("Server didn't send a token ! Please retry.\nIf the error persists, please contact the devs.")
+                .fr("Le serveur n'a pas envoyé de token ! Réessayez.\nSi l'erreur persiste, contactez les développeurs.");
+        addAccountTab("error", "noUser")
+                .en("User not found.\nIs the email correct?")
+                .fr("Utilisateur inconnu.\nVérifiez l'adresse mail.");
+        addAccountTab("error", "invalidPassword")
+                .en("Password invalid !\nPlease retry.")
+                .fr("Mot de passe invalide !\nRéessayez.");
+        addAccountTab("error", "noResponse")
+                .en("Could not contact server.\nPlease retry later")
+                .fr("Impossible de contacter le serveur.\nRéessayez plus tard");
+        addAccountTab("error", "token", "noUser")
+                .en("Your token is not linked \nPlease reconnect.!")
+                .fr("Votre token n'est pas lié !\nVeillez vous reconnecter");
+        addAccountTab("error", "token", "notExists")
+                .en("Your token doesn't exists !\nPlease reconnect.")
+                .fr("Votre token n'existe pas !\nVeillez vous reconnecter");
+        addAccountTab("error", "token", "expired")
+                .en("Your token has expired.\nPlease reconnect.")
+                .fr("Votre token a éxpiré.\nVeillez vous reconnecter");
+        addAccountTab("error", "noPermRun")
+                .en("This permission can't be run !")
+                .fr("Cette permission ne peut pas être executé !");
+        addAccountTab("executePermButton")
+                .en("Run permission action").fr("Utiliser la permission");
+        addAccountTab("addUser", "success")
+                .en("Account $$1 has been created !").fr("Le compte $$1 a été créer avec succès");
+        addAccountTab("rmUser", "check")
+                .en("Are you sure you want to delete the account of the person ?\n$$1")
+                .fr("Êtes vous sûr(e) de vouloir supprimer ce compte ?\n$$1");
+        addAccountTab("rmUser", "success")
+                .en("Account $$1 has been removed !").fr("Le compte $$1 a été supprimé avec succès");
+        addAccountTab("error", "noPerm")
+                .en("You don't have the permission to do this !")
+                .fr("Vous n'avez pas la permission de faire cela !");
+        addAccountTab("rmUser", "notExists")
+                .en("User $$1 doesn't exists !")
+                .fr("$$1 n'est pas un utilisateur !");
+        addAccountTab("addUser", "outOfRangeRank")
+                .en("Uhm... it seems like the rank you gave isn't in the range.\nTry getting it between 0 and 100 !")
+                .fr("Oula... Tu es dans un endroit étrange.\nEssaye de garder le rang entre 0 et 100 !");
+        addAccountTab("error", "rankToBig")
+                .en("The rank you gave ($$1) is to high for yours ($$2) !\nRemember that a smaller number means a bigger rank.\nYou can create accounts with a rank at least one level down from yours !")
+                .fr("Le rang fournit ($$1) est trop haut pour le tien ($$2) !\nRappelle-toi qu'un nombre petit indique un rang plus haut.\nTu ne peut créer un compte qu'avec un rang ayant au moins un niveau en dessous du tien !");
+        addAccountTab("error", "rankToSmall")
+                .en("The rank of the account you're trying to delete ($$1) is to big for yours ($$2) !\nRemember that a smaller number means a bigger rank.\nYou can delete accounts with a rank at least one level down from yours !")
+                .fr("Le rang du compte que tu essaye de supprimer ($$1) est trop grand pour le tien ($$2) !\nRappelle-toi qu'un nombre petit indique un rang plus haut.\nTu ne peut supprimmer un compte qu'avec un rang ayant au moins un niveau en dessous du tien !");
+        addAccountTab("listUsers", "failedUsers")
+                .en("Some errors happened while getting users.\nInformations where not received for $$1 of them.\nFor more details, please check the logs, or/and contact the devs.")
+                .fr("Quelques erreurs sont parvenu en essayant de lister les utilisateurs.\nLes informations n'ont pas été récupéré pour $$1 d'entre eux.\nPour plus d'informations, regardez les logs et/ou contactez les développeurs.");
+        addAccountTab("listUsers", "empty")
+                .en("It seems like there are no users listed.")
+                .fr("Il n'y a aucuns utilisateurs à lister.");
+        addAccountTab("listUsers", "details")
+                .en("Email: $$1\nName: $$2 $$3\nRank: $$4\nPerms: $$5")
+                .fr("Mail: $$1\nNom: $$2 $$3\nRank: $$4\nPermissions: $$5");
+        addAccountTab("listUsers", "details", "emptyPerms")
+                .en("None")
+                .fr("Aucunes");
+        addAccountTab("createAccount", "success")
+                .en("Account created successfully ! You can now connect with those ids:\nEmail: $$1\nPassword: $$2")
+                .fr("Compte créé avec succès ! Vous pouvez maintenant vous connecter avec ces identifiants :\nMail : $$1\nMot de passe : $$2");
+        addAccountTab("createAccount", "disabled")
+                .en("Sorry, but account creation is disabled. You can try again later !")
+                .fr("Désolé, mais la création de compte est désactivé. Vous pouvez réessayer plus tard !");
+        addAccountTab("createAccount", "invalidEmail")
+                .en("It seems like the email you gave is invalid. Is it empty ?")
+                .fr("L'adresse mail que vous avez fournit est invalide. Est elle vide ?");
+        addAccountTab("createAccount", "emailUsed")
+                .en("This email is already used.")
+                .fr("Cet adresse mail est déjà utilisé.");
+        addAccountTab("createAccount", "button")
+                .en("Create an account")
+                .fr("Créer un compte");
+        addAccountTab("mdUserInfos", "confirm")
+                .en("Are you sure you want to modify those infos :")
+                .fr("Êtes vous sûr de vouloir modifier ces informations :");
+        addAccountTab("mdUserInfos", "noMods")
+                .en("No modifications were done.")
+                .fr("Aucunes modifications apportées.");
+        addAccountTab("mdUserInfos", "done")
+                .en("Operation finished! Here's what changed:")
+                .fr("Opération terminée ! Voici ce qui a changé :");
+        addAccountTab("mdUserInfos", "idRemember")
+                .en("Please remember to tell the user that it's email changed !")
+                .fr("Merci de penser à notifier l'utilisateur de la modification de son mail !");
+        addAccountTab("mdUserPassword", "done")
+                .en("You modified $$1's password successfully.\nIt is now $$2 !\nPlease remember to let him now.")
+                .fr("Vous avez modifié le mot de passe de $$1 avec succès !\nC'est maintenant $$2.\nMerci de le prévenir !");
+        addAccountTab("error", "insufficientRank")
+                .en("Looks like your rank is insufficient to perform this action on this user.")
+                .fr("On dirait que ton rank est insuffisant pour exécuter cette action sur cet utilisateur.");
+        addAccountTab("mdUserPassword", "button")
+                .en("Modify password")
+                .fr("Modifier le mot de passe");
+        addAccountTab("mdUserPassword", "title")
+                .en("Please enter user's new password")
+                .fr("Veuillez renseigner le nouveau mot de passe");
+        addAccountTab("lock", "button")
+                .en("Lock")
+                .fr("Verrouiller");
+        addAccountTab("unlock", "button")
+                .en("Unlock")
+                .fr("Déverrouiller");
+        addAccountTab("error", "targetLocked")
+                .en("This account is locked !\nYou can't modify it until it's unlocked.")
+                .fr("Ce compte est verrouillé !\nVous ne pouvez pas le modifier tant qu'il l'est.");
+        addAccountTab("lock", "done")
+                .en("Account locked successfully !")
+                .fr("Le compte a été vérrouillé avec succès !");
+        addAccountTab("unlock", "done")
+                .en("Account unlocked successfully !")
+                .fr("Le compte a été déverrouillé avec succès !");
+        addAccountTab("accountCreationState", "box")
+                .en("Do you want to allow account creation ?")
+                .fr("Autorisez vous la création de comptes ?");
+        addAccountTab("accountCreationState", "title")
+                .en("Account creation authorization")
+                .fr("Autorisation de création de comptes");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
@@ -277,6 +462,13 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
     private TranslationBuilder addScreen(String... children) {
         return add("screen", children);
     }
+    private TranslationBuilder addMenu(String... children) {
+        return add("menu", children);
+    }
+
+    private TranslationBuilder addPerm(String... children) {
+        return add("perms", children);
+    }
 
     // tabs helpers
     /**
@@ -302,5 +494,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      */
     private TranslationBuilder addTerminalTab(String... children) {
         return addTab("terminal", children);
+    }
+    private TranslationBuilder addAccountTab(String... children) {
+        return addTab("account", children);
     }
 }

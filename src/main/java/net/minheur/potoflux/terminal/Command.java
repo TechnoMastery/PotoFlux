@@ -2,9 +2,9 @@ package net.minheur.potoflux.terminal;
 
 import net.minheur.potoflux.registry.IRegistryType;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -26,7 +26,7 @@ public record Command(ResourceLocation id, String key, Consumer<List<String>> co
      * @param commandOutput the output to print in the terminal. It takes a list of command args
      * @param commandHelp something to print when the command is wrongly used, or with the help command.
      */
-    public Command(ResourceLocation id, String key, Consumer<List<String>> commandOutput, @Nonnull String commandHelp) {
+    public Command(ResourceLocation id, String key, Consumer<List<String>> commandOutput, @NotNull String commandHelp) {
 
         this(id, key, commandOutput, commandHelp, false);
     }

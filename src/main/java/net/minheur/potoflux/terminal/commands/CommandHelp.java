@@ -2,8 +2,6 @@ package net.minheur.potoflux.terminal.commands;
 
 import net.minheur.potoflux.translations.Translations;
 
-import javax.annotation.Nonnull;
-
 import static net.minheur.potoflux.terminal.commands.CommandMakerHelpers.tabLine;
 
 /**

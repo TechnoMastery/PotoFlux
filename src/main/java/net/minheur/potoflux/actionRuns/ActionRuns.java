@@ -4,6 +4,7 @@ import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.actionRuns.regs.ActionRunRunnable;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
+import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.registry.RegistryList;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
@@ -47,12 +48,18 @@ public class ActionRuns {
      * This action fills the terminal when the UI starts
      */
     public final ActionRun FILL_TERMINAL = LIST_START_UI.add(new ActionRun(fromModId("fill_terminal"), ActionRunRunnable::fillTerminal));
+    public final ActionRun UPDATE_AUTH_BUTTONS = LIST_START_UI.add(new ActionRun(fromModId("update_auth_buttons"), ConnectionHandler::reloadAuthUi));
 
     // start logic
     public final ActionRun CHECK_RICK_ROLL = LIST_START_LOGIC.add(new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll));
     public final ActionRun DISPLAY_MOD_UPDATES = LIST_START_LOGIC.add(new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
     public final ActionRun CHECK_POTOFLUX_UPDATE= LIST_START_LOGIC.add(new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates));
     public final ActionRun LOAD_COMMAND_HISTORY = LIST_START_LOGIC.add(new ActionRun(fromModId("load_command_history"), ActionRunRunnable::loadCommandHistory));
+    /**
+     * Connect to your account with your token, if you have one
+     */
+    public final ActionRun CONNECT_TOKEN = LIST_START_LOGIC.add(new ActionRun(fromModId("connect_token"), ActionRunRunnable::connectToken));
+    public final ActionRun CHECK_ALLOW_ACCOUNT_CREATION = LIST_START_LOGIC.add(new ActionRun(fromModId("check_allow_account_creation"), ConnectionHandler::reloadAccountCreationPermission));
 
     // close
     /**

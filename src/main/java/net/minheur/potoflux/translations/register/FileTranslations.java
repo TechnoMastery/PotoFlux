@@ -30,6 +30,9 @@ public class FileTranslations extends AbstractTranslationsRegistry {
         error("not_found", "linked")
                 .en("File not found: ")
                 .fr("fichier non trouvé : ");
+        error("getDesktopFailed")
+                .en("Couldn't get desktop !")
+                .fr("Impossible d'accéder au bureau !");
 
         add("loaded")
                 .en("File loaded: ")
@@ -37,6 +40,9 @@ public class FileTranslations extends AbstractTranslationsRegistry {
         add("saved")
                 .en("File saved")
                 .fr("Fichier sauvegardé");
+        add("openedInExplorer")
+                .en("Opened in file explorer !")
+                .fr("Ouvert dans l'explorateur de fichiers");
 
         json()
                 .en("JSON files (*.json)")

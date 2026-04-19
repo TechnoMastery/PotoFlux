@@ -15,8 +15,10 @@ import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.logger.LogSaver;
+import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.LoadingScreen;
+import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.Translations;
@@ -59,6 +61,11 @@ public class PotoFlux {
      */
     public static void main(String[] args) {
 
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+            throwable.printStackTrace();
+            runProgramClosing(1);
+        });
+
         LoadingScreen startScreen = new LoadingScreen();
         startScreen.setVisible(true);
 
@@ -68,7 +75,7 @@ public class PotoFlux {
         else PotoFluxLoadingContext.setDevEnv(args[0].equals("devEnv"));
 
         // important inits
-        startScreen.updateStage("Init log saver...");
+        startScreen.updateStage("Init...");
         LogSaver.init();
         LogAmountManager.init();
 
@@ -97,7 +104,8 @@ public class PotoFlux {
 
         // load translations
         startScreen.updateStage("Loading translations...");
-        Translations.load(UserPrefsManager.getUserLang());
+        if (!UserPrefsManager.getUserLang().equals("en"))
+            Translations.load(UserPrefsManager.getUserLang());
 
         // def modEventBus
         startScreen.updateStage("Loading event bus...");
@@ -108,6 +116,7 @@ public class PotoFlux {
         bus.addListener(Tabs::register);
         bus.addListener(Commands::register);
         bus.addListener(ActionRuns::register);
+        bus.addListener(MenuContent::register);
 
         // load all addons
         startScreen.updateStage("Loading addons...");
@@ -116,10 +125,17 @@ public class PotoFlux {
 
         // post all registrations
         startScreen.updateStage("Registering data...");
-        bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
-        bus.post(new RegisterTabsEvent());
-        bus.post(new RegisterCommandsEvent());
-        bus.post(new RegisterRunsEvent());
+
+        try {
+            bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
+            bus.post(new RegisterTabsEvent());
+            bus.post(new RegisterCommandsEvent());
+            bus.post(new RegisterRunsEvent());
+            bus.post(new RegisterMenuEvent());
+        } catch (Throwable e) {
+            e.printStackTrace();
+            runProgramClosing(-1);
+        }
 
         // run all start logic runs
         startScreen.updateStage("Running start logic...");
@@ -198,7 +214,18 @@ public class PotoFlux {
     public static void runProgramClosing(int exitCode) {
         // executes when program close
 
-        for (ActionRun ar : CloseRunRegistry.getAll()) ar.run().run();
+        if (exitCode == 0) for (ActionRun ar : CloseRunRegistry.getAll()) {
+            try {
+                ar.run().run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (exitCode != 0) {
+            PtfLogger.error("Execution finished with non-0 exit code: " + exitCode);
+            PtfLogger.error("For more info, please check the github page at https://github.com/TechnoMastery/PotoFlux");
+        }
 
         // saves logs
         LogSaver.flushAndSave();

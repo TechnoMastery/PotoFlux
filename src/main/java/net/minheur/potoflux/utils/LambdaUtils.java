@@ -1,7 +1,8 @@
 package net.minheur.potoflux.utils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
@@ -51,8 +52,7 @@ public class LambdaUtils {
      * @param implSignature the signature of the JVM
      * @return the method, or {@code null} if the method is not found
      */
-    @Nullable
-    private static Method getMethodDeclared(@Nonnull Method[] methodImplClass, String implMethodName, String implSignature) {
+    private static @Nullable Method getMethodDeclared(@NotNull Method[] methodImplClass, String implMethodName, String implSignature) {
         for (Method m : methodImplClass)
             if (m.getName().equals(implMethodName) && getJvmSignature(m).equals(implSignature)) {
                 m.setAccessible(true);
@@ -68,8 +68,7 @@ public class LambdaUtils {
      * @return the found class
      * @throws ClassNotFoundException if the class doesn't exist
      */
-    @Nonnull
-    private static Class<?> getImplClass(Serializable lambda, String implClassName) throws ClassNotFoundException {
+    private static @NotNull Class<?> getImplClass(Serializable lambda, String implClassName) throws ClassNotFoundException {
         ClassLoader cl = lambda.getClass().getClassLoader();
         if (cl == null)
             cl = Thread.currentThread().getContextClassLoader();

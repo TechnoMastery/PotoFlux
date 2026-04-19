@@ -98,7 +98,7 @@ public class LogSaver {
 
             deleteRecursively(folder);
 
-        } catch (Exception e) {
+        } catch (Throwable e) {
             originalErr.println("Failed to save logs:");
             e.printStackTrace(originalErr);
         }

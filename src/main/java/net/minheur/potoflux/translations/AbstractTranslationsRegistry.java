@@ -1,8 +1,5 @@
 package net.minheur.potoflux.translations;
 
-import net.minheur.potoflux.screen.tabs.Tab;
-import net.minheur.potoflux.terminal.Command;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -136,7 +133,8 @@ public abstract class AbstractTranslationsRegistry {
          */
         public TranslationBuilder lang(Lang lang, String value) {
             Map<String, String> translations = modTranslations.get(lang);
-            if (translations.put(key, value) != null) throw new IllegalArgumentException("Duplicate translation key '" + key + "'");
+            if (translations.put(key, value) != null)
+                throw new IllegalArgumentException("Duplicate translation key '" + key + "'");
             return this;
         }
 
