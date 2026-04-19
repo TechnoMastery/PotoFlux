@@ -36,6 +36,7 @@ public class AccountMenu extends JMenu {
         viewUsers.addActionListener(e -> Perms.VIEW_USERS.getPermAction().run());
         createUsers.addActionListener(e -> Perms.CREATE_USERS.getPermAction().run());
         deleteUsers.addActionListener(e -> Perms.DELETE_USERS.getPermAction().run());
+        accountCreationLock.addActionListener(e -> ConnectionHandler.sendAccountCreationLockRequest(accountCreationLock.isSelected()));
     }
 
     public void reload() {

@@ -4,6 +4,7 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.perms.Perms;
+import net.minheur.potoflux.login.response.BaseResponse;
 import net.minheur.potoflux.login.response.InfoResponse;
 import net.minheur.potoflux.login.response.IsAccountCreationEnabledResponse;
 import net.minheur.potoflux.login.response.LoginResponse;
@@ -131,6 +132,7 @@ public class ConnectionHandler {
         }
         return token;
     }
+
     public static void reloadAccountCreationPermission() {
         String content;
         try {
@@ -143,6 +145,38 @@ public class ConnectionHandler {
 
         IsAccountCreationEnabledResponse response = Json.GSON.fromJson(content, IsAccountCreationEnabledResponse.class);
         isAccountCreationEnabled = response.isEnabled;
+    }
+    public static void sendAccountCreationLockRequest(boolean isAllowed) {
+        String content;
+        try {
+            content = RequestPoster.lockAccountCreation(
+                    TokenHandler.get(),
+                    isAllowed
+            );
+        } catch (InvalidTokenException e) {
+            e.printStackTrace();
+            showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorPane(Translations.get("potoflux:tabs.account.failed"));
+            return;
+        }
+
+        BaseResponse response = Json.GSON.fromJson(content, BaseResponse.class);
+
+        if (response.success) return;
+
+        showErrorPane(
+                switch (response.error) {
+                    case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                    case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
+                    case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                    default -> response.error;
+                }
+        );
+
+        reloadAuthUi();
     }
 
     private static void displayLoggingError(LoginResponse loginResponse) {
