@@ -1,5 +1,6 @@
 package net.minheur.potoflux.loader;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
@@ -433,7 +434,9 @@ public class PotoFluxLoadingContext {
         JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
         JsonObject lastestObject = mainObject.getAsJsonObject("lastestForPtf");
 
-        String declaredLastest = lastestObject.get(PotoFlux.getVersion()).getAsString();
+        JsonElement element = lastestObject.get(PotoFlux.getVersion());
+        if (element == null) return;
+        String declaredLastest = element.getAsString();
 
         if (declaredLastest != null && !declaredLastest.equals(mod.version()))
             ModUpdateReg.add(mod, isCompatible, declaredLastest);
