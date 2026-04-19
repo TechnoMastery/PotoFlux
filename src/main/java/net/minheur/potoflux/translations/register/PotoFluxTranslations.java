@@ -203,6 +203,22 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Open logs directory")
                 .fr("Ouvrir le dossier des logs");
 
+        addMenu("account", "openTab")
+                .en("Open account tab")
+                .fr("Ouvrir l'onglet 'compte'");
+        addMenu("account", "perms")
+                .en("Permissions")
+                .fr("Permissions");
+        addMenu("account", "createUsers")
+                .en("Create a user")
+                .fr("Créer un utilisateur");
+        addMenu("account", "deleteUsers")
+                .en("Delete a user")
+                .fr("Supprimer un utilisateur");
+        addMenu("account", "lockAccountCreation")
+                .en("Authorize account creation ?")
+                .fr("Autoriser la création de comptes ?");
+
         addScreen("tabHereNotHere")
                 .en("ERROR: this tab is detected but unexisting !")
                 .fr("Erreur : cette onglet est détecté mais inéxistante !");

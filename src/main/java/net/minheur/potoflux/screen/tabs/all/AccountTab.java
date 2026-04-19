@@ -120,12 +120,7 @@ public class AccountTab extends BaseTab {
     }
 
     private void setupActions() {
-        authButton.addActionListener(e -> {
-            if (isLogged)
-                logout();
-            else login();
-            reload();
-        });
+        authButton.addActionListener(e -> performAuthAction());
 
         executePerm.addActionListener(e -> {
             if (!isLogged) return;
@@ -149,68 +144,7 @@ public class AccountTab extends BaseTab {
         });
     }
 
-    private void login() {
-        PtfLogger.info("Logging in...", LogCategories.ACCOUNT);
-
-        JDialog dialog = new JDialog(PotoFlux.app.getFrame(), Translations.get("common:connection"), true);
-        dialog.setSize(450, 150);
-        dialog.setLocationRelativeTo(null);
-        dialog.setLayout(new BorderLayout());
-
-        // FIELDS
-
-        JPanel fieldsPanel = new JPanel();
-        fieldsPanel.setLayout(new GridLayout(2, 2, 5, 5));
-        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JLabel emailLabel = new JLabel(Translations.get("common:emailField"));
-        JTextField emailField = new JTextField();
-
-        JLabel passwordLabel = new JLabel(Translations.get("common:passwordField"));
-        JPasswordField passwordField = new JPasswordField();
-
-        fieldsPanel.add(emailLabel);
-        fieldsPanel.add(emailField);
-        fieldsPanel.add(passwordLabel);
-        fieldsPanel.add(passwordField);
-
-        // BUTTONS
-
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-
-        JButton cancelButton = new JButton(Translations.get("common:cancel"));
-        JButton loginButton = new JButton(Translations.get("common:connection"));
-
-        buttonsPanel.add(cancelButton);
-        buttonsPanel.add(loginButton);
-
-        // ACTIONS
-
-        cancelButton.addActionListener(e -> {
-            dialog.dispose();
-            PtfLogger.info("Connection canceled.", LogCategories.ACCOUNT);
-        });
-
-        loginButton.addActionListener(e -> {
-            String email = emailField.getText().trim().toLowerCase();
-            String password = new String(passwordField.getPassword()).trim();
-
-            logout();
-            logWith(email, password);
-
-            dialog.dispose();
-        });
-
-        dialog.getRootPane().setDefaultButton(loginButton);
-
-        dialog.add(fieldsPanel, BorderLayout.CENTER);
-        dialog.add(buttonsPanel, BorderLayout.SOUTH);
-
-        dialog.setVisible(true);
-    }
-
-    private void reload() {
+    public void reload() {
         updateTitle();
         updateEmail();
         updatePerms();
@@ -251,9 +185,7 @@ public class AccountTab extends BaseTab {
     }
 
     private void updateButton() {
-        if (isLogged)
-            authButton.setText(Translations.get("common:disconnect"));
-        else authButton.setText(Translations.get("common:connect"));
+        authButton.setText(getAuthButtonStatus());
         createAccountButton.setVisible(!isLogged);
     }
 

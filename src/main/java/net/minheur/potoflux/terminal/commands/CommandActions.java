@@ -244,10 +244,10 @@ public class CommandActions {
         boolean opened = Functions.openDir(target);
 
         if (opened) {
-            CommandProcessor.appendOutput("Opened in file explorer !"); // TODO
+            CommandProcessor.appendOutput(Translations.get("file:openedInExplorer"));
         } else {
             PtfLogger.error("Could not open mods folder !", LogCategories.TERMINAL, "command");
-            CommandProcessor.appendOutput("Could not get desktop !"); // TODO
+            CommandProcessor.appendOutput(Translations.get("file:error.getDesktopFailed"));
         }
 
     }
@@ -302,10 +302,10 @@ public class CommandActions {
         boolean opened = Functions.openDir(target);
 
         if (opened) {
-            CommandProcessor.appendOutput("Opened in file explorer !"); // TODO
+            CommandProcessor.appendOutput(Translations.get("file:openedInExplorer"));
         } else {
             PtfLogger.error("Could not open logs folder !", LogCategories.TERMINAL, "command");
-            CommandProcessor.appendOutput("Could not get desktop !"); // TODO
+            CommandProcessor.appendOutput(Translations.get("file:error.getDesktopFailed"));
         }
 
     }

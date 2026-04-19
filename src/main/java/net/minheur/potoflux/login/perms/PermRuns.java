@@ -4,10 +4,7 @@ import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
-import net.minheur.potoflux.login.Account;
-import net.minheur.potoflux.login.InvalidTokenException;
-import net.minheur.potoflux.login.RequestPoster;
-import net.minheur.potoflux.login.TokenHandler;
+import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.login.response.BaseResponse;
 import net.minheur.potoflux.login.response.InfoResponse;
 import net.minheur.potoflux.login.response.ListUserResponse;
@@ -152,6 +149,7 @@ public class PermRuns {
     public static void setAccountCreationState() {
 
         JCheckBox check = new JCheckBox(Translations.get("potoflux:tabs.account.accountCreationState.box"));
+        check.setSelected(ConnectionHandler.isAccountCreationEnabled);
         int validation = JOptionPane.showConfirmDialog(
                 UiUtils.getAppAnchor(),
                 check,
@@ -161,34 +159,7 @@ public class PermRuns {
 
         if (validation == JOptionPane.CANCEL_OPTION) return;
 
-        String content;
-        try {
-            content = RequestPoster.lockAccountCreation(
-                    TokenHandler.get(),
-                    check.isSelected()
-            );
-        } catch (InvalidTokenException e) {
-            e.printStackTrace();
-            showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
-            return;
-        } catch (IOException e) {
-            e.printStackTrace();
-            showErrorPane(Translations.get("potoflux:tabs.account.failed"));
-            return;
-        }
-
-        BaseResponse response = Json.GSON.fromJson(content, BaseResponse.class);
-
-        if (response.success) return;
-
-        showErrorPane(
-                switch (response.error) {
-                    case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
-                    case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
-                    case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
-                    default -> response.error;
-                }
-        );
+        ConnectionHandler.sendAccountCreationLockRequest(check.isSelected());
 
     }
 
