@@ -59,6 +59,7 @@ public class ActionRuns {
      * Connect to your account with your token, if you have one
      */
     public final ActionRun CONNECT_TOKEN = LIST_START_LOGIC.add(new ActionRun(fromModId("connect_token"), ActionRunRunnable::connectToken));
+    public final ActionRun CHECK_ALLOW_ACCOUNT_CREATION = LIST_START_LOGIC.add(new ActionRun(fromModId("check_allow_account_creation"), ConnectionHandler::reloadAccountCreationPermission));
 
     // close
     /**

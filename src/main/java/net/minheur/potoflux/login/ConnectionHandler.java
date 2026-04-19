@@ -5,6 +5,7 @@ import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.login.response.InfoResponse;
+import net.minheur.potoflux.login.response.IsAccountCreationEnabledResponse;
 import net.minheur.potoflux.login.response.LoginResponse;
 import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.menu.definers.AccountMenu;
@@ -29,6 +30,7 @@ import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 public class ConnectionHandler {
     public static Account account;
     public static boolean isLogged = false;
+    public static boolean isAccountCreationEnabled = false;
 
     public static void logWith(String email, String password) {
         checkAndRemoveExistingToken();
@@ -128,6 +130,22 @@ public class ConnectionHandler {
             return null;
         }
         return token;
+    }
+    public static void reloadAccountCreationPermission() {
+        String content;
+        try {
+            content = RequestPoster.isAccountCreationEnabled();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorPane(Translations.get("potoflux:tabs.account.failed"));
+            return;
+        }
+
+        IsAccountCreationEnabledResponse response = Json.GSON.fromJson(content, IsAccountCreationEnabledResponse.class);
+        isAccountCreationEnabled = response.isEnabled;
+    }
+    public static boolean isAccountCreationEnabled() {
+        return isAccountCreationEnabled;
     }
 
     private static void displayLoggingError(LoginResponse loginResponse) {
