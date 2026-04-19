@@ -39,6 +39,7 @@ public class ConnectionHandler {
         String token = getToken(email, password);
         if (token == null) return;
 
+        TokenHandler.save(token);
         accountFor(token);
 
     }
@@ -79,8 +80,6 @@ public class ConnectionHandler {
 
         PtfLogger.info("Logged in as " + account.email, LogCategories.ACCOUNT);
         PtfLogger.info("User " + account.email + " has UUID: " + account.uuid, LogCategories.ACCOUNT_IDS);
-
-        TokenHandler.save(token);
     }
 
     public static Perms[] fillPerms(String[] perms) {
