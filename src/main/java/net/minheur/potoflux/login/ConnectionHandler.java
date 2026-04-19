@@ -177,6 +177,7 @@ public class ConnectionHandler {
         );
 
         reloadAuthUi();
+        reloadAccountCreationPermission();
     }
 
     private static void displayLoggingError(LoginResponse loginResponse) {
