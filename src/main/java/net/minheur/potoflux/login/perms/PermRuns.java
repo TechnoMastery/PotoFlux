@@ -149,6 +149,7 @@ public class PermRuns {
     public static void setAccountCreationState() {
 
         JCheckBox check = new JCheckBox(Translations.get("potoflux:tabs.account.accountCreationState.box"));
+        check.setSelected(ConnectionHandler.isAccountCreationEnabled);
         int validation = JOptionPane.showConfirmDialog(
                 UiUtils.getAppAnchor(),
                 check,
