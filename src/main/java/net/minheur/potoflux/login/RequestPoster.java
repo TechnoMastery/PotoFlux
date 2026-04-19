@@ -265,4 +265,8 @@ public class RequestPoster {
         get(json, "logout");
     }
 
+    public static String isAccountCreationEnabled() throws IOException {
+        return get("{}", "is_account_creation_enabled");
+    }
+
 }
