@@ -216,8 +216,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Delete a user")
                 .fr("Supprimer un utilisateur");
         addMenu("account", "lockAccountCreation")
-                .en("Is account creation locked ?")
-                .fr("Est ce que la création de compte est désactivé ?");
+                .en("Authorize account creation ?")
+                .fr("Autoriser la création de comptes ?");
 
         addScreen("tabHereNotHere")
                 .en("ERROR: this tab is detected but unexisting !")
