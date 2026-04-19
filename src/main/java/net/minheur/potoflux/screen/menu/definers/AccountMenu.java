@@ -1,5 +1,6 @@
 package net.minheur.potoflux.screen.menu.definers;
 
+import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.translations.Translations;
 
@@ -35,7 +36,6 @@ public class AccountMenu extends JMenu {
         viewUsers.addActionListener(e -> Perms.VIEW_USERS.getPermAction().run());
         createUsers.addActionListener(e -> Perms.CREATE_USERS.getPermAction().run());
         deleteUsers.addActionListener(e -> Perms.DELETE_USERS.getPermAction().run());
-        accountCreationLock.setEnabled(false);
     }
 
     public void reload() {
@@ -55,7 +55,9 @@ public class AccountMenu extends JMenu {
             if (!allPerms.contains(Perms.LOCK_ACCOUNT_CREATION)) accountCreationLock.setVisible(false);
             else addPerms = true;
 
+            accountCreationLock.setSelected(isAccountCreationEnabled);
             if (!addPerms) perms.setVisible(false);
+
         } else perms.setVisible(false);
 
     }

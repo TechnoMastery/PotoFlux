@@ -144,9 +144,6 @@ public class ConnectionHandler {
         IsAccountCreationEnabledResponse response = Json.GSON.fromJson(content, IsAccountCreationEnabledResponse.class);
         isAccountCreationEnabled = response.isEnabled;
     }
-    public static boolean isAccountCreationEnabled() {
-        return isAccountCreationEnabled;
-    }
 
     private static void displayLoggingError(LoginResponse loginResponse) {
         switch (loginResponse.error) {
