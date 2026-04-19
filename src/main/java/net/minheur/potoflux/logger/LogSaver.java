@@ -1,4 +1,4 @@
-package net.minheur.potoflux.log;
+package net.minheur.potoflux.logger;
 
 import net.minheur.potoflux.PotoFlux;
 

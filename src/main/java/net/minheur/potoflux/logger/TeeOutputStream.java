@@ -1,4 +1,4 @@
-package net.minheur.potoflux.log;
+package net.minheur.potoflux.logger;
 
 import java.io.IOException;
 import java.io.OutputStream;
