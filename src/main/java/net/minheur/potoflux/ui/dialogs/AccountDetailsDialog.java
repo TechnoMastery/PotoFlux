@@ -176,6 +176,7 @@ public class AccountDetailsDialog extends JDialog {
 
             if (!response.success) {
                 showErrorPane(
+                        response.error == null ? content :
                         switch (response.error) {
                             case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
                             case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
@@ -241,6 +242,7 @@ public class AccountDetailsDialog extends JDialog {
 
             if (!response.success) {
                 showErrorPane(
+                        response.error == null ? content :
                         switch (response.error) {
                             case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
                             case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
@@ -283,6 +285,7 @@ public class AccountDetailsDialog extends JDialog {
 
             if (!response.success) {
                 showErrorPane(
+                        response.error == null ? content :
                         switch (response.error) {
                             case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
                             case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");

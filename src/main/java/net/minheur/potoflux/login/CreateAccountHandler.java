@@ -48,6 +48,7 @@ public class CreateAccountHandler {
         }
 
         showErrorPane(
+                response.error == null ? content :
                 switch (response.error) {
                     case "disabled" -> Translations.get("potoflux:tabs.account.createAccount.disabled");
                     case "invalid_email" -> Translations.get("potoflux:tabs.account.createAccount.invalidEmail");

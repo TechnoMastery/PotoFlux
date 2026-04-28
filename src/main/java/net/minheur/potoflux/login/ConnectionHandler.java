@@ -63,7 +63,7 @@ public class ConnectionHandler {
         InfoResponse infoResponse = Json.GSON.fromJson(response, InfoResponse.class);
 
         if (!infoResponse.success) {
-            PtfLogger.error("Could not get user info: " + infoResponse.error, LogCategories.CONNEXION_POST);
+            PtfLogger.error("Could not get user info: " + (infoResponse.error == null ? response : infoResponse.error), LogCategories.CONNEXION_POST);
             displayInfoError(infoResponse);
             return;
         }
@@ -118,7 +118,7 @@ public class ConnectionHandler {
         LoginResponse loginResponse = Json.GSON.fromJson(response, LoginResponse.class);
 
         if (!loginResponse.success) {
-            PtfLogger.error("Failed to connect: " + loginResponse.error, LogCategories.ACCOUNT_IDS);
+            PtfLogger.error("Failed to connect: " + (loginResponse.error == null ? response : loginResponse.error), LogCategories.ACCOUNT_IDS);
             displayLoggingError(loginResponse);
             return null;
         }
@@ -167,6 +167,7 @@ public class ConnectionHandler {
         if (response.success) return;
 
         showErrorPane(
+                response.error == null ? content :
                 switch (response.error) {
                     case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
                     case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");

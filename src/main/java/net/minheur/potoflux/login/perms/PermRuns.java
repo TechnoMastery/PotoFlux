@@ -81,6 +81,7 @@ public class PermRuns {
         }
 
         showErrorPane(
+                response.error == null ? content :
                 switch (response.error) {
                     case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
                     case "email_used" -> Translations.get("potoflux:tabs.account.createAccount.emailUsed");
@@ -127,6 +128,7 @@ public class PermRuns {
         }
 
         showErrorPane(
+                response.error == null ? content :
                 switch (response.error) {
                     case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
                     case "no_user" -> Functions.formatMessage(
@@ -180,6 +182,7 @@ public class PermRuns {
         ListUserResponse listResponse = Json.GSON.fromJson(listContent, ListUserResponse.class);
         if (!listResponse.success) {
             showErrorPane(
+                    listResponse.error == null ? listContent :
                     switch (listResponse.error) {
                         case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
                         case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
@@ -221,6 +224,12 @@ public class PermRuns {
             userResponse = Json.GSON.fromJson(userInfoContent, InfoResponse.class);
 
             if (!userResponse.success) {
+
+                if (userResponse.error == null) {
+                    showErrorPane(userInfoContent);
+                    userFailed++;
+                    continue;
+                }
 
                 switch (userResponse.error) {
                     case "not_exists", "token_expired", "no_permission" -> {
