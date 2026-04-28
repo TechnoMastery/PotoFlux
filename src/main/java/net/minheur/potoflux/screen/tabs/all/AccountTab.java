@@ -175,7 +175,7 @@ public class AccountTab extends BaseTab {
         permsModel.clear();
 
         if (isLogged) {
-            permsPanel.setVisible(true);
+            permsPanel.setVisible(account.perms.length > 0);
 
             for (Perms perm : Perms.values())
                 if (Arrays.asList(account.perms).contains(perm))
