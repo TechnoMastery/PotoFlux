@@ -405,6 +405,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addAccountTab("accountCreationState", "title")
                 .en("Account creation authorization")
                 .fr("Autorisation de création de comptes");
+        addAccountTab("error", "noPermChosen")
+                .en("Please select a permission to run")
+                .fr("Veuillez sélectionner une permission à lancer");
 
         add("modUpdate", "query", "title")
                 .en("Mod update available")
