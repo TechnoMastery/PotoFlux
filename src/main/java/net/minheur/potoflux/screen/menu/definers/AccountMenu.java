@@ -1,7 +1,9 @@
 package net.minheur.potoflux.screen.menu.definers;
 
+import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.login.perms.Perms;
+import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
@@ -31,6 +33,7 @@ public class AccountMenu extends JMenu {
     }
 
     private void setupButtonActions() {
+        openTab.addActionListener(e -> PotoFlux.app.setOpenedTab(Tabs.INSTANCE.ACCOUNT));
         auth.addActionListener(e -> performAuthAction());
 
         viewUsers.addActionListener(e -> Perms.VIEW_USERS.getPermAction().run());
