@@ -126,6 +126,9 @@ public class AccountTab extends BaseTab {
             if (!isLogged) return;
 
             Perms selected = permsList.getSelectedValue();
+            if (selected == null) {
+                showErrorPane(Translations.get("potoflux:tabs.account.error.noPermChosen"));
+            }
             if (selected.getPermAction() == null) {
 
                 if (selected.getNoRunFallback() == null)
