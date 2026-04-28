@@ -29,9 +29,13 @@ public class AccountDetailsDialog extends JDialog {
     private GridBagConstraints gbc;
 
     private JTextField emailField;
+    private JSpinner rankSpinner;
     private JTextField firstNameField;
     private JTextField lastNameField;
-    private JSpinner rankSpinner;
+
+    private JList<Perms> permsList;
+    private DefaultListModel<Perms> permsModel;
+    private JScrollPane permScroll;
 
     private JPanel buttonsPanel;
     private JButton okButton;
@@ -46,8 +50,9 @@ public class AccountDetailsDialog extends JDialog {
 
         setupPanel();
         addEmail();
-        addName();
         addRank();
+        addName();
+        addPerms();
 
         setupButtons();
 
@@ -324,6 +329,25 @@ public class AccountDetailsDialog extends JDialog {
         panel.add(buttonsPanel, gbc);
     }
 
+    private void addPerms() {
+
+        permsModel = new DefaultListModel<>();
+        permsList = new JList<>(permsModel);
+
+        permsList.setFont(new Font("Consolas", Font.PLAIN, 13));
+        permsList.setVisibleRowCount(5);
+
+        permScroll = new JScrollPane(permsList);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+
+        panel.add(permScroll);
+    }
+
     private void disposeWithParent() {
         dispose();
         ((JDialog) getParent()).dispose();
@@ -331,7 +355,15 @@ public class AccountDetailsDialog extends JDialog {
 
     private void addRank() {
         rankSpinner = new JSpinner(new SpinnerNumberModel(account.rank, 0, 100, 1));
-        addRow("Rank", rankSpinner, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridwidth = 1;
+        panel.add(new JLabel("Rank"), gbc); // TODO
+
+        gbc.gridx = 3;
+        panel.add(rankSpinner, gbc);
+
+        gbc.gridy++;
     }
 
     private void addRow(String label, JComponent component, GridBagConstraints gbc) {
@@ -359,7 +391,13 @@ public class AccountDetailsDialog extends JDialog {
 
     private void addEmail() {
         emailField = new JTextField(account.email);
-        addRow("Email", emailField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        panel.add(new JLabel("Email"), gbc); // TODO
+
+        gbc.gridx = 1;
+        panel.add(emailField, gbc);
     }
 
     private void setupPanel() {
