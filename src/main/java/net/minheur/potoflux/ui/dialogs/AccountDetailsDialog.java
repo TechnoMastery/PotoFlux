@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static net.minheur.potoflux.Functions.formatMessage;
@@ -53,7 +54,7 @@ public class AccountDetailsDialog extends JDialog {
         addEmail();
         addRank();
         addName();
-        // addPerms();
+        addPerms();
 
         setupButtons();
 
@@ -340,13 +341,23 @@ public class AccountDetailsDialog extends JDialog {
 
         permScroll = new JScrollPane(permsList);
 
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.NONE;
+        fillPerms();
 
-        panel.add(permScroll);
+        JLabel noPerms = new JLabel("No perms"); // TODO
+        noPerms.setFont(panel.getFont().deriveFont(Font.BOLD));
+
+        addRow("Perms", // TODO
+                account.perms.length > 0 ?
+                permScroll : noPerms
+        );
+    }
+
+    private void fillPerms() {
+        List<Perms> perms = Arrays.stream(account.perms).toList();
+
+        if (perms.isEmpty()) return;
+
+        for (Perms p : perms) permsModel.addElement(p);
     }
 
     private void disposeWithParent() {
@@ -356,10 +367,10 @@ public class AccountDetailsDialog extends JDialog {
 
     private void addRank() {
         rankSpinner = new JSpinner(new SpinnerNumberModel(account.rank, 0, 100, 1));
-        addRow("Rank", rankSpinner, gbc); // TODO
+        addRow("Rank", rankSpinner); // TODO
     }
 
-    private void addRow(String label, JComponent component, GridBagConstraints gbc) {
+    private void addRow(String label, JComponent component) {
         gbc.gridx = 0;
         gbc.gridwidth = 1;
         panel.add(new JLabel(label), gbc);
@@ -379,12 +390,12 @@ public class AccountDetailsDialog extends JDialog {
         namePanel.add(firstNameField);
         namePanel.add(lastNameField);
 
-        addRow("Name", namePanel, gbc); // TODO
+        addRow("Name", namePanel); // TODO
     }
 
     private void addEmail() {
         emailField = new JTextField(account.email);
-        addRow("Email", emailField, gbc); // TODO
+        addRow("Email", emailField); // TODO
     }
 
     private void setupPanel() {
