@@ -49,10 +49,11 @@ public class AccountDetailsDialog extends JDialog {
         this.account = account;
 
         setupPanel();
+
         addEmail();
         addRank();
         addName();
-        addPerms();
+        // addPerms();
 
         setupButtons();
 
@@ -355,15 +356,7 @@ public class AccountDetailsDialog extends JDialog {
 
     private void addRank() {
         rankSpinner = new JSpinner(new SpinnerNumberModel(account.rank, 0, 100, 1));
-
-        gbc.gridx = 2;
-        gbc.gridwidth = 1;
-        panel.add(new JLabel("Rank"), gbc); // TODO
-
-        gbc.gridx = 3;
-        panel.add(rankSpinner, gbc);
-
-        gbc.gridy++;
+        addRow("Rank", rankSpinner, gbc); // TODO
     }
 
     private void addRow(String label, JComponent component, GridBagConstraints gbc) {
@@ -386,18 +379,12 @@ public class AccountDetailsDialog extends JDialog {
         namePanel.add(firstNameField);
         namePanel.add(lastNameField);
 
-        addRow("Name", namePanel, gbc);
+        addRow("Name", namePanel, gbc); // TODO
     }
 
     private void addEmail() {
         emailField = new JTextField(account.email);
-
-        gbc.gridx = 0;
-        gbc.gridwidth = 2;
-        panel.add(new JLabel("Email"), gbc); // TODO
-
-        gbc.gridx = 1;
-        panel.add(emailField, gbc);
+        addRow("Email", emailField, gbc); // TODO
     }
 
     private void setupPanel() {
