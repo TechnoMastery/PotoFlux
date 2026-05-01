@@ -73,7 +73,8 @@ public class UserPrefsManager {
     public static String getUserLang() {
         String lang = getStrictUserLang();
         if (lang == null) {
-            lang = askUserLang();
+            while (lang == null)
+                lang = askUserLang();
             prefs.put(KEY_LANG, lang);
         }
         return lang;
@@ -96,7 +97,8 @@ public class UserPrefsManager {
         String strictLang = getStrictUserLang();
         if (strictLang != null) actualLangId = Arrays.asList(langOptions).indexOf(strictLang);
         if (actualLangId == -1) actualLangId = 0;
-        String lang = JOptionPane.showInputDialog(
+
+        Object lang = JOptionPane.showInputDialog(
                 null,
                 Translations.get("potoflux:prefs.lang.select"),
                 Translations.get("potoflux:prefs.lang"),
@@ -104,9 +106,8 @@ public class UserPrefsManager {
                 null,
                 langOptions,
                 langOptions[actualLangId]
-        ).toString();
-        if (lang == null) lang = "en";
-        return lang;
+        );
+        return lang == null ? null : lang.toString();
     }
 
     /**
@@ -118,7 +119,8 @@ public class UserPrefsManager {
         String strictAscii = getTerminalASCII();
         if (strictAscii != null) actualAsciiId = Arrays.asList(asciiOptions).indexOf(strictAscii);
         if (actualAsciiId == -1) actualAsciiId = 0;
-        String ascii = JOptionPane.showInputDialog(
+
+        Object ascii = JOptionPane.showInputDialog(
                 null,
                 Translations.get("potoflux:prefs.ascii.select"),
                 Translations.get("potoflux:prefs.ascii"),
@@ -126,9 +128,8 @@ public class UserPrefsManager {
                 null,
                 asciiOptions,
                 asciiOptions[actualAsciiId]
-        ).toString();
-        if (ascii == null) ascii = "en";
-        return ascii;
+        );
+        return ascii == null ? null : ascii.toString();
     }
 
     /**
@@ -148,7 +149,6 @@ public class UserPrefsManager {
                 themeOptions,
                 themeOptions[actualThemeId]
         );
-
         return response == null ? null : response.toString();
     }
 
@@ -158,7 +158,10 @@ public class UserPrefsManager {
      * Runs the reset for the user lang
      */
     public static void resetUserLang() {
-        prefs.put(KEY_LANG, askUserLang());
+        String key = askUserLang();
+        if (key == null) return;
+
+        prefs.put(KEY_LANG, key);
         showReload();
     }
 
@@ -166,7 +169,10 @@ public class UserPrefsManager {
      * Runs the reset for the terminal's ASCII
      */
     public static void resetTerminalAscii() {
-        prefs.put(KEY_ASCII, askUserAscii());
+        String key = askUserAscii();
+        if (key == null) return;
+
+        prefs.put(KEY_ASCII, key);
         CommandProcessor.clearArea();
         showReload();
     }
@@ -175,7 +181,10 @@ public class UserPrefsManager {
      * Runs the reset for the theme
      */
     public static void resetTheme() {
-        prefs.put(KEY_THEME, askUserTheme());
+        String key = askUserTheme();
+        if (key == null) return;
+
+        prefs.put(KEY_THEME, key);
         showReload();
     }
 
