@@ -55,6 +55,7 @@ public class Terminal {
                 scrollPanel,
                 inputPanel
         );
+        splitPane.setEnabled(false);
         splitPane.setResizeWeight(1.0);
         splitPane.setDividerSize(5);
         splitPane.setDividerLocation(0.9);
