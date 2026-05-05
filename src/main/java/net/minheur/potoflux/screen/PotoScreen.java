@@ -61,7 +61,7 @@ public class PotoScreen {
                 .toList()
         );
 
-        for (PotoMenuItem item : menuItems) menu.add(item.content());
+        // for (PotoMenuItem item : menuItems) menu.add(item.content());
 
         frame.setJMenuBar(menu);
     }
