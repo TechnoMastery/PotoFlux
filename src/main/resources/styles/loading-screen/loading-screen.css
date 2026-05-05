@@ -1,0 +1,10 @@
+.root
+{
+    -fx-background-image: url("loadingImage.jpg");
+}
+.text_up
+{
+-fx-padding: 5px;
+-fx-text-fill: yellow;
+-fx-font-family: impact;
+}
