@@ -23,6 +23,7 @@ import java.util.List;
 /**
  * The handler for the main potoflux screen
  */
+@Deprecated
 public class PotoScreen {
     /**
      * The actual {@link JFrame} for the class
