@@ -1,5 +1,7 @@
 package net.minheur.potoflux.screen.menu.definers;
 
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.translations.Translations;
@@ -11,13 +13,13 @@ import java.io.File;
 
 public class MenuDefiners {
 
-    public static JMenu getFileMenu() {
+    public static Menu getFileMenu() {
 
         // open mod dir
-        JMenuItem openModDir = new JMenuItem(Translations.get("potoflux:menu.file.openModDir"));
-        if (!Desktop.isDesktopSupported()) openModDir.setEnabled(false);
+        MenuItem openModDir = new MenuItem(Translations.get("potoflux:menu.file.openModDir"));
+        if (!Desktop.isDesktopSupported()) openModDir.setDisable(true);
 
-        openModDir.addActionListener(e -> {
+        openModDir.setOnAction(e -> {
 
             File target = PotoFlux.getProgramDir().resolve("mods").toFile();
 
@@ -26,10 +28,10 @@ public class MenuDefiners {
         });
 
         // open log dir
-        JMenuItem openLogDir = new JMenuItem(Translations.get("potoflux:menu.file.openLogDir"));
-        if (!Desktop.isDesktopSupported()) openModDir.setEnabled(false);
+        MenuItem openLogDir = new MenuItem(Translations.get("potoflux:menu.file.openLogDir"));
+        if (!Desktop.isDesktopSupported()) openLogDir.setDisable(true);
 
-        openLogDir.addActionListener(e -> {
+        openLogDir.setOnAction(e -> {
 
             File target = PotoFlux.getProgramDir().resolve("logs").toFile();
 
@@ -38,10 +40,10 @@ public class MenuDefiners {
         });
 
         // main setup
-        JMenu fileMenu = new JMenu(Translations.get("common:file"));
+        Menu fileMenu = new Menu(Translations.get("common:file"));
 
-        fileMenu.add(openModDir);
-        fileMenu.add(openLogDir);
+        fileMenu.getItems().add(openModDir);
+        fileMenu.getItems().add(openLogDir);
 
         return fileMenu;
     }
