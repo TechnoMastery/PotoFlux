@@ -21,7 +21,6 @@ public class FXLoadingScreen {
 
         label = new Label("Potoflux is loading...");
         stageLabel = new Label();
-        label.getStyleClass().add("text_up");
 
         VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);

@@ -1,10 +1,8 @@
 .root
 {
     -fx-background-image: url("loadingImage.jpg");
-}
-.text_up
-{
--fx-padding: 5px;
--fx-text-fill: yellow;
--fx-font-family: impact;
+    -fx-color: rgb(255, 255, 255);
+    -fx-font-family: monospace, lucida_console;
+    -fx-font-size: 25px;
+    -fx-style: bold;
 }
