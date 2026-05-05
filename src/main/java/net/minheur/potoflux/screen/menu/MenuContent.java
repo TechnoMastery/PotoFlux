@@ -18,8 +18,8 @@ public class MenuContent {
     }
 
     // --- file ---
-    public final PotoMenuItem FILE = LIST.add(new PotoMenuItem(fromModId("file"), getFileMenu()));
-    public final PotoMenuItem ACCOUNT = LIST.add(new PotoMenuItem(fromModId("account"), new AccountMenu()));
+    public final PotoMenuItem FILE = LIST.add(new PotoMenuItem(fromModId("file"), getFileMenu())); // todo
+    public final PotoMenuItem ACCOUNT = LIST.add(new PotoMenuItem(fromModId("account"), new AccountMenu())); // todo
 
     public static void register(RegisterMenuEvent event) {
         INSTANCE = new MenuContent();
