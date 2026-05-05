@@ -1,5 +1,8 @@
 package net.minheur.potoflux.screen.menu.definers;
 
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.login.perms.Perms;
@@ -13,16 +16,16 @@ import java.util.List;
 
 import static net.minheur.potoflux.login.ConnectionHandler.*;
 
-public class AccountMenu extends JMenu {
+public class AccountMenu extends Menu {
 
-    private final JMenuItem openTab = new JMenuItem(Translations.get("potoflux:menu.account.openTab"));
-    private final JMenuItem auth = new JMenuItem(getAuthButtonStatus());
+    private final MenuItem openTab = new MenuItem(Translations.get("potoflux:menu.account.openTab"));
+    private final MenuItem auth = new MenuItem(getAuthButtonStatus());
 
-    private final JMenu perms = new JMenu(Translations.get("potoflux:menu.account.perms"));
-    private final JMenuItem viewUsers = new JMenuItem(Translations.get("potoflux:perms.viewUsers"));
-    private final JMenuItem createUsers = new JMenuItem(Translations.get("potoflux:menu.account.createUsers"));
-    private final JMenuItem deleteUsers = new JMenuItem(Translations.get("potoflux:menu.account.deleteUsers"));
-    private final JCheckBoxMenuItem accountCreationLock = new JCheckBoxMenuItem(Translations.get("potoflux:menu.account.lockAccountCreation"));
+    private final Menu perms = new Menu(Translations.get("potoflux:menu.account.perms"));
+    private final MenuItem viewUsers = new MenuItem(Translations.get("potoflux:perms.viewUsers"));
+    private final MenuItem createUsers = new MenuItem(Translations.get("potoflux:menu.account.createUsers"));
+    private final MenuItem deleteUsers = new MenuItem(Translations.get("potoflux:menu.account.deleteUsers"));
+    private final CheckMenuItem accountCreationLock = new CheckMenuItem(Translations.get("potoflux:menu.account.lockAccountCreation"));
 
     public AccountMenu() {
         super(Translations.get("common:account"));
@@ -33,13 +36,13 @@ public class AccountMenu extends JMenu {
     }
 
     private void setupButtonActions() {
-        openTab.addActionListener(e -> PotoFlux.app.setOpenedTab(Tabs.INSTANCE.ACCOUNT));
-        auth.addActionListener(e -> performAuthAction());
+        openTab.setOnAction(e -> PotoFlux.app.setOpenedTab(Tabs.INSTANCE.ACCOUNT));
+        auth.setOnAction(e -> performAuthAction());
 
-        viewUsers.addActionListener(e -> Perms.VIEW_USERS.getPermAction().run());
-        createUsers.addActionListener(e -> Perms.CREATE_USERS.getPermAction().run());
-        deleteUsers.addActionListener(e -> Perms.DELETE_USERS.getPermAction().run());
-        accountCreationLock.addActionListener(e -> ConnectionHandler.sendAccountCreationLockRequest(accountCreationLock.isSelected()));
+        viewUsers.setOnAction(e -> Perms.VIEW_USERS.getPermAction().run());
+        createUsers.setOnAction(e -> Perms.CREATE_USERS.getPermAction().run());
+        deleteUsers.setOnAction(e -> Perms.DELETE_USERS.getPermAction().run());
+        accountCreationLock.setOnAction(e -> ConnectionHandler.sendAccountCreationLockRequest(accountCreationLock.isSelected()));
     }
 
     public void reload() {
@@ -67,15 +70,15 @@ public class AccountMenu extends JMenu {
     }
 
     public void addAll() {
-        add(openTab);
-        add(auth);
+        getItems().add(openTab);
+        getItems().add(auth);
 
         // perms
-        perms.add(viewUsers);
-        perms.add(createUsers);
-        perms.add(deleteUsers);
-        perms.add(accountCreationLock);
-        add(perms);
+        perms.getItems().add(viewUsers);
+        perms.getItems().add(createUsers);
+        perms.getItems().add(deleteUsers);
+        perms.getItems().add(accountCreationLock);
+        getItems().add(perms);
     }
 
 }
