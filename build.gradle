@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 group = "net.minheur"
@@ -32,6 +33,11 @@ publishing {
             }
         }
     }
+}
+
+javafx {
+    version '17'
+    modules = [ 'javafx.controls' ]
 }
 
 repositories {
