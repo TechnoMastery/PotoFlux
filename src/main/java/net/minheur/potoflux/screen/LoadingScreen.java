@@ -3,6 +3,7 @@ package net.minheur.potoflux.screen;
 import javax.swing.*;
 import java.awt.*;
 
+@Deprecated
 public class LoadingScreen extends JFrame {
     private JLabel label;
     private JLabel stage;
