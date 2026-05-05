@@ -2,6 +2,7 @@ package net.minheur.potoflux;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import javafx.application.Platform;
 import net.minheur.potoflux.actionRuns.ActionRuns;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.actionRuns.regs.CloseRunRegistry;
@@ -65,6 +66,7 @@ public class PotoFlux {
             throwable.printStackTrace();
             runProgramClosing(1);
         });
+        Platform.startup(() -> {});
 
         LoadingScreen startScreen = new LoadingScreen();
         startScreen.setVisible(true);
