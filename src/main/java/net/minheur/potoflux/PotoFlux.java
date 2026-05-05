@@ -17,6 +17,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.loader.mod.events.*;
+import net.minheur.potoflux.screen.FXPotoScreen;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.menu.MenuContent;
@@ -151,6 +152,10 @@ public class PotoFlux {
 
             // run all start ui runs
             for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
+        });
+
+        Platform.runLater(() -> {
+            FXPotoScreen screen = new FXPotoScreen();
         });
 
     }
