@@ -1,18 +1,16 @@
 package net.minheur.potoflux.screen.tabs.all;
 
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
-import net.minheur.potoflux.screen.tabs.BaseTab;
+import javafx.scene.text.Font;
+import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.UserPrefsManager;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * The settings tab contains all user changeable vars (prefs)
  */
-public class SettingsTab extends BaseTab<Pane> {
+public class SettingsTab extends BaseVTab<StackPane> {
     /**
      * This is the actual method to set the panel.<br>
      * The overriding class will have to use this to add content to the {@link #PANEL}.
@@ -33,42 +31,42 @@ public class SettingsTab extends BaseTab<Pane> {
      * Adds the button to change the terminal's ASCII
      */
     private void addAsciiButton() {
-        JButton asciiButton = new JButton(Translations.get("potoflux:prefs.ascii.button"));
-        asciiButton.addActionListener(e -> {
+        Button asciiButton = new Button(Translations.get("potoflux:prefs.ascii.button"));
+        asciiButton.setOnAction(e -> {
             UserPrefsManager.resetTerminalAscii();
         });
-        asciiButton.setFont(new Font("Consolas", Font.PLAIN, 15));
-        asciiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        asciiButton.setFont(Font.font("Consolas", 15));
+        // asciiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // PANEL.add(asciiButton); todo
+        vContent.getChildren().add(asciiButton);
     }
 
     /**
      * Adds the button to change the app's lang
      */
     private void addLangButton() {
-        JButton langButton = new JButton(Translations.get("potoflux:prefs.lang.button"));
-        langButton.addActionListener(e -> {
+        Button langButton = new Button(Translations.get("potoflux:prefs.lang.button"));
+        langButton.setOnAction(e -> {
             UserPrefsManager.resetUserLang();
         });
-        langButton.setFont(new Font("Consolas", Font.PLAIN, 15));
-        langButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        langButton.setFont(Font.font("Consolas", 15));
+        // langButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // PANEL.add(langButton); todo
+        vContent.getChildren().add(langButton);
     }
 
     /**
      * Adds the button to change the theme
      */
     private void addThemeButton() {
-        JButton themeButton = new JButton(Translations.get("potoflux:prefs.theme.button"));
-        themeButton.addActionListener(e -> {
+        Button themeButton = new Button(Translations.get("potoflux:prefs.theme.button"));
+        themeButton.setOnAction(e -> {
             UserPrefsManager.resetTheme();
         });
-        themeButton.setFont(new Font("Consolas", Font.PLAIN, 15));
-        themeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        themeButton.setFont(Font.font("Consolas", 15));
+        // themeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // PANEL.add(themeButton); todo
+        vContent.getChildren().add(themeButton);
     }
 
     /**
