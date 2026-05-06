@@ -1,12 +1,14 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * Tab class for the home tab
@@ -26,10 +28,9 @@ public class HomeTab extends BaseTab {
      * Adds the description of the app
      */
     private void addDesc() {
-        JLabel desc = new JLabel(Translations.get("potoflux:tabs.home.credit"));
-        desc.setFont(new Font("Consolas", Font.PLAIN, 15));
-        desc.setAlignmentX(Component.CENTER_ALIGNMENT);
-        // PANEL.add(desc); todo
+        Label desc = new Label(Translations.get("potoflux:tabs.home.credit"));
+        desc.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
+        PANEL.getChildren().add(desc);
     }
 
     /**
@@ -39,9 +40,8 @@ public class HomeTab extends BaseTab {
         String name = Functions.formatMessage(Translations.get("potoflux:tabs.home.version"),
                 PotoFlux.getVersion());
 
-        JLabel version = new JLabel(name);
-        version.setFont(new Font("Consolas", Font.PLAIN, 15));
-        version.setAlignmentX(Component.CENTER_ALIGNMENT);
+        Label version = new Label(name);
+        version.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
         // PANEL.add(version); todo
     }
 
