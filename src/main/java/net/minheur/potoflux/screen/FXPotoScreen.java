@@ -81,7 +81,7 @@ public class FXPotoScreen {
                 .toList()
         );
 
-        // for (PotoMenuItem item : menuItems) menu.getMenus().add(item.content()); TODO
+        for (PotoMenuItem item : menuItems) menu.getMenus().add(item.getNode());
     }
 
     private void addIcon() {

@@ -119,7 +119,7 @@ public class PotoFlux {
         // bus.addListener(Tabs::register);
         // bus.addListener(Commands::register);
         // bus.addListener(ActionRuns::register);
-        // bus.addListener(MenuContent::register);
+        bus.addListener(MenuContent::register);
 
         // load all addons todo
         // startScreen.updateStage("Loading addons...");
@@ -134,7 +134,7 @@ public class PotoFlux {
             // bus.post(new RegisterTabsEvent());
             // bus.post(new RegisterCommandsEvent());
             bus.post(new RegisterRunsEvent());
-            // bus.post(new RegisterMenuEvent());
+            bus.post(new RegisterMenuEvent());
         } catch (Throwable e) {
             e.printStackTrace();
             runProgramClosing(-1);
