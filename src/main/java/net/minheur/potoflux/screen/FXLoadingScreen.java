@@ -3,6 +3,7 @@ package net.minheur.potoflux.screen;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -23,7 +24,7 @@ public class FXLoadingScreen {
         stageLabel = new Label();
 
         VBox root = new VBox(10);
-        root.setAlignment(Pos.CENTER);
+        root.setAlignment(Pos.BOTTOM_RIGHT);
         root.setStyle("-fx-padding: 20;");
 
         root.getChildren().addAll(label, stageLabel);

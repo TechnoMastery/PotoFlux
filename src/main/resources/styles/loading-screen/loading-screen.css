@@ -1,8 +1,14 @@
 .root
 {
-    -fx-background-image: url("loadingImage.jpg");
-    -fx-color: rgb(255, 255, 255);
+    -fx-background-image: url("loadingScreen1.png");
+    -fx-background-size: cover;
     -fx-font-family: monospace, lucida_console;
-    -fx-font-size: 25px;
-    -fx-style: bold;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+.label
+{
+    -fx-text-fill: black;
+    -fx-padding: 0 0 5 15;
+
 }
