@@ -2,19 +2,18 @@ package net.minheur.potoflux.screen.tabs.all;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.screen.tabs.BaseTab;
+import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
-
-import javax.swing.*;
 
 /**
  * Tab class for the home tab
  */
-public class HomeTab extends BaseTab<StackPane> {
+public class HomeTab extends BaseVTab<StackPane> {
     /**
      * This is the actual method to set the panel.<br>
      * The overriding class will have to use this to add content to the {@link #PANEL}.
@@ -36,7 +35,7 @@ public class HomeTab extends BaseTab<StackPane> {
     private void addDesc() {
         Label desc = new Label(Translations.get("potoflux:tabs.home.credit"));
         desc.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
-        content.getChildren().add(desc);
+        vContent.getChildren().add(desc);
     }
 
     /**
@@ -48,7 +47,7 @@ public class HomeTab extends BaseTab<StackPane> {
 
         Label version = new Label(name);
         version.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
-        // PANEL.add(version); todo
+        vContent.getChildren().add(version);
     }
 
     /**
