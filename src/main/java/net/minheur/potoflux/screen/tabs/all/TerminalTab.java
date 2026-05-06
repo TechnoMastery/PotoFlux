@@ -2,7 +2,6 @@ package net.minheur.potoflux.screen.tabs.all;
 
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.terminal.Terminal;
-import net.minheur.potoflux.translations.Translations;
 
 /**
  * The tab that contains the terminal of potoflux.

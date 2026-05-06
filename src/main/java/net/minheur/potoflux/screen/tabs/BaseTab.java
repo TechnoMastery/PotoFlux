@@ -1,16 +1,23 @@
 package net.minheur.potoflux.screen.tabs;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * The base tab, overridden to create your own tabs.
  */
 public abstract class BaseTab {
     /**
-     * The actual {@link JPanel}, that will be added to the tabbed pane.
+     * The actual {@link Pane}, that will be added to the tabbed pane.
      */
-    protected final JPanel PANEL = new JPanel();
+    protected Pane PANEL;
 
     /**
      * Constructor for the tab.<br>
@@ -27,10 +34,12 @@ public abstract class BaseTab {
      * It sets the layout and add the title.
      */
     protected void preset() {
-        PANEL.setLayout(new BoxLayout(PANEL, BoxLayout.Y_AXIS));
-        PANEL.add(Box.createVerticalStrut(30));
+        VBox panel = new VBox();
+        panel.setSpacing(20);
+        panel.setPadding(new Insets(30, 0, 0, 0));
+        panel.setAlignment(Pos.TOP_CENTER);
+
         createTitle();
-        PANEL.add(Box.createVerticalStrut(20));
     }
 
     /**
@@ -50,7 +59,7 @@ public abstract class BaseTab {
      * Getter for the {@link #PANEL}.
      * @return the {@link #PANEL}
      */
-    public JPanel getPanel() {
+    public Pane getNode() {
         return PANEL;
     }
 
@@ -77,9 +86,8 @@ public abstract class BaseTab {
      * It is used in the {@link #preset()}
      */
     protected void createTitle() {
-        JLabel title = new JLabel(getTitle());
-        title.setFont(new Font("Consolas", Font.BOLD, 20));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        PANEL.add(title);
+        Label title = new Label(getTitle());
+        title.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
+        PANEL.getChildren().add(title);
     }
 }
