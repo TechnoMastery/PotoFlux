@@ -130,17 +130,17 @@ public class Terminal {
         });
     }
 
-    private @NotNull JScrollPane setupOutputAndGetScroll() {
+    private void setupOutput() {
         outputArea.setEditable(false);
-        outputArea.setFont(new Font("Consolas", Font.PLAIN, 20));
-        return new JScrollPane(outputArea);
+        outputArea.setFont(Font.font("Consolas", 20));
+        outputArea.setWrapText(true);
     }
 
     /**
      * Getter for the {@link #outputArea}
      * @return {@link #outputArea}
      */
-    public JTextArea getOutputArea() {
+    public TextArea getOutputArea() {
         return outputArea;
     }
 
@@ -152,7 +152,7 @@ public class Terminal {
 
         // existing check
         if (!Files.exists(file)) {
-            outputArea.setText("");
+            outputArea.clear();
             buildASCII();
             return;
         }
@@ -162,7 +162,7 @@ public class Terminal {
 
             // empty check
             if (content.trim().isEmpty()) {
-                outputArea.setText("");
+                outputArea.clear();
                 buildASCII();
                 return;
             }
@@ -182,7 +182,9 @@ public class Terminal {
      */
     public static String getAsciiFileContent(String file) {
         try (Reader reader = new InputStreamReader(
-                Objects.requireNonNull(Terminal.class.getResourceAsStream("/ascii/" + file + ".txt")),
+                Objects.requireNonNull(
+                        Terminal.class.getResourceAsStream("/ascii/" + file + ".txt")
+                ),
                 StandardCharsets.UTF_8
         )) {
             StringBuilder content = new StringBuilder();
