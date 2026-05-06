@@ -1,5 +1,6 @@
 package net.minheur.potoflux.utils;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.terminal.CommandProcessor;
@@ -194,7 +195,12 @@ public class UserPrefsManager {
      * Shows a popup to ask the user to restart the app
      */
     private static void showReload() {
-        JOptionPane.showMessageDialog(null, Translations.get("potoflux:prefs.reload"));
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Reload"); // TODO
+        alert.setHeaderText(null);
+        alert.setContentText(Translations.get("potoflux:prefs.reload"));
+        alert.showAndWait();
+
         PotoFlux.runProgramClosing(0);
     }
 }
