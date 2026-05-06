@@ -7,10 +7,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.PtfLogger;
@@ -18,10 +15,6 @@ import net.minheur.potoflux.utils.UserPrefsManager;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -49,7 +42,7 @@ public class Terminal {
      * Init the terminal
      * @param panel the element that will contain the terminal. Should be empty
      */
-    public Terminal(Pane panel) {
+    public Terminal(StackPane panel) {
         BorderPane root = new BorderPane();
 
         // OUTPUT
