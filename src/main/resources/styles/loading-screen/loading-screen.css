@@ -1,8 +1,10 @@
 .root
 {
     -fx-background-image: url("loadingImage.jpg");
-    -fx-color: rgb(255, 255, 255);
     -fx-font-family: monospace, lucida_console;
     -fx-font-size: 25px;
     -fx-style: bold;
+}
+.label {
+    -fx-text-fill: white;
 }
