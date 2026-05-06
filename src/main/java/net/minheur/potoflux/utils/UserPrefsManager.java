@@ -122,16 +122,16 @@ public class UserPrefsManager {
         if (strictAscii != null) actualAsciiId = Arrays.asList(asciiOptions).indexOf(strictAscii);
         if (actualAsciiId == -1) actualAsciiId = 0;
 
-        Object ascii = JOptionPane.showInputDialog(
-                null,
-                Translations.get("potoflux:prefs.ascii.select"),
-                Translations.get("potoflux:prefs.ascii"),
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                asciiOptions,
-                asciiOptions[actualAsciiId]
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(
+                asciiOptions[actualAsciiId],
+                asciiOptions
         );
-        return ascii == null ? null : ascii.toString();
+        dialog.setTitle(Translations.get("potoflux:prefs.ascii"));
+        dialog.setHeaderText(Translations.get("potoflux:prefs.ascii.select"));
+        dialog.setContentText("New ascii: "); // TODO
+
+        Optional<String> result = dialog.showAndWait();
+        return result.orElse(null);
     }
 
     /**
