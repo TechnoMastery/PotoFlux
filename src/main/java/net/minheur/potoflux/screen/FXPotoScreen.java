@@ -23,7 +23,7 @@ public class FXPotoScreen {
     private final MenuBar menu = new MenuBar();
     private final List<PotoMenuItem> menuItems = new ArrayList<>();
 
-    private final Map<Tab, BaseTab> tabMap = new HashMap<>();
+    private final Map<Tab, BaseTab<?>> tabMap = new HashMap<>();
     private final TabPane tabs = new TabPane();
 
     public FXPotoScreen() {
