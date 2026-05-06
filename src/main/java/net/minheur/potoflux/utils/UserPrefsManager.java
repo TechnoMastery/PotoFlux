@@ -142,16 +142,16 @@ public class UserPrefsManager {
         String actualTheme = getTheme();
         int actualThemeId = Arrays.asList(themeOptions).indexOf(actualTheme);
 
-        Object response = JOptionPane.showInputDialog(
-                null,
-                Translations.get("potoflux:prefs.theme.select"),
-                Translations.get("potoflux:prefs.theme"),
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                themeOptions,
-                themeOptions[actualThemeId]
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(
+                themeOptions[actualThemeId],
+                themeOptions
         );
-        return response == null ? null : response.toString();
+        dialog.setTitle(Translations.get("potoflux:prefs.theme"));
+        dialog.setHeaderText(Translations.get("potoflux:prefs.theme.select"));
+        dialog.setContentText("New theme: "); // TODO
+
+        Optional<String> result = dialog.showAndWait();
+        return result.orElse(null);
     }
 
 
