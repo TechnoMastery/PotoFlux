@@ -34,7 +34,7 @@ public abstract class BaseTab<T extends Pane> {
     }
 
     /**
-     * You need to instantiate {@link #PANEL} here
+     * You need to instantiate {@link #PANEL} here, and also {@link #content} if {@link #doPreset()} is off
      */
     protected abstract void instantiate();
 
