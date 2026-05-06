@@ -40,7 +40,7 @@ public class TerminalTab extends BaseTab<Pane> {
      * Adds the terminal to the {@link #PANEL}
      */
     private void addTerminal() {
-        // terminal = new Terminal(PANEL); todo
+        terminal = new Terminal(PANEL);
     }
 
     /**
