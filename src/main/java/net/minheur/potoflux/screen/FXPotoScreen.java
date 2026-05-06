@@ -72,6 +72,10 @@ public class FXPotoScreen {
 
     }
 
+    public Map<Tab, BaseTab> getTabMap() {
+        return tabMap;
+    }
+
     private void addMenu() {
         menuItems.clear();
         menuItems.addAll(MenuRegistry.getAll().stream()
