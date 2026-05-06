@@ -1,12 +1,13 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import javafx.scene.layout.Pane;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.terminal.Terminal;
 
 /**
  * The tab that contains the terminal of potoflux.
  */
-public class TerminalTab extends BaseTab {
+public class TerminalTab extends BaseTab<Pane> {
     /**
      * Actual var containing the terminal
      */
@@ -19,6 +20,11 @@ public class TerminalTab extends BaseTab {
     @Override
     protected void setPanel() {
         addTerminal();
+    }
+
+    @Override
+    protected void instantiate() {
+        PANEL = new Pane();
     }
 
     /**

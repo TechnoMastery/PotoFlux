@@ -1,5 +1,6 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import javafx.scene.layout.Pane;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.login.CreateAccountHandler;
 import net.minheur.potoflux.login.perms.Perms;
@@ -18,7 +19,7 @@ import static net.minheur.potoflux.login.ConnectionHandler.*;
 /**
  * Tab class for account tab
  */
-public class AccountTab extends BaseTab {
+public class AccountTab extends BaseTab<Pane> {
 
     private JLabel titleLabel;
     private JLabel emailLabel;
@@ -38,6 +39,11 @@ public class AccountTab extends BaseTab {
         setupLayout();
         setupActions();
         reload();
+    }
+
+    @Override
+    protected void instantiate() {
+        PANEL = new Pane();
     }
 
     private void initComponents() {

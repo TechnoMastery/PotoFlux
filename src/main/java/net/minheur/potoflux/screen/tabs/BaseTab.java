@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -13,33 +14,44 @@ import javax.swing.*;
 /**
  * The base tab, overridden to create your own tabs.
  */
-public abstract class BaseTab {
+public abstract class BaseTab<T extends Pane> {
     /**
      * The actual {@link Pane}, that will be added to the tabbed pane.
      */
-    protected Pane PANEL;
+    protected T PANEL;
+    protected VBox content;
 
     /**
      * Constructor for the tab.<br>
      * It will do the preset if enabled, and execute (or invokeLater) the {@link #setPanel()} method, to add data to the {@link #PANEL}.
      */
     public BaseTab() {
+        instantiate();
+
         if (doPreset()) preset();
         if (invokeLater()) SwingUtilities.invokeLater(this::setPanel);
         else setPanel();
     }
 
     /**
+     * You need to instantiate {@link #PANEL} here
+     */
+    protected abstract void instantiate();
+
+    /**
      * The preset, that is by default enabled.<br>
      * It sets the layout and add the title.
      */
     protected void preset() {
-        VBox panel = new VBox();
-        panel.setSpacing(20);
-        panel.setPadding(new Insets(30, 0, 0, 0));
-        panel.setAlignment(Pos.TOP_CENTER);
+        content = new VBox();
+        content.setSpacing(20);
+        content.setPadding(new Insets(30, 0, 0, 0));
+        content.setAlignment(Pos.TOP_CENTER);
 
-        createTitle();
+        VBox.setVgrow(content, Priority.ALWAYS);
+
+        PANEL.getChildren().add(content);
+        content.getChildren().add(mkTitle());
     }
 
     /**
@@ -85,9 +97,9 @@ public abstract class BaseTab {
      * Creates the title, from the text given via {@link #getTitle()}.<br>
      * It is used in the {@link #preset()}
      */
-    protected void createTitle() {
+    protected Label mkTitle() {
         Label title = new Label(getTitle());
         title.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
-        PANEL.getChildren().add(title);
+        return title;
     }
 }

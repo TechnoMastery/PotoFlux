@@ -1,6 +1,7 @@
 package net.minheur.potoflux.screen.tabs.all;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import net.minheur.potoflux.Functions;
@@ -13,7 +14,7 @@ import javax.swing.*;
 /**
  * Tab class for the home tab
  */
-public class HomeTab extends BaseTab {
+public class HomeTab extends BaseTab<StackPane> {
     /**
      * This is the actual method to set the panel.<br>
      * The overriding class will have to use this to add content to the {@link #PANEL}.
@@ -24,13 +25,18 @@ public class HomeTab extends BaseTab {
         addVersion();
     }
 
+    @Override
+    protected void instantiate() {
+        PANEL = new StackPane();
+    }
+
     /**
      * Adds the description of the app
      */
     private void addDesc() {
         Label desc = new Label(Translations.get("potoflux:tabs.home.credit"));
         desc.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
-        PANEL.getChildren().add(desc);
+        content.getChildren().add(desc);
     }
 
     /**
