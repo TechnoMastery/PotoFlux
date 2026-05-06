@@ -19,7 +19,7 @@ public class MenuContent {
 
     // --- file ---
     public final PotoMenuItem FILE = LIST.add(new PotoMenuItem(fromModId("file"), MenuDefiners::getFileMenu));
-    public final PotoMenuItem ACCOUNT = LIST.add(new PotoMenuItem(fromModId("account"), AccountMenu::new)); // todo
+    public final PotoMenuItem ACCOUNT = LIST.add(new PotoMenuItem(fromModId("account"), AccountMenu::new));
 
     public static void register(RegisterMenuEvent event) {
         INSTANCE = new MenuContent();
