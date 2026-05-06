@@ -116,7 +116,7 @@ public class PotoFlux {
 
         // subscribe PotoFlux's data to modEventBus todo
         bus.addListener(PotoFlux::onRegisterLang);
-        // bus.addListener(Tabs::register);
+        bus.addListener(Tabs::register);
         // bus.addListener(Commands::register);
         // bus.addListener(ActionRuns::register);
         bus.addListener(MenuContent::register);
@@ -131,7 +131,7 @@ public class PotoFlux {
 
         try {
             bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
-            // bus.post(new RegisterTabsEvent());
+            bus.post(new RegisterTabsEvent());
             // bus.post(new RegisterCommandsEvent());
             bus.post(new RegisterRunsEvent());
             bus.post(new RegisterMenuEvent());
