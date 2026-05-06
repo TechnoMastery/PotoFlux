@@ -1,5 +1,6 @@
 package net.minheur.potoflux.utils;
 
+import javafx.scene.control.ChoiceDialog;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.translations.Lang;
@@ -7,6 +8,7 @@ import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.prefs.Preferences;
 
 /**
@@ -98,16 +100,16 @@ public class UserPrefsManager {
         if (strictLang != null) actualLangId = Arrays.asList(langOptions).indexOf(strictLang);
         if (actualLangId == -1) actualLangId = 0;
 
-        Object lang = JOptionPane.showInputDialog(
-                null,
-                Translations.get("potoflux:prefs.lang.select"),
-                Translations.get("potoflux:prefs.lang"),
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                langOptions,
-                langOptions[actualLangId]
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(
+                langOptions[actualLangId],
+                langOptions
         );
-        return lang == null ? null : lang.toString();
+        dialog.setTitle(Translations.get("potoflux:prefs.lang"));
+        dialog.setHeaderText(Translations.get("potoflux:prefs.lang.select"));
+        dialog.setContentText("New lang: "); // TODO
+
+        Optional<String> result = dialog.showAndWait();
+        return result.orElse(null);
     }
 
     /**
