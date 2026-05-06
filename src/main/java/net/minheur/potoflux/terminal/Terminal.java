@@ -71,8 +71,8 @@ public class Terminal {
         HBox inputPanel = new HBox();
         inputPanel.setSpacing(5);
 
-        Label prompt = new Label("  > " );
-        prompt.setFont(Font.font("Consolas", 20));
+        Label prompt = new Label("  >  ");
+        prompt.setFont(Font.font("Consolas", 30));
 
         inputField.setFont(Font.font("Consolas", 20));
         HBox.setHgrow(inputField, Priority.ALWAYS);
