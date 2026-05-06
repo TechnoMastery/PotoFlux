@@ -69,7 +69,6 @@ public class Terminal {
         splitPane.setOrientation(Orientation.VERTICAL);
         splitPane.getItems().addAll(scrollPanel, inputPanel);
         splitPane.setDividerPositions(0.9);
-        splitPane.setDisable(true);
 
         root.setCenter(splitPane);
         panel.getChildren().add(root);
