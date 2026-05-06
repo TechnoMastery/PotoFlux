@@ -33,7 +33,7 @@ public class SettingsTab extends BaseTab {
         asciiButton.setFont(new Font("Consolas", Font.PLAIN, 15));
         asciiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        PANEL.add(asciiButton);
+        // PANEL.add(asciiButton); todo
     }
 
     /**
@@ -47,7 +47,7 @@ public class SettingsTab extends BaseTab {
         langButton.setFont(new Font("Consolas", Font.PLAIN, 15));
         langButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        PANEL.add(langButton);
+        // PANEL.add(langButton); todo
     }
 
     /**
@@ -61,7 +61,7 @@ public class SettingsTab extends BaseTab {
         themeButton.setFont(new Font("Consolas", Font.PLAIN, 15));
         themeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        PANEL.add(themeButton);
+        // PANEL.add(themeButton); todo
     }
 
     /**

@@ -29,7 +29,7 @@ public class HomeTab extends BaseTab {
         JLabel desc = new JLabel(Translations.get("potoflux:tabs.home.credit"));
         desc.setFont(new Font("Consolas", Font.PLAIN, 15));
         desc.setAlignmentX(Component.CENTER_ALIGNMENT);
-        PANEL.add(desc);
+        // PANEL.add(desc); todo
     }
 
     /**
@@ -42,7 +42,7 @@ public class HomeTab extends BaseTab {
         JLabel version = new JLabel(name);
         version.setFont(new Font("Consolas", Font.PLAIN, 15));
         version.setAlignmentX(Component.CENTER_ALIGNMENT);
-        PANEL.add(version);
+        // PANEL.add(version); todo
     }
 
     /**
