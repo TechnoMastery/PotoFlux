@@ -43,36 +43,43 @@ public final class UiUtils {
 
     private UiUtils() {}
 
-    public static void showErrorPane(String message) {
-        JOptionPane.showMessageDialog(
-                getAppAnchor(),
-                message,
-                Translations.get("common:error"),
-                JOptionPane.ERROR_MESSAGE
-        );
-
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    public static void showAlert(
+            Alert.AlertType type,
+            String message, String title, String header,
+            @Nullable String cssDir,
+            @Nullable String iconDir
+    ) {
+        Alert alert = new Alert(type);
 
         // window
-        alert.setTitle(Translations.get("common:error"));
-        alert.setHeaderText("An error happened"); // todo
+        alert.setTitle(title);
+        alert.setHeaderText(header);
         alert.setContentText(message);
 
         // css
-//        alert.getDialogPane().getStylesheets().add(
-//                UiUtils.class.getResource("styles/panes/error.css").toExternalForm() todo: add default css
-//        );
+        if (cssDir != null) alert.getDialogPane().getStylesheets().add(
+                UiUtils.class.getResource(cssDir).toExternalForm()
+        );
 
         // icon
-//        Stage stage = ((Stage) alert.getDialogPane().getScene().getWindow());
-//        stage.getIcons().add(new Image(
-//                Objects.requireNonNull(UiUtils.class.getResourceAsStream("textures/panes/error.png")) todo: create image
-//        ));
+        if (iconDir != null) {
+            Stage stage = ((Stage) alert.getDialogPane().getScene().getWindow());
+            stage.getIcons().add(new Image(
+                    Objects.requireNonNull(UiUtils.class.getResourceAsStream(iconDir))
+            ));
+        }
 
         // show
         alert.showAndWait();
     }
 
+    public static void showErrorPane(String message) {
+        showAlert(
+                Alert.AlertType.ERROR,
+                message, Translations.get("common:error"), "An error happened", // TODO
+                null, null // todo: create css & icon files
+        );
+    }
     public static void showMessagePane(String message) {
         JOptionPane.showMessageDialog(
                 getAppAnchor(),
