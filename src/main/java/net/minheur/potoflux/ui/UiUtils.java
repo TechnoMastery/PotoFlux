@@ -81,11 +81,10 @@ public final class UiUtils {
         );
     }
     public static void showMessagePane(String message) {
-        JOptionPane.showMessageDialog(
-                getAppAnchor(),
-                message,
-                Translations.get("common:info"),
-                JOptionPane.INFORMATION_MESSAGE
+        showAlert(
+                Alert.AlertType.INFORMATION,
+                message, Translations.get("common:info"), null, // todo: find something to write here
+                null, null // todo: create css & icon files
         );
     }
 
