@@ -23,6 +23,7 @@ import java.util.List;
 /**
  * The handler for the main potoflux screen
  */
+@Deprecated
 public class PotoScreen {
     /**
      * The actual {@link JFrame} for the class
@@ -61,7 +62,7 @@ public class PotoScreen {
                 .toList()
         );
 
-        for (PotoMenuItem item : menuItems) menu.add(item.content());
+        // for (PotoMenuItem item : menuItems) menu.add(item.content());
 
         frame.setJMenuBar(menu);
     }

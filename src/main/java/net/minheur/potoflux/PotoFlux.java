@@ -18,6 +18,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.screen.FXLoadingScreen;
+import net.minheur.potoflux.screen.FXPotoScreen;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
@@ -97,13 +98,13 @@ public class PotoFlux {
         Platform.runLater(() -> startScreen.updateStage("Loading log logic..."));
         runLogSavingEnablingLogic();
 
-        // set theme
-        Platform.runLater(() -> startScreen.updateStage("Getting the theme..."));
-        String theme = UserPrefsManager.getTheme();
-        if (theme.equals("dark")) FlatDarkLaf.setup(); // dark theme
-        else if (theme.equals("light")) FlatLightLaf.setup(); // light theme
-        else throw new IllegalStateException("Unknown theme: " + theme);
-        PtfLogger.info("Theme set to " + theme);
+        // set theme todo
+        // Platform.runLater(() -> startScreen.updateStage("Getting the theme..."));
+        // String theme = UserPrefsManager.getTheme();
+        // if (theme.equals("dark")) FlatDarkLaf.setup(); // dark theme
+        // else if (theme.equals("light")) FlatLightLaf.setup(); // light theme
+        // else throw new IllegalStateException("Unknown theme: " + theme);
+        // PtfLogger.info("Theme set to " + theme);
 
         // load translations
         Platform.runLater(() -> startScreen.updateStage("Loading translations..."));
@@ -114,25 +115,25 @@ public class PotoFlux {
         Platform.runLater(() -> startScreen.updateStage("Loading event bus..."));
         ModEventBus bus = PotoFluxLoadingContext.get().getModEventBus();
 
-        // subscribe PotoFlux's data to modEventBus
+        // subscribe PotoFlux's data to modEventBus todo
         bus.addListener(PotoFlux::onRegisterLang);
-        bus.addListener(Tabs::register);
-        bus.addListener(Commands::register);
-        bus.addListener(ActionRuns::register);
+        // bus.addListener(Tabs::register);
+        // bus.addListener(Commands::register);
+        // bus.addListener(ActionRuns::register);
         bus.addListener(MenuContent::register);
 
-        // load all addons
-        Platform.runLater(() -> startScreen.updateStage("Loading addons..."));
-        new AddonLoader().loadAddons();
-        PotoFluxLoadingContext.loadMods();
+        // load all addons todo
+        // Platform.runLater(() -> startScreen.updateStage("Loading addons..."));
+        // new AddonLoader().loadAddons();
+        // PotoFluxLoadingContext.loadMods();
 
-        // post all registrations
+        // post all registrations todo - finish things
         Platform.runLater(() -> startScreen.updateStage("Registering data..."));
 
         try {
             bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
-            bus.post(new RegisterTabsEvent());
-            bus.post(new RegisterCommandsEvent());
+            // bus.post(new RegisterTabsEvent());
+            // bus.post(new RegisterCommandsEvent());
             bus.post(new RegisterRunsEvent());
             bus.post(new RegisterMenuEvent());
         } catch (Throwable e) {
@@ -144,14 +145,18 @@ public class PotoFlux {
         Platform.runLater(() -> startScreen.updateStage("Running start logic..."));
         for (ActionRun ar : StartLogicRunRegistry.getAll()) ar.run().run();
 
-        // invoke app (start)
+        // invoke app (start) todo semi
         Platform.runLater(() -> startScreen.updateStage("Launching app..."));
-        SwingUtilities.invokeLater(() -> {
-            app = new PotoScreen();
-            Platform.runLater(startScreen::close);
+        // SwingUtilities.invokeLater(() -> {
+        //     app = new PotoScreen();
+        //     Platform.runLater(startScreen::close);
 
-            // run all start ui runs
-            for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
+        //     // run all start ui runs
+        //     for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
+        // });
+
+        Platform.runLater(() -> {
+            FXPotoScreen screen = new FXPotoScreen();
         });
 
     }
