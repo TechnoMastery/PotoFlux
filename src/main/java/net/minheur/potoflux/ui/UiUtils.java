@@ -1,5 +1,6 @@
 package net.minheur.potoflux.ui;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -25,6 +26,27 @@ public class UiUtils {
                 Translations.get("common:error"),
                 JOptionPane.ERROR_MESSAGE
         );
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        // window
+        alert.setTitle(Translations.get("common:error"));
+        alert.setHeaderText("An error happened"); // todo
+        alert.setContentText(message);
+
+        // css
+//        alert.getDialogPane().getStylesheets().add(
+//                UiUtils.class.getResource("styles/panes/error.css").toExternalForm() todo: add default css
+//        );
+
+        // icon
+//        Stage stage = ((Stage) alert.getDialogPane().getScene().getWindow());
+//        stage.getIcons().add(new Image(
+//                Objects.requireNonNull(UiUtils.class.getResourceAsStream("textures/panes/error.png")) todo: create image
+//        ));
+
+        // show
+        alert.showAndWait();
     }
 
     public static void showMessagePane(String message) {
