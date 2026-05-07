@@ -29,6 +29,7 @@ public class UiUtils {
         );
     }
 
+    @Deprecated
     @CheckForNull
     public static JFrame getAppAnchor() {
         return PotoFlux.app == null ?
