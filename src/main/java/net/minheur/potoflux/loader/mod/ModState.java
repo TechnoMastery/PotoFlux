@@ -7,5 +7,6 @@ public enum ModState {
     CIRCULAR,
     MISSING_DEPENDENCIES,
     FAILED,
+    LOADED,
     circularLastest
 }
