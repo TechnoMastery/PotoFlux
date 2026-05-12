@@ -37,4 +37,5 @@ public @interface Mod {
      * @return the online compatible version URL
      */
     String compatibleVersionUrl() default "NONE";
+    String[] dependenciesIds() default {};
 }
