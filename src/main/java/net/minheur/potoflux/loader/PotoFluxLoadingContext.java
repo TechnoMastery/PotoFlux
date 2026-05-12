@@ -13,6 +13,7 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.reflections.vfs.Vfs;
 
 import javax.swing.*;
@@ -396,30 +397,8 @@ public class PotoFluxLoadingContext {
         for (ModContainer entry : listedMods) {
             Mod mod = entry.mod;
 
-            List<String> compatibleVersions =
-                    Arrays.stream(
-                            mod.compatibleVersions()
-                    ).toList();
-            boolean isCompatible = false;
-
-            // check if using online compatible
-            if (modUsesOnlineList(compatibleVersions))
-            {
-
-                // check if online list exists
-                if (checkOnlineListExists(mod)) continue;
-
-                // gets list
-                List<String> compatibleVersionList = getOnlineCompatibleList(mod);
-                if (compatibleVersionList == null) continue;
-
-                if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
-
-                checkUpdate(mod, isCompatible);
-
-            }
-            else if (compatibleVersions.contains(PotoFlux.getVersion()))
-                isCompatible = true;
+            Boolean isCompatible = getIsCompatible(mod);
+            if (isCompatible == null) continue;
 
             if (isCompatible) loadMod(entry);
             else {
@@ -429,6 +408,34 @@ public class PotoFluxLoadingContext {
         }
 
         ModUpdateReg.close();
+    }
+
+    private static @Nullable Boolean getIsCompatible(Mod mod) {
+        List<String> compatibleVersions =
+                Arrays.stream(
+                        mod.compatibleVersions()
+                ).toList();
+        boolean isCompatible = false;
+
+        // check if using online compatible
+        if (modUsesOnlineList(compatibleVersions))
+        {
+
+            // check if online list exists
+            if (checkOnlineListExists(mod)) return null;
+
+            // gets list
+            List<String> compatibleVersionList = getOnlineCompatibleList(mod);
+            if (compatibleVersionList == null) return null;
+
+            if (compatibleVersionList.contains(PotoFlux.getVersion())) isCompatible = true;
+
+            checkUpdate(mod, isCompatible);
+
+        }
+        else if (compatibleVersions.contains(PotoFlux.getVersion()))
+            isCompatible = true;
+        return isCompatible;
     }
 
     private static void checkUpdate(Mod mod, boolean isCompatible) {
