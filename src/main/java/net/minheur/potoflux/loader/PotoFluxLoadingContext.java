@@ -4,9 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.loader.mod.Mod;
-import net.minheur.potoflux.loader.mod.ModContainer;
-import net.minheur.potoflux.loader.mod.ModEventBus;
+import net.minheur.potoflux.loader.mod.*;
 import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
@@ -505,7 +503,34 @@ public class PotoFluxLoadingContext {
         }
     }
 
-    private static void loadMod(ModContainer entry) {
+    private static LoadResult loadMod(ModContainer entry) {
+
+        if (entry.state == ModState.LOADED) return LoadResult.ALREADY_LOADED;
+        if (entry.state == ModState.FAILED) return LoadResult.ALREADY_FAILED;
+        if (entry.state == ModState.circularLastest) {
+            entry.state = ModState.CIRCULAR;
+            return LoadResult.CIRCULAR_CAUSE;
+        }
+
+        if (entry.state == ModState.LOADING) {
+            PtfLogger.error(
+                    "Circular dependency detected: " +
+                            entry.mod.modId(),
+                    LogCategories.MOD_LOADER
+            );
+            entry.state = ModState.circularLastest;
+            return LoadResult.CIRCULAR;
+        }
+
+        entry.state = ModState.LOADING;
+        Mod mod = entry.mod;
+
+        Boolean isCompatible = getIsCompatible(mod);
+        if (isCompatible == null) {
+            entry.state = ModState.FAILED;
+            return LoadResult.COMPATIBLE_FAILED;
+        }
+
         try { // try to create mod
 
             Object instance = entry.clazz.getDeclaredConstructor().newInstance();
