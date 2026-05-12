@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.Mod;
+import net.minheur.potoflux.loader.mod.ModContainer;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
 import net.minheur.potoflux.logger.LogCategories;
@@ -42,7 +43,7 @@ public class PotoFluxLoadingContext {
     /**
      * List of all listed mods (in the mod dir), with their annotation and their main class
      */
-    private static final Map<Mod, Class<?>> listedMods = new HashMap<>();
+    private static final List<ModContainer> listedMods = new ArrayList<>();
     /**
      * All mods that are loaded (will actually be executed on potoflux launch)
      */
@@ -348,7 +349,7 @@ public class PotoFluxLoadingContext {
      */
     public static boolean isModListed(Mod mod) {
         if (illegalModIds.contains(mod.modId())) return true;
-        return listedMods.containsKey(mod);
+        return isModListed(mod.modId());
     }
     /**
      * Checks if a mod is listed (known)
@@ -357,8 +358,8 @@ public class PotoFluxLoadingContext {
      */
     public static boolean isModListed(String modId) {
         if (illegalModIds.contains(modId)) return true;
-        for (Mod entry : listedMods.keySet())
-            if (entry.modId().equals(modId)) return true;
+        for (ModContainer entry : listedMods)
+            if (entry.mod.modId().equals(modId)) return true;
         return false;
     }
     /**
@@ -369,8 +370,8 @@ public class PotoFluxLoadingContext {
     public static String getModVersion(String modId) {
         if (!isModListed(modId)) return null;
 
-        for (Mod entry : listedMods.keySet())
-            if (entry.modId().equals(modId)) return entry.version();
+        for (ModContainer entry : listedMods)
+            if (entry.mod.modId().equals(modId)) return entry.mod.version();
 
         return null;
     }
@@ -383,7 +384,7 @@ public class PotoFluxLoadingContext {
      */
     public static boolean listMod(Mod mod, Class<?> modClass) {
         if (isModLoaded(mod)) return false;
-        listedMods.put(mod, modClass);
+        listedMods.add(new ModContainer(mod, modClass));
         return true;
     }
 
@@ -392,8 +393,8 @@ public class PotoFluxLoadingContext {
      */
     public static void loadMods() {
 
-        for (Map.Entry<Mod, Class<?>> entry : listedMods.entrySet()) {
-            Mod mod = entry.getKey();
+        for (ModContainer entry : listedMods) {
+            Mod mod = entry.mod;
 
             List<String> compatibleVersions =
                     Arrays.stream(
@@ -422,7 +423,7 @@ public class PotoFluxLoadingContext {
 
             if (isCompatible) loadMod(entry);
             else {
-                PtfLogger.error("Can't load incompatible mod: " + entry.getKey().modId(), LogCategories.MOD_LOADER);
+                PtfLogger.error("Can't load incompatible mod: " + mod.modId(), LogCategories.MOD_LOADER);
             }
 
         }
@@ -497,20 +498,20 @@ public class PotoFluxLoadingContext {
         }
     }
 
-    private static void loadMod(Map.Entry<Mod, Class<?>> entry) {
+    private static void loadMod(ModContainer entry) {
         try { // try to create mod
 
-            Object instance = entry.getValue().getDeclaredConstructor().newInstance();
+            Object instance = entry.clazz.getDeclaredConstructor().newInstance();
 
             loadedMods.put(
-                    entry.getKey().modId(),
-                    entry.getValue()
+                    entry.mod.modId(),
+                    entry.clazz
             );
-            PtfLogger.info("Loaded mod: " + entry.getKey().modId() + " in version " + entry.getKey().version(), LogCategories.MOD_LOADER);
+            PtfLogger.info("Loaded mod: " + entry.mod.modId() + " in version " + entry.mod.version(), LogCategories.MOD_LOADER);
 
         } catch (Exception e) {
             e.printStackTrace();
-            PtfLogger.error("Couldn't instance mod: " + entry.getKey().modId());
+            PtfLogger.error("Couldn't instance mod: " + entry.mod.modId());
         }
     }
 
