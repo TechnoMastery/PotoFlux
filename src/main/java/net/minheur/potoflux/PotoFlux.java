@@ -119,7 +119,7 @@ public class PotoFlux {
         bus.addListener(PotoFlux::onRegisterLang);
         // bus.addListener(Tabs::register);
         // bus.addListener(Commands::register);
-        // bus.addListener(ActionRuns::register);
+        bus.addListener(ActionRuns::register);
         bus.addListener(MenuContent::register);
 
         // load all addons todo
@@ -157,6 +157,8 @@ public class PotoFlux {
 
         Platform.runLater(() -> {
             appFX = new FXPotoScreen();
+
+            for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
         });
 
     }
