@@ -210,7 +210,7 @@ public class ConnectionHandler {
 
         ((AccountTab) PotoFlux.appFX.getTabMap().get(Tabs.INSTANCE.ACCOUNT)).reload();
 
-        ((AccountMenu) MenuContent.INSTANCE.ACCOUNT.content()).reload();
+        ((AccountMenu) MenuContent.INSTANCE.ACCOUNT.getNode()).reload();
     }
     public static void logout() {
        if (!isLogged) return;
