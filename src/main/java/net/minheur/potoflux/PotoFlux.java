@@ -119,7 +119,7 @@ public class PotoFlux {
         bus.addListener(PotoFlux::onRegisterLang);
         // bus.addListener(Tabs::register);
         // bus.addListener(Commands::register);
-        // bus.addListener(ActionRuns::register);
+        bus.addListener(ActionRuns::register);
         bus.addListener(MenuContent::register);
 
         // load all addons todo
