@@ -52,6 +52,7 @@ public class PotoFlux {
      * This contains the JFrame and will be instantiated when the app will run.
      */
     public static PotoScreen app;
+    public static FXPotoScreen appFX;
 
     /**
      * The main method, that runs PotoFlux.<br>
@@ -155,7 +156,7 @@ public class PotoFlux {
         // });
 
         Platform.runLater(() -> {
-            FXPotoScreen screen = new FXPotoScreen();
+            appFX = new FXPotoScreen();
         });
 
     }
