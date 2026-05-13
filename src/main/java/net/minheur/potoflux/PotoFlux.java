@@ -157,6 +157,8 @@ public class PotoFlux {
 
         Platform.runLater(() -> {
             appFX = new FXPotoScreen();
+
+            for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
         });
 
     }
