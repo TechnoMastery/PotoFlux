@@ -392,18 +392,8 @@ public class PotoFluxLoadingContext {
      */
     public static void loadMods() {
 
-        for (ModContainer entry : listedMods) {
-            Mod mod = entry.mod;
-
-            Boolean isCompatible = getIsCompatible(mod);
-            if (isCompatible == null) continue;
-
-            if (isCompatible) loadMod(entry);
-            else {
-                PtfLogger.error("Can't load incompatible mod: " + mod.modId(), LogCategories.MOD_LOADER);
-            }
-
-        }
+        for (ModContainer entry : listedMods)
+            loadMod(entry);
 
         ModUpdateReg.close();
     }
@@ -509,6 +499,7 @@ public class PotoFluxLoadingContext {
         if (entry.state == ModState.FAILED) return LoadResult.FAILED;
         if (entry.state == ModState.CIRCULAR) return LoadResult.ALREADY_CIRCULAR;
         if (entry.state == ModState.circularLastest) {
+            PtfLogger.error("Found last of circular: " + entry.mod.modId(), LogCategories.MOD_DEPENDENCIES);
             entry.state = ModState.CIRCULAR;
             return LoadResult.ALREADY_CIRCULAR;
         }
@@ -531,6 +522,55 @@ public class PotoFluxLoadingContext {
             entry.state = ModState.FAILED;
             return LoadResult.FAILED;
         }
+        if (!isCompatible) {
+            entry.state = ModState.INCOMPATIBLE;
+            return LoadResult.INCOMPATIBLE;
+        }
+
+        for (String depId : mod.dependenciesIds()) {
+
+            ModContainer dep = getListedMod(depId);
+            if (dep == null) {
+                PtfLogger.error(
+                        "Missing dependency '" + depId + "' for mod " + mod.modId(),
+                        LogCategories.MOD_DEPENDENCIES
+                );
+                entry.state = ModState.MISSING_DEPENDENCIES;
+                return LoadResult.DEPENDENCY_FAILED;
+            }
+
+            LoadResult depLoadingResult = loadMod(dep);
+            switch (depLoadingResult) {
+                case CIRCULAR -> {
+                    PtfLogger.error(
+                            "Mod " + mod.modId() + " is part of a circular dependency !", LogCategories.MOD_DEPENDENCIES
+                    );
+                    entry.state = ModState.CIRCULAR;
+                    return LoadResult.CIRCULAR;
+                }
+                case ALREADY_CIRCULAR -> {
+                    PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " was circular");
+                    entry.state = ModState.MISSING_DEPENDENCIES;
+                    return LoadResult.DEPENDENCY_FAILED;
+                }
+                case DEPENDENCY_FAILED -> {
+                    PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " is missing dependencies");
+                    entry.state = ModState.MISSING_DEPENDENCIES;
+                    return LoadResult.DEPENDENCY_FAILED;
+                }
+                case INCOMPATIBLE -> {
+                    PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " is incompatible");
+                    entry.state = ModState.MISSING_DEPENDENCIES;
+                    return LoadResult.DEPENDENCY_FAILED;
+                }
+                case FAILED -> {
+                    PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " failed");
+                    entry.state = ModState.MISSING_DEPENDENCIES;
+                    return LoadResult.DEPENDENCY_FAILED;
+                }
+            }
+
+        }
 
         try { // try to create mod
 
@@ -541,11 +581,21 @@ public class PotoFluxLoadingContext {
                     entry.clazz
             );
             PtfLogger.info("Loaded mod: " + entry.mod.modId() + " in version " + entry.mod.version(), LogCategories.MOD_LOADER);
+            entry.state = ModState.LOADED;
+            return LoadResult.LOADED;
 
         } catch (Exception e) {
             e.printStackTrace();
             PtfLogger.error("Couldn't instance mod: " + entry.mod.modId());
+            entry.state = ModState.FAILED;
+            return LoadResult.FAILED;
         }
+    }
+
+    private static @Nullable ModContainer getListedMod(String modId) {
+        for (ModContainer container : listedMods)
+            if (container.mod.modId().equals(modId)) return container;
+        return null;
     }
 
     private static boolean modUsesOnlineList(List<String> compatibleVersions) {
