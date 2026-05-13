@@ -37,10 +37,4 @@ public @interface Mod {
      * @return the online compatible version URL
      */
     String compatibleVersionUrl() default "NONE";
-    /**
-     * A list of dependencies mods.<br>
-     * Each entry needs to be formatted like so : {@code id:version}
-     * @return an array of dependencies mod
-     */
-    String[] dependenciesIds() default {};
 }
