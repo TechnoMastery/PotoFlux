@@ -21,6 +21,10 @@ public enum LogCategories implements ILogCategory {
      */
     MOD_UPDATE(MOD_LOADER, "modUpdate"),
     /**
+     * All logs in {@link #MOD_LOADER} category, precisely about dependencies
+     */
+    MOD_DEPENDENCIES(MOD_LOADER, "dependencies"),
+    /**
      * All logs related to your account
      */
     ACCOUNT("account"),
