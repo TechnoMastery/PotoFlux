@@ -61,12 +61,10 @@ public class FXPotoScreen {
         for (Tab tabType : allTabs) {
             BaseTab<?> instance = tabType.createInstance();
             if (instance != null) {
-                javafx.scene.control.Tab fxTab = new javafx.scene.control.Tab(tabType.name());
 
-                fxTab.setContent(instance.getNode());
-                tabs.getTabs().add(fxTab);
-
+                tabs.getTabs().add(instance.getBuiltTab());
                 tabMap.put(tabType, instance);
+
             }
         }
 
