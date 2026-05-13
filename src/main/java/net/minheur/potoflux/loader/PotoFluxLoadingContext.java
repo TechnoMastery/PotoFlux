@@ -505,8 +505,8 @@ public class PotoFluxLoadingContext {
 
     private static LoadResult loadMod(ModContainer entry) {
 
-        if (entry.state == ModState.LOADED) return LoadResult.ALREADY_LOADED;
-        if (entry.state == ModState.FAILED) return LoadResult.ALREADY_FAILED;
+        if (entry.state == ModState.LOADED) return LoadResult.FAILED;
+        if (entry.state == ModState.FAILED) return LoadResult.FAILED;
         if (entry.state == ModState.CIRCULAR) return LoadResult.ALREADY_CIRCULAR;
         if (entry.state == ModState.circularLastest) {
             entry.state = ModState.CIRCULAR;
@@ -529,7 +529,7 @@ public class PotoFluxLoadingContext {
         Boolean isCompatible = getIsCompatible(mod);
         if (isCompatible == null) {
             entry.state = ModState.FAILED;
-            return LoadResult.COMPATIBLE_FAILED;
+            return LoadResult.FAILED;
         }
 
         try { // try to create mod
