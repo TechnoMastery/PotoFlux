@@ -52,6 +52,7 @@ public class PotoFlux {
      * This contains the JFrame and will be instantiated when the app will run.
      */
     public static PotoScreen app;
+    public static FXPotoScreen appFX;
 
     /**
      * The main method, that runs PotoFlux.<br>
@@ -114,11 +115,11 @@ public class PotoFlux {
         startScreen.updateStage("Loading event bus...");
         ModEventBus bus = PotoFluxLoadingContext.get().getModEventBus();
 
-        // subscribe PotoFlux's data to modEventBus todo
+        // subscribe PotoFlux's data to modEventBus
         bus.addListener(PotoFlux::onRegisterLang);
         bus.addListener(Tabs::register);
-        // bus.addListener(Commands::register);
-        // bus.addListener(ActionRuns::register);
+        bus.addListener(Commands::register);
+        bus.addListener(ActionRuns::register);
         bus.addListener(MenuContent::register);
 
         // load all addons todo
@@ -126,13 +127,13 @@ public class PotoFlux {
         // new AddonLoader().loadAddons();
         // PotoFluxLoadingContext.loadMods();
 
-        // post all registrations todo - finish things
+        // post all registrations
         startScreen.updateStage("Registering data...");
 
         try {
             bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
             bus.post(new RegisterTabsEvent());
-            // bus.post(new RegisterCommandsEvent());
+            bus.post(new RegisterCommandsEvent());
             bus.post(new RegisterRunsEvent());
             bus.post(new RegisterMenuEvent());
         } catch (Throwable e) {
@@ -155,7 +156,9 @@ public class PotoFlux {
         // });
 
         Platform.runLater(() -> {
-            FXPotoScreen screen = new FXPotoScreen();
+            appFX = new FXPotoScreen();
+
+            for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
         });
 
     }
