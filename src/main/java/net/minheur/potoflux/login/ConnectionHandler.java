@@ -208,7 +208,7 @@ public class ConnectionHandler {
     }
     public static void reloadAuthUi() {
 
-        ((AccountTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.ACCOUNT)).reload();
+        ((AccountTab) PotoFlux.appFX.getTabMap().get(Tabs.INSTANCE.ACCOUNT)).reload();
 
         ((AccountMenu) MenuContent.INSTANCE.ACCOUNT.content()).reload();
     }
