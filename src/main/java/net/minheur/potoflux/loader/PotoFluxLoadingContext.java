@@ -507,9 +507,10 @@ public class PotoFluxLoadingContext {
 
         if (entry.state == ModState.LOADED) return LoadResult.ALREADY_LOADED;
         if (entry.state == ModState.FAILED) return LoadResult.ALREADY_FAILED;
+        if (entry.state == ModState.CIRCULAR) return LoadResult.ALREADY_CIRCULAR;
         if (entry.state == ModState.circularLastest) {
             entry.state = ModState.CIRCULAR;
-            return LoadResult.CIRCULAR_CAUSE;
+            return LoadResult.ALREADY_CIRCULAR;
         }
 
         if (entry.state == ModState.LOADING) {
