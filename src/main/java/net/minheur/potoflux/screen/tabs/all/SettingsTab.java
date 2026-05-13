@@ -1,5 +1,7 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.UserPrefsManager;
@@ -10,7 +12,7 @@ import java.awt.*;
 /**
  * The settings tab contains all user changeable vars (prefs)
  */
-public class SettingsTab extends BaseTab {
+public class SettingsTab extends BaseTab<Pane> {
     /**
      * This is the actual method to set the panel.<br>
      * The overriding class will have to use this to add content to the {@link #PANEL}.
@@ -20,6 +22,11 @@ public class SettingsTab extends BaseTab {
         addLangButton();
         addAsciiButton();
         addThemeButton();
+    }
+
+    @Override
+    protected void instantiate() {
+        PANEL = new StackPane();
     }
 
     /**
@@ -33,7 +40,7 @@ public class SettingsTab extends BaseTab {
         asciiButton.setFont(new Font("Consolas", Font.PLAIN, 15));
         asciiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        PANEL.add(asciiButton);
+        // PANEL.add(asciiButton); todo
     }
 
     /**
@@ -47,7 +54,7 @@ public class SettingsTab extends BaseTab {
         langButton.setFont(new Font("Consolas", Font.PLAIN, 15));
         langButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        PANEL.add(langButton);
+        // PANEL.add(langButton); todo
     }
 
     /**
@@ -61,7 +68,7 @@ public class SettingsTab extends BaseTab {
         themeButton.setFont(new Font("Consolas", Font.PLAIN, 15));
         themeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        PANEL.add(themeButton);
+        // PANEL.add(themeButton); todo
     }
 
     /**

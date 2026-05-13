@@ -1,9 +1,7 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import javafx.scene.layout.Pane;
 import net.minheur.potoflux.Functions;
-import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.CreateAccountHandler;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.screen.tabs.BaseTab;
@@ -21,7 +19,7 @@ import static net.minheur.potoflux.login.ConnectionHandler.*;
 /**
  * Tab class for account tab
  */
-public class AccountTab extends BaseTab {
+public class AccountTab extends BaseTab<Pane> {
 
     private JLabel titleLabel;
     private JLabel emailLabel;
@@ -41,6 +39,11 @@ public class AccountTab extends BaseTab {
         setupLayout();
         setupActions();
         reload();
+    }
+
+    @Override
+    protected void instantiate() {
+        PANEL = new Pane();
     }
 
     private void initComponents() {
@@ -102,21 +105,21 @@ public class AccountTab extends BaseTab {
     }
 
     private void setupLayout() {
-        PANEL.setLayout(new BoxLayout(PANEL, BoxLayout.Y_AXIS));
+        // PANEL.setLayout(new BoxLayout(PANEL, BoxLayout.Y_AXIS)); todo
 
-        PANEL.add(Box.createVerticalStrut(30));
-        PANEL.add(titleLabel);
-        PANEL.add(Box.createVerticalStrut(10));
+        // PANEL.add(Box.createVerticalStrut(30)); todo
+        // PANEL.add(titleLabel); todo
+        // PANEL.add(Box.createVerticalStrut(10)); todo
 
-        PANEL.add(emailLabel);
-        PANEL.add(Box.createVerticalStrut(10));
+        // PANEL.add(emailLabel); todo
+        // PANEL.add(Box.createVerticalStrut(10)); todo
 
-        PANEL.add(permsPanel);
-        PANEL.add(Box.createVerticalStrut(15));
+        // PANEL.add(permsPanel); todo
+        // PANEL.add(Box.createVerticalStrut(15)); todo
 
-        PANEL.add(authButton);
-        PANEL.add(Box.createVerticalStrut(5));
-        PANEL.add(createAccountButton);
+        // PANEL.add(authButton); todo
+        // PANEL.add(Box.createVerticalStrut(5)); todo
+        // PANEL.add(createAccountButton); todo
     }
 
     private void setupActions() {
@@ -154,8 +157,8 @@ public class AccountTab extends BaseTab {
         updatePerms();
         updateButton();
 
-        PANEL.revalidate();
-        PANEL.repaint();
+        // PANEL.revalidate(); todo
+        // PANEL.repaint(); todo
     }
 
     private void updateTitle() {

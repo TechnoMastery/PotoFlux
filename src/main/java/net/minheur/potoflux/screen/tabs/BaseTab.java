@@ -1,37 +1,42 @@
 package net.minheur.potoflux.screen.tabs;
 
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * The base tab, overridden to create your own tabs.
  */
-public abstract class BaseTab {
+public abstract class BaseTab<T extends Pane> {
     /**
-     * The actual {@link JPanel}, that will be added to the tabbed pane.
+     * The actual {@link Pane}, that will be added to the tabbed pane.
      */
-    protected final JPanel PANEL = new JPanel();
+    protected T PANEL;
 
     /**
      * Constructor for the tab.<br>
      * It will do the preset if enabled, and execute (or invokeLater) the {@link #setPanel()} method, to add data to the {@link #PANEL}.
      */
     public BaseTab() {
-        if (doPreset()) preset();
+        instantiate();
+        if (doPreset()) runPreset();
+
         if (invokeLater()) SwingUtilities.invokeLater(this::setPanel);
         else setPanel();
     }
 
     /**
-     * The preset, that is by default enabled.<br>
-     * It sets the layout and add the title.
+     * You need to instantiate {@link #PANEL}.
      */
-    protected void preset() {
-        PANEL.setLayout(new BoxLayout(PANEL, BoxLayout.Y_AXIS));
-        PANEL.add(Box.createVerticalStrut(30));
-        createTitle();
-        PANEL.add(Box.createVerticalStrut(20));
-    }
+    protected abstract void instantiate();
+
+    /**
+     * This is reserved to other Base tabs, allowing presets
+     */
+    void runPreset() {};
 
     /**
      * This is the actual method to set the panel.<br>
@@ -50,7 +55,7 @@ public abstract class BaseTab {
      * Getter for the {@link #PANEL}.
      * @return the {@link #PANEL}
      */
-    public JPanel getPanel() {
+    public Pane getNode() {
         return PANEL;
     }
 
@@ -73,13 +78,11 @@ public abstract class BaseTab {
     }
 
     /**
-     * Creates the title, from the text given via {@link #getTitle()}.<br>
-     * It is used in the {@link #preset()}
+     * Creates the title, from the text given via {@link #getTitle()}.
      */
-    protected void createTitle() {
-        JLabel title = new JLabel(getTitle());
-        title.setFont(new Font("Consolas", Font.BOLD, 20));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        PANEL.add(title);
+    protected Label mkTitle() {
+        Label title = new Label(getTitle());
+        title.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
+        return title;
     }
 }

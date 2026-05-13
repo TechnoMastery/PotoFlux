@@ -23,7 +23,7 @@ public class FXPotoScreen {
     private final MenuBar menu = new MenuBar();
     private final List<PotoMenuItem> menuItems = new ArrayList<>();
 
-    private final Map<Tab, BaseTab> tabMap = new HashMap<>();
+    private final Map<Tab, BaseTab<?>> tabMap = new HashMap<>();
     private final TabPane tabs = new TabPane();
 
     public FXPotoScreen() {
@@ -63,13 +63,17 @@ public class FXPotoScreen {
             if (instance != null) {
                 javafx.scene.control.Tab fxTab = new javafx.scene.control.Tab(tabType.name());
 
-                // fxTab.setContent(instance.getNode()); TODO
-                // tabs.getTabs().add(fxTab); TODO
+                fxTab.setContent(instance.getNode());
+                tabs.getTabs().add(fxTab);
 
-                // tabMap.put(tabType, instance);
+                tabMap.put(tabType, instance);
             }
         }
 
+    }
+
+    public Map<Tab, BaseTab<?>> getTabMap() {
+        return tabMap;
     }
 
     private void addMenu() {
