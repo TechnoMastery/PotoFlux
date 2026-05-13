@@ -14,7 +14,9 @@ import net.minheur.potoflux.screen.menu.PotoMenuItem;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
+import net.minheur.potoflux.translations.Translations;
 
+import javax.swing.*;
 import java.util.*;
 
 public class FXPotoScreen {
@@ -103,5 +105,13 @@ public class FXPotoScreen {
         Properties optionalFeatures = PotoFluxLoadingContext.getOptionalFeatures();
         boolean isResizable = Boolean.parseBoolean(optionalFeatures.getProperty("resizableWindow", "false"));
         stage.setResizable(isResizable);
+    }
+
+    public void setOpenedTab(Tab tab) {
+        if (!tabMap.containsKey(tab)) {
+            // JOptionPane.showMessageDialog(frame, Translations.get("potoflux:screen.tabHereNotHere")); todo
+            return;
+        }
+        tabs.getSelectionModel().select(tabMap.get(tab).getBuiltTab());
     }
 }
