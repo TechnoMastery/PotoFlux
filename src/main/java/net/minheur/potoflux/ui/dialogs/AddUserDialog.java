@@ -97,9 +97,10 @@ public class AddUserDialog extends Dialog<NewAccountData> {
         ));
 
         permsList.setFocusTraversable(true);
-        permsList.setPrefSize(200, 100);
+        permsList.setPrefSize(200, 250);
 
         grid.add(permsList, 0, 5);
+        GridPane.setColumnSpan(permsList, 2);
     }
 
     private void addLastName() {
