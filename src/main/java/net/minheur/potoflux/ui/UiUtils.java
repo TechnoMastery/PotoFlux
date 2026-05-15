@@ -9,7 +9,9 @@ import javax.swing.*;
 /**
  * A utility class for UI related
  */
-public class UiUtils {
+public final class UiUtils {
+
+    private UiUtils() {}
 
     public static void showErrorPane(String message) {
         JOptionPane.showMessageDialog(
