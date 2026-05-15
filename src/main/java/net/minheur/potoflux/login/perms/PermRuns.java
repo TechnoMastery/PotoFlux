@@ -1,5 +1,6 @@
 package net.minheur.potoflux.login.perms;
 
+import javafx.scene.control.CheckBox;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
@@ -154,16 +155,14 @@ public class PermRuns {
 
     public static void setAccountCreationState() {
 
-        JCheckBox check = new JCheckBox(Translations.get("potoflux:tabs.account.accountCreationState.box"));
+        CheckBox check = new CheckBox(Translations.get("potoflux:tabs.account.accountCreationState.box"));
         check.setSelected(ConnectionHandler.isAccountCreationEnabled);
-        int validation = JOptionPane.showConfirmDialog(
-                UiUtils.getAppAnchor(),
-                check,
-                Translations.get("potoflux:tabs.account.accountCreationState.title"),
-                JOptionPane.OK_CANCEL_OPTION
-        );
 
-        if (validation == JOptionPane.CANCEL_OPTION) return;
+        boolean confirmed = UiUtils.showConfirmationDialog(
+                check,
+                Translations.get("potoflux:tabs.account.accountCreationState.title")
+        );
+        if (!confirmed) return;
 
         ConnectionHandler.sendAccountCreationLockRequest(check.isSelected());
 
