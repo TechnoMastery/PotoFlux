@@ -10,8 +10,8 @@ public class NewAccountData {
     public @NotNull String email;
     public @NotNull String firstName;
     public @NotNull String lastName;
+    public @NotNull String password;
 
-    public @Nullable String password;
     public @Nullable Integer rank;
     public @Nullable List<Perms> perms;
 }
