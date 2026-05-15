@@ -1,35 +1,36 @@
 package net.minheur.potoflux.ui.dialogs;
 
-import javax.swing.*;
-import java.awt.*;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.dialogData.NewAccountData;
 
 /**
  * This dialog is used when you create your own account
  */
-public class CreateAccountDialog extends JDialog {
+public class CreateAccountDialog extends Dialog<NewAccountData> {
 
-    private JPanel formPanel;
-    private GridBagConstraints gbc;
+    private GridPane grid;
 
-    private JTextField emailField;
-    private JPasswordField passwordField;
-    private JTextField firstName;
-    private JTextField lastName;
+    private ButtonType okButton;
+    private ButtonType cancelButton;
 
-    private JPanel buttonPanel;
-    private JButton cancelButton;
-    private JButton validateButton;
+    private TextField emailField;
+    private PasswordField passwordField;
+    private TextField firstName;
+    private TextField lastName;
 
-    private boolean confirmed = false;
-
-    public CreateAccountDialog(Frame owner) {
-        super(owner, "Create Account", true);
+    public CreateAccountDialog() {
+        setTitle("Create Account"); // todo
         initGui();
     }
 
     private void initGui() {
-        setLayout(new BorderLayout(10, 10));
 
+        setupButtons();
         setupForm();
 
         addEmail();
@@ -37,98 +38,89 @@ public class CreateAccountDialog extends JDialog {
         addFirstName();
         addLastName();
 
-        add(formPanel, BorderLayout.CENTER);
+        getDialogPane().setContent(grid);
 
-        addButtons();
-        add(buttonPanel, BorderLayout.SOUTH);
+        ((Button) getDialogPane().lookupButton(okButton))
+                .setDefaultButton(true);
+        ((Button) getDialogPane().lookupButton(cancelButton))
+                .setCancelButton(true);
 
-        pack();
-        setLocationRelativeTo(getParent());
-
-        getRootPane().setDefaultButton(validateButton);
+        setupResult();
     }
 
-    private void addButtons() {
-        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    private void setupResult() {
+        setResultConverter(buttonType -> {
 
-        cancelButton = new JButton("cancel");
-        validateButton = new JButton("Validate");
+            if (buttonType == okButton) {
+                NewAccountData result = new NewAccountData();
 
-        cancelButton.addActionListener(e -> {
-            confirmed = false;
-            dispose();
+                result.email = emailField.getText();
+                result.password = passwordField.getText();
+                result.firstName = firstName.getText();
+                result.lastName = lastName.getText();
+
+                return result;
+
+            } else return null;
+
         });
+    }
 
-        validateButton.addActionListener(e -> {
-            confirmed = true;
-            dispose();
-        });
+    private void setupButtons() {
 
-        buttonPanel.add(cancelButton);
-        buttonPanel.add(validateButton);
+        cancelButton = new ButtonType(
+                Translations.get("common:cancel"),
+                ButtonBar.ButtonData.CANCEL_CLOSE
+        );
+        okButton = new ButtonType(
+                "Validate", // todo
+                ButtonBar.ButtonData.OK_DONE
+        );
+
+        getDialogPane().getButtonTypes().addAll(
+                cancelButton,
+                okButton
+        );
+
     }
 
     private void addLastName() {
-        gbc.gridx = 0;
-        gbc.gridy++;
-        formPanel.add(new JLabel("Last name :"), gbc);
+        lastName = new TextField();
+        lastName.setPrefWidth(250);
 
-        gbc.gridx = 1;
-        lastName = new JTextField(20);
-        formPanel.add(lastName, gbc);
+        grid.add(new Label("Last name : "), 0, 3);
+        grid.add(lastName, 1, 3);
     }
 
     private void addFirstName() {
-        gbc.gridx = 0;
-        gbc.gridy++;
-        formPanel.add(new JLabel("First name :"), gbc);
+        firstName = new TextField();
+        firstName.setPrefWidth(250);
 
-        gbc.gridx = 1;
-        firstName = new JTextField(20);
-        formPanel.add(firstName, gbc);
+        grid.add(new Label("First name : "), 0, 2); // todo
+        grid.add(firstName, 1, 2);
     }
 
     private void addPassword() {
-        gbc.gridx = 0;
-        gbc.gridy++;
-        formPanel.add(new JLabel("Password :"), gbc);
+        passwordField = new PasswordField();
+        passwordField.setPrefWidth(250);
 
-        gbc.gridx = 1;
-        passwordField = new JPasswordField(20);
-        formPanel.add(passwordField, gbc);
+        grid.add(new Label("Password : "), 0, 1); // todo
+        grid.add(passwordField, 1, 1);
     }
 
     private void addEmail() {
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        formPanel.add(new JLabel("Email :"), gbc);
+        emailField = new TextField();
+        emailField.setPrefWidth(250);
 
-        gbc.gridx = 1;
-        emailField = new JTextField(20);
-        formPanel.add(emailField, gbc);
+        grid.add(new Label("Email : "), 0, 0); // todo
+        grid.add(emailField, 1, 0);
     }
 
     private void setupForm() {
-        formPanel = new JPanel();
-        formPanel.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(15));
     }
 
-    public String getEmail() {
-        return emailField.getText();
-    }
-    public String getPassword() {
-        return new String(passwordField.getPassword());
-    }
-    public String getFirstName() {
-        return firstName.getText();
-    }
-    public String getLastName() {
-        return lastName.getText();
-    }
-    public boolean isConfirmed() {
-        return confirmed;
-    }
 }
