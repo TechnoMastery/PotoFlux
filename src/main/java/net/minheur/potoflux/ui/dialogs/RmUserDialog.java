@@ -1,7 +1,14 @@
 package net.minheur.potoflux.ui.dialogs;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,63 +16,43 @@ import java.awt.*;
 /**
  * This dialog asks an admin for a username, to delete his account.
  */
-public class RmUserDialog extends JDialog {
+public class RmUserDialog extends Dialog<String> {
 
-    private JPanel formPanel;
-    private GridBagConstraints gbc;
+    private GridPane grid;
 
-    private JTextField rmUserEmail;
+    private TextField rmUserEmail;
 
-    private JPanel buttonPanel;
-    private JButton cancelButton;
-    private JButton validateButton;
-
-    private boolean confirmed = false;
-
-    public RmUserDialog(Frame owner) {
-        super(owner, "Remove a user", true);
+    public RmUserDialog() {
+        setTitle("Remove a user"); // todo
         initUI();
     }
 
     private void initUI() {
-        setLayout(new BorderLayout(10, 10));
 
+        setupButtons();
         setupForm();
 
         addEmail();
-        add(formPanel, BorderLayout.CENTER);
 
-        addButtons();
-        add(buttonPanel, BorderLayout.SOUTH);
+        getDialogPane().setContent(grid);
 
-        pack();
-        setLocationRelativeTo(getParent());
+        ((javafx.scene.control.Button) getDialogPane().lookupButton(UiUtils.validateButton.get()))
+                .setDefaultButton(true);
+        ((Button) getDialogPane().lookupButton(UiUtils.cancelButton.get()))
+                .setCancelButton(true);
 
-        getRootPane().setDefaultButton(validateButton);
+        setupResult();
     }
 
-    private void addButtons() {
-        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        cancelButton = new JButton(Translations.get("common:cancel"));
-        validateButton = new JButton(Translations.get("common:validate"));
-
-        cancelButton.addActionListener(e -> {
-            confirmed = false;
-            dispose();
-        });
-
-        validateButton.addActionListener(e -> {
-            showConfirm();
-            dispose();
-        });
-
-        buttonPanel.add(cancelButton);
-        buttonPanel.add(validateButton);
+    private void setupButtons() {
+        getDialogPane().getButtonTypes().addAll(
+                UiUtils.cancelButton.get(),
+                UiUtils.validateButton.get()
+        );
     }
 
     private void showConfirm() {
-        int check = JOptionPane.showConfirmDialog(this,
+        int check = JOptionPane.showConfirmDialog(null,
                 Functions.formatMessage(
                         Translations.get("potoflux:tabs.account.rmUser.check"),
                         rmUserEmail.getText()
@@ -73,34 +60,35 @@ public class RmUserDialog extends JDialog {
                 Translations.get("common:confirm"),
                 JOptionPane.YES_NO_OPTION
         );
+    }
 
-        if (check == JOptionPane.YES_OPTION)
-            confirmed = true;
+    private void setupResult() {
+        setResultConverter(buttonType -> {
+
+            if (buttonType == UiUtils.validateButton.get()) {
+
+                if (false) return null; // todo: confirmation
+
+                return rmUserEmail.getText().trim();
+
+            } else return null;
+
+        });
     }
 
     private void addEmail() {
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        formPanel.add(new JLabel(Translations.get("common:emailField")), gbc);
+        rmUserEmail = new TextField();
+        rmUserEmail.setPrefWidth(250);
 
-        gbc.gridx = 1;
-        rmUserEmail = new JTextField(20);
-        formPanel.add(rmUserEmail, gbc);
+        grid.add(new Label(Translations.get("common:emailField")), 0, 0);
+        grid.add(rmUserEmail, 1, 0);
     }
 
     private void setupForm() {
-        formPanel = new JPanel();
-        formPanel.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(15));
     }
 
-    public String getEmail() {
-        return rmUserEmail.getText();
-    }
-
-    public boolean isConfirmed() {
-        return confirmed;
-    }
 }

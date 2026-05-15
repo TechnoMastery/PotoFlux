@@ -99,12 +99,12 @@ public class PermRuns {
     }
 
     public static void rmUser() {
-        RmUserDialog dialog = new RmUserDialog(PotoFlux.app.getFrame());
-        dialog.setVisible(true);
+        RmUserDialog dialog = new RmUserDialog();
+        Optional<String> result = dialog.showAndWait();
 
-        if (!dialog.isConfirmed()) return;
+        if (result.isEmpty()) return;
 
-        String email = dialog.getEmail();
+        String email = result.get();
 
         String content;
         try {
