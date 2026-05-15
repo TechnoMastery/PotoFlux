@@ -17,6 +17,9 @@ public final class UiUtils {
     public static final SmartSupplier<ButtonType> okButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:ok"), ButtonBar.ButtonData.OK_DONE)
     );
+    public static final SmartSupplier<ButtonType> validateButton = new SmartSupplier<>(() ->
+            new ButtonType(Translations.get("common:validate"), ButtonBar.ButtonData.OK_DONE)
+    );
     public static final SmartSupplier<ButtonType> cancelButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:cancel"), ButtonBar.ButtonData.CANCEL_CLOSE)
     );
