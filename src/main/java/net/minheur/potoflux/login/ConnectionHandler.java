@@ -17,6 +17,7 @@ import net.minheur.potoflux.screen.menu.definers.AccountMenu;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.AccountTab;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.ui.dialogData.LoginData;
 import net.minheur.potoflux.utils.Json;
 
@@ -241,21 +242,17 @@ public class ConnectionHandler {
                 Translations.get("common:connection"),
                 ButtonBar.ButtonData.OK_DONE
         );
-        ButtonType cancelButton = new ButtonType(
-                Translations.get("common:cancel"),
-                ButtonBar.ButtonData.CANCEL_CLOSE
-        );
 
         dialog.getDialogPane().getButtonTypes().addAll(
                 loginButton,
-                cancelButton
+                UiUtils.cancelButton.get()
         );
 
         ((Button) dialog.getDialogPane()
                 .lookupButton(loginButton))
                 .setDefaultButton(true);
         ((Button) dialog.getDialogPane()
-                .lookupButton(cancelButton))
+                .lookupButton(UiUtils.cancelButton.get()))
                 .setCancelButton(true);
 
         TextField emailField = new TextField();

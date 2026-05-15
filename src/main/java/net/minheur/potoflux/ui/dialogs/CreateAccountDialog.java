@@ -5,7 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.ui.dialogData.NewAccountData;
 
 /**
@@ -14,9 +14,6 @@ import net.minheur.potoflux.ui.dialogData.NewAccountData;
 public class CreateAccountDialog extends Dialog<NewAccountData> {
 
     private GridPane grid;
-
-    private ButtonType okButton;
-    private ButtonType cancelButton;
 
     private TextField emailField;
     private PasswordField passwordField;
@@ -40,9 +37,9 @@ public class CreateAccountDialog extends Dialog<NewAccountData> {
 
         getDialogPane().setContent(grid);
 
-        ((Button) getDialogPane().lookupButton(okButton))
+        ((Button) getDialogPane().lookupButton(UiUtils.okButton.get()))
                 .setDefaultButton(true);
-        ((Button) getDialogPane().lookupButton(cancelButton))
+        ((Button) getDialogPane().lookupButton(UiUtils.cancelButton.get()))
                 .setCancelButton(true);
 
         setupResult();
@@ -51,7 +48,7 @@ public class CreateAccountDialog extends Dialog<NewAccountData> {
     private void setupResult() {
         setResultConverter(buttonType -> {
 
-            if (buttonType == okButton) {
+            if (buttonType == UiUtils.okButton.get()) {
                 NewAccountData result = new NewAccountData();
 
                 result.email = emailField.getText();
@@ -68,18 +65,9 @@ public class CreateAccountDialog extends Dialog<NewAccountData> {
 
     private void setupButtons() {
 
-        cancelButton = new ButtonType(
-                Translations.get("common:cancel"),
-                ButtonBar.ButtonData.CANCEL_CLOSE
-        );
-        okButton = new ButtonType(
-                "Validate", // todo
-                ButtonBar.ButtonData.OK_DONE
-        );
-
         getDialogPane().getButtonTypes().addAll(
-                cancelButton,
-                okButton
+                UiUtils.cancelButton.get(),
+                UiUtils.okButton.get()
         );
 
     }
