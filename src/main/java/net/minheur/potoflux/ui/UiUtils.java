@@ -97,17 +97,12 @@ public final class UiUtils {
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
                 "",
-                ButtonType.YES,
-                ButtonType.NO
+                ButtonType.NO,
+                ButtonType.YES
         );
         alert.setTitle(Translations.get("common:confirm"));
         alert.getDialogPane().setContent(content);
         alert.setHeaderText(header);
-
-        ((Button) alert.getDialogPane().lookupButton(ButtonType.NO))
-                .setDefaultButton(true);
-        ((Button) alert.getDialogPane().lookupButton(ButtonType.YES))
-                .setDefaultButton(false);
 
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.YES;
