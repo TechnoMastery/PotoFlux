@@ -54,7 +54,7 @@ public class CreateAccountHandler {
 
         BaseResponse response = Json.GSON.fromJson(content, BaseResponse.class);
         if (response.success) {
-            showMessagePane(formatMessage(Translations.get("potoflux:tabs.account.createAccount.success"), email[0], password));
+            showMessagePane(formatMessage(Translations.get("potoflux:tabs.account.createAccount.success"), email[0], password[0]));
             return;
         }
 
