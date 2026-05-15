@@ -1,11 +1,9 @@
 package net.minheur.potoflux.ui;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
+import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.translations.Translations;
 import org.jetbrains.annotations.NotNull;
@@ -91,6 +89,22 @@ public final class UiUtils {
         );
     }
 
+    public static boolean showConfirmationDialog(String message) {
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                message,
+                ButtonType.YES,
+                ButtonType.NO
+        );
+        alert.setTitle(Translations.get("common:confirm"));
+        alert.setHeaderText(null);
+
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.NO))
+                .setDefaultButton(true);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.YES;
+    }
     public static <R> R showInputDialog(
             @NotNull R[] options, int defaultIndex,
             @Nullable String title,
