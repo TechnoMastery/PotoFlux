@@ -1,5 +1,6 @@
 package net.minheur.potoflux.ui;
 
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -89,15 +90,19 @@ public final class UiUtils {
         );
     }
 
-    public static boolean showConfirmationDialog(String message) {
+    public static boolean showConfirmationDialog(
+            Node content,
+            @Nullable String header
+    ) {
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
-                message,
+                "",
                 ButtonType.YES,
                 ButtonType.NO
         );
         alert.setTitle(Translations.get("common:confirm"));
-        alert.setHeaderText(null);
+        alert.getDialogPane().setContent(content);
+        alert.setHeaderText(header);
 
         ((Button) alert.getDialogPane().lookupButton(ButtonType.NO))
                 .setDefaultButton(true);
@@ -106,6 +111,12 @@ public final class UiUtils {
 
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.YES;
+    }
+    public static boolean showConfirmationDialog(Node content) {
+        return showConfirmationDialog(content, null);
+    }
+    public static boolean showConfirmationDialog(String message) {
+        return showConfirmationDialog(new Label(message));
     }
     public static <R> R showInputDialog(
             @NotNull R[] options, int defaultIndex,
