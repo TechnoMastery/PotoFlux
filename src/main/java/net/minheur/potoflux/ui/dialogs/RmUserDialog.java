@@ -51,15 +51,11 @@ public class RmUserDialog extends Dialog<String> {
         );
     }
 
-    private void showConfirm() {
-        int check = JOptionPane.showConfirmDialog(null,
-                Functions.formatMessage(
-                        Translations.get("potoflux:tabs.account.rmUser.check"),
-                        rmUserEmail.getText()
-                ),
-                Translations.get("common:confirm"),
-                JOptionPane.YES_NO_OPTION
-        );
+    private boolean showConfirm() {
+        return UiUtils.showConfirmationDialog(Functions.formatMessage(
+                Translations.get("potoflux:tabs.account.rmUser.check"),
+                rmUserEmail.getText()
+        ));
     }
 
     private void setupResult() {
@@ -67,7 +63,7 @@ public class RmUserDialog extends Dialog<String> {
 
             if (buttonType == UiUtils.validateButton.get()) {
 
-                if (false) return null; // todo: confirmation
+                if (!showConfirm()) return null;
 
                 return rmUserEmail.getText().trim();
 
