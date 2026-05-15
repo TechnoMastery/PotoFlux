@@ -101,6 +101,8 @@ public final class UiUtils {
 
         ((Button) alert.getDialogPane().lookupButton(ButtonType.NO))
                 .setDefaultButton(true);
+        ((Button) alert.getDialogPane().lookupButton(ButtonType.YES))
+                .setDefaultButton(false);
 
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.YES;
