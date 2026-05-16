@@ -79,8 +79,8 @@ public class AllUsersDialog extends Dialog<Void> {
 
     private void showDetails(Account account) {
 
-        // AccountDetailsDialog dialog = new AccountDetailsDialog(account);
-        // dialog.showAndWait();
+        AccountDetailsDialog dialog = new AccountDetailsDialog(account);
+        dialog.showAndWait();
 
     }
 

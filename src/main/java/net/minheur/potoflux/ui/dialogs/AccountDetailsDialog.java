@@ -1,10 +1,21 @@
 package net.minheur.potoflux.ui.dialogs;
 
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.login.response.BaseResponse;
 import net.minheur.potoflux.login.response.MdUserInfosResponse;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
+import net.minheur.potoflux.ui.dialogData.ModifiedUserData;
 import net.minheur.potoflux.utils.Json;
 
 import javax.swing.*;
@@ -12,6 +23,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static net.minheur.potoflux.Functions.formatMessage;
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
@@ -20,44 +32,57 @@ import static net.minheur.potoflux.ui.UiUtils.showMessagePane;
 /**
  * When you ask for a user's details, this dialogs pops up
  */
-public class AccountDetailsDialog extends JDialog {
+public class AccountDetailsDialog extends Dialog<ModifiedUserData> {
+
+    private final Dialog<?> parent;
 
     private final Account account;
     private final List<Perms> actualPerms = new ArrayList<>();
 
-    private JPanel panel;
-    private GridBagConstraints gbc;
+    private GridPane grid;
 
-    private JTextField emailField;
-    private JTextField firstNameField;
-    private JTextField lastNameField;
-    private JSpinner rankSpinner;
+    private TextField emailField;
+    private TextField firstNameField;
+    private TextField lastNameField;
+    private Spinner<Integer> rankSpinner;
 
-    private JPanel buttonsPanel;
-    private JButton okButton;
-    private JButton confirmButton;
-    private JButton cancelButton;
-    private JButton changePasswordButton;
-    private JButton lockButton;
-
-    public AccountDetailsDialog(JDialog owner, Account account) {
-        super(owner, "Account details", true);
+    public AccountDetailsDialog(Dialog<?> parent, Account account) {
+        setTitle("Account details"); // todo
+        this.parent = parent;
         this.account = account;
 
+        setupButtons();
         setupPanel();
+
         addEmail();
         addName();
         addRank();
 
-        setupButtons();
+        getDialogPane().setContent(grid);
 
-        setContentPane(panel);
-        pack();
-        setLocationRelativeTo(owner);
+        setupResult();
 
         fillActualPerms();
         reload();
 
+    }
+
+    private void setupResult() {
+        setResultConverter(button -> {
+
+            if (button == UiUtils.confirmButton.get()) {
+
+                ModifiedUserData data = new ModifiedUserData();
+                data.email = emailField.getText();
+                data.firstName = firstNameField.getText();
+                data.lastName = lastNameField.getText();
+                data.rank = rankSpinner.getValue();
+                // todo: perms
+                return data;
+
+            } else return null;
+
+        });
     }
 
     private void reload() {
@@ -102,16 +127,18 @@ public class AccountDetailsDialog extends JDialog {
     }
 
     private void setupButtons() {
-        okButton = new JButton(Translations.get("common:ok"));
-        confirmButton = new JButton(Translations.get("common:confirm"));
-        cancelButton = new JButton(Translations.get("common:cancel"));
-        changePasswordButton = new JButton(Translations.get("potoflux:tabs.account.mdUserPassword.button"));
-        lockButton = new JButton(Translations.get("potoflux:tabs.account.lock.button"));
+        ButtonType lockButton = new ButtonType(Translations.get("potoflux:tabs.account.lock.button"), ButtonBar.ButtonData.OTHER);
+        ButtonType changePasswordButton = new ButtonType(Translations.get("potoflux:tabs.account.mdUserPassword.button"), ButtonBar.ButtonData.OTHER);
 
-        okButton.addActionListener(e -> dispose());
-        cancelButton.addActionListener(e -> dispose());
+        getDialogPane().getButtonTypes().addAll(
+                lockButton,
+                changePasswordButton,
+                UiUtils.cancelButton.get(),
+                UiUtils.confirmButton.get(),
+                UiUtils.okButton.get()
+        );
 
-        confirmButton.addActionListener(e -> {
+        confirmButton.addActionListener(e -> { // todo: move to result converter
             String mail = emailField.getText();
             String firstName = firstNameField.getText();
             String lastName = lastNameField.getText();
@@ -124,7 +151,7 @@ public class AccountDetailsDialog extends JDialog {
 
             // if nothing changed, return
             if (!(isMailModified || isFirstNameModified || isLastNameModified || isRankModified)) {
-                disposeWithParent();
+                closeParent();
                 return;
             }
 
@@ -163,12 +190,12 @@ public class AccountDetailsDialog extends JDialog {
             } catch (InvalidTokenException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
-                disposeWithParent();
+                closeParent();
                 return;
             } catch (IOException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.failed"));
-                disposeWithParent();
+                closeParent();
                 return;
             }
 
@@ -203,23 +230,33 @@ public class AccountDetailsDialog extends JDialog {
 
             showMessagePane(doneSb.toString());
 
-            disposeWithParent();
+            closeParent();
 
         });
-        changePasswordButton.addActionListener(e -> {
-            JTextField newPasswordField = new JTextField();
 
-            int check = JOptionPane.showConfirmDialog(
-                    this,
-                    newPasswordField,
-                    Translations.get("potoflux:tabs.account.mdUserPassword.title"),
-                    JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.PLAIN_MESSAGE
+        getDialogPane().lookupButton(changePasswordButton).addEventFilter(ActionEvent.ACTION, e -> {
+
+            TextInputDialog passwordAskDialog = new TextInputDialog();
+            passwordAskDialog.setTitle(Translations.get("potoflux:tabs.account.mdUserPassword.title"));
+            passwordAskDialog.setHeaderText("Please enter new password for user:"); // todo
+
+            passwordAskDialog.getDialogPane().getButtonTypes().clear();
+            passwordAskDialog.getDialogPane().getButtonTypes().addAll(
+                    UiUtils.cancelButton.get(),
+                    UiUtils.confirmButton.get()
             );
+            ((Button) passwordAskDialog.getDialogPane().lookupButton(UiUtils.cancelButton.get()))
+                    .setCancelButton(true);
+            ((Button) passwordAskDialog.getDialogPane().lookupButton(UiUtils.confirmButton.get()))
+                    .setDefaultButton(true);
 
-            if (check == JOptionPane.CANCEL_OPTION) return;
+            Optional<String> result = passwordAskDialog.showAndWait();
+            if (result.isEmpty()) {
+                e.consume();
+                return;
+            }
 
-            String newPassword = newPasswordField.getText();
+            String newPassword = result.get();
 
             String content;
             try {
@@ -231,10 +268,12 @@ public class AccountDetailsDialog extends JDialog {
             } catch (InvalidTokenException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+                e.consume();
                 return;
             } catch (IOException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.failed"));
+                e.consume();
                 return;
             }
 
@@ -252,6 +291,7 @@ public class AccountDetailsDialog extends JDialog {
                             default -> response.error;
                         }
                 );
+                e.consume();
                 return;
             }
 
@@ -259,10 +299,12 @@ public class AccountDetailsDialog extends JDialog {
                     Translations.get("potoflux:tabs.account.mdUserPassword.done"),
                     account.email, newPassword
             ));
+            e.consume();
 
         });
-        lockButton.addActionListener(e -> {
-            boolean newState = !account.locked;
+
+        getDialogPane().lookupButton(lockButton).addEventFilter(ActionEvent.ACTION, e -> {
+            boolean newState = !this.account.locked;
 
             String content;
             try {
@@ -274,10 +316,12 @@ public class AccountDetailsDialog extends JDialog {
             } catch (InvalidTokenException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+                e.consume();
                 return;
             } catch (IOException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.failed"));
+                e.consume();
                 return;
             }
 
@@ -295,79 +339,61 @@ public class AccountDetailsDialog extends JDialog {
                             default -> response.error;
                         }
                 );
+                e.consume();
                 return;
             }
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    Translations.get("potoflux:tabs.account." + (newState ? "lock" : "unlock") + ".done"),
-                    Translations.get("common:finish"), JOptionPane.INFORMATION_MESSAGE
-            );
-            disposeWithParent();
+            showMessagePane(Translations.get("potoflux:tabs.account." + (newState ? "lock" : "unlock") + ".done"));
+            closeParent();
 
         });
 
-        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        ((Button) getDialogPane().lookupButton(UiUtils.cancelButton.get()))
+                .setCancelButton(true);
+        ((Button) getDialogPane().lookupButton(UiUtils.okButton.get()))
+                .setDefaultButton(true);
+        ((Button) getDialogPane().lookupButton(UiUtils.confirmButton.get()))
+                .setDefaultButton(true);
 
-        buttonsPanel.add(lockButton);
-        buttonsPanel.add(changePasswordButton);
-        buttonsPanel.add(cancelButton);
-        buttonsPanel.add(confirmButton);
-        buttonsPanel.add(okButton);
-
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.NONE;
-
-        panel.add(buttonsPanel, gbc);
     }
 
-    private void disposeWithParent() {
-        dispose();
-        ((JDialog) getParent()).dispose();
+    private void closeParent() {
+        parent.close();
     }
 
     private void addRank() {
-        rankSpinner = new JSpinner(new SpinnerNumberModel(account.rank, 0, 100, 1));
-        addRow("Rank", rankSpinner, gbc);
-    }
+        rankSpinner = new Spinner<>();
+        rankSpinner.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(
+                        0, 100, account.rank, 1
+                )
+        );
+        rankSpinner.setPrefWidth(100);
 
-    private void addRow(String label, JComponent component, GridBagConstraints gbc) {
-        gbc.gridx = 0;
-        gbc.gridwidth = 1;
-        panel.add(new JLabel(label), gbc);
-
-        gbc.gridx = 1;
-        panel.add(component, gbc);
-
-        gbc.gridy++;
+        grid.add(new Label("Rank: "), 0, 2);
+        grid.add(rankSpinner, 1, 2);
     }
 
     private void addName() {
-        JPanel namePanel = new JPanel(new GridLayout(1, 2, 5, 0));
+        firstNameField = new TextField(account.firstName);
+        lastNameField = new TextField(account.lastName);
 
-        firstNameField = new JTextField(account.firstName);
-        lastNameField = new JTextField(account.lastName);
-
-        namePanel.add(firstNameField);
-        namePanel.add(lastNameField);
-
-        addRow("Name", namePanel, gbc);
+        grid.add(new Label("Name: "), 0, 1);
+        grid.add(firstNameField, 1, 1);
+        grid.add(lastNameField, 2, 1);
     }
 
     private void addEmail() {
-        emailField = new JTextField(account.email);
-        addRow("Email", emailField, gbc);
+        emailField = new TextField(account.email);
+
+        grid.add(new Label("Email: "), 0, 0);
+        grid.add(emailField, 1, 0);
     }
 
     private void setupPanel() {
-        panel = new JPanel(new GridBagLayout());
-        gbc = new GridBagConstraints();
-
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridy = 0;
+        grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(15));
     }
 }
