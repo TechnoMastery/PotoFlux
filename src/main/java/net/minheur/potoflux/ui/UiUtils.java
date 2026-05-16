@@ -4,7 +4,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.translations.Translations;
 import org.jetbrains.annotations.NotNull;
@@ -24,8 +23,8 @@ public final class UiUtils {
     public static final SmartSupplier<ButtonType> okButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:ok"), ButtonBar.ButtonData.OK_DONE)
     );
-    public static final SmartSupplier<ButtonType> validateButton = new SmartSupplier<>(() ->
-            new ButtonType(Translations.get("common:validate"), ButtonBar.ButtonData.OK_DONE)
+    public static final SmartSupplier<ButtonType> confirmButton = new SmartSupplier<>(() ->
+            new ButtonType(Translations.get("common:confirm"), ButtonBar.ButtonData.OK_DONE)
     );
     public static final SmartSupplier<ButtonType> cancelButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:cancel"), ButtonBar.ButtonData.CANCEL_CLOSE)

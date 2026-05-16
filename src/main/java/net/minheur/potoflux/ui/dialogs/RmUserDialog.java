@@ -10,9 +10,6 @@ import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * This dialog asks an admin for a username, to delete his account.
  */
@@ -36,7 +33,7 @@ public class RmUserDialog extends Dialog<String> {
 
         getDialogPane().setContent(grid);
 
-        ((javafx.scene.control.Button) getDialogPane().lookupButton(UiUtils.validateButton.get()))
+        ((javafx.scene.control.Button) getDialogPane().lookupButton(UiUtils.confirmButton.get()))
                 .setDefaultButton(true);
         ((Button) getDialogPane().lookupButton(UiUtils.cancelButton.get()))
                 .setCancelButton(true);
@@ -47,7 +44,7 @@ public class RmUserDialog extends Dialog<String> {
     private void setupButtons() {
         getDialogPane().getButtonTypes().addAll(
                 UiUtils.cancelButton.get(),
-                UiUtils.validateButton.get()
+                UiUtils.confirmButton.get()
         );
     }
 
@@ -61,7 +58,7 @@ public class RmUserDialog extends Dialog<String> {
     private void setupResult() {
         setResultConverter(buttonType -> {
 
-            if (buttonType == UiUtils.validateButton.get()) {
+            if (buttonType == UiUtils.confirmButton.get()) {
 
                 if (!showConfirm()) return null;
 

@@ -51,7 +51,7 @@ public class AddUserDialog extends Dialog<NewAccountData> {
 
         getDialogPane().setContent(grid);
 
-        ((Button) getDialogPane().lookupButton(UiUtils.validateButton.get()))
+        ((Button) getDialogPane().lookupButton(UiUtils.confirmButton.get()))
                 .setDefaultButton(true);
         ((Button) getDialogPane().lookupButton(UiUtils.cancelButton.get()))
                 .setCancelButton(true);
@@ -75,7 +75,7 @@ public class AddUserDialog extends Dialog<NewAccountData> {
     private void setupButton() {
         getDialogPane().getButtonTypes().addAll(
                 UiUtils.cancelButton.get(),
-                UiUtils.validateButton.get()
+                UiUtils.confirmButton.get()
         );
     }
 
@@ -145,7 +145,7 @@ public class AddUserDialog extends Dialog<NewAccountData> {
     private void setupResult() {
         setResultConverter(buttonType -> {
 
-            if (buttonType == UiUtils.validateButton.get()) {
+            if (buttonType == UiUtils.confirmButton.get()) {
                 NewAccountData result = new NewAccountData();
 
                 result.email = emailField.getText();
