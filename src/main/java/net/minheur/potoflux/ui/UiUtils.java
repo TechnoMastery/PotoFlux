@@ -30,6 +30,9 @@ public final class UiUtils {
     public static final SmartSupplier<ButtonType> cancelButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:cancel"), ButtonBar.ButtonData.CANCEL_CLOSE)
     );
+    public static final SmartSupplier<ButtonType> closeButton = new SmartSupplier<>(() ->
+            new ButtonType(Translations.get("common:close"), ButtonBar.ButtonData.CANCEL_CLOSE)
+    );
     public static final SmartSupplier<ButtonType> yesButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:yes"), ButtonBar.ButtonData.YES)
     );
