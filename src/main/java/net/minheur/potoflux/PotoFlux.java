@@ -146,18 +146,12 @@ public class PotoFlux {
         Platform.runLater(() -> startScreen.updateStage("Running start logic..."));
         for (ActionRun ar : StartLogicRunRegistry.getAll()) ar.run().run();
 
-        // invoke app (start) todo semi
+        // invoke app (start)
         Platform.runLater(() -> startScreen.updateStage("Launching app..."));
-        // SwingUtilities.invokeLater(() -> {
-        //     app = new PotoScreen();
-        //     Platform.runLater(startScreen::close);
-
-        //     // run all start ui runs
-        //     for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
-        // });
 
         Platform.runLater(() -> {
             appFX = new FXPotoScreen();
+            startScreen.close();
 
             for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
         });
