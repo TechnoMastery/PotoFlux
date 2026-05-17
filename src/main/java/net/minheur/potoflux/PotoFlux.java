@@ -28,6 +28,7 @@ import net.minheur.potoflux.translations.register.CommonTranslations;
 import net.minheur.potoflux.translations.register.FileTranslations;
 import net.minheur.potoflux.translations.register.PotoFluxTranslations;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 import net.minheur.potoflux.utils.UserPrefsManager;
@@ -156,6 +157,7 @@ public class PotoFlux {
 
         Platform.runLater(() -> {
             FXPotoScreen screen = new FXPotoScreen();
+            UiUtils.showErrorPane("test");
         });
 
     }

@@ -1,0 +1,31 @@
+.header-panel
+{
+    -fx-background-color: rgba(255, 0, 0, 0.5);
+    -fx-background
+}
+.dialog-pane
+{
+-fx-background-color: rgba(150, 0, 0, 0.5);
+}
+.label {
+-fx-text-fill: rgba(255, 255, 255, 0.4);
+-fx-font-style: italic;
+-fx-font-size: 15px;
+
+-fx-scale-x: 1;
+-fx-scale-y: 1;
+}
+.label:hover
+{
+-fx-scale-x: 1.05;
+-fx-scale-y: 1.05;
+-fx-text-fill: rgba(255, 255, 255, 1);
+}
+.icon
+{
+-fx-rotate: 0;
+}
+.icon:hover
+{
+-fx-rotate: 180;
+}

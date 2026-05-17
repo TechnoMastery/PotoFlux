@@ -3,6 +3,7 @@ package net.minheur.potoflux.ui;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.translations.Translations;
@@ -43,6 +44,13 @@ public class UiUtils {
             stage.getIcons().add(new Image(
                     Objects.requireNonNull(UiUtils.class.getResourceAsStream(iconDir))
             ));
+
+            ImageView icon = new ImageView(new Image(UiUtils.class.getResourceAsStream(iconDir)));
+            icon.getStyleClass().add("icon");
+            icon.setFitHeight(70);
+            icon.setFitWidth(70);
+            icon.setPreserveRatio(true);
+            alert.setGraphic(icon);
         }
 
         // show
@@ -53,7 +61,8 @@ public class UiUtils {
         showAlert(
                 Alert.AlertType.ERROR,
                 message, Translations.get("common:error"), "An error happened", // TODO
-                null, null // todo: create css & icon files
+                "/styles/panes/error.css",
+                "/textures/errorTexture.png"// todo: create css & icon files
         );
     }
     public static void showMessagePane(String message) {
