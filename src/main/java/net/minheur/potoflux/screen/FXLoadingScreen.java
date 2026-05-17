@@ -25,7 +25,6 @@ public class FXLoadingScreen {
 
         VBox root = new VBox(10);
         root.setAlignment(Pos.BOTTOM_RIGHT);
-        root.setStyle("-fx-padding: 20;");
 
         root.getChildren().addAll(label, stageLabel);
 
