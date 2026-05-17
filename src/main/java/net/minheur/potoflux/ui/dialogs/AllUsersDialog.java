@@ -26,7 +26,7 @@ public class AllUsersDialog extends Dialog<Void> {
     private final BorderPane root;
     private VBox listPanel;
 
-    public AllUsersDialog(Frame parent, List<Account> accounts) {
+    public AllUsersDialog(List<Account> accounts) {
         this.accounts = accounts;
         setTitle("All accounts"); // todo
 
@@ -79,7 +79,7 @@ public class AllUsersDialog extends Dialog<Void> {
 
     private void showDetails(Account account) {
 
-        AccountDetailsDialog dialog = new AccountDetailsDialog(account);
+        AccountDetailsDialog dialog = new AccountDetailsDialog(this, account);
         dialog.showAndWait();
 
     }

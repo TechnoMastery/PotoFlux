@@ -281,12 +281,9 @@ public class PermRuns {
             return;
         }
 
-        AllUsersDialog dialog = new AllUsersDialog(
-                PotoFlux.app.getFrame(),
-                usersAccounts
-        );
+        AllUsersDialog dialog = new AllUsersDialog(usersAccounts);
 
-        dialog.setVisible(true);
+        dialog.show();
 
     }
 }
