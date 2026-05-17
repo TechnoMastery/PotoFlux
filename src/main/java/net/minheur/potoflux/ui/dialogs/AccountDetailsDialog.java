@@ -349,6 +349,7 @@ public class AccountDetailsDialog extends Dialog<Void> {
 
         grid.add(new Label("Rank: "), 0, 2);
         grid.add(rankSpinner, 1, 2);
+        GridPane.setColumnSpan(rankSpinner, 2);
     }
 
     private void addName() {
@@ -365,6 +366,7 @@ public class AccountDetailsDialog extends Dialog<Void> {
 
         grid.add(new Label("Email: "), 0, 0);
         grid.add(emailField, 1, 0);
+        GridPane.setColumnSpan(emailField, 2);
     }
 
     private void setupPanel() {
