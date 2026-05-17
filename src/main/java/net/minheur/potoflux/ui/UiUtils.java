@@ -171,6 +171,15 @@ public final class UiUtils {
         );
     }
 
+    public static void hideNode(Node node) {
+        node.setVisible(false);
+        node.setManaged(false);
+    }
+    public static void showNode(Node node) {
+        node.setVisible(true);
+        node.setManaged(true);
+    }
+
     @Deprecated
     @CheckForNull
     public static JFrame getAppAnchor() {
