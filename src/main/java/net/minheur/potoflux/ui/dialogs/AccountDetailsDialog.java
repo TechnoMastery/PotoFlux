@@ -200,16 +200,21 @@ public class AccountDetailsDialog extends Dialog<Void> {
             String firstName = firstNameField.getText();
             String lastName = lastNameField.getText();
             int rank = rankSpinner.getValue();
-            // todo: perms
+            Perms[] perms = selectedPermMap.entrySet()
+                    .stream()
+                    .filter(entry -> entry.getValue().get().get())
+                    .map(Map.Entry::getKey)
+                    .toArray(Perms[]::new);
 
             // --- get if fields are modified ---
             boolean isMailModified = !account.email.equals(mail);
             boolean isFirstNameModified = !account.firstName.equals(firstName);
             boolean isLastNameModified = !account.lastName.equals(lastName);
             boolean isRankModified = account.rank != rank;
+            boolean arePermsModified = account.perms == perms;
 
             // --- if nothing changed, return ---
-            if (!(isMailModified || isFirstNameModified || isLastNameModified || isRankModified)) {
+            if (!(isMailModified || isFirstNameModified || isLastNameModified || isRankModified || arePermsModified)) {
                 closeParent();
                 return;
             }
@@ -221,6 +226,7 @@ public class AccountDetailsDialog extends Dialog<Void> {
             if (isFirstNameModified) confirmSb.append("\n").append(Translations.get("common:firstName"));
             if (isLastNameModified) confirmSb.append("\n").append(Translations.get("common:lastName"));
             if (isRankModified) confirmSb.append("\n").append(Translations.get("common:rank"));
+            if (arePermsModified) confirmSb.append("\n").append(Translations.get("common:perms"));
 
             boolean confirmed = showConfirmationDialog(confirmSb.toString());
             if (!confirmed) {
@@ -239,11 +245,8 @@ public class AccountDetailsDialog extends Dialog<Void> {
                         isFirstNameModified ? firstName : null,
                         isLastNameModified ? lastName : null,
                         isRankModified ? rank : 0,
-                        selectedPermMap.entrySet()
-                                .stream()
-                                .filter(entry -> entry.getValue().get().get())
-                                .map(Map.Entry::getKey)
-                                .map(Perms::getCode)
+                        Arrays.stream(perms)
+                                .map(perm -> perm.getCode())
                                 .toArray(String[]::new)
                 );
             } catch (InvalidTokenException ex) {
