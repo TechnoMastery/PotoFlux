@@ -1,5 +1,8 @@
 package net.minheur.potoflux.ui.dialogs;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -18,9 +21,8 @@ import net.minheur.potoflux.utils.Json;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 import static net.minheur.potoflux.Functions.formatMessage;
 import static net.minheur.potoflux.ui.UiUtils.*;
@@ -42,6 +44,9 @@ public class AccountDetailsDialog extends Dialog<Void> {
     private TextField lastNameField;
     private Spinner<Integer> rankSpinner;
 
+    private ListView<Perms> permsList;
+    private Map<Perms, BooleanProperty> selectedPermMap;
+
     private ButtonType changePasswordButton;
     private ButtonType lockButton;
 
@@ -56,12 +61,29 @@ public class AccountDetailsDialog extends Dialog<Void> {
         addEmail();
         addName();
         addRank();
+        addPerms();
 
         getDialogPane().setContent(grid);
 
         fillActualPerms();
         reload();
 
+    }
+
+    private void addPerms() {
+        permsList = new ListView<>();
+        ObservableList<Perms> items = FXCollections.observableArrayList();
+
+        for (Perms perm : Perms.values())
+            if (
+                    Arrays.asList(account.perms).contains(perm) || // if target account has the perm
+                    Arrays.asList(ConnectionHandler.account.perms).contains(perm) // if current account can add the perm
+            ) items.add(perm);
+        permsList.setItems(items);
+
+        selectedPermMap = new HashMap<>();
+
+        // todo
     }
 
     private void reload() {
