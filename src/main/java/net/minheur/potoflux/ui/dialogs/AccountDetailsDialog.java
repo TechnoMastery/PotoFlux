@@ -218,7 +218,13 @@ public class AccountDetailsDialog extends Dialog<Void> {
                         isMailModified ? mail : null,
                         isFirstNameModified ? firstName : null,
                         isLastNameModified ? lastName : null,
-                        isRankModified ? rank : 0
+                        isRankModified ? rank : 0,
+                        selectedPermMap.entrySet()
+                                .stream()
+                                .filter(entry -> entry.getValue().get().get())
+                                .map(Map.Entry::getKey)
+                                .map(Perms::getCode)
+                                .toArray(String[]::new)
                 );
             } catch (InvalidTokenException ex) {
                 ex.printStackTrace();
