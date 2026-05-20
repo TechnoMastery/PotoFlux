@@ -17,6 +17,7 @@ import net.minheur.potoflux.login.response.BaseResponse;
 import net.minheur.potoflux.login.response.MdUserInfosResponse;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
+import net.minheur.potoflux.utils.LockableField;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +46,7 @@ public class AccountDetailsDialog extends Dialog<Void> {
     private Spinner<Integer> rankSpinner;
 
     private ListView<Perms> permsList;
-    private Map<Perms, BooleanProperty> selectedPermMap;
+    private Map<Perms, LockableField<Boolean>> selectedPermMap;
 
     private ButtonType changePasswordButton;
     private ButtonType lockButton;
