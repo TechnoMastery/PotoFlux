@@ -12,7 +12,9 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.login.response.BaseResponse;
@@ -61,6 +63,8 @@ public class AccountDetailsDialog extends Dialog<Void> {
         setupButtons();
         setupPanel();
 
+        setupColumns();
+
         addEmail();
         addName();
         addRank();
@@ -71,6 +75,20 @@ public class AccountDetailsDialog extends Dialog<Void> {
         fillActualPerms();
         reload();
 
+    }
+
+    private void setupColumns() {
+        ColumnConstraints col1 = new ColumnConstraints();
+        ColumnConstraints col2 = new ColumnConstraints();
+        ColumnConstraints col3 = new ColumnConstraints();
+
+        col2.setHgrow(Priority.ALWAYS);
+        col3.setHgrow(Priority.ALWAYS);
+
+        col2.setFillWidth(true);
+        col3.setFillWidth(true);
+
+        grid.getColumnConstraints().addAll(col1, col2, col3);
     }
 
     private void addPerms() {
