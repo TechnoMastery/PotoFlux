@@ -95,7 +95,9 @@ public class AccountDetailsDialog extends Dialog<Void> {
             selectedPermMap.put(perm, new LockableField<>(selected, locked));
         }
 
-        permsList.setCellFactory(listView -> new CheckBoxListCell<>() {
+        permsList.setCellFactory(listView -> new CheckBoxListCell<>(
+                item -> selectedPermMap.get(item).get()
+        ) {
 
             @Override
             public void updateItem(Perms item, boolean empty) {
