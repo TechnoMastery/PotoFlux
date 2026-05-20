@@ -1,6 +1,7 @@
 package net.minheur.potoflux.ui.dialogs;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.GridPane;
 import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.login.perms.Perms;
@@ -46,7 +48,7 @@ public class AccountDetailsDialog extends Dialog<Void> {
     private Spinner<Integer> rankSpinner;
 
     private ListView<Perms> permsList;
-    private Map<Perms, LockableField<Boolean>> selectedPermMap;
+    private Map<Perms, LockableField<BooleanProperty>> selectedPermMap;
 
     private ButtonType changePasswordButton;
     private ButtonType lockButton;
@@ -75,16 +77,48 @@ public class AccountDetailsDialog extends Dialog<Void> {
         permsList = new ListView<>();
         ObservableList<Perms> items = FXCollections.observableArrayList();
 
+        List<Perms> targetPerms = Arrays.asList(account.perms);
+        List<Perms> currentPerms = Arrays.asList(ConnectionHandler.account.perms);
+
         for (Perms perm : Perms.values())
             if (
-                    Arrays.asList(account.perms).contains(perm) || // if target account has the perm
-                    Arrays.asList(ConnectionHandler.account.perms).contains(perm) // if current account can add the perm
+                    targetPerms.contains(perm) || // if target account has the perm
+                    currentPerms.contains(perm) // if current account can add the perm
             ) items.add(perm);
         permsList.setItems(items);
 
         selectedPermMap = new HashMap<>();
 
-        // todo
+        for (Perms perm : items) {
+            BooleanProperty selected = new SimpleBooleanProperty(targetPerms.contains(perm)); // pre-select if target has it -- get as boolean property
+            boolean locked = !currentPerms.contains(perm); // can't change it if current user doesn't have it
+            selectedPermMap.put(perm, new LockableField<>(selected, locked));
+        }
+
+        permsList.setCellFactory(listView -> new CheckBoxListCell<>() {
+
+            @Override
+            public void updateItem(Perms item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    return;
+                }
+
+                LockableField<BooleanProperty> field = selectedPermMap.get(item);
+                ((CheckBox) getGraphic()).selectedProperty().bindBidirectional(field.get());
+                getGraphic().setDisable(field.getIsLocked());
+            }
+
+        });
+
+        permsList.setFocusTraversable(true);
+        permsList.setPrefSize(200, 250);
+
+        grid.add(permsList, 0, 3);
+        GridPane.setColumnSpan(permsList, 3);
     }
 
     private void reload() {
