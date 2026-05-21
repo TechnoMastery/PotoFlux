@@ -29,7 +29,7 @@ public abstract class BaseTab<T extends Pane> {
         if (invokeLater()) SwingUtilities.invokeLater(this::setPanel);
         else setPanel();
 
-        this.builtTab = new Tab("A test Name");
+        this.builtTab = new Tab(getName());
         this.builtTab.setContent(PANEL);
     }
 
@@ -45,7 +45,7 @@ public abstract class BaseTab<T extends Pane> {
     /**
      * This is reserved to other Base tabs, allowing presets
      */
-    void runPreset() {};
+    void runPreset() {}
 
     /**
      * This is the actual method to set the panel.<br>
@@ -59,6 +59,11 @@ public abstract class BaseTab<T extends Pane> {
     protected String getTitle() {
         return "[NO TITLE SET]";
     }
+    /**
+     * The name of the tab in the list displayed
+     * @return the tab's name
+     */
+    protected abstract String getName();
 
     /**
      * Handles if the preset should be executed.<br>
