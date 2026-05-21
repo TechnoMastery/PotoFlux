@@ -36,7 +36,7 @@ public class AccountMenu extends Menu {
     }
 
     private void setupButtonActions() {
-        openTab.setOnAction(e -> PotoFlux.app.setOpenedTab(Tabs.INSTANCE.ACCOUNT));
+        openTab.setOnAction(e -> PotoFlux.appFX.setOpenedTab(Tabs.INSTANCE.ACCOUNT));
         auth.setOnAction(e -> performAuthAction());
 
         viewUsers.setOnAction(e -> Perms.VIEW_USERS.getPermAction().run());

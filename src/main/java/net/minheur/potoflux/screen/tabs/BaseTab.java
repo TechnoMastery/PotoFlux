@@ -1,6 +1,7 @@
 package net.minheur.potoflux.screen.tabs;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -15,6 +16,7 @@ public abstract class BaseTab<T extends Pane> {
      * The actual {@link Pane}, that will be added to the tabbed pane.
      */
     protected T PANEL;
+    private final Tab builtTab;
 
     /**
      * Constructor for the tab.<br>
@@ -26,6 +28,13 @@ public abstract class BaseTab<T extends Pane> {
 
         if (invokeLater()) SwingUtilities.invokeLater(this::setPanel);
         else setPanel();
+
+        this.builtTab = new Tab("A test Name");
+        this.builtTab.setContent(PANEL);
+    }
+
+    public Tab getBuiltTab() {
+        return builtTab;
     }
 
     /**
@@ -49,14 +58,6 @@ public abstract class BaseTab<T extends Pane> {
      */
     protected String getTitle() {
         return "[NO TITLE SET]";
-    }
-
-    /**
-     * Getter for the {@link #PANEL}.
-     * @return the {@link #PANEL}
-     */
-    public Pane getNode() {
-        return PANEL;
     }
 
     /**

@@ -1,16 +1,24 @@
 package net.minheur.potoflux.screen.tabs.all;
 
-import javafx.scene.layout.Pane;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.login.CreateAccountHandler;
+import net.minheur.potoflux.login.RequestPoster;
 import net.minheur.potoflux.login.perms.Perms;
-import net.minheur.potoflux.screen.tabs.BaseTab;
+import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
+import java.io.IOException;
 import java.util.Arrays;
 
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
@@ -19,19 +27,18 @@ import static net.minheur.potoflux.login.ConnectionHandler.*;
 /**
  * Tab class for account tab
  */
-public class AccountTab extends BaseTab<Pane> {
+public class AccountTab extends BaseVTab<StackPane> {
 
-    private JLabel titleLabel;
-    private JLabel emailLabel;
+    private Label titleLabel;
+    private Label emailLabel;
 
-    private JPanel permsPanel;
-    private JList<Perms> permsList;
-    private DefaultListModel<Perms> permsModel;
-    private JScrollPane permsScroll;
-    private JButton executePerm;
+    private VBox permsPanel;
+    private ListView<Perms> permsList;
+    private ObservableList<Perms> permsModel;
+    private Button executePerm;
 
-    private JButton authButton;
-    private JButton createAccountButton;
+    private Button authButton;
+    private Button createAccountButton;
 
     @Override
     protected void setPanel() {
@@ -43,92 +50,51 @@ public class AccountTab extends BaseTab<Pane> {
 
     @Override
     protected void instantiate() {
-        PANEL = new Pane();
+        PANEL = new StackPane();
+        vContent = new VBox(10);
+
+        PANEL.getChildren().add(vContent);
     }
 
     private void initComponents() {
-        titleLabel = new JLabel();
-        titleLabel.setFont(new Font("Consolas", Font.BOLD, 20));
+        titleLabel = new Label();
+        titleLabel.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
 
-        emailLabel = new JLabel();
-        emailLabel.setFont(new Font("Consolas", Font.PLAIN, 13));
+        emailLabel = new Label();
+        emailLabel.setFont(Font.font("Consolas", 13));
 
-        permsModel = new DefaultListModel<>();
-        permsList = new JList<>(permsModel);
+        permsModel = FXCollections.observableArrayList();
+        permsList = new ListView<>(permsModel);
 
-        permsList.setFont(new Font("Consolas", Font.PLAIN, 13));
-        permsList.setVisibleRowCount(5);
+        executePerm = new Button(Translations.get("potoflux:tabs.account.executePermButton"));
 
-        executePerm = new JButton(Translations.get("potoflux:tabs.account.executePermButton"));
+        permsPanel = new VBox(5, permsList, executePerm);
+        permsPanel.setMaxHeight(150);
+        permsPanel.setAlignment(Pos.CENTER);
 
-        permsScroll = new JScrollPane(permsList);
+        authButton = new Button();
+        createAccountButton = new Button(Translations.get("potoflux:tabs.account.createAccount.button"));
 
-        permsPanel = new JPanel();
-        permsPanel.setLayout(new BorderLayout());
-
-        permsPanel.add(permsScroll, BorderLayout.CENTER);
-        permsPanel.add(executePerm, BorderLayout.SOUTH);
-
-        permsPanel.setBorder(BorderFactory.createCompoundBorder(
-                getPermBorder(),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
-        permsPanel.setMaximumSize(new Dimension(permsPanel.getPreferredSize().width, 150));
-
-        authButton = new JButton();
-        createAccountButton = new JButton(Translations.get("potoflux:tabs.account.createAccount.button"));
-
-        align();
-    }
-
-    private void align() {
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        emailLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        authButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        createAccountButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        executePerm.setAlignmentX(Component.CENTER_ALIGNMENT);
-        permsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        emailLabel.setHorizontalAlignment(SwingConstants.CENTER);
-    }
-
-    private Border getPermBorder() {
-        return BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(new Color(100, 100, 100)),
-                Translations.get("common:perms"),
-                TitledBorder.CENTER,
-                TitledBorder.TOP,
-                new Font("Segeo UI", Font.BOLD, 12),
-                Color.LIGHT_GRAY
-        );
+        vContent.setAlignment(Pos.TOP_CENTER);
     }
 
     private void setupLayout() {
-        // PANEL.setLayout(new BoxLayout(PANEL, BoxLayout.Y_AXIS)); todo
-
-        // PANEL.add(Box.createVerticalStrut(30)); todo
-        // PANEL.add(titleLabel); todo
-        // PANEL.add(Box.createVerticalStrut(10)); todo
-
-        // PANEL.add(emailLabel); todo
-        // PANEL.add(Box.createVerticalStrut(10)); todo
-
-        // PANEL.add(permsPanel); todo
-        // PANEL.add(Box.createVerticalStrut(15)); todo
-
-        // PANEL.add(authButton); todo
-        // PANEL.add(Box.createVerticalStrut(5)); todo
-        // PANEL.add(createAccountButton); todo
+        vContent.getChildren().addAll(
+                titleLabel,
+                emailLabel,
+                permsPanel,
+                authButton,
+                createAccountButton
+        );
     }
 
     private void setupActions() {
-        authButton.addActionListener(e -> performAuthAction());
+        authButton.setOnAction(e -> performAuthAction());
 
-        executePerm.addActionListener(e -> {
+        executePerm.setOnAction(e -> {
             if (!isLogged) return;
 
-            Perms selected = permsList.getSelectedValue();
+            Perms selected = permsList.getSelectionModel().getSelectedItem();
             if (selected == null) {
                 showErrorPane(Translations.get("potoflux:tabs.account.error.noPermChosen"));
                 return;
@@ -145,7 +111,7 @@ public class AccountTab extends BaseTab<Pane> {
             selected.getPermAction().run();
         });
 
-        createAccountButton.addActionListener(e -> {
+        createAccountButton.setOnAction(e -> {
             if (isLogged) return;
             CreateAccountHandler.create();
         });
@@ -156,9 +122,6 @@ public class AccountTab extends BaseTab<Pane> {
         updateEmail();
         updatePerms();
         updateButton();
-
-        // PANEL.revalidate(); todo
-        // PANEL.repaint(); todo
     }
 
     private void updateTitle() {
@@ -186,7 +149,7 @@ public class AccountTab extends BaseTab<Pane> {
 
             for (Perms perm : Perms.values())
                 if (Arrays.asList(account.perms).contains(perm))
-                    permsModel.addElement(perm);
+                    permsModel.add(perm);
         }
         else permsPanel.setVisible(false);
     }
@@ -194,6 +157,7 @@ public class AccountTab extends BaseTab<Pane> {
     private void updateButton() {
         authButton.setText(getAuthButtonStatus());
         createAccountButton.setVisible(!isLogged);
+        createAccountButton.setDisable(!isAccountCreationEnabled);
     }
 
     @Override
