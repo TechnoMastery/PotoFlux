@@ -1,5 +1,9 @@
 package net.minheur.potoflux.login;
 
+import javafx.application.Platform;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
@@ -13,14 +17,16 @@ import net.minheur.potoflux.screen.menu.definers.AccountMenu;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.AccountTab;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
+import net.minheur.potoflux.ui.dialogData.LoginData;
 import net.minheur.potoflux.utils.Json;
 
 import javax.annotation.Nullable;
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 
@@ -95,12 +101,14 @@ public class ConnectionHandler {
     }
 
     private static void displayInfoError(InfoResponse infoResponse) {
-        switch (infoResponse.error) {
-            case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.noUser"));
-            case "not_exists" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.notExists"));
-            case "token_expired" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.expired"));
-            default -> showErrorPane(infoResponse.error);
-        }
+        Platform.runLater(() -> {
+            switch (infoResponse.error) {
+                case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.noUser"));
+                case "not_exists" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.notExists"));
+                case "token_expired" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.expired"));
+                default -> showErrorPane(infoResponse.error);
+            }
+        });
     }
 
     @Nullable
@@ -207,9 +215,9 @@ public class ConnectionHandler {
         reloadAuthUi();
     }
     public static void reloadAuthUi() {
+        reloadAccountCreationPermission();
 
-        ((AccountTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.ACCOUNT)).reload();
-
+        ((AccountTab) PotoFlux.appFX.getTabMap().get(Tabs.INSTANCE.ACCOUNT)).reload();
         ((AccountMenu) MenuContent.INSTANCE.ACCOUNT.content()).reload();
     }
     public static void logout() {
@@ -227,64 +235,72 @@ public class ConnectionHandler {
     }
 
     public static void login() {
-       PtfLogger.info("Logging in...", LogCategories.ACCOUNT);
+        PtfLogger.info("Logging in...", LogCategories.ACCOUNT);
 
-       JDialog dialog = new JDialog(PotoFlux.app.getFrame(), Translations.get("common:connection"), true);
-       dialog.setSize(450, 150);
-       dialog.setLocationRelativeTo(null);
-       dialog.setLayout(new BorderLayout());
+        Dialog<LoginData> dialog = new Dialog<>();
+        dialog.setTitle(Translations.get("common:connection"));
 
-       // FIELDS
+        ButtonType loginButton = new ButtonType(
+                Translations.get("common:connection"),
+                ButtonBar.ButtonData.OK_DONE
+        );
 
-       JPanel fieldsPanel = new JPanel();
-       fieldsPanel.setLayout(new GridLayout(2, 2, 5, 5));
-       fieldsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        dialog.getDialogPane().getButtonTypes().addAll(
+                loginButton,
+                UiUtils.cancelButton.get()
+        );
 
-       JLabel emailLabel = new JLabel(Translations.get("common:emailField"));
-       JTextField emailField = new JTextField();
+        ((Button) dialog.getDialogPane()
+                .lookupButton(loginButton))
+                .setDefaultButton(true);
+        ((Button) dialog.getDialogPane()
+                .lookupButton(UiUtils.cancelButton.get()))
+                .setCancelButton(true);
 
-       JLabel passwordLabel = new JLabel(Translations.get("common:passwordField"));
-       JPasswordField passwordField = new JPasswordField();
+        TextField emailField = new TextField();
+        PasswordField passwordField = new PasswordField();
 
-       fieldsPanel.add(emailLabel);
-       fieldsPanel.add(emailField);
-       fieldsPanel.add(passwordLabel);
-       fieldsPanel.add(passwordField);
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
 
-       // BUTTONS
+        grid.add(new Label(Translations.get("common:emailField")), 0, 0);
+        grid.add(emailField, 1, 0);
 
-       JPanel buttonsPanel = new JPanel();
-       buttonsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        grid.add(new Label(Translations.get("common:passwordField")), 0, 1);
+        grid.add(passwordField, 1, 1);
 
-       JButton cancelButton = new JButton(Translations.get("common:cancel"));
-       JButton loginButton = new JButton(Translations.get("common:connection"));
+        dialog.getDialogPane().setPrefWidth(350);
+        emailField.setMaxWidth(Double.MAX_VALUE);
+        passwordField.setMaxWidth(Double.MAX_VALUE);
+        GridPane.setHgrow(emailField, Priority.ALWAYS);
+        GridPane.setHgrow(passwordField, Priority.ALWAYS);
 
-       buttonsPanel.add(cancelButton);
-       buttonsPanel.add(loginButton);
+        dialog.getDialogPane().setContent(grid);
 
-       // ACTIONS
+        Platform.runLater(emailField::requestFocus);
 
-       cancelButton.addActionListener(e -> {
-           dialog.dispose();
-           PtfLogger.info("Connection canceled.", LogCategories.ACCOUNT);
-       });
+        dialog.setResultConverter(button -> {
+            if (button == loginButton) {
+                return new LoginData(
+                        emailField.getText(),
+                        passwordField.getText()
+                );
+            } else return null;
+        });
 
-       loginButton.addActionListener(e -> {
-           String email = emailField.getText().trim().toLowerCase();
-           String password = new String(passwordField.getPassword()).trim();
+        Optional<LoginData> result = dialog.showAndWait();
 
-           logout();
-           logWith(email, password);
+        result.ifPresentOrElse(data -> {
+            String email = data.username().trim();
+            String password = data.password();
 
-           dialog.dispose();
-       });
+            logout();
+            logWith(email, password);
+        },
+                () -> PtfLogger.info("Connection canceled.", LogCategories.ACCOUNT)
+        );
 
-       dialog.getRootPane().setDefaultButton(loginButton);
-
-       dialog.add(fieldsPanel, BorderLayout.CENTER);
-       dialog.add(buttonsPanel, BorderLayout.SOUTH);
-
-       dialog.setVisible(true);
     }
     public static String getAuthButtonStatus() {
         return isLogged ?

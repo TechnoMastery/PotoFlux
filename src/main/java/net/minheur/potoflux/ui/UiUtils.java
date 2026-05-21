@@ -1,11 +1,9 @@
 package net.minheur.potoflux.ui;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceDialog;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.translations.Translations;
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +23,14 @@ public final class UiUtils {
     public static final SmartSupplier<ButtonType> okButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:ok"), ButtonBar.ButtonData.OK_DONE)
     );
+    public static final SmartSupplier<ButtonType> confirmButton = new SmartSupplier<>(() ->
+            new ButtonType(Translations.get("common:confirm"), ButtonBar.ButtonData.OK_DONE)
+    );
     public static final SmartSupplier<ButtonType> cancelButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:cancel"), ButtonBar.ButtonData.CANCEL_CLOSE)
+    );
+    public static final SmartSupplier<ButtonType> closeButton = new SmartSupplier<>(() ->
+            new ButtonType(Translations.get("common:close"), ButtonBar.ButtonData.CANCEL_CLOSE)
     );
     public static final SmartSupplier<ButtonType> yesButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:yes"), ButtonBar.ButtonData.YES)
@@ -88,6 +92,29 @@ public final class UiUtils {
         );
     }
 
+    public static boolean showConfirmationDialog(
+            Node content,
+            @Nullable String header
+    ) {
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "",
+                ButtonType.NO,
+                ButtonType.YES
+        );
+        alert.setTitle(Translations.get("common:confirm"));
+        alert.getDialogPane().setContent(content);
+        alert.setHeaderText(header);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.YES;
+    }
+    public static boolean showConfirmationDialog(Node content) {
+        return showConfirmationDialog(content, null);
+    }
+    public static boolean showConfirmationDialog(String message) {
+        return showConfirmationDialog(new Label(message));
+    }
     public static <R> R showInputDialog(
             @NotNull R[] options, int defaultIndex,
             @Nullable String title,
@@ -142,6 +169,15 @@ public final class UiUtils {
                 title, header, content,
                 null, null
         );
+    }
+
+    public static void hideNode(Node node) {
+        node.setVisible(false);
+        node.setManaged(false);
+    }
+    public static void showNode(Node node) {
+        node.setVisible(true);
+        node.setManaged(true);
     }
 
     @Deprecated

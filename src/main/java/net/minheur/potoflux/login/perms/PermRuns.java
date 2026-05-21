@@ -1,5 +1,6 @@
 package net.minheur.potoflux.login.perms;
 
+import javafx.scene.control.CheckBox;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.LogCategories;
@@ -11,6 +12,7 @@ import net.minheur.potoflux.login.response.ListUserResponse;
 import net.minheur.potoflux.login.response.RmUserResponse;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
+import net.minheur.potoflux.ui.dialogData.NewAccountData;
 import net.minheur.potoflux.ui.dialogs.AddUserDialog;
 import net.minheur.potoflux.ui.dialogs.AllUsersDialog;
 import net.minheur.potoflux.ui.dialogs.RmUserDialog;
@@ -20,6 +22,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static net.minheur.potoflux.login.ConnectionHandler.account;
 import static net.minheur.potoflux.login.ConnectionHandler.fillPerms;
@@ -30,18 +33,20 @@ import static net.minheur.potoflux.ui.UiUtils.*;
  */
 public class PermRuns {
     static void addUser() {
-        AddUserDialog dialog = new AddUserDialog(PotoFlux.app.getFrame());
-        dialog.setVisible(true);
+        AddUserDialog dialog = new AddUserDialog();
 
-        if (!dialog.isConfirmed()) return;
+        Optional<NewAccountData> result = dialog.showAndWait();
 
-        String email = dialog.getEmail();
-        String password = dialog.getPassword();
-        String firstName = dialog.getFirstName();
-        String lastName = dialog.getLastName();
-        int rank = dialog.getRank();
+        if (result.isEmpty()) return;
+        NewAccountData data = result.get();
 
-        List<Perms> perms = dialog.getSelectedPerms();
+        String email = data.email;
+        String password = data.password;
+        String firstName = data.firstName;
+        String lastName = data.lastName;
+        int rank = data.rank == null ? 100 : data.rank;
+        List<Perms> perms = data.perms == null ? List.of() : data.perms;
+
         List<String> permsCode = new ArrayList<>();
 
         for (Perms p : perms)
@@ -95,12 +100,12 @@ public class PermRuns {
     }
 
     public static void rmUser() {
-        RmUserDialog dialog = new RmUserDialog(PotoFlux.app.getFrame());
-        dialog.setVisible(true);
+        RmUserDialog dialog = new RmUserDialog();
+        Optional<String> result = dialog.showAndWait();
 
-        if (!dialog.isConfirmed()) return;
+        if (result.isEmpty()) return;
 
-        String email = dialog.getEmail();
+        String email = result.get();
 
         String content;
         try {
@@ -150,16 +155,14 @@ public class PermRuns {
 
     public static void setAccountCreationState() {
 
-        JCheckBox check = new JCheckBox(Translations.get("potoflux:tabs.account.accountCreationState.box"));
+        CheckBox check = new CheckBox(Translations.get("potoflux:tabs.account.accountCreationState.box"));
         check.setSelected(ConnectionHandler.isAccountCreationEnabled);
-        int validation = JOptionPane.showConfirmDialog(
-                UiUtils.getAppAnchor(),
-                check,
-                Translations.get("potoflux:tabs.account.accountCreationState.title"),
-                JOptionPane.OK_CANCEL_OPTION
-        );
 
-        if (validation == JOptionPane.CANCEL_OPTION) return;
+        boolean confirmed = UiUtils.showConfirmationDialog(
+                check,
+                Translations.get("potoflux:tabs.account.accountCreationState.title")
+        );
+        if (!confirmed) return;
 
         ConnectionHandler.sendAccountCreationLockRequest(check.isSelected());
 
@@ -278,12 +281,9 @@ public class PermRuns {
             return;
         }
 
-        AllUsersDialog dialog = new AllUsersDialog(
-                PotoFlux.app.getFrame(),
-                usersAccounts
-        );
+        AllUsersDialog dialog = new AllUsersDialog(usersAccounts);
 
-        dialog.setVisible(true);
+        dialog.show();
 
     }
 }

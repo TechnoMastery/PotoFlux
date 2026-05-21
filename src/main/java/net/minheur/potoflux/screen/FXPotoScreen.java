@@ -14,7 +14,9 @@ import net.minheur.potoflux.screen.menu.PotoMenuItem;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
+import net.minheur.potoflux.translations.Translations;
 
+import javax.swing.*;
 import java.util.*;
 
 public class FXPotoScreen {
@@ -23,7 +25,7 @@ public class FXPotoScreen {
     private final MenuBar menu = new MenuBar();
     private final List<PotoMenuItem> menuItems = new ArrayList<>();
 
-    private final Map<Tab, BaseTab> tabMap = new HashMap<>();
+    private final Map<Tab, BaseTab<?>> tabMap = new HashMap<>();
     private final TabPane tabs = new TabPane();
 
     public FXPotoScreen() {
@@ -59,17 +61,19 @@ public class FXPotoScreen {
     private void fillTabMap(List<Tab> allTabs) {
 
         for (Tab tabType : allTabs) {
-            BaseTab instance = tabType.createInstance();
+            BaseTab<?> instance = tabType.createInstance();
             if (instance != null) {
-                javafx.scene.control.Tab fxTab = new javafx.scene.control.Tab(tabType.name());
 
-                // fxTab.setContent(instance.getNode()); TODO
-                // tabs.getTabs().add(fxTab); TODO
+                tabs.getTabs().add(instance.getBuiltTab());
+                tabMap.put(tabType, instance);
 
-                // tabMap.put(tabType, instance);
             }
         }
 
+    }
+
+    public Map<Tab, BaseTab<?>> getTabMap() {
+        return tabMap;
     }
 
     private void addMenu() {
@@ -81,7 +85,7 @@ public class FXPotoScreen {
                 .toList()
         );
 
-        for (PotoMenuItem item : menuItems) menu.getMenus().add(item.getNode());
+        for (PotoMenuItem item : menuItems) menu.getMenus().add(item.content());
     }
 
     private void addIcon() {
@@ -101,5 +105,13 @@ public class FXPotoScreen {
         Properties optionalFeatures = PotoFluxLoadingContext.getOptionalFeatures();
         boolean isResizable = Boolean.parseBoolean(optionalFeatures.getProperty("resizableWindow", "false"));
         stage.setResizable(isResizable);
+    }
+
+    public void setOpenedTab(Tab tab) {
+        if (!tabMap.containsKey(tab)) {
+            // JOptionPane.showMessageDialog(frame, Translations.get("potoflux:screen.tabHereNotHere")); todo
+            return;
+        }
+        tabs.getSelectionModel().select(tabMap.get(tab).getBuiltTab());
     }
 }

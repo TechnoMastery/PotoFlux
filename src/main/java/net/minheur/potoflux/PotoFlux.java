@@ -20,6 +20,7 @@ import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.screen.FXLoadingScreen;
 import net.minheur.potoflux.screen.FXPotoScreen;
 import net.minheur.potoflux.screen.PotoScreen;
+import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.terminal.commands.Commands;
@@ -116,10 +117,10 @@ public class PotoFlux {
         Platform.runLater(() -> startScreen.updateStage("Loading event bus..."));
         ModEventBus bus = PotoFluxLoadingContext.get().getModEventBus();
 
-        // subscribe PotoFlux's data to modEventBus todo
+        // subscribe PotoFlux's data to modEventBus
         bus.addListener(PotoFlux::onRegisterLang);
-        // bus.addListener(Tabs::register);
-        // bus.addListener(Commands::register);
+        bus.addListener(Tabs::register);
+        bus.addListener(Commands::register);
         bus.addListener(ActionRuns::register);
         bus.addListener(MenuContent::register);
 
@@ -128,13 +129,13 @@ public class PotoFlux {
         // new AddonLoader().loadAddons();
         // PotoFluxLoadingContext.loadMods();
 
-        // post all registrations todo - finish things
+        // post all registrations
         Platform.runLater(() -> startScreen.updateStage("Registering data..."));
 
         try {
             bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
-            // bus.post(new RegisterTabsEvent());
-            // bus.post(new RegisterCommandsEvent());
+            bus.post(new RegisterTabsEvent());
+            bus.post(new RegisterCommandsEvent());
             bus.post(new RegisterRunsEvent());
             bus.post(new RegisterMenuEvent());
         } catch (Throwable e) {

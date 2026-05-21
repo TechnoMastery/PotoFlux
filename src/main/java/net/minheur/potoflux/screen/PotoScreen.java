@@ -109,7 +109,7 @@ public class PotoScreen {
         for (Tab tabType : allTabs) {
             BaseTab instance = tabType.createInstance();
             if (instance != null) {
-                tabs.add(tabType.name(), instance.getPanel());
+                // tabs.add(tabType.name(), instance.getPanel());
                 tabMap.put(tabType, instance);
             }
         }
@@ -164,6 +164,6 @@ public class PotoScreen {
             JOptionPane.showMessageDialog(frame, Translations.get("potoflux:screen.tabHereNotHere"));
             return;
         }
-        tabs.setSelectedComponent(tabMap.get(tab).getPanel());
+        // tabs.setSelectedComponent(tabMap.get(tab).getPanel());
     }
 }
