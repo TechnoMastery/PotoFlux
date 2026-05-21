@@ -31,6 +31,7 @@ public abstract class BaseTab<T extends Pane> {
 
         this.builtTab = new Tab(getName());
         this.builtTab.setContent(PANEL);
+        this.builtTab.setClosable(false);
     }
 
     public Tab getBuiltTab() {
