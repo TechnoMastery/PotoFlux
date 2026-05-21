@@ -160,6 +160,7 @@ public class Terminal {
             }
 
             outputArea.setText(content);
+            buildASCII();
         } catch (IOException e) {
             e.printStackTrace();
             CommandProcessor.appendOutput("ERROR loading terminal file");
