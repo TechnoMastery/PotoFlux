@@ -47,7 +47,15 @@ public class FXPotoScreen {
     }
 
     private void addTabs() {
-        tabs.setSide(Side.LEFT);
+        Properties optionalFeatures = PotoFluxLoadingContext.getOptionalFeatures();
+        String placementProp = optionalFeatures.getProperty("tabBarPlacement", "left");
+        Side placement = switch (placementProp.toLowerCase()) {
+            case "right" -> Side.RIGHT;
+            case "top" -> Side.TOP;
+            case "bottom" -> Side.BOTTOM;
+            default -> Side.LEFT;
+        };
+        tabs.setSide(placement);
 
         List<Tab> allTabs = TabRegistry.getAll().stream()
                 .sorted(Comparator.comparing(
