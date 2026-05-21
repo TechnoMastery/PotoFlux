@@ -77,4 +77,8 @@ public class SettingsTab extends BaseVTab<StackPane> {
     protected String getTitle() {
         return Translations.get("potoflux:tabs.settings.name");
     }
+    @Override
+    protected String getName() {
+        return getTitle(); // same
+    }
 }
