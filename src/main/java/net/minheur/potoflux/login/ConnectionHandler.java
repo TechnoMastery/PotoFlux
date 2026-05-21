@@ -101,12 +101,14 @@ public class ConnectionHandler {
     }
 
     private static void displayInfoError(InfoResponse infoResponse) {
-        switch (infoResponse.error) {
-            case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.noUser"));
-            case "not_exists" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.notExists"));
-            case "token_expired" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.expired"));
-            default -> showErrorPane(infoResponse.error);
-        }
+        Platform.runLater(() -> {
+            switch (infoResponse.error) {
+                case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.noUser"));
+                case "not_exists" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.notExists"));
+                case "token_expired" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.expired"));
+                default -> showErrorPane(infoResponse.error);
+            }
+        });
     }
 
     @Nullable
