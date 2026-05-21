@@ -12,11 +12,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.login.CreateAccountHandler;
+import net.minheur.potoflux.login.RequestPoster;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.Arrays;
 
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
@@ -155,6 +157,7 @@ public class AccountTab extends BaseVTab<StackPane> {
     private void updateButton() {
         authButton.setText(getAuthButtonStatus());
         createAccountButton.setVisible(!isLogged);
+        createAccountButton.setDisable(!isAccountCreationEnabled);
     }
 
     @Override
