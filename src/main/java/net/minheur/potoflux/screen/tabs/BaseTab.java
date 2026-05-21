@@ -1,10 +1,15 @@
 package net.minheur.potoflux.screen.tabs;
 
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
@@ -29,11 +34,29 @@ public abstract class BaseTab<T extends Pane> {
         if (invokeLater()) SwingUtilities.invokeLater(this::setPanel);
         else setPanel();
 
-        this.builtTab = new Tab(getName());
-        this.builtTab.setContent(PANEL);
-        this.builtTab.setClosable(false);
+        this.builtTab = new Tab();
+        setupBuiltTab();
     }
 
+    private void setupBuiltTab() {
+        builtTab.setContent(PANEL);
+        builtTab.setClosable(false);
+
+        Label name = new Label(getName());
+        Node icon = getIcon();
+
+        HBox header = new HBox(8);
+        header.setAlignment(Pos.CENTER);
+
+        if (icon != null)
+            header.getChildren().add(icon);
+        header.getChildren().add(name);
+
+        header.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(name, Priority.ALWAYS);
+
+        builtTab.setGraphic(header);
+    }
     public Tab getBuiltTab() {
         return builtTab;
     }
@@ -65,6 +88,9 @@ public abstract class BaseTab<T extends Pane> {
      * @return the tab's name
      */
     protected abstract String getName();
+    protected @Nullable Node getIcon() {
+        return null;
+    }
 
     /**
      * Handles if the preset should be executed.<br>
