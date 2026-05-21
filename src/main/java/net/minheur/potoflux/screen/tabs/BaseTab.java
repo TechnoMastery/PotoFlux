@@ -42,20 +42,7 @@ public abstract class BaseTab<T extends Pane> {
         builtTab.setContent(PANEL);
         builtTab.setClosable(false);
 
-        Label name = new Label(getName());
-        Node icon = getIcon();
-
-        HBox header = new HBox(8);
-        header.setAlignment(Pos.CENTER);
-
-        if (icon != null)
-            header.getChildren().add(icon);
-        header.getChildren().add(name);
-
-        header.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(name, Priority.ALWAYS);
-
-        builtTab.setGraphic(header);
+        builtTab.setText(getName());
     }
     public Tab getBuiltTab() {
         return builtTab;
