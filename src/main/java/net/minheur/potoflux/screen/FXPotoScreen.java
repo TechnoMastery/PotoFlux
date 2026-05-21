@@ -56,6 +56,7 @@ public class FXPotoScreen {
                 .toList();
 
         fillTabMap(allTabs);
+        disableTabClosing();
     }
 
     private void fillTabMap(List<Tab> allTabs) {
@@ -70,6 +71,10 @@ public class FXPotoScreen {
             }
         }
 
+    }
+    private void disableTabClosing() {
+        for (javafx.scene.control.Tab tab : tabs.getTabs())
+            tab.setClosable(false);
     }
 
     public Map<Tab, BaseTab<?>> getTabMap() {
