@@ -54,17 +54,17 @@ public class Terminal {
         HBox inputPanel = setupInputPanel();
 
         // layout
-        SplitPane splitPane = new SplitPane();
-        splitPane.setOrientation(Orientation.VERTICAL);
-        splitPane.getItems().addAll(outputArea, inputPanel);
-        splitPane.setDividerPositions(0.9);
+        VBox split = new VBox();
+        VBox.setVgrow(outputArea, Priority.ALWAYS);
+        split.getChildren().addAll(outputArea, inputPanel);
 
-        root.setCenter(splitPane);
+        root.setCenter(split);
         panel.getChildren().add(root);
     }
 
     private @NotNull HBox setupInputPanel() {
         HBox inputPanel = new HBox();
+        inputPanel.setPrefHeight(40);
         inputPanel.setSpacing(5);
 
         Label prompt = new Label("  >  ");
@@ -123,6 +123,7 @@ public class Terminal {
     private void setupOutput() {
         outputArea.setEditable(false);
         outputArea.setFont(Font.font("Consolas", 20));
+        outputArea.setMaxHeight(Double.MAX_VALUE);
     }
 
     /**
