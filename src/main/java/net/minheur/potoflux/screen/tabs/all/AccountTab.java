@@ -49,6 +49,11 @@ public class AccountTab extends BaseVTab<StackPane> {
     }
 
     @Override
+    protected String getName() {
+        return Translations.get("potoflux:tabs.account.name");
+    }
+
+    @Override
     protected void instantiate() {
         PANEL = new StackPane();
         vContent = new VBox(10);

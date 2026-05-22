@@ -33,7 +33,7 @@ public class ActionRunRunnable {
      * The action to execute for the terminal filling
      */
     public static void fillTerminal() {
-        ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().fillOutputTextArea();
+        ((TerminalTab) PotoFlux.appFX.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().fillOutputTextArea();
     }
 
     public static void checkRickRoll() {

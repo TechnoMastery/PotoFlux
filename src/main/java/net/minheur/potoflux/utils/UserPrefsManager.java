@@ -1,5 +1,7 @@
 package net.minheur.potoflux.utils;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceDialog;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.translations.Lang;
@@ -7,6 +9,7 @@ import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.prefs.Preferences;
 
 /**
@@ -98,16 +101,16 @@ public class UserPrefsManager {
         if (strictLang != null) actualLangId = Arrays.asList(langOptions).indexOf(strictLang);
         if (actualLangId == -1) actualLangId = 0;
 
-        Object lang = JOptionPane.showInputDialog(
-                null,
-                Translations.get("potoflux:prefs.lang.select"),
-                Translations.get("potoflux:prefs.lang"),
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                langOptions,
-                langOptions[actualLangId]
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(
+                langOptions[actualLangId],
+                langOptions
         );
-        return lang == null ? null : lang.toString();
+        dialog.setTitle(Translations.get("potoflux:prefs.lang"));
+        dialog.setHeaderText(Translations.get("potoflux:prefs.lang.select"));
+        dialog.setContentText("New lang: "); // TODO
+
+        Optional<String> result = dialog.showAndWait();
+        return result.orElse(null);
     }
 
     /**
@@ -120,16 +123,16 @@ public class UserPrefsManager {
         if (strictAscii != null) actualAsciiId = Arrays.asList(asciiOptions).indexOf(strictAscii);
         if (actualAsciiId == -1) actualAsciiId = 0;
 
-        Object ascii = JOptionPane.showInputDialog(
-                null,
-                Translations.get("potoflux:prefs.ascii.select"),
-                Translations.get("potoflux:prefs.ascii"),
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                asciiOptions,
-                asciiOptions[actualAsciiId]
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(
+                asciiOptions[actualAsciiId],
+                asciiOptions
         );
-        return ascii == null ? null : ascii.toString();
+        dialog.setTitle(Translations.get("potoflux:prefs.ascii"));
+        dialog.setHeaderText(Translations.get("potoflux:prefs.ascii.select"));
+        dialog.setContentText("New ascii: "); // TODO
+
+        Optional<String> result = dialog.showAndWait();
+        return result.orElse(null);
     }
 
     /**
@@ -140,16 +143,16 @@ public class UserPrefsManager {
         String actualTheme = getTheme();
         int actualThemeId = Arrays.asList(themeOptions).indexOf(actualTheme);
 
-        Object response = JOptionPane.showInputDialog(
-                null,
-                Translations.get("potoflux:prefs.theme.select"),
-                Translations.get("potoflux:prefs.theme"),
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                themeOptions,
-                themeOptions[actualThemeId]
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(
+                themeOptions[actualThemeId],
+                themeOptions
         );
-        return response == null ? null : response.toString();
+        dialog.setTitle(Translations.get("potoflux:prefs.theme"));
+        dialog.setHeaderText(Translations.get("potoflux:prefs.theme.select"));
+        dialog.setContentText("New theme: "); // TODO
+
+        Optional<String> result = dialog.showAndWait();
+        return result.orElse(null);
     }
 
 
@@ -192,7 +195,12 @@ public class UserPrefsManager {
      * Shows a popup to ask the user to restart the app
      */
     private static void showReload() {
-        JOptionPane.showMessageDialog(null, Translations.get("potoflux:prefs.reload"));
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Reload"); // TODO
+        alert.setHeaderText(null);
+        alert.setContentText(Translations.get("potoflux:prefs.reload"));
+        alert.showAndWait();
+
         PotoFlux.runProgramClosing(0);
     }
 }

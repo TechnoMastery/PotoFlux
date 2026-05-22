@@ -125,7 +125,7 @@ public class CommandActions {
      * @param args all the args given to the command
      */
     static void echo(List<String> args) {
-        if (argAmountCheck(1, args)) {
+        if (args.isEmpty()) {
             CommandProcessor.appendOutput(CommandHelp.echo());
             return;
         }
