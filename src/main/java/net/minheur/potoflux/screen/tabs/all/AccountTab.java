@@ -2,6 +2,7 @@ package net.minheur.potoflux.screen.tabs.all;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -57,6 +58,7 @@ public class AccountTab extends BaseVTab<StackPane> {
     protected void instantiate() {
         PANEL = new StackPane();
         vContent = new VBox(10);
+        vContent.setPadding(new Insets(30, 0, 0, 0));
 
         PANEL.getChildren().add(vContent);
     }
