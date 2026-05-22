@@ -101,6 +101,7 @@ public class Terminal {
                 if (historyIndex < history.size() -1) historyIndex++;
 
                 inputField.setText(history.get(historyIndex));
+                inputField.positionCaret(inputField.getText().length());
             }
 
             if (e.getCode() == KeyCode.DOWN) {
@@ -109,6 +110,7 @@ public class Terminal {
                 if (historyIndex > 0) {
                     historyIndex--;
                     inputField.setText(history.get(historyIndex));
+                    inputField.positionCaret(inputField.getText().length());
                 } else {
                     historyIndex = -1;
                     inputField.setText("");
