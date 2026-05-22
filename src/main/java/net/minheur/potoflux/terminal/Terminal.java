@@ -123,7 +123,6 @@ public class Terminal {
     private void setupOutput() {
         outputArea.setEditable(false);
         outputArea.setFont(Font.font("Consolas", 20));
-        outputArea.setWrapText(true);
     }
 
     /**
