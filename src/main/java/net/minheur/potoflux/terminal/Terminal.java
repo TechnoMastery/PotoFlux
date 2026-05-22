@@ -49,10 +49,6 @@ public class Terminal {
         outputArea = new TextArea();
         setupOutput();
 
-        ScrollPane scrollPanel = new ScrollPane(outputArea);
-        scrollPanel.setFitToWidth(true);
-        scrollPanel.setFitToHeight(true);
-
         // INPUT
         inputField = new TextField();
         HBox inputPanel = setupInputPanel();
@@ -60,7 +56,7 @@ public class Terminal {
         // layout
         SplitPane splitPane = new SplitPane();
         splitPane.setOrientation(Orientation.VERTICAL);
-        splitPane.getItems().addAll(scrollPanel, inputPanel);
+        splitPane.getItems().addAll(outputArea, inputPanel);
         splitPane.setDividerPositions(0.9);
 
         root.setCenter(splitPane);
