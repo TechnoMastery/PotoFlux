@@ -2,6 +2,8 @@ package net.minheur.potoflux.loader;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.Mod;
@@ -10,6 +12,7 @@ import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.utils.Json;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.vfs.Vfs;
@@ -451,16 +454,13 @@ public class PotoFluxLoadingContext {
         else message = Functions.formatMessage(Translations.get("potoflux:modUpdate.query.notCompatible"),
                 mod.modId(), lastest);
 
-        int result = JOptionPane.showConfirmDialog(
-                null,
-                message,
+        boolean confirmed = UiUtils.showConfirmationDialog(
+                new Label(message),
                 Translations.get("potoflux:modUpdate.query.title"),
-                JOptionPane.YES_NO_OPTION,
-                isCompatible ? JOptionPane.INFORMATION_MESSAGE
-                        : JOptionPane.WARNING_MESSAGE
+                isCompatible ? null : Alert.AlertType.WARNING
         );
 
-        if (result == JOptionPane.YES_OPTION) {
+        if (confirmed) {
             PtfLogger.info("User wants to update mod " + mod.modId(), LogCategories.MOD_UPDATE);
             openInstallModPage(mod, lastest);
         }
