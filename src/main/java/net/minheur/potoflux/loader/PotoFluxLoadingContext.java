@@ -132,10 +132,12 @@ public class PotoFluxLoadingContext {
      * @param lastest the version to tell the user it's the lastest
      */
     private static void showUpdateContextDialog(String lastest) {
-        int update = JOptionPane.showConfirmDialog(null, Translations.get("potoflux:ptfUpdate.desc"),
-                Translations.get("potoflux:ptfUpdate.title"),
-                JOptionPane.OK_CANCEL_OPTION);
-        if (update == JOptionPane.OK_OPTION) {
+        boolean confirmed = UiUtils.showConfirmationDialog(
+                new Label(Translations.get("potoflux:ptfUpdate.desc")),
+                Translations.get("potoflux:ptfUpdate.title")
+        );
+
+        if (confirmed) {
 
             String url = "https://github.com/TechnoMastery/PotoFlux/releases/tag/" + lastest;
             boolean hasBrowse = Functions.browse(url);
