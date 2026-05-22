@@ -1,10 +1,15 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.utils.UserPrefsManager;
 
 /**
@@ -17,9 +22,15 @@ public class SettingsTab extends BaseVTab<StackPane> {
      */
     @Override
     protected void setPanel() {
-        addLangButton();
-        addAsciiButton();
-        addThemeButton();
+        // addLangCombo(); todo lang chooser
+        // addAsciiCombo(); todo ascii chooser
+        // addThemeCombo(); todo theme chooser
+        // todo ascii on start checkbox
+        // todo tab placement chooser
+
+        // todo optional property system
+
+        addButtons();
     }
 
     @Override
@@ -27,10 +38,28 @@ public class SettingsTab extends BaseVTab<StackPane> {
         PANEL = new StackPane();
     }
 
+    private void addButtons() {
+
+        Button cancel = new Button(Translations.get("common:cancel"));
+        Button apply = new Button(Translations.get("common:apply"));
+
+        setupAction();
+
+        HBox buttons = new HBox(10, cancel, apply);
+        buttons.setPadding(new Insets(10, 10, 10, 10));
+        buttons.setAlignment(Pos.BOTTOM_RIGHT);
+
+        vContent.getChildren().add(buttons);
+    }
+
+    private void setupAction() {
+        // todo
+    }
+
     /**
      * Adds the button to change the terminal's ASCII
      */
-    private void addAsciiButton() {
+    private void addAsciiCombo() {
         Button asciiButton = new Button(Translations.get("potoflux:prefs.ascii.button"));
         asciiButton.setOnAction(e -> {
             UserPrefsManager.resetTerminalAscii();
@@ -44,7 +73,7 @@ public class SettingsTab extends BaseVTab<StackPane> {
     /**
      * Adds the button to change the app's lang
      */
-    private void addLangButton() {
+    private void addLangCombo() {
         Button langButton = new Button(Translations.get("potoflux:prefs.lang.button"));
         langButton.setOnAction(e -> {
             UserPrefsManager.resetUserLang();
@@ -58,7 +87,7 @@ public class SettingsTab extends BaseVTab<StackPane> {
     /**
      * Adds the button to change the theme
      */
-    private void addThemeButton() {
+    private void addThemeCombo() {
         Button themeButton = new Button(Translations.get("potoflux:prefs.theme.button"));
         themeButton.setOnAction(e -> {
             UserPrefsManager.resetTheme();
