@@ -1,6 +1,6 @@
 .root
 {
-    -fx-background-image: url("loadingScreen1.png");
+    -fx-background-image: url("loadingScreenTexture.png");
     -fx-background-size: cover;
     -fx-font-family: monospace, lucida_console;
     -fx-font-size: 20px;
