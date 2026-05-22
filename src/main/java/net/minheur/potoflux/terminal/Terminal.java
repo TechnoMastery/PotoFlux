@@ -49,26 +49,22 @@ public class Terminal {
         outputArea = new TextArea();
         setupOutput();
 
-        ScrollPane scrollPanel = new ScrollPane(outputArea);
-        scrollPanel.setFitToWidth(true);
-        scrollPanel.setFitToHeight(true);
-
         // INPUT
         inputField = new TextField();
         HBox inputPanel = setupInputPanel();
 
         // layout
-        SplitPane splitPane = new SplitPane();
-        splitPane.setOrientation(Orientation.VERTICAL);
-        splitPane.getItems().addAll(scrollPanel, inputPanel);
-        splitPane.setDividerPositions(0.9);
+        VBox split = new VBox();
+        VBox.setVgrow(outputArea, Priority.ALWAYS);
+        split.getChildren().addAll(outputArea, inputPanel);
 
-        root.setCenter(splitPane);
+        root.setCenter(split);
         panel.getChildren().add(root);
     }
 
     private @NotNull HBox setupInputPanel() {
         HBox inputPanel = new HBox();
+        inputPanel.setPrefHeight(40);
         inputPanel.setSpacing(5);
 
         Label prompt = new Label("  >  ");
@@ -101,6 +97,7 @@ public class Terminal {
                 if (historyIndex < history.size() -1) historyIndex++;
 
                 inputField.setText(history.get(historyIndex));
+                inputField.positionCaret(inputField.getText().length());
             }
 
             if (e.getCode() == KeyCode.DOWN) {
@@ -109,6 +106,7 @@ public class Terminal {
                 if (historyIndex > 0) {
                     historyIndex--;
                     inputField.setText(history.get(historyIndex));
+                    inputField.positionCaret(inputField.getText().length());
                 } else {
                     historyIndex = -1;
                     inputField.setText("");
@@ -125,7 +123,7 @@ public class Terminal {
     private void setupOutput() {
         outputArea.setEditable(false);
         outputArea.setFont(Font.font("Consolas", 20));
-        outputArea.setWrapText(true);
+        outputArea.setMaxHeight(Double.MAX_VALUE);
     }
 
     /**
@@ -160,6 +158,7 @@ public class Terminal {
             }
 
             outputArea.setText(content);
+            buildASCII();
         } catch (IOException e) {
             e.printStackTrace();
             CommandProcessor.appendOutput("ERROR loading terminal file");
