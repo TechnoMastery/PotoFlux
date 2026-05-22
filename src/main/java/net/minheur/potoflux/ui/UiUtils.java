@@ -94,13 +94,14 @@ public final class UiUtils {
 
     public static boolean showConfirmationDialog(
             Node content,
-            @Nullable String header
+            @Nullable String header,
+            @Nullable Alert.AlertType preciseType
     ) {
         Alert alert = new Alert(
-                Alert.AlertType.CONFIRMATION,
+                preciseType == null ? Alert.AlertType.CONFIRMATION : preciseType,
                 "",
-                ButtonType.NO,
-                ButtonType.YES
+                noButton.get(),
+                yesButton.get()
         );
         alert.setTitle(Translations.get("common:confirm"));
         alert.getDialogPane().setContent(content);
@@ -109,12 +110,16 @@ public final class UiUtils {
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.YES;
     }
+    public static boolean showConfirmationDialog(Node content, @Nullable String header) {
+        return showConfirmationDialog(content, header, null);
+    }
     public static boolean showConfirmationDialog(Node content) {
         return showConfirmationDialog(content, null);
     }
     public static boolean showConfirmationDialog(String message) {
         return showConfirmationDialog(new Label(message));
     }
+
     public static <R> R showInputDialog(
             @NotNull R[] options, int defaultIndex,
             @Nullable String title,
