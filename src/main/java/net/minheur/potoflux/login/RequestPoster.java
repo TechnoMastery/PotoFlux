@@ -5,8 +5,8 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.CheckForNull;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
@@ -171,10 +171,11 @@ public class RequestPoster {
     public static String mdUserInfos(
             String token,
             String targetUuid,
-            @CheckForNull String newEmail,
-            @CheckForNull String newFirstName,
-            @CheckForNull String newLastName,
-            int newRank
+            @Nullable String newEmail,
+            @Nullable String newFirstName,
+            @Nullable String newLastName,
+            int newRank,
+            @Nullable String[] perms
     ) throws InvalidTokenException, IOException {
 
         checkTokenFormat(token);
@@ -184,6 +185,7 @@ public class RequestPoster {
         boolean fNameChanged = newFirstName != null;
         boolean lNameChanged = newLastName != null;
         boolean rankChanged = newRank <= 100 && newRank >0;
+        boolean permsChanged = perms != null;
 
         JsonObject obj = new JsonObject();
         obj.addProperty("p_token", token);
@@ -205,6 +207,13 @@ public class RequestPoster {
         obj.addProperty("p_rank",
                 rankChanged ? newRank : 0
         );
+
+        if (permsChanged) {
+            JsonArray jPerms = new JsonArray();
+            for (String p : perms) jPerms.add(p);
+
+            obj.add("p_perms", jPerms);
+        } else obj.add("p_perms", JsonNull.INSTANCE);
 
         return get(obj.toString(), "md_user_infos");
 

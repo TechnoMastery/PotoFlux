@@ -48,7 +48,7 @@ public class ActionRuns {
      * This action fills the terminal when the UI starts
      */
     public final ActionRun FILL_TERMINAL = LIST_START_UI.add(new ActionRun(fromModId("fill_terminal"), ActionRunRunnable::fillTerminal));
-    // public final ActionRun UPDATE_AUTH_BUTTONS = LIST_START_UI.add(new ActionRun(fromModId("update_auth_buttons"), ConnectionHandler::reloadAuthUi));
+    public final ActionRun UPDATE_AUTH_BUTTONS = LIST_START_UI.add(new ActionRun(fromModId("update_auth_buttons"), ConnectionHandler::reloadAuthUi));
     // public final ActionRun DISPLAY_MOD_UPDATES = LIST_START_UI.add(new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
     // public final ActionRun CHECK_POTOFLUX_UPDATE = LIST_START_UI.add(new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates));
 

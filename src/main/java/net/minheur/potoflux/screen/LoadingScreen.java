@@ -3,6 +3,7 @@ package net.minheur.potoflux.screen;
 import javax.swing.*;
 import java.awt.*;
 
+@Deprecated
 public class LoadingScreen extends JFrame {
     private JLabel label;
     private JLabel stage;
@@ -19,10 +20,10 @@ public class LoadingScreen extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         label = new JLabel("PotoFlux is starting...");
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        label.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
         stage = new JLabel();
-        stage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        stage.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
         panel.add(Box.createVerticalGlue());
 

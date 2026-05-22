@@ -50,12 +50,16 @@ public class HomeTab extends BaseVTab<StackPane> {
         vContent.getChildren().add(version);
     }
 
+    @Override
+    protected String getTitle() {
+        return Translations.get("potoflux:tabs.home.title");
+    }
     /**
      * Used to set the title.
      * @return the title of the tab.
      */
     @Override
-    protected String getTitle() {
-        return Translations.get("potoflux:tabs.home.title");
+    protected String getName() {
+        return Translations.get("potoflux:tabs.home.name");
     }
 }

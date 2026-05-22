@@ -3,10 +3,12 @@ package net.minheur.potoflux.login;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.response.BaseResponse;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.dialogData.NewAccountData;
 import net.minheur.potoflux.ui.dialogs.CreateAccountDialog;
 import net.minheur.potoflux.utils.Json;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static net.minheur.potoflux.Functions.formatMessage;
 import static net.minheur.potoflux.ui.UiUtils.*;
@@ -19,21 +21,30 @@ public class CreateAccountHandler {
 
     public static void create() {
 
-        CreateAccountDialog dialog = new CreateAccountDialog(PotoFlux.app.getFrame());
-        dialog.setVisible(true);
+        CreateAccountDialog dialog = new CreateAccountDialog();
+        Optional<NewAccountData> result = dialog.showAndWait();
 
-        if (!dialog.isConfirmed()) return;
+        final String[] email = new String[1];
+        final String[] password = new String[1];
+        final String[] firstName = new String[1];
+        final String[] lastName = new String[1];
+        boolean[] validated = {false};
 
-        String email = dialog.getEmail();
-        String password = dialog.getPassword();
-        String firstName = dialog.getFirstName();
-        String lastName = dialog.getLastName();
+        result.ifPresent(data -> {
+            email[0] = data.email;
+            password[0] = data.password;
+            firstName[0] = data.firstName;
+            lastName[0] = data.lastName;
+            validated[0] = true;
+        });
+
+        if (!validated[0]) return;
 
         String content;
         try {
             content = RequestPoster.createAccount(
-                    email, password,
-                    firstName, lastName
+                    email[0], password[0],
+                    firstName[0], lastName[0]
             );
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,7 +54,7 @@ public class CreateAccountHandler {
 
         BaseResponse response = Json.GSON.fromJson(content, BaseResponse.class);
         if (response.success) {
-            showMessagePane(formatMessage(Translations.get("potoflux:tabs.account.createAccount.success"), email, password));
+            showMessagePane(formatMessage(Translations.get("potoflux:tabs.account.createAccount.success"), email[0], password[0]));
             return;
         }
 
