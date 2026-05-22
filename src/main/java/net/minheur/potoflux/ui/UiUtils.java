@@ -99,8 +99,8 @@ public final class UiUtils {
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
                 "",
-                ButtonType.NO,
-                ButtonType.YES
+                noButton.get(),
+                yesButton.get()
         );
         alert.setTitle(Translations.get("common:confirm"));
         alert.getDialogPane().setContent(content);
@@ -115,6 +115,7 @@ public final class UiUtils {
     public static boolean showConfirmationDialog(String message) {
         return showConfirmationDialog(new Label(message));
     }
+
     public static <R> R showInputDialog(
             @NotNull R[] options, int defaultIndex,
             @Nullable String title,
