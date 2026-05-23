@@ -10,13 +10,23 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
+import net.minheur.potoflux.settings.Setting;
+import net.minheur.potoflux.settings.SettingInfo;
+import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.settings.UserPrefsManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The settings tab contains all user changeable vars (prefs)
  */
 public class SettingsTab extends BaseVTab<VBox> {
+
+    private final Map<Setting, SettingInfo<?>> settings = new HashMap<>();
 
     private ScrollPane contentScroll;
 
@@ -29,6 +39,7 @@ public class SettingsTab extends BaseVTab<VBox> {
      */
     @Override
     protected void setPanel() {
+        // todo: move all below to Setting class (using reg)
         // addLangCombo(); todo lang chooser
         // addAsciiCombo(); todo ascii chooser
         // addThemeCombo(); todo theme chooser
@@ -37,7 +48,23 @@ public class SettingsTab extends BaseVTab<VBox> {
 
         // todo optional property system
 
+        fillSetting();
+
         addButtons();
+    }
+
+    private void fillSetting() {
+
+        List<Setting> allSettings = new ArrayList<>(); // todo: fill settings (reg)
+
+        for (Setting setting : allSettings) {
+
+            PreferencesTypes type = setting.type().prefType();
+
+            // todo
+
+        }
+
     }
 
     @Override
