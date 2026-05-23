@@ -7,13 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
-import net.minheur.potoflux.ui.UiUtils;
-import net.minheur.potoflux.utils.UserPrefsManager;
+import net.minheur.potoflux.settings.UserPrefsManager;
 
 /**
  * The settings tab contains all user changeable vars (prefs)

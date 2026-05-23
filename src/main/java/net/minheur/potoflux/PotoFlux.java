@@ -1,7 +1,5 @@
 package net.minheur.potoflux;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 import javafx.application.Platform;
 import net.minheur.potoflux.actionRuns.ActionRuns;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
@@ -9,7 +7,6 @@ import net.minheur.potoflux.actionRuns.regs.CloseRunRegistry;
 import net.minheur.potoflux.actionRuns.regs.StartLogicRunRegistry;
 import net.minheur.potoflux.actionRuns.regs.StartUiRunRegistry;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
-import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
@@ -20,7 +17,6 @@ import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.screen.FXLoadingScreen;
 import net.minheur.potoflux.screen.FXPotoScreen;
 import net.minheur.potoflux.screen.PotoScreen;
-import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.terminal.commands.Commands;
@@ -31,9 +27,8 @@ import net.minheur.potoflux.translations.register.PotoFluxTranslations;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
-import net.minheur.potoflux.utils.UserPrefsManager;
+import net.minheur.potoflux.settings.UserPrefsManager;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

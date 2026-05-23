@@ -1,9 +1,6 @@
 package net.minheur.potoflux.terminal;
 
-import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -11,7 +8,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.PtfLogger;
-import net.minheur.potoflux.utils.UserPrefsManager;
+import net.minheur.potoflux.settings.UserPrefsManager;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

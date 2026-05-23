@@ -1,4 +1,4 @@
-package net.minheur.potoflux.utils;
+package net.minheur.potoflux.settings;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
@@ -7,7 +7,6 @@ import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
 
-import javax.swing.*;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.prefs.Preferences;
