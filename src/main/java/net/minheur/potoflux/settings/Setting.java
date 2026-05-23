@@ -1,4 +1,7 @@
 package net.minheur.potoflux.settings;
 
-public record Setting() {
+import net.minheur.potoflux.settings.types.ISettingType;
+import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
+
+public record Setting(ResourceLocation id, ISettingType type, boolean requireRestart) {
 }
