@@ -22,6 +22,9 @@ public class SettingsTab extends BaseVTab<VBox> {
 
     private ScrollPane contentScroll;
 
+    private Button apply;
+    private Button cancel;
+
     /**
      * This is the actual method to set the panel.<br>
      * The overriding class will have to use this to add content to the {@link #PANEL}.
@@ -70,8 +73,8 @@ public class SettingsTab extends BaseVTab<VBox> {
 
     private void addButtons() {
 
-        Button cancel = new Button(Translations.get("common:cancel"));
-        Button apply = new Button(Translations.get("common:apply"));
+        cancel = new Button(Translations.get("common:cancel"));
+        apply = new Button(Translations.get("common:apply"));
 
         setupAction();
 
