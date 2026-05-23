@@ -86,7 +86,19 @@ public class SettingsTab extends BaseVTab<VBox> {
     }
 
     private void setupAction() {
-        // todo
+        apply.setDefaultButton(true);
+
+        apply.setOnAction(e -> {
+
+            // todo
+
+        });
+
+        cancel.setOnAction(e -> {
+
+            // todo
+
+        });
     }
 
     /**
