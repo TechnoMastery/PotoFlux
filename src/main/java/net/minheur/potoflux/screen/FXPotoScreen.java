@@ -14,6 +14,7 @@ import net.minheur.potoflux.screen.menu.PotoMenuItem;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
+import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
@@ -47,7 +48,7 @@ public class FXPotoScreen {
     }
 
     private void addTabs() {
-        Properties optionalFeatures = PotoFluxLoadingContext.getOptionalFeatures();
+        Properties optionalFeatures = OptionalFeaturesManager.get();
         String placementProp = optionalFeatures.getProperty("tabBarPlacement", "left");
         Side placement = switch (placementProp.toLowerCase()) {
             case "right" -> Side.RIGHT;
@@ -110,7 +111,7 @@ public class FXPotoScreen {
             PotoFlux.runProgramClosing(0);
         });
 
-        Properties optionalFeatures = PotoFluxLoadingContext.getOptionalFeatures();
+        Properties optionalFeatures = OptionalFeaturesManager.get();
         boolean isResizable = Boolean.parseBoolean(optionalFeatures.getProperty("resizableWindow", "false"));
         stage.setResizable(isResizable);
     }

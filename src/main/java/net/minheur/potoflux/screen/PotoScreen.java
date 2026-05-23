@@ -7,6 +7,7 @@ import net.minheur.potoflux.screen.menu.PotoMenuItem;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
+import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
@@ -81,7 +82,7 @@ public class PotoScreen {
         });
         frame.setLocationRelativeTo(null);
 
-        Properties optionalFeatures = PotoFluxLoadingContext.getOptionalFeatures();
+        Properties optionalFeatures = OptionalFeaturesManager.get();
         boolean isResizable = Boolean.parseBoolean(optionalFeatures.getProperty("resizableWindow", "false"));
         if (!isResizable) frame.setResizable(false);
         return frame;

@@ -19,6 +19,7 @@ import net.minheur.potoflux.screen.FXPotoScreen;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
+import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.translations.register.CommonTranslations;
@@ -89,7 +90,7 @@ public class PotoFlux {
 
         // load optional features
         Platform.runLater(() -> startScreen.updateStage("Loading features..."));
-        PotoFluxLoadingContext.loadFeatures();
+        OptionalFeaturesManager.load();
 
         // enable or not log saving
         Platform.runLater(() -> startScreen.updateStage("Loading log logic..."));
@@ -158,7 +159,7 @@ public class PotoFlux {
      * Executes the logic to know if the log saving system will be enabled
      */
     private static void runLogSavingEnablingLogic() {
-        String logSavingFeature = PotoFluxLoadingContext.getOptionalFeatures().getProperty("doLogSaving");
+        String logSavingFeature = OptionalFeaturesManager.get().getProperty("doLogSaving");
 
         if (logSavingFeature == null) enableLogSavingDefault();
 

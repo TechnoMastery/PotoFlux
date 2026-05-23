@@ -85,11 +85,6 @@ public class PotoFluxLoadingContext {
     private static URLClassLoader modsClassLoader = null;
 
     /**
-     * Stores all optional features
-     */
-    private static final Properties optionalFeatures = new Properties();
-
-    /**
      * Make sure no one can create a second loading context.
      */
     private PotoFluxLoadingContext() {}
@@ -180,48 +175,6 @@ public class PotoFluxLoadingContext {
      */
     public static boolean isProdEnv() {
         return !isDevEnv;
-    }
-
-    /**
-     * Called to load optional features from the file
-     */
-    public static void loadFeatures() {
-        Path featuresPath = PotoFlux.getProgramDir().resolve("optionalFeatures.properties");
-
-        if (Files.notExists(featuresPath))
-            createOptionalFeatures(featuresPath);
-
-        else try (InputStream in = Files.newInputStream(featuresPath)) {
-
-            optionalFeatures.load(in);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not get optionalFeatures.properties !");
-        }
-    }
-
-    /**
-     * Creates the {@code optionalFeatures.properties} file
-     * @param featuresPath the path to create the file to
-     */
-    private static void createOptionalFeatures(Path featuresPath) {
-        try {
-            Files.createDirectories(featuresPath.getParent());
-            Files.createFile(featuresPath);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not create optionalFeatures.properties !");
-        }
-    }
-
-    /**
-     * Getter for the optional features
-     * @return the optional features
-     */
-    public static Properties getOptionalFeatures() {
-        return optionalFeatures;
     }
 
     /**
