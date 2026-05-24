@@ -234,7 +234,7 @@ public final class UserPrefsManager {
     /**
      * Shows a popup to ask the user to restart the app
      */
-    private static void showReload() {
+    public static void showReload() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Reload"); // TODO
         alert.setHeaderText(null);
