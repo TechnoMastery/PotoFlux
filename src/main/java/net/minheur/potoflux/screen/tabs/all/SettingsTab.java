@@ -164,7 +164,7 @@ public class SettingsTab extends BaseVTab<VBox> {
 
             for (Map.Entry<Setting, SettingInfo<?>> entry : settings.entrySet()) {
                 // check if changed
-                if (!Objects.equals(
+                if (Objects.equals(
                         entry.getKey().type().getSelectedValue(),
                         entry.getValue().getActualValue()
                 )) continue;
@@ -196,7 +196,7 @@ public class SettingsTab extends BaseVTab<VBox> {
 
             for (Map.Entry<Setting, SettingInfo<?>> entry : settings.entrySet()) {
                 // check if changed
-                if (!Objects.equals(
+                if (Objects.equals(
                         entry.getKey().type().getSelectedValue(),
                         entry.getValue().getActualValue()
                 )) continue;
