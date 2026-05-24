@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.settings.types.ISettingType;
+import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
@@ -41,6 +42,23 @@ public final class UserPrefsManager {
             case DOUBLE -> prefs.getDouble(id.toString(), ((Double) type.getDefaultValue()));
             case BYTE_ARRAY -> prefs.getByteArray(id.toString(), ((byte[]) type.getDefaultValue()));
         };
+    }
+    public static void setValueFor(ResourceLocation id, PreferencesTypes type, Object value) {
+
+        if (value == null) throw new IllegalArgumentException("Can't have null value !");
+        if (!type.getValueClass().isInstance(value))
+            throw new IllegalArgumentException("Wrong type for " + type);
+
+        switch (type) {
+            case STRING -> prefs.put(id.toString(), (String) value);
+            case BOOLEAN -> prefs.putBoolean(id.toString(), (Boolean) value);
+            case INT -> prefs.putInt(id.toString(), (Integer) value);
+            case LONG -> prefs.putLong(id.toString(), (Long) value);
+            case FLOAT -> prefs.putFloat(id.toString(), (Float) value);
+            case DOUBLE -> prefs.putDouble(id.toString(), (Double) value);
+            case BYTE_ARRAY -> prefs.putByteArray(id.toString(), (byte[]) value);
+        }
+
     }
 
     // lang
