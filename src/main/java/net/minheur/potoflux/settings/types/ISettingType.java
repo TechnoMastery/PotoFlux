@@ -17,10 +17,7 @@ public interface ISettingType<S> {
      */
     @NotNull S getDefaultValue();
     void selectValue(@NotNull Object value);
-    S getSelectedValue();
-    default Object getPrefReadyValue() {
-        return getSelectedValue();
-    }
+    Object getSelectedValue();
     ObservableValue<?> valueProperty();
 
 }

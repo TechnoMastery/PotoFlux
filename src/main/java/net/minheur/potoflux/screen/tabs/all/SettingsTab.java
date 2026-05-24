@@ -85,7 +85,7 @@ public class SettingsTab extends BaseVTab<VBox> {
             modified.textProperty().bind(
                     Bindings.createStringBinding(() ->
                             Objects.equals(
-                                    entry.getKey().type().valueProperty().getValue(),
+                                    entry.getKey().type().getSelectedValue(),
                                     entry.getValue().getActualValue()
                             ) ? "" : "!",
                             entry.getKey().type().valueProperty()

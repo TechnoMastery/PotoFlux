@@ -69,13 +69,8 @@ public class ComboSetting<T> implements ISettingType<T> {
     }
 
     @Override
-    public T getSelectedValue() {
-        return node.getSelectionModel().getSelectedItem();
-    }
-
-    @Override
-    public Object getPrefReadyValue() {
-        return getSelectedValue().toString();
+    public String getSelectedValue() {
+        return node.getSelectionModel().getSelectedItem().toString();
     }
 
     @Override
