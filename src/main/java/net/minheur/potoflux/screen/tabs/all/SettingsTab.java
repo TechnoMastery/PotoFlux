@@ -42,7 +42,6 @@ public class SettingsTab extends BaseVTab<VBox> {
     @Override
     protected void setPanel() {
         // todo: move all below to Setting class (using reg)
-        // addLangCombo(); todo lang chooser
         // addAsciiCombo(); todo ascii chooser
         // addThemeCombo(); todo theme chooser
         // todo ascii on start checkbox
@@ -225,20 +224,6 @@ public class SettingsTab extends BaseVTab<VBox> {
         // asciiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         vContent.getChildren().add(asciiButton);
-    }
-
-    /**
-     * Adds the button to change the app's lang
-     */
-    private void addLangCombo() {
-        Button langButton = new Button(Translations.get("potoflux:prefs.lang.button"));
-        langButton.setOnAction(e -> {
-            UserPrefsManager.resetUserLang();
-        });
-        langButton.setFont(Font.font("Consolas", 15));
-        // langButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        vContent.getChildren().add(langButton);
     }
 
     /**

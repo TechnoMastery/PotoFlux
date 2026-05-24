@@ -180,12 +180,6 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addPref("lang")
                 .en("Language")
                 .fr("Langue");
-        addPref("lang", "select")
-                .en("Select language")
-                .fr("Sélectionnez la langue");
-        addPref("lang", "button")
-                .en("Change language")
-                .fr("Changer la langue");
         addPref("theme")
                 .en("Theme")
                 .fr("Thème");

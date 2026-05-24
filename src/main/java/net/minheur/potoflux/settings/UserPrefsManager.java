@@ -67,19 +67,6 @@ public final class UserPrefsManager {
 
     }
 
-    // lang
-    /**
-     * Key for storing the user language
-     */
-    private static final String KEY_LANG = "user_lang";
-    /**
-     * All values that the language var can take
-     */
-    private static final String[] langOptions = new String[Lang.values().length];
-    static {
-        for (int i = 0; i < Lang.values().length; i++) langOptions[i] = Lang.values()[i].code;
-    }
-
     // ascii
     /**
      * Key for storing the user's terminal ASCII
@@ -109,54 +96,11 @@ public final class UserPrefsManager {
         return prefs.get(KEY_ASCII, null);
     }
     /**
-     * Getter for the user lang (direct)
-     * @return the user lang
-     */
-    public static String getStrictUserLang() {
-        return prefs.get(KEY_LANG, null);
-    }
-    /**
-     * Getter for the user lang (asking if null)
-     * @return the user lang or asks the user for it
-     */
-    public static String getUserLang() {
-        String lang = getStrictUserLang();
-        if (lang == null) {
-            while (lang == null)
-                lang = askUserLang();
-            prefs.put(KEY_LANG, lang);
-        }
-        return lang;
-    }
-    /**
      * Getter for the user's theme
      * @return the user's theme
      */
     public static String getTheme() {
         return prefs.get(KEY_THEME, "light");
-    }
-
-    // askers
-    /**
-     * Asks the user for the lang
-     * @return the lang chosen
-     */
-    private static String askUserLang() {
-        int actualLangId = 0;
-        String strictLang = getStrictUserLang();
-        if (strictLang != null) actualLangId = Arrays.asList(langOptions).indexOf(strictLang);
-        if (actualLangId == -1) actualLangId = 0;
-
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(
-                langOptions[actualLangId],
-                langOptions
-        );
-        dialog.setTitle(Translations.get("potoflux:prefs.lang"));
-        dialog.setHeaderText(Translations.get("potoflux:prefs.lang.select"));
-        dialog.setContentText("New lang: "); // TODO
-
-        Optional<String> result = dialog.showAndWait();
-        return result.orElse(null);
     }
 
     /**
@@ -199,19 +143,6 @@ public final class UserPrefsManager {
 
         Optional<String> result = dialog.showAndWait();
         return result.orElse(null);
-    }
-
-
-    // resets
-    /**
-     * Runs the reset for the user lang
-     */
-    public static void resetUserLang() {
-        String key = askUserLang();
-        if (key == null) return;
-
-        prefs.put(KEY_LANG, key);
-        showReload();
     }
 
     /**
