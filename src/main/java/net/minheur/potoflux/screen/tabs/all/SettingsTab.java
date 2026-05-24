@@ -89,7 +89,9 @@ public class SettingsTab extends BaseVTab<VBox> {
         for (Map.Entry<Setting, SettingInfo<?>> entry : settings.entrySet()) {
 
             HBox pane = new HBox(5);
+            pane.setPadding(new Insets(0, 0, 0, 10));
             Label modified = entry.getKey().type().getIsModifiedLabel();
+            modified.setStyle("-fx-font-weight: bold;");
             Node node = entry.getKey().type().getExecutionNode();
             pane.getChildren().addAll(modified, node);
 
