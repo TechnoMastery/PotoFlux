@@ -28,7 +28,7 @@ import java.util.*;
  */
 public class SettingsTab extends BaseVTab<VBox> {
 
-    private final Map<Setting, SettingInfo<?>> settings = new HashMap<>();
+    private Map<Setting, SettingInfo<?>> settings;
 
     private ScrollPane contentScroll;
 
@@ -49,6 +49,8 @@ public class SettingsTab extends BaseVTab<VBox> {
         // todo tab placement chooser
 
         // todo optional property system
+
+        settings = new HashMap<>();
 
         fillSetting();
         buildLines();
