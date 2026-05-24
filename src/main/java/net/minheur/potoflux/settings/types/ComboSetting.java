@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class ComboSetting<T extends IComboSetting> implements ISettingType<T> {
+public class ComboSetting<T extends IComboSetting> implements ISettingType<String> {
 
     private final HBox content;
     private final Label isModifiedLabel;
@@ -74,8 +74,8 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<T> {
     }
 
     @Override
-    public @NotNull T getDefaultValue() {
-        return defaultValue;
+    public @NotNull String getDefaultValue() {
+        return defaultValue.returnValue();
     }
 
     @Override
