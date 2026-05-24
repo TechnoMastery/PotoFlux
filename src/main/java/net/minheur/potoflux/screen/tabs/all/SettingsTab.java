@@ -188,6 +188,7 @@ public class SettingsTab extends BaseVTab<VBox> {
 
             if (requireRestart) UserPrefsManager.showReload();
             fillSetting();
+            buildLines();
 
         });
 
