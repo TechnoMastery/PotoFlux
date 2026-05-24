@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class ComboSetting<T> implements ISettingType<T> {
 
     private final HBox content;
+    private final Label isModifiedLabel;
     private final Label name;
     private final ComboBox<T> node;
     private final T defaultValue;
@@ -21,8 +22,15 @@ public class ComboSetting<T> implements ISettingType<T> {
         this.node = new ComboBox<>(items);
         this.defaultValue = defaultValue;
 
+        isModifiedLabel = new Label();
+
         content.getChildren().addAll(this.name, node);
 
+    }
+
+    @Override
+    public Label getIsModifiedLabel() {
+        return isModifiedLabel;
     }
 
     @Override

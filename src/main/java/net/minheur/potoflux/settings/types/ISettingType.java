@@ -1,11 +1,13 @@
 package net.minheur.potoflux.settings.types;
 
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import org.jetbrains.annotations.NotNull;
 
 public interface ISettingType<S> {
 
     Node getExecutionNode();
+    Label getIsModifiedLabel();
     PreferencesTypes prefType();
 
     /**

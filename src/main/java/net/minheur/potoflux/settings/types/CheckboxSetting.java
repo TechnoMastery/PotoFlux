@@ -2,16 +2,22 @@ package net.minheur.potoflux.settings.types;
 
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
 
 public class CheckboxSetting implements ISettingType<Boolean> {
 
+    private final Label isModifiedLabel;
     private final CheckBox node;
     private final boolean defaultValue;
 
     public CheckboxSetting(String name, boolean defaultValue) {
+
         this.node = new CheckBox(name);
         this.defaultValue = defaultValue;
+        this.isModifiedLabel = new Label();
+
     }
 
     @Override
@@ -27,6 +33,11 @@ public class CheckboxSetting implements ISettingType<Boolean> {
     @Override
     public Boolean getSelectedValue() {
         return node.isSelected();
+    }
+
+    @Override
+    public Label getIsModifiedLabel() {
+        return isModifiedLabel;
     }
 
     @Override
