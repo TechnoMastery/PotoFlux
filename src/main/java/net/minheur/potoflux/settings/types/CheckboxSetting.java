@@ -16,7 +16,10 @@ public class CheckboxSetting implements ISettingType {
 
     @Override
     public void selectValue(Object value) {
-        // todo
+
+        boolean parsed = Boolean.parseBoolean(value.toString());
+        node.setSelected(parsed);
+
     }
 
     @Override
