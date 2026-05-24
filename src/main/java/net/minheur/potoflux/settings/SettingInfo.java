@@ -1,11 +1,12 @@
 package net.minheur.potoflux.settings;
 
 import net.minheur.potoflux.settings.types.PreferencesTypes;
+import org.jetbrains.annotations.Nullable;
 
 public class SettingInfo<T> {
 
     private final PreferencesTypes type;
-    private T actualValue;
+    private @Nullable T actualValue;
 
     public boolean modified = false;
 
@@ -16,7 +17,7 @@ public class SettingInfo<T> {
     public PreferencesTypes getType() {
         return type;
     }
-    public T getActualValue() {
+    public @Nullable T getActualValue() {
         return actualValue;
     }
 
