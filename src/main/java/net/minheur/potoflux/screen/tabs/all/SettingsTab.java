@@ -78,9 +78,12 @@ public class SettingsTab extends BaseVTab<VBox> {
 
         for (Map.Entry<Setting, SettingInfo<?>> entry : settings.entrySet()) {
 
-            // HBox pane = new HBox(5); todo
-            // Label modified = entry.getKey().type();
-            // Node node = entry.getKey().type().getExecutionNode();
+            HBox pane = new HBox(5);
+            Label modified = entry.getKey().type().getIsModifiedLabel();
+            Node node = entry.getKey().type().getExecutionNode();
+            pane.getChildren().addAll(modified, node);
+
+            vContent.getChildren().add(pane);
 
         }
 
