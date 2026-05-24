@@ -1,5 +1,6 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -18,10 +19,7 @@ import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.settings.UserPrefsManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The settings tab contains all user changeable vars (prefs)
@@ -83,6 +81,16 @@ public class SettingsTab extends BaseVTab<VBox> {
             Label modified = entry.getKey().type().getIsModifiedLabel();
             Node node = entry.getKey().type().getExecutionNode();
             pane.getChildren().addAll(modified, node);
+
+            modified.textProperty().bind(
+                    Bindings.createStringBinding(() ->
+                            Objects.equals(
+                                    entry.getKey().type().valueProperty().getValue(),
+                                    entry.getValue().getActualValue()
+                            ) ? "" : "!",
+                            entry.getKey().type().valueProperty()
+                    )
+            );
 
             vContent.getChildren().add(pane);
 

@@ -1,5 +1,6 @@
 package net.minheur.potoflux.settings.types;
 
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import org.jetbrains.annotations.NotNull;
@@ -17,5 +18,6 @@ public interface ISettingType<S> {
     @NotNull S getDefaultValue();
     void selectValue(@NotNull Object value);
     S getSelectedValue();
+    ObservableValue<?> valueProperty();
 
 }
