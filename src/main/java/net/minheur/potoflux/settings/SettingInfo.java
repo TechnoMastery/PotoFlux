@@ -21,13 +21,14 @@ public class SettingInfo<T> {
         return actualValue;
     }
 
-    public void setActualValue(T actualValue) {
+    @SuppressWarnings("unchecked")
+    public void setActualValue(Object actualValue) {
 
         if (!type.getValueClass().isInstance(actualValue))
             throw new IllegalArgumentException(
                     "Invalid type for " + type
             );
 
-        this.actualValue = actualValue;
+        this.actualValue = (T) actualValue;
     }
 }
