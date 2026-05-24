@@ -5,6 +5,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterSettingEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.settings.types.ComboSetting;
 import net.minheur.potoflux.terminal.ASCIIs;
+import net.minheur.potoflux.theme.Themes;
 import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
 
@@ -33,6 +34,12 @@ public class Settings {
                     FXCollections.observableArrayList(ASCIIs.values()),
                     ASCIIs.BIG
             ), false));
+    public final Setting THEME = LIST.add(new Setting(fromModId("theme"),
+            new ComboSetting<>(
+                    Translations.get("potoflux:prefs.theme"),
+                    FXCollections.observableArrayList(Themes.values()),
+                    Themes.DEFAULT
+            ), true));
 
     public static void register(RegisterSettingEvent event) {
         INSTANCE = new Settings();

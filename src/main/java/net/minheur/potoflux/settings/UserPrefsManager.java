@@ -67,55 +67,6 @@ public final class UserPrefsManager {
 
     }
 
-    // theme
-    /**
-     * Key for storing the user's theme
-     */
-    private static final String KEY_THEME = "app_theme";
-    /**
-     * All values the user's theme can take
-     */
-    private static final String[] themeOptions = { "dark", "light" };
-
-    // getters
-    /**
-     * Getter for the user's theme
-     * @return the user's theme
-     */
-    public static String getTheme() {
-        return prefs.get(KEY_THEME, "light");
-    }
-    /**
-     * Asks the user for the theme
-     * @return the chosen theme
-     */
-    private static String askUserTheme() {
-        String actualTheme = getTheme();
-        int actualThemeId = Arrays.asList(themeOptions).indexOf(actualTheme);
-
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(
-                themeOptions[actualThemeId],
-                themeOptions
-        );
-        dialog.setTitle(Translations.get("potoflux:prefs.theme"));
-        dialog.setHeaderText(Translations.get("potoflux:prefs.theme.select"));
-        dialog.setContentText("New theme: "); // TODO
-
-        Optional<String> result = dialog.showAndWait();
-        return result.orElse(null);
-    }
-
-    /**
-     * Runs the reset for the theme
-     */
-    public static void resetTheme() {
-        String key = askUserTheme();
-        if (key == null) return;
-
-        prefs.put(KEY_THEME, key);
-        showReload();
-    }
-
     /**
      * Shows a popup to ask the user to restart the app
      */

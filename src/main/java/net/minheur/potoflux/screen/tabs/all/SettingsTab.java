@@ -216,20 +216,6 @@ public class SettingsTab extends BaseVTab<VBox> {
     }
 
     /**
-     * Adds the button to change the theme
-     */
-    private void addThemeCombo() {
-        Button themeButton = new Button(Translations.get("potoflux:prefs.theme.button"));
-        themeButton.setOnAction(e -> {
-            UserPrefsManager.resetTheme();
-        });
-        themeButton.setFont(Font.font("Consolas", 15));
-        // themeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        vContent.getChildren().add(themeButton);
-    }
-
-    /**
      * Used to set the title.
      * @return the title of the tab.
      */
