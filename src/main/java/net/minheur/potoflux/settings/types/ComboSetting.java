@@ -1,11 +1,14 @@
 package net.minheur.potoflux.settings.types;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class ComboSetting<T> implements ISettingType<T> {
 
@@ -23,8 +26,15 @@ public class ComboSetting<T> implements ISettingType<T> {
         this.defaultValue = defaultValue;
 
         isModifiedLabel = new Label();
-
+        this.node.getSelectionModel().select(defaultValue);
         content.getChildren().addAll(this.name, node);
+
+        isModifiedLabel.textProperty().bind(
+                Bindings.createStringBinding(() ->
+                                Objects.equals(node.getValue(), defaultValue) ? "" : "!",
+                        node.valueProperty()
+                )
+        );
 
     }
 
