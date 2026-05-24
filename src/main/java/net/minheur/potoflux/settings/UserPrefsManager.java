@@ -32,16 +32,22 @@ public final class UserPrefsManager {
      * @return the value of the setting.
      * @throws ClassCastException if the default value is not the correct type for the type specified
      */
-    public static Object getValueFor(ISettingType<?> type, ResourceLocation id) {
-        return switch (type.prefType()) {
-            case STRING -> prefs.get(id.toString(), ((String) type.getDefaultValue()));
-            case BOOLEAN -> prefs.getBoolean(id.toString(), ((Boolean) type.getDefaultValue()));
-            case INT -> prefs.getInt(id.toString(), ((Integer) type.getDefaultValue()));
-            case LONG -> prefs.getLong(id.toString(), ((Long) type.getDefaultValue()));
-            case FLOAT -> prefs.getFloat(id.toString(), ((Float) type.getDefaultValue()));
-            case DOUBLE -> prefs.getDouble(id.toString(), ((Double) type.getDefaultValue()));
-            case BYTE_ARRAY -> prefs.getByteArray(id.toString(), ((byte[]) type.getDefaultValue()));
+    public static Object getValueFor(PreferencesTypes type, Object defaultValue, ResourceLocation id) {
+        return switch (type) {
+            case STRING -> prefs.get(id.toString(), ((String) defaultValue));
+            case BOOLEAN -> prefs.getBoolean(id.toString(), ((Boolean) defaultValue));
+            case INT -> prefs.getInt(id.toString(), ((Integer) defaultValue));
+            case LONG -> prefs.getLong(id.toString(), ((Long) defaultValue));
+            case FLOAT -> prefs.getFloat(id.toString(), ((Float) defaultValue));
+            case DOUBLE -> prefs.getDouble(id.toString(), ((Double) defaultValue));
+            case BYTE_ARRAY -> prefs.getByteArray(id.toString(), ((byte[]) defaultValue));
         };
+    }
+    public static Object getValueFor(ISettingType<?> type, ResourceLocation id) {
+        return getValueFor(type.prefType(), type.getDefaultValue(), id);
+    }
+    public static Object getValueFor(Setting setting) {
+        return getValueFor(setting.type(), setting.id());
     }
     public static void setValueFor(ResourceLocation id, PreferencesTypes type, Object value) {
 
