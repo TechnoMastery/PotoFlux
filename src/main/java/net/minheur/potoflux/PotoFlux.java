@@ -20,6 +20,7 @@ import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
+import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.translations.register.CommonTranslations;
@@ -119,6 +120,7 @@ public class PotoFlux {
         bus.addListener(Commands::register);
         bus.addListener(ActionRuns::register);
         bus.addListener(MenuContent::register);
+        bus.addListener(Settings::register);
 
         // load all addons todo
         // Platform.runLater(() -> startScreen.updateStage("Loading addons..."));
@@ -130,10 +132,12 @@ public class PotoFlux {
 
         try {
             bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
+
             bus.post(new RegisterTabsEvent());
             bus.post(new RegisterCommandsEvent());
             bus.post(new RegisterRunsEvent());
             bus.post(new RegisterMenuEvent());
+            bus.post(new RegisterSettingEvent());
         } catch (Throwable e) {
             e.printStackTrace();
             runProgramClosing(-1);
