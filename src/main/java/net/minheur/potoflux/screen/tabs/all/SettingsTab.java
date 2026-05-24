@@ -146,7 +146,36 @@ public class SettingsTab extends BaseVTab<VBox> {
 
         apply.setOnAction(e -> {
 
-            // todo
+            Map<Setting, SettingInfo<?>> modifiedSettings = new HashMap<>();
+            boolean requireRestart = false;
+
+            for (Map.Entry<Setting, SettingInfo<?>> entry : settings.entrySet()) {
+                // check if changed
+                if (!Objects.equals(
+                        entry.getKey().type().getSelectedValue(),
+                        entry.getValue().getActualValue()
+                )) continue;
+
+                Object newValue = entry.getKey().type().getSelectedValue();
+                entry.getValue().setActualValue(newValue);
+
+                modifiedSettings.put(
+                        entry.getKey(),
+                        entry.getValue()
+                );
+                if (entry.getKey().requireRestart()) requireRestart = true;
+
+            }
+
+            for (Map.Entry<Setting, SettingInfo<?>> entry : modifiedSettings.entrySet())
+                UserPrefsManager.setValueFor(
+                        entry.getKey().id(),
+                        entry.getKey().type().prefType(),
+                        entry.getValue().getActualValue()
+                );
+
+            if (requireRestart) UserPrefsManager.showReload();
+            fillSetting();
 
         });
 
