@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class ComboSetting<T> implements ISettingType<T> {
+public class ComboSetting<T extends IComboSetting> implements ISettingType<T> {
 
     private final HBox content;
     private final Label isModifiedLabel;
@@ -49,7 +49,7 @@ public class ComboSetting<T> implements ISettingType<T> {
         T tValue = null;
 
         for (T t : node.getItems())
-            if (t.toString().equals(key)) {
+            if (t.returnValue().equals(key)) {
                 tValue = t;
                 break;
             }
@@ -70,7 +70,7 @@ public class ComboSetting<T> implements ISettingType<T> {
 
     @Override
     public String getSelectedValue() {
-        return node.getSelectionModel().getSelectedItem().toString();
+        return node.getSelectionModel().getSelectedItem().returnValue();
     }
 
     @Override
