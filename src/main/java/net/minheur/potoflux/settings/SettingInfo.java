@@ -8,8 +8,6 @@ public class SettingInfo<T> {
     private final PreferencesTypes type;
     private @Nullable T actualValue;
 
-    public boolean modified = false;
-
     public SettingInfo(PreferencesTypes type) {
         this.type = type;
     }

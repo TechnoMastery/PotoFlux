@@ -153,7 +153,11 @@ public class SettingsTab extends BaseVTab<VBox> {
         cancel.setOnAction(e -> {
 
             for (Map.Entry<Setting, SettingInfo<?>> entry : settings.entrySet()) {
-                if (!entry.getValue().modified) continue;
+                // check if changed
+                if (!Objects.equals(
+                        entry.getKey().type().getSelectedValue(),
+                        entry.getValue().getActualValue()
+                )) continue;
 
                 Object actualValue = entry.getValue().getActualValue();
                 entry.getKey().type().selectValue(
