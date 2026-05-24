@@ -11,9 +11,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.settings.Setting;
 import net.minheur.potoflux.settings.SettingInfo;
+import net.minheur.potoflux.settings.SettingRegistry;
 import net.minheur.potoflux.settings.types.ISettingType;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.translations.Translations;
@@ -57,7 +59,11 @@ public class SettingsTab extends BaseVTab<VBox> {
     private void fillSetting() {
 
         settings.clear();
-        List<Setting> allSettings = new ArrayList<>(); // todo: fill settings (reg)
+        List<Setting> allSettings = SettingRegistry.getAll().stream()
+                .sorted(Comparator.comparing(
+                        tab -> !tab.id().getNamespace().equals(PotoFlux.ID)
+                ))
+                .toList();
 
         for (Setting setting : allSettings) {
 
