@@ -62,7 +62,7 @@ public class SettingsTab extends BaseVTab<VBox> {
 
         for (Setting setting : allSettings) {
 
-            ISettingType type = setting.type();
+            ISettingType<?> type = setting.type();
             SettingInfo<?> info = new SettingInfo<>(type.prefType());
 
             Object value = UserPrefsManager.getValueFor(type, setting.id());

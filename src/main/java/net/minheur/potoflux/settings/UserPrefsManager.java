@@ -31,7 +31,7 @@ public final class UserPrefsManager {
      * @return the value of the setting.
      * @throws ClassCastException if the default value is not the correct type for the type specified
      */
-    public static Object getValueFor(ISettingType type, ResourceLocation id) {
+    public static Object getValueFor(ISettingType<?> type, ResourceLocation id) {
         return switch (type.prefType()) {
             case STRING -> prefs.get(id.toString(), ((String) type.getDefaultValue()));
             case BOOLEAN -> prefs.getBoolean(id.toString(), ((Boolean) type.getDefaultValue()));
