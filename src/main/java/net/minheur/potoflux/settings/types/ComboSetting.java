@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class ComboSetting<T> implements ISettingType {
+public class ComboSetting<T> implements ISettingType<T> {
 
     private final HBox content;
     private final Label name;
@@ -23,6 +23,11 @@ public abstract class ComboSetting<T> implements ISettingType {
 
         content.getChildren().addAll(this.name, node);
 
+    }
+
+    @Override
+    public void selectValue(@NotNull T value) {
+        node.getSelectionModel().select(value);
     }
 
     @Override

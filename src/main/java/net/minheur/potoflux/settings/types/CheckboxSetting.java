@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import org.jetbrains.annotations.NotNull;
 
-public class CheckboxSetting implements ISettingType {
+public class CheckboxSetting implements ISettingType<Boolean> {
 
     private final CheckBox node;
     private final boolean defaultValue;
@@ -15,15 +15,12 @@ public class CheckboxSetting implements ISettingType {
     }
 
     @Override
-    public void selectValue(Object value) {
-
-        boolean parsed = Boolean.parseBoolean(value.toString());
-        node.setSelected(parsed);
-
+    public void selectValue(@NotNull Boolean value) {
+        node.setSelected(value);
     }
 
     @Override
-    public @NotNull Object getDefaultValue() {
+    public @NotNull Boolean getDefaultValue() {
         return defaultValue;
     }
 
