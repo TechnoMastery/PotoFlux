@@ -67,6 +67,7 @@ public class SettingsTab extends BaseVTab<VBox> {
 
             Object value = UserPrefsManager.getValueFor(type, setting.id());
             info.setActualValue(value);
+            type.selectValue(value);
 
             settings.put(setting, info);
 

@@ -34,8 +34,29 @@ public class ComboSetting<T> implements ISettingType<T> {
     }
 
     @Override
-    public void selectValue(@NotNull T value) {
-        node.getSelectionModel().select(value);
+    public void selectValue(@NotNull Object value) {
+
+        if (!prefType().getValueClass().isInstance(value))
+            throw new IllegalArgumentException(
+                    "Invalid type for " + prefType()
+            );
+
+        String key = (String) value;
+        T tValue = null;
+
+        for (T t : node.getItems())
+            if (t.toString().equals(key)) {
+                tValue = t;
+                break;
+            }
+
+        if (tValue == null)
+            throw new IllegalArgumentException(
+                    "Value " + key + " isn't contained in the list !"
+            );
+
+        node.getSelectionModel().select(tValue);
+
     }
 
     @Override
