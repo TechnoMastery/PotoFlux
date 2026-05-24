@@ -56,6 +56,7 @@ public class SettingsTab extends BaseVTab<VBox> {
 
     private void fillSetting() {
 
+        settings.clear();
         List<Setting> allSettings = new ArrayList<>(); // todo: fill settings (reg)
 
         for (Setting setting : allSettings) {
@@ -74,6 +75,8 @@ public class SettingsTab extends BaseVTab<VBox> {
     }
 
     private void buildLines() {
+
+        vContent.getChildren().clear();
 
         for (Map.Entry<Setting, SettingInfo<?>> entry : settings.entrySet()) {
 
