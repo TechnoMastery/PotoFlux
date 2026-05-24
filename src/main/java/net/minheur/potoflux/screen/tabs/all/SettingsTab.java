@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.settings.Setting;
 import net.minheur.potoflux.settings.SettingInfo;
+import net.minheur.potoflux.settings.types.ISettingType;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.settings.UserPrefsManager;
@@ -59,9 +60,13 @@ public class SettingsTab extends BaseVTab<VBox> {
 
         for (Setting setting : allSettings) {
 
-            PreferencesTypes type = setting.type().prefType();
+            ISettingType type = setting.type();
+            SettingInfo<?> info = new SettingInfo<>(type.prefType());
 
-            // todo
+            Object value = UserPrefsManager.getValueFor(type, setting.id());
+            info.setActualValue(value);
+
+            settings.put(setting, info);
 
         }
 

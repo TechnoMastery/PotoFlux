@@ -3,9 +3,11 @@ package net.minheur.potoflux.settings;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.settings.types.ISettingType;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -21,6 +23,25 @@ public final class UserPrefsManager {
     private static final Preferences prefs = Preferences.userNodeForPackage(UserPrefsManager.class);
 
     private UserPrefsManager() {}
+
+    /**
+     * Return the actual value (or default if not set) if a given setting.
+     * @param type the {@link ISettingType} of the setting, used to get the pref type and the default value
+     * @param id the ressource location of the setting. Is where the setting will be written and red from.
+     * @return the value of the setting.
+     * @throws ClassCastException if the default value is not the correct type for the type specified
+     */
+    public static Object getValueFor(ISettingType type, ResourceLocation id) {
+        return switch (type.prefType()) {
+            case STRING -> prefs.get(id.toString(), ((String) type.getDefaultValue()));
+            case BOOLEAN -> prefs.getBoolean(id.toString(), ((Boolean) type.getDefaultValue()));
+            case INT -> prefs.getInt(id.toString(), ((Integer) type.getDefaultValue()));
+            case LONG -> prefs.getLong(id.toString(), ((Long) type.getDefaultValue()));
+            case FLOAT -> prefs.getFloat(id.toString(), ((Float) type.getDefaultValue()));
+            case DOUBLE -> prefs.getDouble(id.toString(), ((Double) type.getDefaultValue()));
+            case BYTE_ARRAY -> prefs.getByteArray(id.toString(), ((byte[]) type.getDefaultValue()));
+        };
+    }
 
     // lang
     /**
