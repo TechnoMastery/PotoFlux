@@ -74,6 +74,11 @@ public class ComboSetting<T> implements ISettingType<T> {
     }
 
     @Override
+    public Object getPrefReadyValue() {
+        return getSelectedValue().toString();
+    }
+
+    @Override
     public @NotNull T getDefaultValue() {
         return defaultValue;
     }
