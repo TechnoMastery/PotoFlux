@@ -7,7 +7,7 @@ public enum PreferencesTypes {
     LONG(Long.class),
     FLOAT(Float.class),
     DOUBLE(Double.class),
-    BYTE_ARRAY(Byte[].class);
+    BYTE_ARRAY(byte[].class);
 
     private final Class<?> valueClass;
 
