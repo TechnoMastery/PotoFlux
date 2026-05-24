@@ -21,7 +21,9 @@ import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.settings.Settings;
+import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.terminal.commands.Commands;
+import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.translations.register.CommonTranslations;
 import net.minheur.potoflux.translations.register.FileTranslations;
@@ -107,8 +109,8 @@ public class PotoFlux {
 
         // load translations
         Platform.runLater(() -> startScreen.updateStage("Loading translations..."));
-        if (!UserPrefsManager.getUserLang().equals("en"))
-            Translations.load(UserPrefsManager.getUserLang());
+        String lang = (String) UserPrefsManager.getValueFor(PreferencesTypes.STRING, Lang.EN.code, fromModId("lang"));
+        Translations.load(lang);
 
         // def modEventBus
         Platform.runLater(() -> startScreen.updateStage("Loading event bus..."));

@@ -1,7 +1,13 @@
 package net.minheur.potoflux.settings;
 
+import javafx.collections.FXCollections;
 import net.minheur.potoflux.loader.mod.events.RegisterSettingEvent;
 import net.minheur.potoflux.registry.RegistryList;
+import net.minheur.potoflux.settings.types.ComboSetting;
+import net.minheur.potoflux.translations.Lang;
+import net.minheur.potoflux.translations.Translations;
+
+import static net.minheur.potoflux.PotoFlux.fromModId;
 
 public class Settings {
     private final RegistryList<Setting> LIST = new RegistryList<>();
@@ -14,7 +20,12 @@ public class Settings {
         hasGenerated = true;
     }
 
-
+    public final Setting LANG = LIST.add(new Setting(fromModId("lang"),
+            new ComboSetting<>(
+                    Translations.get("potoflux:prefs.lang"),
+                    FXCollections.observableArrayList(Lang.values()),
+                    Lang.EN
+            ), true));
 
     public static void register(RegisterSettingEvent event) {
         INSTANCE = new Settings();
