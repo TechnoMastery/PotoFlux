@@ -171,12 +171,6 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addPref("ascii")
                 .en("ASCII")
                 .fr("ASCII");
-        addPref("ascii", "select")
-                .en("Select terminal ASCII")
-                .fr("Choisissez un ASCII du terminal");
-        addPref("ascii", "button")
-                .en("Change terminal ASCII")
-                .fr("Changer l'ASCII du terminal");
         addPref("lang")
                 .en("Language")
                 .fr("Langue");
