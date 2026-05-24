@@ -2,6 +2,7 @@ package net.minheur.potoflux.screen.tabs.all;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -50,6 +51,7 @@ public class SettingsTab extends BaseVTab<VBox> {
         // todo optional property system
 
         fillSetting();
+        buildLines();
 
         addButtons();
     }
@@ -67,6 +69,18 @@ public class SettingsTab extends BaseVTab<VBox> {
             info.setActualValue(value);
 
             settings.put(setting, info);
+
+        }
+
+    }
+
+    private void buildLines() {
+
+        for (Map.Entry<Setting, SettingInfo<?>> entry : settings.entrySet()) {
+
+            // HBox pane = new HBox(5); todo
+            // Label modified = entry.getKey().type();
+            // Node node = entry.getKey().type().getExecutionNode();
 
         }
 

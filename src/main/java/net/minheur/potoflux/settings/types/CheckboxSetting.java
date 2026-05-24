@@ -15,6 +15,11 @@ public class CheckboxSetting implements ISettingType {
     }
 
     @Override
+    public void selectValue(Object value) {
+        // todo
+    }
+
+    @Override
     public @NotNull Object getDefaultValue() {
         return defaultValue;
     }

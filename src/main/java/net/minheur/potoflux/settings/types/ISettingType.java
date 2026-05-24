@@ -13,5 +13,6 @@ public interface ISettingType {
      * @return the default value for the setting
      */
     @NotNull Object getDefaultValue();
+    void selectValue(Object value);
 
 }

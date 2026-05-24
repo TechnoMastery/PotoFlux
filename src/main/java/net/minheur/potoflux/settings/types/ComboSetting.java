@@ -26,6 +26,13 @@ public class ComboSetting<T> implements ISettingType {
     }
 
     @Override
+    public void selectValue(Object value) {
+
+        node.getSelectionModel().select((T) value); // todo
+
+    }
+
+    @Override
     public @NotNull T getDefaultValue() {
         return defaultValue;
     }
