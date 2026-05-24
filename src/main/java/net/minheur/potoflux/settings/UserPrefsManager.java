@@ -14,11 +14,13 @@ import java.util.prefs.Preferences;
 /**
  * This class is used to store and retrieve user preferences.
  */
-public class UserPrefsManager {
+public final class UserPrefsManager {
     /**
      * Actual prefs var for the user
      */
     private static final Preferences prefs = Preferences.userNodeForPackage(UserPrefsManager.class);
+
+    private UserPrefsManager() {}
 
     // lang
     /**
