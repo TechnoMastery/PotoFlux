@@ -213,20 +213,6 @@ public class SettingsTab extends BaseVTab<VBox> {
     }
 
     /**
-     * Adds the button to change the terminal's ASCII
-     */
-    private void addAsciiCombo() {
-        Button asciiButton = new Button(Translations.get("potoflux:prefs.ascii.button"));
-        asciiButton.setOnAction(e -> {
-            UserPrefsManager.resetTerminalAscii();
-        });
-        asciiButton.setFont(Font.font("Consolas", 15));
-        // asciiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        vContent.getChildren().add(asciiButton);
-    }
-
-    /**
      * Adds the button to change the theme
      */
     private void addThemeCombo() {

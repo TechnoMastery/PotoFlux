@@ -8,6 +8,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -198,7 +199,7 @@ public class Terminal {
      * By default, using {@code big}
      */
     public static void buildASCII() {
-        String asciiFile = UserPrefsManager.getTerminalASCII();
+        String asciiFile = (String) UserPrefsManager.getValueFor(Settings.INSTANCE.ASCII);
         if (asciiFile == null) asciiFile = "big";
 
         String asciiContent = getAsciiFileContent(asciiFile);

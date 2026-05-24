@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import net.minheur.potoflux.loader.mod.events.RegisterSettingEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.settings.types.ComboSetting;
+import net.minheur.potoflux.terminal.ASCIIs;
 import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
 
@@ -26,6 +27,12 @@ public class Settings {
                     FXCollections.observableArrayList(Lang.values()),
                     Lang.EN
             ), true));
+    public final Setting ASCII = LIST.add(new Setting(fromModId("ascii"),
+            new ComboSetting<>(
+                    Translations.get("potoflux:prefs.ascii"),
+                    FXCollections.observableArrayList(ASCIIs.values()),
+                    ASCIIs.BIG
+            ), false));
 
     public static void register(RegisterSettingEvent event) {
         INSTANCE = new Settings();

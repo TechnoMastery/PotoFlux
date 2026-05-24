@@ -190,6 +190,17 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Change theme")
                 .fr("Changer le thème");
 
+        addAsciiName("basic")
+                .en("Basic")
+                .fr("Basique");
+        addAsciiName("big")
+                .en("Big")
+                .fr("Grand")
+                .de("Große");
+        addAsciiName("chiseled")
+                .en("Chiseled")
+                .fr("Taillé");
+
         addMenu("file", "openModDir")
                 .en("Open mods directory")
                 .fr("Ouvrir le dossier des mods");
@@ -450,6 +461,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      */
     private TranslationBuilder addPref(String... children) {
         return add("prefs", children);
+    }
+    private TranslationBuilder addAsciiName(String... children) {
+        return add("ascii", children);
     }
     /**
      * Add a translation for the screen

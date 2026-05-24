@@ -67,16 +67,6 @@ public final class UserPrefsManager {
 
     }
 
-    // ascii
-    /**
-     * Key for storing the user's terminal ASCII
-     */
-    private static final String KEY_ASCII = "terminal_ascii";
-    /**
-     * All values the user's terminal ASCII can take
-     */
-    private static final String[] asciiOptions = { "basic", "big", "chiseled" };
-
     // theme
     /**
      * Key for storing the user's theme
@@ -89,42 +79,12 @@ public final class UserPrefsManager {
 
     // getters
     /**
-     * Getter for the terminal's ASCII
-     * @return the terminal's ASCII
-     */
-    public static String getTerminalASCII() {
-        return prefs.get(KEY_ASCII, null);
-    }
-    /**
      * Getter for the user's theme
      * @return the user's theme
      */
     public static String getTheme() {
         return prefs.get(KEY_THEME, "light");
     }
-
-    /**
-     * Asks the user for the terminal's ASCII
-     * @return the chosen ASCII
-     */
-    private static String askUserAscii() {
-        int actualAsciiId = 0;
-        String strictAscii = getTerminalASCII();
-        if (strictAscii != null) actualAsciiId = Arrays.asList(asciiOptions).indexOf(strictAscii);
-        if (actualAsciiId == -1) actualAsciiId = 0;
-
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(
-                asciiOptions[actualAsciiId],
-                asciiOptions
-        );
-        dialog.setTitle(Translations.get("potoflux:prefs.ascii"));
-        dialog.setHeaderText(Translations.get("potoflux:prefs.ascii.select"));
-        dialog.setContentText("New ascii: "); // TODO
-
-        Optional<String> result = dialog.showAndWait();
-        return result.orElse(null);
-    }
-
     /**
      * Asks the user for the theme
      * @return the chosen theme
@@ -143,18 +103,6 @@ public final class UserPrefsManager {
 
         Optional<String> result = dialog.showAndWait();
         return result.orElse(null);
-    }
-
-    /**
-     * Runs the reset for the terminal's ASCII
-     */
-    public static void resetTerminalAscii() {
-        String key = askUserAscii();
-        if (key == null) return;
-
-        prefs.put(KEY_ASCII, key);
-        CommandProcessor.clearArea();
-        showReload();
     }
 
     /**
