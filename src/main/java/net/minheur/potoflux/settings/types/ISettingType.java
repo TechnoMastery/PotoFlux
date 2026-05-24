@@ -14,5 +14,6 @@ public interface ISettingType<S> {
      */
     @NotNull S getDefaultValue();
     void selectValue(@NotNull S value);
+    S getSelectedValue();
 
 }

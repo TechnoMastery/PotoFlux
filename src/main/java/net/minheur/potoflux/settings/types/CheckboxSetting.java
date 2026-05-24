@@ -25,6 +25,11 @@ public class CheckboxSetting implements ISettingType<Boolean> {
     }
 
     @Override
+    public Boolean getSelectedValue() {
+        return node.isSelected();
+    }
+
+    @Override
     public Node getExecutionNode() {
         return node;
     }
