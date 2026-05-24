@@ -144,7 +144,17 @@ public class SettingsTab extends BaseVTab<VBox> {
 
         cancel.setOnAction(e -> {
 
-            // todo
+            for (Map.Entry<Setting, SettingInfo<?>> entry : settings.entrySet()) {
+                if (!entry.getValue().modified) continue;
+
+                Object actualValue = entry.getValue().getActualValue();
+                entry.getKey().type().selectValue(
+                        actualValue == null ?
+                                entry.getKey().type().getDefaultValue() :
+                                actualValue
+                );
+
+            }
 
         });
     }
