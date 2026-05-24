@@ -133,11 +133,11 @@ public class PotoFlux {
         try {
             bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
 
-            bus.post(new RegisterSettingEvent()); // before: tabs
             bus.post(new RegisterTabsEvent());
             bus.post(new RegisterCommandsEvent());
             bus.post(new RegisterRunsEvent());
             bus.post(new RegisterMenuEvent());
+            bus.post(new RegisterSettingEvent());
         } catch (Throwable e) {
             e.printStackTrace();
             runProgramClosing(-1);
