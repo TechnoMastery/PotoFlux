@@ -4,11 +4,11 @@ import net.minheur.potoflux.registry.IRegistry;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SettingRegistry implements IRegistry<Setting> {
-    private static final Map<ResourceLocation, Setting> REGISTRY = new HashMap<>();
+    private static final Map<ResourceLocation, Setting> REGISTRY = new LinkedHashMap<>();
 
     public static Collection<Setting> getAll() {
         return REGISTRY.values();

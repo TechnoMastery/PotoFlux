@@ -61,11 +61,8 @@ public class SettingsTab extends BaseVTab<VBox> {
         settings.clear();
         List<Setting> allSettings = SettingRegistry.getAll().stream()
                 .sorted(Comparator.comparing(
-                                        (Setting setting) -> !setting.id().getNamespace().equals(PotoFlux.ID)
-                                )
-                        .thenComparing(setting -> setting.id().getNamespace())
-                        .thenComparing(setting -> setting.id().getPath())
-                )
+                        (Setting setting) -> !setting.id().getNamespace().equals(PotoFlux.ID)
+                ))
                 .toList();
 
         for (Setting setting : allSettings) {
