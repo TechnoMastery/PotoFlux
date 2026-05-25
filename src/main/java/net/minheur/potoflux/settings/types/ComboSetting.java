@@ -26,6 +26,8 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<Strin
         this.node = new ComboBox<>(items);
         this.defaultValue = defaultValue;
 
+        if (items.size() < 2) node.setDisable(true);
+
         isModifiedLabel = new Label();
         this.node.getSelectionModel().select(defaultValue);
         content.getChildren().addAll(this.name, node);
