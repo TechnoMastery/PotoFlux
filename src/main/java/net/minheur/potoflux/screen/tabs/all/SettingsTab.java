@@ -44,7 +44,7 @@ public class SettingsTab extends BaseVTab<VBox> {
 
         // todo optional property system
 
-        settings = new HashMap<>();
+        settings = new LinkedHashMap<>();
 
         fillSetting();
         buildLines();
