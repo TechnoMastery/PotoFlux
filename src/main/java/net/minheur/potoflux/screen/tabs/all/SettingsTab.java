@@ -42,8 +42,6 @@ public class SettingsTab extends BaseVTab<VBox> {
     @Override
     protected void setPanel() {
         // todo: move all below to Setting class (using reg)
-        // addThemeCombo(); todo theme chooser
-        // todo ascii on start checkbox
         // todo tab placement chooser
 
         // todo optional property system
