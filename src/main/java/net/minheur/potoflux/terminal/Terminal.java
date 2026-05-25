@@ -156,7 +156,9 @@ public class Terminal {
             }
 
             outputArea.setText(content);
-            buildASCII();
+            if ((boolean) UserPrefsManager.getValueFor(Settings.INSTANCE.ASCII_ON_START))
+                buildASCII();
+            else CommandProcessor.appendOutput("");
         } catch (IOException e) {
             e.printStackTrace();
             CommandProcessor.appendOutput("ERROR loading terminal file");

@@ -177,6 +177,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addPref("theme")
                 .en("Theme")
                 .fr("Thème");
+        addPref("ascii_on_start")
+                .en("Write ASCII on start")
+                .fr("Réécrire l'ASCII au démarrage");
 
         addAsciiName("basic")
                 .en("Basic")
