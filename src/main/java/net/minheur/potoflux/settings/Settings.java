@@ -35,17 +35,17 @@ public class Settings {
                     FXCollections.observableArrayList(ASCIIs.values()),
                     ASCIIs.BIG
             ), false));
+    public final Setting ASCII_ON_START = LIST.add(new Setting(fromModId("ascii_on_start"),
+            new CheckboxSetting(
+                    Translations.get("potoflux:prefs.ascii_on_start"),
+                    true
+            ), false));
     public final Setting THEME = LIST.add(new Setting(fromModId("theme"),
             new ComboSetting<>(
                     Translations.get("potoflux:prefs.theme"),
                     FXCollections.observableArrayList(Themes.values()),
                     Themes.DEFAULT
             ), true));
-    public final Setting ASCII_ON_START = LIST.add(new Setting(fromModId("ascii_on_start"),
-            new CheckboxSetting(
-                    Translations.get("potoflux:prefs.ascii_on_start"),
-                    true
-            ), false));
 
     public static void register(RegisterSettingEvent event) {
         INSTANCE = new Settings();
