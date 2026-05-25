@@ -180,6 +180,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addPref("ascii_on_start")
                 .en("Write ASCII on start")
                 .fr("Réécrire l'ASCII au démarrage");
+        addPref("tab_placement")
+                .en("Tab placement")
+                .fr("Position des onglets");
 
         addAsciiName("basic")
                 .en("Basic")

@@ -14,7 +14,10 @@ import net.minheur.potoflux.screen.menu.PotoMenuItem;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
+import net.minheur.potoflux.screen.tabs.TabSides;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
+import net.minheur.potoflux.settings.Settings;
+import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
@@ -48,15 +51,11 @@ public class FXPotoScreen {
     }
 
     private void addTabs() {
-        Properties optionalFeatures = OptionalFeaturesManager.get();
-        String placementProp = optionalFeatures.getProperty("tabBarPlacement", "left");
-        Side placement = switch (placementProp.toLowerCase()) {
-            case "right" -> Side.RIGHT;
-            case "top" -> Side.TOP;
-            case "bottom" -> Side.BOTTOM;
-            default -> Side.LEFT;
-        };
-        tabs.setSide(placement);
+        TabSides placement = TabSides.getFromCode(
+                (String) UserPrefsManager.getValueFor(Settings.INSTANCE.TAB_PLACEMENT)
+        );
+        if (placement == null) placement = TabSides.LEFT;
+        tabs.setSide(placement.getSide());
 
         List<Tab> allTabs = TabRegistry.getAll().stream()
                 .sorted(Comparator.comparing(

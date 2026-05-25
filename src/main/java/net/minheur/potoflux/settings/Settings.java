@@ -3,6 +3,7 @@ package net.minheur.potoflux.settings;
 import javafx.collections.FXCollections;
 import net.minheur.potoflux.loader.mod.events.RegisterSettingEvent;
 import net.minheur.potoflux.registry.RegistryList;
+import net.minheur.potoflux.screen.tabs.TabSides;
 import net.minheur.potoflux.settings.types.CheckboxSetting;
 import net.minheur.potoflux.settings.types.ComboSetting;
 import net.minheur.potoflux.terminal.ASCIIs;
@@ -45,6 +46,12 @@ public class Settings {
                     Translations.get("potoflux:prefs.theme"),
                     FXCollections.observableArrayList(Themes.values()),
                     Themes.DEFAULT
+            ), true));
+    public final Setting TAB_PLACEMENT = LIST.add(new Setting(fromModId("tab_placement"),
+            new ComboSetting<>(
+                    Translations.get("potoflux:prefs.tab_placement"),
+                    FXCollections.observableArrayList(TabSides.values()),
+                    TabSides.LEFT
             ), true));
 
     public static void register(RegisterSettingEvent event) {
