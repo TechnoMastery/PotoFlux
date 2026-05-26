@@ -9,15 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.settings.Setting;
 import net.minheur.potoflux.settings.SettingInfo;
 import net.minheur.potoflux.settings.SettingRegistry;
 import net.minheur.potoflux.settings.types.ISettingType;
-import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.settings.UserPrefsManager;
 
@@ -34,6 +33,7 @@ public class SettingsTab extends BaseVTab<VBox> {
 
     private Button apply;
     private Button cancel;
+    private Button openOptional;
 
     /**
      * This is the actual method to set the panel.<br>
@@ -138,10 +138,14 @@ public class SettingsTab extends BaseVTab<VBox> {
 
         cancel = new Button(Translations.get("common:cancel"));
         apply = new Button(Translations.get("common:apply"));
+        openOptional = new Button(Translations.get("potoflux:tabs.settings.optionals.openButton"));
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
         setupAction();
 
-        HBox buttons = new HBox(10, cancel, apply);
+        HBox buttons = new HBox(10, openOptional, spacer, cancel, apply);
         buttons.setPadding(new Insets(10));
         buttons.setAlignment(Pos.CENTER_RIGHT);
 

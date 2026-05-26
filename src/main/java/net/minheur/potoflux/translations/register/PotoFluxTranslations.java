@@ -268,6 +268,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addSettingsTab("name")
                 .en("Settings")
                 .fr("Paramètres");
+        addSettingsTab("optionals", "openButton")
+                .en("Optional features")
+                .fr("Fonctionnalités optionnelles");
 
         addTerminalTab("name")
                 .en("Terminal")
