@@ -110,8 +110,7 @@ public class FXPotoScreen {
             PotoFlux.runProgramClosing(0);
         });
 
-        Properties optionalFeatures = OptionalFeaturesManager.get();
-        boolean isResizable = Boolean.parseBoolean(optionalFeatures.getProperty("resizableWindow", "false"));
+        boolean isResizable = OptionalFeaturesManager.getBoolean("resizableWindow", false);
         stage.setResizable(isResizable);
     }
 

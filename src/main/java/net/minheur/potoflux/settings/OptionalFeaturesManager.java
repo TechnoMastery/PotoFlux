@@ -2,6 +2,7 @@ package net.minheur.potoflux.settings;
 
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,8 +54,38 @@ public final class OptionalFeaturesManager {
         }
     }
 
-    public static Properties get() {
-        return features;
+    private static Object getRaw(String key, Object defaultValue) {
+        return features.getOrDefault(key, defaultValue);
+    }
+    private static Object getRaw(String key) {
+        return getRaw(key, null);
+    }
+
+    public static String getString(String key, String defaultValue) {
+        return features.getProperty(key, defaultValue);
+    }
+    public static @Nullable String getString(String key) {
+        return getString(key, null);
+    }
+
+    public static Boolean getBoolean(String key, Boolean defaultValue) {
+        Object o = getRaw(key, defaultValue);
+        if (o instanceof Boolean b)
+            return b;
+        else return defaultValue;
+    }
+    public static @Nullable Boolean getBoolean(String key) {
+        return getBoolean(key, null);
+    }
+
+    public static Integer getInt(String key, Integer defaultValue) {
+        Object o = getRaw(key, defaultValue);
+        if (o instanceof Integer i)
+            return i;
+        else return defaultValue;
+    }
+    public static Integer getInt(String key) {
+        return getInt(key, null);
     }
 
 }

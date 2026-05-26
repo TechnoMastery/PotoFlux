@@ -82,8 +82,7 @@ public class PotoScreen {
         });
         frame.setLocationRelativeTo(null);
 
-        Properties optionalFeatures = OptionalFeaturesManager.get();
-        boolean isResizable = Boolean.parseBoolean(optionalFeatures.getProperty("resizableWindow", "false"));
+        boolean isResizable = OptionalFeaturesManager.getBoolean("resizableWindow", false);
         if (!isResizable) frame.setResizable(false);
         return frame;
     }

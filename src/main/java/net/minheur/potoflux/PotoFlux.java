@@ -165,12 +165,10 @@ public class PotoFlux {
      * Executes the logic to know if the log saving system will be enabled
      */
     private static void runLogSavingEnablingLogic() {
-        String logSavingFeature = OptionalFeaturesManager.get().getProperty("doLogSaving");
+        Boolean logSavingFeature = OptionalFeaturesManager.getBoolean("doLogSaving");
 
         if (logSavingFeature == null) enableLogSavingDefault();
-
-        boolean isSavingEnabled = Boolean.parseBoolean(logSavingFeature);
-        if (isSavingEnabled) LogSaver.enable();
+        else if (logSavingFeature) LogSaver.enable();
     }
     /**
      * Executes the default logic to know if the log saving system will be enabled
