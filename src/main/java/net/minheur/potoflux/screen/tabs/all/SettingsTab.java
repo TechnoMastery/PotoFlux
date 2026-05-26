@@ -19,6 +19,7 @@ import net.minheur.potoflux.settings.SettingRegistry;
 import net.minheur.potoflux.settings.types.ISettingType;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.settings.UserPrefsManager;
+import net.minheur.potoflux.ui.dialogs.OptionalFeaturesDialog;
 
 import java.util.*;
 
@@ -209,6 +210,11 @@ public class SettingsTab extends BaseVTab<VBox> {
 
             }
 
+        });
+
+        openOptional.setOnAction(e -> {
+            OptionalFeaturesDialog dialog = new OptionalFeaturesDialog();
+            dialog.show();
         });
     }
 
