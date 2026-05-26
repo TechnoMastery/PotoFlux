@@ -8,11 +8,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public final class OptionalFeaturesManager {
 
     private static final Properties features = new Properties();
+    private static final Map<String, OptionalFeature> featureMap = new LinkedHashMap<>();
     private static boolean hasLoaded = false;
 
     private OptionalFeaturesManager() {}
@@ -36,7 +39,10 @@ public final class OptionalFeaturesManager {
         } catch (IOException e) {
             e.printStackTrace();
             PtfLogger.error("Could not get optionalFeatures.properties !");
+            return;
         }
+
+        fillMap();
 
     }
     /**
@@ -52,6 +58,45 @@ public final class OptionalFeaturesManager {
             e.printStackTrace();
             PtfLogger.error("Could not create optionalFeatures.properties !");
         }
+    }
+
+    private static void fillMap() {
+
+        for (Map.Entry<Object, Object> entry : features.entrySet()) {
+
+            // ignore non-string keys
+            if (!(entry.getKey() instanceof String key)) continue;
+
+            Object rawValue = entry.getValue();
+
+            // ignore non-string values
+            if (!(rawValue instanceof String value)) continue;
+
+            // boolean case
+            if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
+
+                boolean boolValue = Boolean.parseBoolean(value);
+                featureMap.put(key, new OptionalFeature(boolValue));
+                continue;
+
+            }
+
+            // int case
+            try {
+                int intValue = Integer.parseInt(value);
+                featureMap.put(key, new OptionalFeature(intValue));
+                continue;
+            } catch (NumberFormatException ignored) {}
+
+            // string callback
+            featureMap.put(key, new OptionalFeature(value));
+
+        }
+
+    }
+
+    public static Map<String, OptionalFeature> getFeatureMap() {
+        return featureMap;
     }
 
     private static Object getRaw(String key, Object defaultValue) {
