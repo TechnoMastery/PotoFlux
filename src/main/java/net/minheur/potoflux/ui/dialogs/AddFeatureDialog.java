@@ -14,6 +14,10 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
     private ComboBox<OptionalFeature.Type> typeCombo;
     private TextField keyField;
 
+    private TextField stringField;
+    private ComboBox<Boolean> boolField;
+    private Spinner<Integer> intField;
+
     public AddFeatureDialog() {
 
         this.grid = new GridPane();
@@ -24,8 +28,39 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         addChoseType();
         addSep(1);
 
-        addKeyField();
+        initStringField();
+        initBoolField();
+        initIntField();
 
+        addKeyField();
+        addStringField();
+
+    }
+
+    private void addStringField() {
+        grid.add(stringField, 1, 2);
+    }
+    private void addBoolField() {
+        grid.add(boolField, 1, 2);
+    }
+    private void addIntField() {
+        grid.add(intField, 1, 2);
+    }
+
+    private void initStringField() {
+        stringField = new TextField();
+        stringField.setPromptText("Enter value..."); // todo
+    }
+    private void initBoolField() {
+        boolField = new ComboBox<>(FXCollections.observableArrayList(true, false));
+        boolField.getSelectionModel().select(false);
+    }
+    private void initIntField() {
+        intField = new Spinner<>(
+                Integer.MIN_VALUE,
+                Integer.MAX_VALUE,
+                0
+        );
     }
 
     private void addKeyField() {
