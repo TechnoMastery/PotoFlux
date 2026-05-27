@@ -1,9 +1,6 @@
 package net.minheur.potoflux.terminal;
 
-import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -11,7 +8,8 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.PtfLogger;
-import net.minheur.potoflux.utils.UserPrefsManager;
+import net.minheur.potoflux.settings.Settings;
+import net.minheur.potoflux.settings.UserPrefsManager;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -158,7 +156,9 @@ public class Terminal {
             }
 
             outputArea.setText(content);
-            buildASCII();
+            if ((boolean) UserPrefsManager.getValueFor(Settings.INSTANCE.ASCII_ON_START))
+                buildASCII();
+            else CommandProcessor.appendOutput("");
         } catch (IOException e) {
             e.printStackTrace();
             CommandProcessor.appendOutput("ERROR loading terminal file");
@@ -201,7 +201,7 @@ public class Terminal {
      * By default, using {@code big}
      */
     public static void buildASCII() {
-        String asciiFile = UserPrefsManager.getTerminalASCII();
+        String asciiFile = (String) UserPrefsManager.getValueFor(Settings.INSTANCE.ASCII);
         if (asciiFile == null) asciiFile = "big";
 
         String asciiContent = getAsciiFileContent(asciiFile);

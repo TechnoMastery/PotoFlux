@@ -1,7 +1,5 @@
 package net.minheur.potoflux;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
 import javafx.application.Platform;
 import net.minheur.potoflux.actionRuns.ActionRuns;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
@@ -9,7 +7,6 @@ import net.minheur.potoflux.actionRuns.regs.CloseRunRegistry;
 import net.minheur.potoflux.actionRuns.regs.StartLogicRunRegistry;
 import net.minheur.potoflux.actionRuns.regs.StartUiRunRegistry;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
-import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
@@ -20,10 +17,13 @@ import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.screen.FXLoadingScreen;
 import net.minheur.potoflux.screen.FXPotoScreen;
 import net.minheur.potoflux.screen.PotoScreen;
-import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
+import net.minheur.potoflux.settings.OptionalFeaturesManager;
+import net.minheur.potoflux.settings.Settings;
+import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.terminal.commands.Commands;
+import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.translations.register.CommonTranslations;
 import net.minheur.potoflux.translations.register.FileTranslations;
@@ -31,9 +31,8 @@ import net.minheur.potoflux.translations.register.PotoFluxTranslations;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
-import net.minheur.potoflux.utils.UserPrefsManager;
+import net.minheur.potoflux.settings.UserPrefsManager;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -94,7 +93,7 @@ public class PotoFlux {
 
         // load optional features
         Platform.runLater(() -> startScreen.updateStage("Loading features..."));
-        PotoFluxLoadingContext.loadFeatures();
+        OptionalFeaturesManager.load();
 
         // enable or not log saving
         Platform.runLater(() -> startScreen.updateStage("Loading log logic..."));
@@ -110,8 +109,8 @@ public class PotoFlux {
 
         // load translations
         Platform.runLater(() -> startScreen.updateStage("Loading translations..."));
-        if (!UserPrefsManager.getUserLang().equals("en"))
-            Translations.load(UserPrefsManager.getUserLang());
+        String lang = (String) UserPrefsManager.getValueFor(PreferencesTypes.STRING, Lang.EN.code, fromModId("lang"));
+        Translations.load(lang);
 
         // def modEventBus
         Platform.runLater(() -> startScreen.updateStage("Loading event bus..."));
@@ -123,6 +122,7 @@ public class PotoFlux {
         bus.addListener(Commands::register);
         bus.addListener(ActionRuns::register);
         bus.addListener(MenuContent::register);
+        bus.addListener(Settings::register);
 
         // load all addons todo
         // Platform.runLater(() -> startScreen.updateStage("Loading addons..."));
@@ -134,10 +134,12 @@ public class PotoFlux {
 
         try {
             bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
+
             bus.post(new RegisterTabsEvent());
             bus.post(new RegisterCommandsEvent());
             bus.post(new RegisterRunsEvent());
             bus.post(new RegisterMenuEvent());
+            bus.post(new RegisterSettingEvent());
         } catch (Throwable e) {
             e.printStackTrace();
             runProgramClosing(-1);
@@ -163,12 +165,10 @@ public class PotoFlux {
      * Executes the logic to know if the log saving system will be enabled
      */
     private static void runLogSavingEnablingLogic() {
-        String logSavingFeature = PotoFluxLoadingContext.getOptionalFeatures().getProperty("doLogSaving");
+        Boolean logSavingFeature = OptionalFeaturesManager.getBoolean("doLogSaving");
 
         if (logSavingFeature == null) enableLogSavingDefault();
-
-        boolean isSavingEnabled = Boolean.parseBoolean(logSavingFeature);
-        if (isSavingEnabled) LogSaver.enable();
+        else if (logSavingFeature) LogSaver.enable();
     }
     /**
      * Executes the default logic to know if the log saving system will be enabled

@@ -1,0 +1,23 @@
+package net.minheur.potoflux.settings.types;
+
+import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import org.jetbrains.annotations.NotNull;
+
+public interface ISettingType<S> {
+
+    Node getExecutionNode();
+    Label getIsModifiedLabel();
+    PreferencesTypes prefType();
+
+    /**
+     * Needs to be the type of the {@link PreferencesTypes#getValueClass()} associated in {@link #prefType()}
+     * @return the default value for the setting
+     */
+    @NotNull S getDefaultValue();
+    void selectValue(@NotNull Object value);
+    Object getSelectedValue();
+    ObservableValue<?> valueProperty();
+
+}
