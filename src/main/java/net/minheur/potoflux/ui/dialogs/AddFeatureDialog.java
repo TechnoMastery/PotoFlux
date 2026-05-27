@@ -40,6 +40,38 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         ((Button) getDialogPane().lookupButton(UiUtils.cancelButton.get()))
                 .setCancelButton(true);
 
+        setupResult();
+
+    }
+
+    private void setupResult() {
+        setResultConverter(buttonType -> {
+
+            if (buttonType == UiUtils.confirmButton.get()) {
+
+                String key = keyField.getText().trim();
+                if (key.isEmpty()) return null;
+
+                OptionalFeature.Type type = typeCombo.getSelectionModel().getSelectedItem();
+
+                String stringValue = stringField.getText();
+                boolean boolValue = boolField.getValue();
+                int intValue = intField.getValue();
+
+                OptionalFeature feature;
+
+                switch (type) {
+                    case STRING -> feature = new OptionalFeature(stringValue);
+                    case INT -> feature = new OptionalFeature(intValue);
+                    case BOOL -> feature = new OptionalFeature(boolValue);
+                    default -> throw new IllegalStateException("Unexpected value: " + type);
+                }
+
+                return new Pair<>(key, feature);
+
+            } else return null;
+
+        });
     }
 
     private void setupButtons() {
