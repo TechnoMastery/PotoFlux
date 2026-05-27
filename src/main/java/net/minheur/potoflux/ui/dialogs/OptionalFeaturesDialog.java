@@ -135,8 +135,13 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
                 valueChanged ? newData : data
         );
 
+        saveAndHandle(featureMap);
+
+    }
+
+    private void saveAndHandle(Map<String, OptionalFeature> features) {
         try {
-            saveToFile(featureMap);
+            saveToFile(features);
         } catch (IOException e) {
             e.printStackTrace();
             PtfLogger.error("Failed to save optionalFeature.properties !");
@@ -146,7 +151,6 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
             listPanel.getChildren().clear();
             fillFeatures();
         }
-
     }
 
     private void saveToFile(@NotNull Map<String, OptionalFeature> featureMap) throws IOException {
