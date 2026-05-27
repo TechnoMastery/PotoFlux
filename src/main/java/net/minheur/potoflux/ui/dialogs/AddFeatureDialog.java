@@ -48,6 +48,7 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         typeCombo = new ComboBox<>(FXCollections.observableArrayList(
                 OptionalFeature.Type.values()
         ));
+        typeCombo.getSelectionModel().select(OptionalFeature.Type.STRING);
         typeCombo.setPrefWidth(250);
 
         grid.add(new Label("Feature type: "), 0, 0); // todo
