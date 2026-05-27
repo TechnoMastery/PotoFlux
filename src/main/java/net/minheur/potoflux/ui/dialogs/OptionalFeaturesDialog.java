@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.util.Pair;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.settings.OptionalFeature;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Properties;
 
 public class OptionalFeaturesDialog extends Dialog<Void> {
@@ -31,6 +33,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
         setupPanel();
 
         fillFeatures();
+        mkAddFeatureButton();
 
         getDialogPane().setContent(root);
         getDialogPane().getButtonTypes().add(UiUtils.closeButton.get());
@@ -38,6 +41,37 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
 
         ((Button) getDialogPane().lookupButton(UiUtils.closeButton.get()))
                 .setDefaultButton(true);
+    }
+
+    private void mkAddFeatureButton() {
+        ButtonType buttonType = new ButtonType(
+                "Add a feature", // todo
+                ButtonBar.ButtonData.OTHER
+        );
+        getDialogPane().getButtonTypes().add(buttonType);
+
+        Button button = (Button) getDialogPane().lookupButton(buttonType);
+
+        button.setOnAction(e -> {
+
+            AddFeatureDialog dialog = new AddFeatureDialog();
+            Optional<Pair<String, OptionalFeature>> returnValue = dialog.showAndWait();
+
+            if (returnValue.isEmpty()) return;
+
+            String key = returnValue.get().getKey();
+            OptionalFeature value = returnValue.get().getValue();
+
+            Map<String, OptionalFeature> features = OptionalFeaturesManager.getFeatureMap();
+            if (features.containsKey(key)) {
+                boolean confirmed = UiUtils.showConfirmationDialog("Key '" + key + "' already exists.\nDo you want to override ?"); // todo
+                if (!confirmed) return;
+                features.replace(key, value);
+            } else features.put(key, value);
+
+            saveAndHandle(features);
+
+        });
     }
 
     private void fillFeatures() {
