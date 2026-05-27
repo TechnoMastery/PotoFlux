@@ -153,7 +153,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
 
         // easy type access + key + value
         OptionalFeature.Type type = data.getType();
-        String newKey = newKeyField.getText();
+        String newKey = newKeyField.getText().trim();
         Object newValue = switch (type) {
             case STRING -> ((TextField) newValueNode).getText();
             case INT -> ((Spinner<Integer>) newValueNode).getValue();
@@ -165,7 +165,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
         boolean valueChanged = !Objects.equals(newValue, data.get());
 
         if (!(keyChanged || valueChanged)) return; // return if not changed
-        if (newKey.trim().isEmpty()) return; // return if empty key
+        if (newKey.isEmpty()) return; // return if empty key
 
         OptionalFeature newData = switch (type) {
             case STRING -> new OptionalFeature((String) newValue);
