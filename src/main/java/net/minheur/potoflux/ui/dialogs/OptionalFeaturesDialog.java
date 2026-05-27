@@ -34,7 +34,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
 
         getDialogPane().setContent(root);
         getDialogPane().getButtonTypes().add(UiUtils.closeButton.get());
-        getDialogPane().setPrefSize(400, 500);
+        getDialogPane().setPrefSize(650, 500);
 
         ((Button) getDialogPane().lookupButton(UiUtils.closeButton.get()))
                 .setDefaultButton(true);
