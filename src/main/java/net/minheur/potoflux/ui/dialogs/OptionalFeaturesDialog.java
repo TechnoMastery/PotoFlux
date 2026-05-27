@@ -92,14 +92,25 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
                 keyField, valueNode
         ));
 
+        Button rmButton = new Button("Remove feature"); // todo
+        rmButton.setOnAction(e -> rmFeature(featureKey));
+
         // add to row
         row.getChildren().addAll(
                 keyField, valueNode,
                 spacer,
-                modifyButton
+                modifyButton, rmButton
         );
 
         return row;
+
+    }
+
+    private void rmFeature(String key) {
+
+        Map<String, OptionalFeature> features = OptionalFeaturesManager.getFeatureMap();
+        features.remove(key);
+        saveAndHandle(features);
 
     }
 
