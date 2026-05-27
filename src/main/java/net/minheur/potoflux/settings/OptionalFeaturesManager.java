@@ -96,10 +96,10 @@ public final class OptionalFeaturesManager {
         return featureMap;
     }
 
-    private static Object getRaw(String key, Object defaultValue) {
+    public static Object getRaw(String key, Object defaultValue) {
         return features.getOrDefault(key, defaultValue);
     }
-    private static Object getRaw(String key) {
+    public static Object getRaw(String key) {
         return getRaw(key, null);
     }
 
