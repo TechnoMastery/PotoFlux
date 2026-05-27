@@ -23,6 +23,7 @@ public final class OptionalFeaturesManager {
      * Called to load optional features from the file
      */
     public static void load() {
+        features.clear();
 
         Path featuresPath = PotoFlux.getProgramDir().resolve("optionalFeatures.properties");
 
@@ -58,6 +59,7 @@ public final class OptionalFeaturesManager {
     }
 
     private static void fillMap() {
+        featureMap.clear();
 
         for (Map.Entry<Object, Object> entry : features.entrySet()) {
 
