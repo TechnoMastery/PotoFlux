@@ -16,10 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 public class OptionalFeaturesDialog extends Dialog<Void> {
 
@@ -75,6 +72,11 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
     }
 
     private void fillFeatures() {
+        if (OptionalFeaturesManager.getFeatureMap().isEmpty()) {
+            listPanel.getChildren().add(new Label("No features !")); // todo
+            return;
+        }
+
         for (Map.Entry<String, OptionalFeature> entry : OptionalFeaturesManager.getFeatureMap().entrySet())
             listPanel.getChildren().add(mkRow(entry.getKey(), entry.getValue()));
     }
