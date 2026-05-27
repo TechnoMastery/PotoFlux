@@ -26,7 +26,7 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         grid.setPadding(new Insets(15));
 
         addChoseType();
-        addSep(1);
+        addSep();
 
         initStringField();
         initBoolField();
@@ -71,11 +71,11 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         grid.add(keyField, 0, 2);
     }
 
-    private void addSep(int row) {
+    private void addSep() {
         Separator separator = new Separator();
         separator.setMaxWidth(Double.MAX_VALUE);
 
-        grid.add(separator, 0, row);
+        grid.add(separator, 0, 1);
         GridPane.setColumnSpan(separator, GridPane.REMAINING);
     }
 
