@@ -7,6 +7,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -21,6 +23,7 @@ import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.ui.dialogs.OptionalFeaturesDialog;
 
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -99,6 +102,19 @@ public class SettingsTab extends BaseVTab<VBox> {
                             entry.getKey().type().valueProperty()
                     )
             );
+
+            if (entry.getKey().requireRestart()) {
+                InputStream is = getClass().getResourceAsStream("/textures/refresh.png");
+                if (is != null) {
+                    ImageView image = new ImageView(
+                            new Image(is)
+                    );
+                    image.setFitWidth(16);
+                    image.setFitHeight(16);
+                    image.setPreserveRatio(true);
+                    modified.setGraphic(image);
+                }
+            }
 
             vContent.getChildren().add(pane);
 
