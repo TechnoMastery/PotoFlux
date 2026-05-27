@@ -16,7 +16,6 @@ public final class OptionalFeaturesManager {
 
     private static final Properties features = new Properties();
     private static final Map<String, OptionalFeature> featureMap = new LinkedHashMap<>();
-    private static boolean hasLoaded = false;
 
     private OptionalFeaturesManager() {}
 
@@ -24,8 +23,6 @@ public final class OptionalFeaturesManager {
      * Called to load optional features from the file
      */
     public static void load() {
-        if (hasLoaded) return;
-        hasLoaded = true;
 
         Path featuresPath = PotoFlux.getProgramDir().resolve("optionalFeatures.properties");
 
