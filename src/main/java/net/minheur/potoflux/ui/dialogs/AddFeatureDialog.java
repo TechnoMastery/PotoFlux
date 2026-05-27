@@ -86,6 +86,16 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         typeCombo.getSelectionModel().select(OptionalFeature.Type.STRING);
         typeCombo.setPrefWidth(250);
 
+        typeCombo.setOnAction(e -> {
+
+            switch (typeCombo.getSelectionModel().getSelectedItem()) {
+                case STRING -> addStringField();
+                case INT -> addIntField();
+                case BOOL -> addBoolField();
+            }
+
+        });
+
         grid.add(new Label("Feature type: "), 0, 0); // todo
         grid.add(typeCombo, 1, 0);
     }
