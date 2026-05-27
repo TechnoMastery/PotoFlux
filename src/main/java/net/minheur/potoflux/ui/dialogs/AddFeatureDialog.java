@@ -26,15 +26,11 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         grid.setVgap(10);
         grid.setPadding(new Insets(15));
 
-        addChoseType();
-        addSep();
-
         initStringField();
         initBoolField();
         initIntField();
 
-        addKeyField();
-        addStringField();
+        fillGrid(OptionalFeature.Type.STRING);
 
         getDialogPane().setContent(grid);
 
@@ -51,6 +47,22 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
                 UiUtils.cancelButton.get(),
                 UiUtils.confirmButton.get()
         );
+    }
+
+    private void fillGrid(OptionalFeature.Type type) {
+
+        grid.getChildren().clear();
+
+        addChoseType(type);
+        addSep();
+
+        addKeyField();
+        switch (type) {
+            case STRING -> addStringField();
+            case INT -> addIntField();
+            case BOOL -> addBoolField();
+        }
+
     }
 
     private void addStringField() {
@@ -95,22 +107,14 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         GridPane.setColumnSpan(separator, GridPane.REMAINING);
     }
 
-    private void addChoseType() {
+    private void addChoseType(OptionalFeature.Type actual) {
         typeCombo = new ComboBox<>(FXCollections.observableArrayList(
                 OptionalFeature.Type.values()
         ));
-        typeCombo.getSelectionModel().select(OptionalFeature.Type.STRING);
+        typeCombo.getSelectionModel().select(actual);
         typeCombo.setPrefWidth(250);
 
-        typeCombo.setOnAction(e -> {
-
-            switch (typeCombo.getSelectionModel().getSelectedItem()) {
-                case STRING -> addStringField();
-                case INT -> addIntField();
-                case BOOL -> addBoolField();
-            }
-
-        });
+        typeCombo.setOnAction(e -> fillGrid(typeCombo.getSelectionModel().getSelectedItem()));
 
         grid.add(new Label("Feature type: "), 0, 0); // todo
         grid.add(typeCombo, 1, 0);
