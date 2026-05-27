@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 import net.minheur.potoflux.settings.OptionalFeature;
+import net.minheur.potoflux.ui.UiUtils;
 
 public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
 
@@ -35,6 +36,21 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         addKeyField();
         addStringField();
 
+        getDialogPane().setContent(grid);
+
+        setupButtons();
+        ((Button) getDialogPane().lookupButton(UiUtils.confirmButton.get()))
+                .setDefaultButton(true);
+        ((Button) getDialogPane().lookupButton(UiUtils.cancelButton.get()))
+                .setCancelButton(true);
+
+    }
+
+    private void setupButtons() {
+        getDialogPane().getButtonTypes().addAll(
+                UiUtils.cancelButton.get(),
+                UiUtils.confirmButton.get()
+        );
     }
 
     private void addStringField() {
