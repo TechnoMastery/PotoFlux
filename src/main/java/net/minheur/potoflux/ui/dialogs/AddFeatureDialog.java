@@ -2,10 +2,7 @@ package net.minheur.potoflux.ui.dialogs;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 import net.minheur.potoflux.settings.OptionalFeature;
@@ -15,6 +12,7 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
     private final GridPane grid;
 
     private ComboBox<OptionalFeature.Type> typeCombo;
+    private TextField keyField;
 
     public AddFeatureDialog() {
 
@@ -26,8 +24,16 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         addChoseType();
         addSep(1);
 
-        // todo: add choosers
+        addKeyField();
 
+    }
+
+    private void addKeyField() {
+        keyField = new TextField();
+        keyField.setPromptText("Enter key..."); // todo
+        keyField.setPrefWidth(250);
+
+        grid.add(keyField, 0, 2);
     }
 
     private void addSep(int row) {
