@@ -14,10 +14,7 @@ import net.minheur.potoflux.terminal.CommandRegistry;
 import net.minheur.potoflux.terminal.Terminal;
 import net.minheur.potoflux.translations.Translations;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -157,7 +154,7 @@ public class CommandActions {
             if (tabName.equals(
                     tab.id().toString()
             )) {
-                PotoFlux.appFX.setOpenedTab(tab);
+                PotoFlux.app.setOpenedTab(tab);
                 return;
             }
         }

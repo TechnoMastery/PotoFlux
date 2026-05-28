@@ -50,7 +50,7 @@ public class PotoFlux {
      * The actual app.<br>
      * This contains the JFrame and will be instantiated when the app will run.
      */
-    public static FXPotoScreen appFX;
+    public static FXPotoScreen app;
 
     /**
      * The main method, that runs PotoFlux.<br>
@@ -151,7 +151,7 @@ public class PotoFlux {
         Platform.runLater(() -> startScreen.updateStage("Launching app..."));
 
         Platform.runLater(() -> {
-            appFX = new FXPotoScreen();
+            app = new FXPotoScreen();
             startScreen.close();
 
             for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();

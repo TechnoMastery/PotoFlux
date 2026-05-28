@@ -22,7 +22,6 @@ import net.minheur.potoflux.ui.dialogData.LoginData;
 import net.minheur.potoflux.utils.Json;
 
 import javax.annotation.Nullable;
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -217,7 +216,7 @@ public class ConnectionHandler {
     public static void reloadAuthUi() {
         reloadAccountCreationPermission();
 
-        ((AccountTab) PotoFlux.appFX.getTabMap().get(Tabs.INSTANCE.ACCOUNT)).reload();
+        ((AccountTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.ACCOUNT)).reload();
         ((AccountMenu) MenuContent.INSTANCE.ACCOUNT.content()).reload();
     }
     public static void logout() {
