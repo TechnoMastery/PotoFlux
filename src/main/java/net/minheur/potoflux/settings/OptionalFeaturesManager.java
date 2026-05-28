@@ -114,8 +114,9 @@ public final class OptionalFeaturesManager {
 
     public static Boolean getBoolean(String key, Boolean defaultValue) {
         Object o = getRaw(key, defaultValue);
-        if (o instanceof Boolean b)
-            return b;
+        if (o == null) return defaultValue;
+        if (o instanceof String s)
+            return Boolean.parseBoolean(s);
         else return defaultValue;
     }
     public static @Nullable Boolean getBoolean(String key) {
@@ -124,8 +125,9 @@ public final class OptionalFeaturesManager {
 
     public static Integer getInt(String key, Integer defaultValue) {
         Object o = getRaw(key, defaultValue);
-        if (o instanceof Integer i)
-            return i;
+        if (o == null) return defaultValue;
+        if (o instanceof String s)
+            return Integer.parseInt(s);
         else return defaultValue;
     }
     public static Integer getInt(String key) {
