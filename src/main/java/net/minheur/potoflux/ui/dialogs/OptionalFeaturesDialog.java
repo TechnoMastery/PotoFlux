@@ -81,7 +81,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
             listPanel.getChildren().add(mkRow(entry.getKey(), entry.getValue()));
     }
 
-    private HBox mkRow(String featureKey, OptionalFeature value) {
+    private @NotNull HBox mkRow(String featureKey, @NotNull OptionalFeature value) {
 
         // setup row
         HBox row = new HBox(10);

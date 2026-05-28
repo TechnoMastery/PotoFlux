@@ -18,6 +18,7 @@ import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -64,7 +65,7 @@ public class FXPotoScreen {
         fillTabMap(allTabs);
     }
 
-    private void fillTabMap(List<Tab> allTabs) {
+    private void fillTabMap(@NotNull List<Tab> allTabs) {
 
         for (Tab tabType : allTabs) {
             BaseTab<?> instance = tabType.createInstance();

@@ -2,6 +2,7 @@ package net.minheur.potoflux.screen.tabs;
 
 import net.minheur.potoflux.registry.IRegistryType;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A registry item to make tabs
@@ -13,7 +14,7 @@ public record Tab(ResourceLocation id, String name, Class<? extends BaseTab<?>> 
     /**
      * Creates an instance of the tab class ({@link #tabClass})
      */
-    public BaseTab<?> createInstance() {
+    public @Nullable BaseTab<?> createInstance() {
         try {
             return tabClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {

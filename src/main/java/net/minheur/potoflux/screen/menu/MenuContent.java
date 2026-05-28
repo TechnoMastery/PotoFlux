@@ -4,6 +4,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterMenuEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.menu.definers.AccountMenu;
 import net.minheur.potoflux.screen.menu.definers.MenuDefiners;
+import org.jetbrains.annotations.NotNull;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
@@ -21,7 +22,7 @@ public class MenuContent {
     public final PotoMenuItem FILE = LIST.add(new PotoMenuItem(fromModId("file"), MenuDefiners.getFileMenu()));
     public final PotoMenuItem ACCOUNT = LIST.add(new PotoMenuItem(fromModId("account"), new AccountMenu()));
 
-    public static void register(RegisterMenuEvent event) {
+    public static void register(@NotNull RegisterMenuEvent event) {
         INSTANCE = new MenuContent();
 
         INSTANCE.LIST.register(event.reg);

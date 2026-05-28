@@ -46,7 +46,7 @@ public class AllUsersDialog extends Dialog<Void> {
             listPanel.getChildren().add(mkRow(account));
     }
 
-    private @NotNull HBox mkRow(Account account) {
+    private @NotNull HBox mkRow(@NotNull Account account) {
 
         HBox row = new HBox(10);
         row.setPadding(new Insets(10));

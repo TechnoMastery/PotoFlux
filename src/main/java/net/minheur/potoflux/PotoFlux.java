@@ -13,6 +13,9 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.close.EventPostException;
 import net.minheur.potoflux.utils.close.ExitCode;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -43,7 +46,7 @@ public class PotoFlux extends Application {
 
         Task<Void> bootstrap = new Task<Void>() {
             @Override
-            protected Void call() throws Exception {
+            protected @Nullable Void call() throws Exception {
                 Bootstrap.bootstrap(this::updateMessage, getParameters().getRaw().toArray(new String[0]));
                 return null;
             }
@@ -108,7 +111,7 @@ public class PotoFlux extends Application {
      * Getter for the main program AppData folder.
      * @return the program's appData folder
      */
-    public static Path getProgramDir() {
+    public static @NotNull Path getProgramDir() {
         Path dir = Paths.get(System.getenv("APPDATA"), "TechnoMastery", "PotoFlux");
         try {
             Files.createDirectories(dir);
@@ -121,7 +124,7 @@ public class PotoFlux extends Application {
      * Mods should use this to resolve their modIds: this will be their own appData folder
      * @return the shared appData folder for mods
      */
-    public static Path getModDataDir() {
+    public static @NotNull Path getModDataDir() {
         Path dir = getProgramDir().resolve("mod-data");
         try {
             Files.createDirectories(dir);
@@ -138,7 +141,7 @@ public class PotoFlux extends Application {
         runExitLogic(exitCode);
         System.exit(exitCode.code()); // close app
     }
-    public static void runExitLogic(ExitCode exitCode) {
+    public static void runExitLogic(@NotNull ExitCode exitCode) {
         if (exitCode.code() == 0) for (ActionRun ar : CloseRunRegistry.getAll()) {
             try {
                 ar.run().run();
@@ -161,7 +164,7 @@ public class PotoFlux extends Application {
      * If unable to get the version, return null.
      * @return the app version
      */
-    public static String getVersion() {
+    public static @Nullable String getVersion() {
         try {
             Properties props = new Properties();
             props.load(PotoFlux.class.getResourceAsStream("/version.properties"));
@@ -179,7 +182,8 @@ public class PotoFlux extends Application {
      * @param loc the loc to add to the modId
      * @return a built {@link ResourceLocation} with potoflux's modId and the loc given
      */
-    public static ResourceLocation fromModId(String loc) {
+    @Contract("_ -> new")
+    public static @NotNull ResourceLocation fromModId(String loc) {
         return new ResourceLocation(ID, loc);
     }
 }

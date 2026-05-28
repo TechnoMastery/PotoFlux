@@ -6,6 +6,7 @@ import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.io.File;
 
 public class MenuDefiners {
 
-    public static Menu getFileMenu() {
+    public static @NotNull Menu getFileMenu() {
 
         // open mod dir
         MenuItem openModDir = new MenuItem(Translations.get("potoflux:menu.file.openModDir"));

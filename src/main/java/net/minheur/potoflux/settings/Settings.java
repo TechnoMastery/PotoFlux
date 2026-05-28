@@ -10,6 +10,7 @@ import net.minheur.potoflux.terminal.ASCIIs;
 import net.minheur.potoflux.theme.Themes;
 import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
+import org.jetbrains.annotations.NotNull;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
@@ -54,7 +55,7 @@ public class Settings {
                     TabSides.LEFT
             ), true));
 
-    public static void register(RegisterSettingEvent event) {
+    public static void register(@NotNull RegisterSettingEvent event) {
         INSTANCE = new Settings();
 
         INSTANCE.LIST.register(event.reg);

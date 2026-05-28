@@ -7,6 +7,7 @@ import net.minheur.potoflux.settings.types.ISettingType;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.prefs.Preferences;
 
@@ -28,7 +29,7 @@ public final class UserPrefsManager {
      * @return the value of the setting.
      * @throws ClassCastException if the default value is not the correct type for the type specified
      */
-    public static Object getValueFor(PreferencesTypes type, Object defaultValue, ResourceLocation id) {
+    public static Object getValueFor(@NotNull PreferencesTypes type, Object defaultValue, ResourceLocation id) {
         return switch (type) {
             case STRING -> prefs.get(id.toString(), ((String) defaultValue));
             case BOOLEAN -> prefs.getBoolean(id.toString(), ((Boolean) defaultValue));
@@ -39,10 +40,10 @@ public final class UserPrefsManager {
             case BYTE_ARRAY -> prefs.getByteArray(id.toString(), ((byte[]) defaultValue));
         };
     }
-    public static Object getValueFor(ISettingType<?> type, ResourceLocation id) {
+    public static Object getValueFor(@NotNull ISettingType<?> type, ResourceLocation id) {
         return getValueFor(type.prefType(), type.getDefaultValue(), id);
     }
-    public static Object getValueFor(Setting setting) {
+    public static Object getValueFor(@NotNull Setting setting) {
         return getValueFor(setting.type(), setting.id());
     }
     public static void setValueFor(ResourceLocation id, PreferencesTypes type, Object value) {

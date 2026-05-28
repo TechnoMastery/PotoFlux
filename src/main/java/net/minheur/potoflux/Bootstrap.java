@@ -23,6 +23,7 @@ import net.minheur.potoflux.translations.register.FileTranslations;
 import net.minheur.potoflux.translations.register.PotoFluxTranslations;
 import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.close.EventPostException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
@@ -134,7 +135,7 @@ public class Bootstrap {
      * This register to the event all PotoFlux's translations
      * @param event the event for langs in the mod bus
      */
-    private static void onRegisterLang(RegisterLangEvent event) {
+    private static void onRegisterLang(@NotNull RegisterLangEvent event) {
         event.registerLang(new PotoFluxTranslations());
         event.registerLang(new CommonTranslations());
         event.registerLang(new FileTranslations());

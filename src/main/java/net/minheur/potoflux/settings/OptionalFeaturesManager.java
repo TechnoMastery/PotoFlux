@@ -2,6 +2,7 @@ package net.minheur.potoflux.settings;
 
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -47,7 +48,7 @@ public final class OptionalFeaturesManager {
      * Creates the {@code optionalFeatures.properties} file
      * @param featuresPath the path to create the file to
      */
-    private static void createOptionalFeatures(Path featuresPath) {
+    private static void createOptionalFeatures(@NotNull Path featuresPath) {
         try {
             Files.createDirectories(featuresPath.getParent());
             Files.createFile(featuresPath);

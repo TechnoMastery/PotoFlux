@@ -11,6 +11,7 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class Terminal {
      * Init the terminal
      * @param panel the element that will contain the terminal. Should be empty
      */
-    public Terminal(StackPane panel) {
+    public Terminal(@NotNull StackPane panel) {
         BorderPane root = new BorderPane();
 
         // OUTPUT
@@ -171,7 +172,7 @@ public class Terminal {
      * @param file name of the ASCII file the get
      * @return the content of the ASCII file
      */
-    public static String getAsciiFileContent(String file) {
+    public static @Nullable String getAsciiFileContent(String file) {
         try (Reader reader = new InputStreamReader(
                 Objects.requireNonNull(
                         Terminal.class.getResourceAsStream("/ascii/" + file + ".txt")
@@ -188,7 +189,7 @@ public class Terminal {
         return null;
     }
 
-    private static void fillContentFromReader(Reader reader, StringBuilder content) throws IOException {
+    private static void fillContentFromReader(@NotNull Reader reader, StringBuilder content) throws IOException {
         char[] buffer = new char[1024];
         int len;
         while ((len = reader.read(buffer)) != -1) {
