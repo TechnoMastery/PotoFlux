@@ -157,7 +157,7 @@ public class CommandActions {
             if (tabName.equals(
                     tab.id().toString()
             )) {
-                PotoFlux.app.setOpenedTab(tab);
+                PotoFlux.appFX.setOpenedTab(tab);
                 return;
             }
         }
