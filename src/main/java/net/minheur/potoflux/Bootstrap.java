@@ -4,6 +4,7 @@ import net.minheur.potoflux.actionRuns.ActionRuns;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.actionRuns.regs.StartLogicRunRegistry;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.logger.LogSaver;
@@ -86,10 +87,10 @@ public class Bootstrap {
         bus.addListener(MenuContent::register);
         bus.addListener(Settings::register);
 
-        // load all addons todo
-        // updateText.accept("Loading addons...");
-        // new AddonLoader().loadAddons();
-        // PotoFluxLoadingContext.loadMods();
+        // load all addons
+        updateText.accept("Loading addons...");
+        new AddonLoader().loadAddons();
+        PotoFluxLoadingContext.loadMods();
 
         // post all registrations
         updateText.accept("Registering data...");
