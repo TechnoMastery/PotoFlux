@@ -1,6 +1,5 @@
 package net.minheur.potoflux.screen;
 
-import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
@@ -8,7 +7,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.screen.menu.MenuRegistry;
 import net.minheur.potoflux.screen.menu.PotoMenuItem;
 import net.minheur.potoflux.screen.tabs.BaseTab;
@@ -18,9 +16,7 @@ import net.minheur.potoflux.screen.tabs.TabSides;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.settings.UserPrefsManager;
-import net.minheur.potoflux.translations.Translations;
 
-import javax.swing.*;
 import java.util.*;
 
 public class FXPotoScreen {
@@ -107,7 +103,7 @@ public class FXPotoScreen {
 
         stage.setOnCloseRequest(e -> {
             e.consume(); // anti auto-close
-            PotoFlux.runProgramClosing(0);
+            PotoFlux.runProgramKill(0);
         });
 
         boolean isResizable = OptionalFeaturesManager.getBoolean("resizableWindow", false);

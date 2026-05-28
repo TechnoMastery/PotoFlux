@@ -1,17 +1,12 @@
 package net.minheur.potoflux.settings;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceDialog;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.settings.types.ISettingType;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
-import net.minheur.potoflux.terminal.CommandProcessor;
-import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 
-import java.util.Arrays;
-import java.util.Optional;
 import java.util.prefs.Preferences;
 
 /**
@@ -77,6 +72,6 @@ public final class UserPrefsManager {
         alert.setContentText(Translations.get("potoflux:prefs.reload"));
         alert.showAndWait();
 
-        PotoFlux.runProgramClosing(0);
+        PotoFlux.runProgramKill(0);
     }
 }

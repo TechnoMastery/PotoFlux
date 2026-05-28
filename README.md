@@ -15,4 +15,5 @@ If your app crashes, you can look into the logs folder and get the exit code sen
 |-----------|-------|
 | 0 | App closed, no errors |
 | 1 | Uncaught error in main thread. Refer to the stack trace |
+| 2 | Error during bootstrap |
 | -1 | Error on posting event. Check mod compatibility & duped ids |

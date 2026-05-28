@@ -28,7 +28,7 @@ public class Functions {
      * @param status exit code
      */
     public static void exit(int delay, int status) {
-        Timer exitDelay = new Timer(delay, ev -> PotoFlux.runProgramClosing(status));
+        Timer exitDelay = new Timer(delay, ev -> PotoFlux.runProgramKill(status));
         exitDelay.setRepeats(false);
         exitDelay.start();
     }
