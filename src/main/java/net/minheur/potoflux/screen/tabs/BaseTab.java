@@ -31,8 +31,7 @@ public abstract class BaseTab<T extends Pane> {
         instantiate();
         if (doPreset()) runPreset();
 
-        if (invokeLater()) SwingUtilities.invokeLater(this::setPanel);
-        else setPanel();
+        setPanel();
 
         this.builtTab = new Tab();
         setupBuiltTab();
@@ -86,15 +85,6 @@ public abstract class BaseTab<T extends Pane> {
      */
     protected boolean doPreset() {
         return true;
-    }
-
-    /**
-     * Handles if the creation should be added to the swing EDT, otherwise it will be executed on the tab creation.
-     * @return if the app should be {@link SwingUtilities#invokeLater(Runnable)}.
-     */
-    @Deprecated(since = "6.4")
-    protected boolean invokeLater() {
-        return false;
     }
 
     /**
