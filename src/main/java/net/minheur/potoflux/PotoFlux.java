@@ -16,7 +16,6 @@ import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.screen.FXLoadingScreen;
 import net.minheur.potoflux.screen.FXPotoScreen;
-import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
@@ -51,7 +50,6 @@ public class PotoFlux {
      * The actual app.<br>
      * This contains the JFrame and will be instantiated when the app will run.
      */
-    public static PotoScreen app;
     public static FXPotoScreen appFX;
 
     /**
