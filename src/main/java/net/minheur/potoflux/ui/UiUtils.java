@@ -185,11 +185,4 @@ public final class UiUtils {
         node.setManaged(true);
     }
 
-    @Deprecated
-    @CheckForNull
-    public static JFrame getAppAnchor() {
-        return PotoFlux.app == null ?
-                null : PotoFlux.app.getFrame();
-    }
-
 }
