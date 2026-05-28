@@ -1,8 +1,6 @@
 package net.minheur.potoflux.translations.register;
 
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.screen.tabs.Tabs;
-import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
 
 /**

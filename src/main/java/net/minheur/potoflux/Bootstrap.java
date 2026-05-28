@@ -29,7 +29,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
-import static net.minheur.potoflux.PotoFlux.runProgramKill;
 
 public class Bootstrap {
 

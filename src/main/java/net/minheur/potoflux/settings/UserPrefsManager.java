@@ -2,7 +2,6 @@ package net.minheur.potoflux.settings;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
-import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.settings.types.ISettingType;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.translations.Translations;

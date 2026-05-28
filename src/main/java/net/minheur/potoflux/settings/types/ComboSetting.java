@@ -1,6 +1,5 @@
 package net.minheur.potoflux.settings.types;
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -8,8 +7,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class ComboSetting<T extends IComboSetting> implements ISettingType<String> {
 

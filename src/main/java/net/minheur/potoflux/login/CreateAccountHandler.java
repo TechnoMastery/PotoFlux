@@ -1,6 +1,5 @@
 package net.minheur.potoflux.login;
 
-import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.response.BaseResponse;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.dialogData.NewAccountData;

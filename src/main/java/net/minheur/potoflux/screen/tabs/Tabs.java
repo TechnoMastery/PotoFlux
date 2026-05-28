@@ -1,6 +1,5 @@
 package net.minheur.potoflux.screen.tabs;
 
-import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.tabs.all.*;

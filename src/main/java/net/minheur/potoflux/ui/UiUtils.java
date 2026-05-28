@@ -4,13 +4,11 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.translations.Translations;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import net.minheur.potoflux.utils.SmartSupplier;
 
-import javax.annotation.CheckForNull;
 import javax.swing.*;
 import java.util.Objects;
 import java.util.Optional;

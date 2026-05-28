@@ -1,14 +1,10 @@
 package net.minheur.potoflux.settings.types;
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class CheckboxSetting implements ISettingType<Boolean> {
 
