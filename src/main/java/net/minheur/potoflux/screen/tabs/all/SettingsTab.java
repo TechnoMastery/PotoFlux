@@ -46,8 +46,6 @@ public class SettingsTab extends BaseVTab<VBox> {
     @Override
     protected void setPanel() {
 
-        // todo optional property system
-
         settings = new LinkedHashMap<>();
 
         fillSetting();
