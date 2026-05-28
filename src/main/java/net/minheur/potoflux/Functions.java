@@ -1,5 +1,10 @@
 package net.minheur.potoflux;
 
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.util.Duration;
+import net.minheur.potoflux.utils.close.ExitCode;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -27,10 +32,18 @@ public class Functions {
      * @param delay amount of milliseconds before exiting
      * @param status exit code
      */
-    public static void exit(int delay, int status) {
-        Timer exitDelay = new Timer(delay, ev -> PotoFlux.runProgramKill(status));
-        exitDelay.setRepeats(false);
-        exitDelay.start();
+    public static void exit(int delay, ExitCode status) {
+
+        PauseTransition pause = new PauseTransition(Duration.millis(delay));
+        pause.setOnFinished(e -> {
+
+            if (status == ExitCode.SUCCESS)
+                Platform.exit();
+            else PotoFlux.runProgramKill(status);
+
+        });
+        pause.play();
+
     }
 
     /**

@@ -21,6 +21,7 @@ import net.minheur.potoflux.translations.register.CommonTranslations;
 import net.minheur.potoflux.translations.register.FileTranslations;
 import net.minheur.potoflux.translations.register.PotoFluxTranslations;
 import net.minheur.potoflux.utils.LogAmountManager;
+import net.minheur.potoflux.utils.close.EventPostException;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
@@ -102,8 +103,7 @@ public class Bootstrap {
             bus.post(new RegisterMenuEvent());
             bus.post(new RegisterSettingEvent());
         } catch (Throwable e) {
-            e.printStackTrace();
-            runProgramKill(-1);
+            throw new EventPostException(e);
         }
 
         // run all start logic runs

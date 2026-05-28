@@ -1,5 +1,6 @@
 package net.minheur.potoflux.settings;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.settings.types.ISettingType;
@@ -72,6 +73,6 @@ public final class UserPrefsManager {
         alert.setContentText(Translations.get("potoflux:prefs.reload"));
         alert.showAndWait();
 
-        PotoFlux.runProgramKill(0);
+        Platform.exit();
     }
 }

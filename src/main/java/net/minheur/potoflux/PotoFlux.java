@@ -10,6 +10,8 @@ import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.screen.FXLoadingScreen;
 import net.minheur.potoflux.screen.FXPotoScreen;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.utils.close.EventPostException;
+import net.minheur.potoflux.utils.close.ExitCode;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 
 import java.io.IOException;
@@ -65,7 +67,10 @@ public class PotoFlux extends Application {
             if (e != null)
                 e.printStackTrace();
 
-            runProgramKill(2);
+            if (e instanceof EventPostException)
+                runProgramKill(ExitCode.REGISTRATION_FAILED);
+
+            else runProgramKill(ExitCode.BOOTSTRAP_FAILED);
 
         });
 
@@ -77,7 +82,7 @@ public class PotoFlux extends Application {
 
     @Override
     public void stop() {
-        runExitLogic(0);
+        runExitLogic(ExitCode.SUCCESS);
     }
 
     /**
@@ -92,7 +97,7 @@ public class PotoFlux extends Application {
 
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
             throwable.printStackTrace();
-            runProgramKill(1);
+            runProgramKill(ExitCode.UNCAUGHT_EXCEPTION);
         });
 
         launch(args);
@@ -128,13 +133,13 @@ public class PotoFlux extends Application {
      * This method should be used to close the app. This allows the app to run extra saving code before exiting.
      * @param exitCode the code given on closing.
      */
-    public static void runProgramKill(int exitCode) {
+    public static void runProgramKill(ExitCode exitCode) {
         // executes when program close
         runExitLogic(exitCode);
-        System.exit(exitCode); // close app
+        System.exit(exitCode.code()); // close app
     }
-    public static void runExitLogic(int exitCode) {
-        if (exitCode == 0) for (ActionRun ar : CloseRunRegistry.getAll()) {
+    public static void runExitLogic(ExitCode exitCode) {
+        if (exitCode.code() == 0) for (ActionRun ar : CloseRunRegistry.getAll()) {
             try {
                 ar.run().run();
             } catch (Exception e) {
@@ -142,7 +147,7 @@ public class PotoFlux extends Application {
             }
         }
 
-        if (exitCode != 0) {
+        if (exitCode.code() != 0) {
             PtfLogger.error("Execution finished with non-0 exit code: " + exitCode);
             PtfLogger.error("For more info, please check the github page at https://github.com/TechnoMastery/PotoFlux");
         }

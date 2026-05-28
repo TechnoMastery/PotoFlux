@@ -13,6 +13,7 @@ import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.CommandRegistry;
 import net.minheur.potoflux.terminal.Terminal;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.close.ExitCode;
 
 import java.io.File;
 import java.time.LocalTime;
@@ -114,7 +115,7 @@ public class CommandActions {
         }
 
         CommandProcessor.appendOutput(Translations.get("potoflux:command.quit.out"));
-        Functions.exit(500, 0);
+        Functions.exit(500, ExitCode.SUCCESS);
     }
 
     /**

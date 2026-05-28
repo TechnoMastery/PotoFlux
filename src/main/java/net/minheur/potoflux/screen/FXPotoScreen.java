@@ -101,11 +101,6 @@ public class FXPotoScreen {
     private void setupStage() {
         stage.setTitle("Potoflux");
 
-        stage.setOnCloseRequest(e -> {
-            e.consume(); // anti auto-close
-            PotoFlux.runProgramKill(0);
-        });
-
         boolean isResizable = OptionalFeaturesManager.getBoolean("resizableWindow", false);
         stage.setResizable(isResizable);
     }
