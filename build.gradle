@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'application'
 }
 
 group = "net.minheur"
@@ -37,7 +38,7 @@ publishing {
 
 javafx {
     version '17'
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls', 'javafx.graphics' ]
 }
 
 repositories {
@@ -118,7 +119,7 @@ tasks.register("prepMsi") {
     finalizedBy("msiPackage")
 }
 
-tasks.register("run", JavaExec) {
+tasks.named("run", JavaExec) {
     group = "potoflux"
     description = "Run PotoFlux"
 
