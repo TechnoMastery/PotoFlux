@@ -16,6 +16,8 @@ import net.minheur.potoflux.screen.tabs.TabSides;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.settings.UserPrefsManager;
+import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
 
 import java.util.*;
 
@@ -107,7 +109,7 @@ public class FXPotoScreen {
 
     public void setOpenedTab(Tab tab) {
         if (!tabMap.containsKey(tab)) {
-            // JOptionPane.showMessageDialog(frame, Translations.get("potoflux:screen.tabHereNotHere")); todo
+            UiUtils.showMessagePane(Translations.get("potoflux:screen.tabHereNotHere"));
             return;
         }
         tabs.getSelectionModel().select(tabMap.get(tab).getBuiltTab());
