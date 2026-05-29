@@ -34,10 +34,26 @@ import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
  * It synchronizes multiple other classes to do so
  */
 public class ConnectionHandler {
+    /**
+     * Account of the user currently connected
+     */
     public static Account account;
+    /**
+     * If there is a user connected.<br>
+     * If this is {@code false}, {@link #account} should be {@code null}
+     */
     public static boolean isLogged = false;
+    /**
+     * Easy access to the account self-creation autorisation
+     */
     public static boolean isAccountCreationEnabled = false;
 
+    /**
+     * Logs in with an email and a password.<br>
+     * Done when the user connects / reconnects to its account using its IDs
+     * @param email of the user
+     * @param password of the account
+     */
     public static void logWith(String email, String password) {
         checkAndRemoveExistingToken();
 
@@ -49,6 +65,11 @@ public class ConnectionHandler {
 
     }
 
+    /**
+     * Logs in with a token. Calls {@link #displayInfoError(InfoResponse)} if the authentication fails<br>
+     * Used when auto-logging on startup
+     * @param token actually stored for the account
+     */
     public static void accountFor(String token) {
         String response;
         try {
@@ -87,6 +108,12 @@ public class ConnectionHandler {
         PtfLogger.info("User " + account.email + " has UUID: " + account.uuid, LogCategories.ACCOUNT_IDS);
     }
 
+    /**
+     * Helper that transform a {@link String} array (SQL codes) into a {@link Perms} array<br>
+     * If a code isn't known, it gets ignored
+     * @param perms array of SQL codes sent by the database
+     * @return the array of {@link Perms} corresponding the SQL codes.
+     */
     public static Perms[] fillPerms(String[] perms) {
         List<Perms> newPerms = new ArrayList<>();
 
@@ -99,6 +126,10 @@ public class ConnectionHandler {
         return newPerms.toArray(Perms[]::new);
     }
 
+    /**
+     * Displays the error when logging fails, resulting in an error in {@link InfoResponse}
+     * @param infoResponse the response containing the error
+     */
     private static void displayInfoError(InfoResponse infoResponse) {
         Platform.runLater(() -> {
             switch (infoResponse.error) {
@@ -110,6 +141,13 @@ public class ConnectionHandler {
         });
     }
 
+    /**
+     * Sends a request to the server, getting a connection token for specified IDs<br>
+     * If the connection fails, it will call {@link #displayLoggingError(LoginResponse)} and return {@code null}
+     * @param email of the target account
+     * @param password of the account
+     * @return the token sent by the database or {@code null} if failed
+     */
     @Nullable
     public static String getToken(String email, String password) {
         String response;
@@ -139,6 +177,9 @@ public class ConnectionHandler {
         return token;
     }
 
+    /**
+     * Sends a request, getting / regetting weather the account creation is allowed
+     */
     public static void reloadAccountCreationPermission() {
         String content;
         try {
@@ -152,6 +193,10 @@ public class ConnectionHandler {
         IsAccountCreationEnabledResponse response = Json.GSON.fromJson(content, IsAccountCreationEnabledResponse.class);
         isAccountCreationEnabled = response.isEnabled;
     }
+    /**
+     * Sends a request to allow or not the creation of account
+     * @param isAllowed weather account self-creation is allowed
+     */
     public static void sendAccountCreationLockRequest(boolean isAllowed) {
         String content;
         try {
@@ -187,6 +232,10 @@ public class ConnectionHandler {
         reloadAccountCreationPermission();
     }
 
+    /**
+     * Displays the error when the server refuses to give you a token
+     * @param loginResponse with the error sent by the database
+     */
     private static void displayLoggingError(LoginResponse loginResponse) {
         switch (loginResponse.error) {
             case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.noUser"));
@@ -195,6 +244,10 @@ public class ConnectionHandler {
         }
     }
 
+    /**
+     * If there's a token stored in the system, sends a request to remove it on the server.<br>
+     * Weather it succeeds of fails, will clear local token
+     */
     public static void checkAndRemoveExistingToken() {
        if (TokenHandler.has()) {
            PtfLogger.warning("Connecting while already having a token ! Removing...", LogCategories.ACCOUNT);
@@ -208,17 +261,27 @@ public class ConnectionHandler {
        }
     }
 
+    /**
+     * Runs {@link #logout()} if {@link #isLogged} is {@code true}, else calls {@link #login()}.<br>
+     * Once the right one is run, follows by {@link #reloadAuthUi()}
+     */
     public static void performAuthAction() {
         if (isLogged) logout();
         else login();
         reloadAuthUi();
     }
+    /**
+     * Reloads UI related to account state
+     */
     public static void reloadAuthUi() {
         reloadAccountCreationPermission();
 
         ((AccountTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.ACCOUNT)).reload();
         ((AccountMenu) MenuContent.INSTANCE.ACCOUNT.content()).reload();
     }
+    /**
+     * If not already so, remove the online & local token, then clears {@link #account} and set {@link #isLogged} to {@code false}
+     */
     public static void logout() {
        if (!isLogged) return;
 
@@ -233,6 +296,9 @@ public class ConnectionHandler {
        PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
     }
 
+    /**
+     * Displays a connection dialog, then if confirmed {@linkplain #logout()} then {@link #logWith(String, String)}
+     */
     public static void login() {
         PtfLogger.info("Logging in...", LogCategories.ACCOUNT);
 
@@ -301,6 +367,10 @@ public class ConnectionHandler {
         );
 
     }
+    /**
+     * Helper to get the text to apply to connection button, changing is {@linkplain #isLogged} is {@code true} or {@code false}
+     * @return the correct text for the auth buttton
+     */
     public static String getAuthButtonStatus() {
         return isLogged ?
                 Translations.get("common:disconnect") :
