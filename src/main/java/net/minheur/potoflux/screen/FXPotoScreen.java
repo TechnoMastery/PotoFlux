@@ -22,15 +22,36 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * Potoflux's screen
+ */
 public class FXPotoScreen {
 
+    /**
+     * Actual screen
+     */
     private final Stage stage;
+    /**
+     * Potoflux's menu
+     */
     private final MenuBar menu = new MenuBar();
+    /**
+     * All items to be added to the {@link #menu}
+     */
     private final List<PotoMenuItem> menuItems = new ArrayList<>();
 
+    /**
+     * Map containing all tabs to put in {@link #tabs}
+     */
     private final Map<Tab, BaseTab<?>> tabMap = new HashMap<>();
+    /**
+     * Tabs of Potoflux
+     */
     private final TabPane tabs = new TabPane();
 
+    /**
+     * The constructor will init the stage, the layout, then add every item to it
+     */
     public FXPotoScreen() {
         stage = new Stage();
 
@@ -49,6 +70,9 @@ public class FXPotoScreen {
         stage.show();
     }
 
+    /**
+     * Adds the tabs to the stage
+     */
     private void addTabs() {
         TabSides placement = TabSides.getFromCode(
                 (String) UserPrefsManager.getValueFor(Settings.INSTANCE.TAB_PLACEMENT)
@@ -65,6 +89,10 @@ public class FXPotoScreen {
         fillTabMap(allTabs);
     }
 
+    /**
+     * With the list of tabs, instancies all tabs and adds them in the {@link #tabMap} and in {@link #tabs}
+     * @param allTabs list of all {@link Tab}
+     */
     private void fillTabMap(@NotNull List<Tab> allTabs) {
 
         for (Tab tabType : allTabs) {
@@ -79,10 +107,17 @@ public class FXPotoScreen {
 
     }
 
+    /**
+     * Getter for the {@link #tabMap}
+     * @return {@link #tabMap}
+     */
     public Map<Tab, BaseTab<?>> getTabMap() {
         return tabMap;
     }
 
+    /**
+     * Adds the menu to the UI
+     */
     private void addMenu() {
         menuItems.clear();
         menuItems.addAll(MenuRegistry.getAll().stream()
@@ -95,12 +130,18 @@ public class FXPotoScreen {
         for (PotoMenuItem item : menuItems) menu.getMenus().add(item.content());
     }
 
+    /**
+     * Adds Potoflux's icon
+     */
     private void addIcon() {
         stage.getIcons().add(
                 new Image(Objects.requireNonNull(getClass().getResourceAsStream("/textures/main.png")))
         );
     }
 
+    /**
+     * Setup the {@linkplain #stage}, adding the title and properties
+     */
     private void setupStage() {
         stage.setTitle("Potoflux");
 
@@ -108,6 +149,10 @@ public class FXPotoScreen {
         stage.setResizable(isResizable);
     }
 
+    /**
+     * Helper to open a given tab
+     * @param tab to open
+     */
     public void setOpenedTab(Tab tab) {
         if (!tabMap.containsKey(tab)) {
             UiUtils.showMessagePane(Translations.get("potoflux:screen.tabHereNotHere"));
