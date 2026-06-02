@@ -8,11 +8,26 @@ import org.jetbrains.annotations.NotNull;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
+/**
+ * Lists all potoflux's menus
+ */
 public class MenuContent {
+    /**
+     * Actua list of menus
+     */
     private final RegistryList<PotoMenuItem> LIST = new RegistryList<>();
+    /**
+     * Weather the list has been generated
+     */
     private static boolean hasGenerated = false;
+    /**
+     * Only instance of the class
+     */
     public static MenuContent INSTANCE;
 
+    /**
+     * The constructor makes sure the reg can only be generated once
+     */
     private MenuContent() {
         if (hasGenerated) throw new IllegalStateException("Can't create the registry 2 times !");
         hasGenerated = true;
