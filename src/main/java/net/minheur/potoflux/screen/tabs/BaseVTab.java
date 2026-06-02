@@ -6,10 +6,20 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * Base tab, but also including a preset {@link #vContent} and {@link #boxPreset()}
+ * @param <T> type of {@link Pane} added to the tab
+ */
 public abstract class BaseVTab<T extends Pane> extends BaseTab<T> {
 
+    /**
+     * Preset {@link VBox} to add to the panel
+     */
     protected VBox vContent;
 
+    /**
+     * Preset with the title, content and box preset
+     */
     @Override
     void runPreset() {
         boxPreset();
@@ -17,6 +27,9 @@ public abstract class BaseVTab<T extends Pane> extends BaseTab<T> {
         vContent.getChildren().add(mkTitle());
     }
 
+    /**
+     * Preset layout for the {@link #vContent}
+     */
     protected void boxPreset() {
         vContent = new VBox();
         vContent.setSpacing(20);

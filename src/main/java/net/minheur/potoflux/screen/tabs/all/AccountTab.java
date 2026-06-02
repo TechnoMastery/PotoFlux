@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import net.minheur.potoflux.Functions;
+import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.login.CreateAccountHandler;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
@@ -28,17 +29,49 @@ import static net.minheur.potoflux.login.ConnectionHandler.*;
  */
 public class AccountTab extends BaseVTab<StackPane> {
 
+    /**
+     * Title of the tab
+     */
     private Label titleLabel;
+    /**
+     * Label for the user's email<br>
+     * Hidden if not connected ({@linkplain ConnectionHandler#isLogged} is {@code false})
+     */
     private Label emailLabel;
 
+    /**
+     * Pane for the perms<br>
+     * Contains the {@linkplain #permsList} and the {@linkplain #executePerm}
+     */
     private VBox permsPanel;
+    /**
+     * Actual list for all perms.<br>
+     * Uses the {@linkplain #permsModel}
+     */
     private ListView<Perms> permsList;
+    /**
+     * Model for the {@linkplain #permsList}
+     */
     private ObservableList<Perms> permsModel;
+    /**
+     * Executes the perm actually slected on the {@linkplain #permsList}
+     */
     private Button executePerm;
 
+    /**
+     * Button to connect or disconnect<br>
+     * Executes {@link ConnectionHandler#performAuthAction()}
+     */
     private Button authButton;
+    /**
+     * Creates an account.<br>
+     * Hidden if connected ({@linkplain ConnectionHandler#isLogged} is {@code true})
+     */
     private Button createAccountButton;
 
+    /**
+     * Create and add all components to the panel
+     */
     @Override
     protected void setPanel() {
         initComponents();
@@ -47,11 +80,17 @@ public class AccountTab extends BaseVTab<StackPane> {
         reload();
     }
 
+    /**
+     * Gets the tab name, displayed in the tab list
+     */
     @Override
     protected String getName() {
         return Translations.get("potoflux:tabs.account.name");
     }
 
+    /**
+     * Instancies all main panels
+     */
     @Override
     protected void instantiate() {
         PANEL = new StackPane();
@@ -61,6 +100,9 @@ public class AccountTab extends BaseVTab<StackPane> {
         PANEL.getChildren().add(vContent);
     }
 
+    /**
+     * Instancies all components
+     */
     private void initComponents() {
         titleLabel = new Label();
         titleLabel.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
@@ -83,6 +125,9 @@ public class AccountTab extends BaseVTab<StackPane> {
         vContent.setAlignment(Pos.TOP_CENTER);
     }
 
+    /**
+     * Adds all components to the panels
+     */
     private void setupLayout() {
         vContent.getChildren().addAll(
                 titleLabel,
@@ -93,6 +138,9 @@ public class AccountTab extends BaseVTab<StackPane> {
         );
     }
 
+    /**
+     * Set buttons' action
+     */
     private void setupActions() {
         authButton.setOnAction(e -> performAuthAction());
 
@@ -122,6 +170,9 @@ public class AccountTab extends BaseVTab<StackPane> {
         });
     }
 
+    /**
+     * Reloads all the UI
+     */
     public void reload() {
         updateTitle();
         updateEmail();
@@ -129,6 +180,10 @@ public class AccountTab extends BaseVTab<StackPane> {
         updateButton();
     }
 
+    /**
+     * Update the title<br>
+     * If {@linkplain ConnectionHandler#isLogged}, also displays the first and last name
+     */
     private void updateTitle() {
         if (isLogged)
             titleLabel.setText(Functions.formatMessage(
@@ -138,6 +193,9 @@ public class AccountTab extends BaseVTab<StackPane> {
         else titleLabel.setText(Translations.get("potoflux:tabs.account.title"));
     }
 
+    /**
+     * Updates the email with the connected user's mails and controls if rendered
+     */
     private void updateEmail() {
         if (isLogged) {
             emailLabel.setVisible(true);
@@ -146,6 +204,9 @@ public class AccountTab extends BaseVTab<StackPane> {
         else emailLabel.setVisible(false);
     }
 
+    /**
+     * Update the title, showing or hiding it, also add only perms owned by the connected user
+     */
     private void updatePerms() {
         permsModel.clear();
 
@@ -159,12 +220,19 @@ public class AccountTab extends BaseVTab<StackPane> {
         else permsPanel.setVisible(false);
     }
 
+    /**
+     * Update all buttons, changing the names or render state
+     */
     private void updateButton() {
         authButton.setText(getAuthButtonStatus());
         createAccountButton.setVisible(!isLogged);
         createAccountButton.setDisable(!isAccountCreationEnabled);
     }
 
+    /**
+     * Disables the preset
+     * @return {@code false}
+     */
     @Override
     protected boolean doPreset() {
         return false;

@@ -14,8 +14,7 @@ import net.minheur.potoflux.translations.Translations;
  */
 public class HomeTab extends BaseVTab<StackPane> {
     /**
-     * This is the actual method to set the panel.<br>
-     * The overriding class will have to use this to add content to the {@link #PANEL}.
+     * Makes the UI
      */
     @Override
     protected void setPanel() {
@@ -23,6 +22,9 @@ public class HomeTab extends BaseVTab<StackPane> {
         addVersion();
     }
 
+    /**
+     * Instancies the main panel
+     */
     @Override
     protected void instantiate() {
         PANEL = new StackPane();
@@ -49,6 +51,10 @@ public class HomeTab extends BaseVTab<StackPane> {
         vContent.getChildren().add(version);
     }
 
+    /**
+     * Gets the title of the tab, displayed in {@link #mkTitle()}
+     * @return
+     */
     @Override
     protected String getTitle() {
         return Translations.get("potoflux:tabs.home.title");
