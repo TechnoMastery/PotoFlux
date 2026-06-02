@@ -34,9 +34,19 @@ public class MenuContent {
     }
 
     // --- file ---
+    /**
+     * Item for the file menu
+     */
     public final PotoMenuItem FILE = LIST.add(new PotoMenuItem(fromModId("file"), MenuDefiners.getFileMenu()));
+    /**
+     * Item for the account menu
+     */
     public final PotoMenuItem ACCOUNT = LIST.add(new PotoMenuItem(fromModId("account"), new AccountMenu()));
 
+    /**
+     * Instances the reg and puts all into the event
+     * @param event to add items to
+     */
     public static void register(@NotNull RegisterMenuEvent event) {
         INSTANCE = new MenuContent();
 
