@@ -13,11 +13,23 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * Manages the optional features
+ */
 public final class OptionalFeaturesManager {
 
+    /**
+     * Props of the features, gotten from the file
+     */
     private static final Properties features = new Properties();
+    /**
+     * Map of all features by id and value as {@link OptionalFeature}
+     */
     private static final Map<String, OptionalFeature> featureMap = new LinkedHashMap<>();
 
+    /**
+     * Locks the class's instanciation
+     */
     private OptionalFeaturesManager() {}
 
     /**
@@ -59,6 +71,9 @@ public final class OptionalFeaturesManager {
         }
     }
 
+    /**
+     * Fills the {@linkplain #featureMap} with data from the {@linkplain #features}
+     */
     private static void fillMap() {
         featureMap.clear();
 
@@ -95,24 +110,56 @@ public final class OptionalFeaturesManager {
 
     }
 
+    /**
+     * Getter for the {@linkplain #featureMap}
+     * @return {@link #featureMap}
+     */
     public static Map<String, OptionalFeature> getFeatureMap() {
         return featureMap;
     }
 
+    /**
+     * Gets a raw feature
+     * @param key used in the file
+     * @param defaultValue used if the feature is not set
+     * @return the value of the feature
+     */
     public static Object getRaw(String key, Object defaultValue) {
         return features.getOrDefault(key, defaultValue);
     }
+    /**
+     * Gets a raw feature
+     * @param key used in the file
+     * @return the value of the feature, {@code null} if none set
+     */
     public static Object getRaw(String key) {
         return getRaw(key, null);
     }
 
+    /**
+     * Gets feature with a {@link String} value
+     * @param key used in the file
+     * @param defaultValue used if the feature is not set
+     * @return the value of the feature
+     */
     public static String getString(String key, String defaultValue) {
         return features.getProperty(key, defaultValue);
     }
+    /**
+     * Gets a feature with a {@link String} value
+     * @param key used in the file
+     * @return the value of the feature, {@code null} if none set
+     */
     public static @Nullable String getString(String key) {
         return getString(key, null);
     }
 
+    /**
+     * Gets a feature with a {@link Boolean} value
+     * @param key used in the file
+     * @param defaultValue used if the feature is not set
+     * @return the value of the feature
+     */
     public static Boolean getBoolean(String key, Boolean defaultValue) {
         Object o = getRaw(key, defaultValue);
         if (o == null) return defaultValue;
@@ -120,10 +167,21 @@ public final class OptionalFeaturesManager {
             return Boolean.parseBoolean(s);
         else return defaultValue;
     }
+    /**
+     * Gets a feature with a {@link Boolean} value
+     * @param key used in the file
+     * @return the value of the feature, {@code null} if none set
+     */
     public static @Nullable Boolean getBoolean(String key) {
         return getBoolean(key, null);
     }
 
+    /**
+     * Gets a feature with an {@link Integer} value
+     * @param key used in the file
+     * @param defaultValue used if the feature is not set
+     * @return the value of the feature
+     */
     public static Integer getInt(String key, Integer defaultValue) {
         Object o = getRaw(key, defaultValue);
         if (o == null) return defaultValue;
@@ -131,6 +189,11 @@ public final class OptionalFeaturesManager {
             return Integer.parseInt(s);
         else return defaultValue;
     }
+    /**
+     * Gets a feature with a {@link Integer} value
+     * @param key used in the file
+     * @return the value of the feature, {@code null} if none set
+     */
     public static Integer getInt(String key) {
         return getInt(key, null);
     }
