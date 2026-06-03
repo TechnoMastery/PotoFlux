@@ -15,15 +15,27 @@ import net.minheur.potoflux.ui.UiUtils;
  */
 public class RmUserDialog extends Dialog<String> {
 
+    /**
+     * Grid that contains all content
+     */
     private GridPane grid;
 
+    /**
+     * Field to input the email of the account to delete
+     */
     private TextField rmUserEmail;
 
+    /**
+     * Creates the dialog
+     */
     public RmUserDialog() {
         setTitle("Remove a user"); // todo
         initUI();
     }
 
+    /**
+     * Creates and setups the dialog
+     */
     private void initUI() {
 
         setupButtons();
