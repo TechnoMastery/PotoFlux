@@ -35,6 +35,10 @@ public class Terminal {
      * The area to write command in
      */
     private final TextField inputField;
+    /**
+     * Index of the actual selected command in the command history.<br>
+     * Is {@code -1} if none is selected, meaning the user weather modified it or typed another thing in.
+     */
     private int historyIndex = -1;
 
     /**
@@ -61,6 +65,10 @@ public class Terminal {
         panel.getChildren().add(root);
     }
 
+    /**
+     * Creates the panel containing the {@code >} symbol and the input bar.
+     * @return the input panel
+     */
     private @NotNull HBox setupInputPanel() {
         HBox inputPanel = new HBox();
         inputPanel.setPrefHeight(40);
@@ -78,6 +86,11 @@ public class Terminal {
         return inputPanel;
     }
 
+    /**
+     * Setups the actions of the {@linkplain #inputField}.<br>
+     * If the {@code ENTER} key is pressed, processes the command.<br>
+     * If the {@code UP} or {@code DOWN} or {@code ESCAPE} key are pressed, will respectively go to the next item in command history, the previous item or clear the bar.
+     */
     private void setupInputActions() {
 
         inputField.setOnAction(e -> {
@@ -119,6 +132,9 @@ public class Terminal {
         });
     }
 
+    /**
+     * Parameters the output area.
+     */
     private void setupOutput() {
         outputArea.setEditable(false);
         outputArea.setFont(Font.font("Consolas", 20));
@@ -189,6 +205,12 @@ public class Terminal {
         return null;
     }
 
+    /**
+     * Fills the content from a file into a {@linkplain StringBuilder} from a {@linkplain Reader}
+     * @param reader to get the content to
+     * @param content to append to
+     * @throws IOException if the file couldn't be red
+     */
     private static void fillContentFromReader(@NotNull Reader reader, StringBuilder content) throws IOException {
         char[] buffer = new char[1024];
         int len;

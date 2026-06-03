@@ -103,6 +103,13 @@ public class CommandProcessor {
         }
     }
 
+    /**
+     * Checks if the terminal's file content is empty.<br>
+     * If so, deletes the file.
+     * @param content of the terminal's content file
+     * @param file path to the file, used to remove it if needed
+     * @return if the file's content is empty
+     */
     private static boolean checkEmptyTerminal(String content, Path file) {
         if (content.trim().isEmpty()) { // if string is empty : delete file
             try {
