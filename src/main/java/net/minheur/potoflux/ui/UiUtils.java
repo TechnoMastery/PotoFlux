@@ -18,33 +18,69 @@ import java.util.Optional;
  */
 public final class UiUtils {
 
+    /**
+     * Button type preset for the {@code OK} action. Include traduction
+     */
     public static final SmartSupplier<ButtonType> okButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:ok"), ButtonBar.ButtonData.OK_DONE)
     );
+    /**
+     * Button type preset for the {@code CONFIRM} action. Include traduction
+     */
     public static final SmartSupplier<ButtonType> confirmButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:confirm"), ButtonBar.ButtonData.OK_DONE)
     );
+    /**
+     * Button type preset for the {@code CANCEL} action. Include traduction
+     */
     public static final SmartSupplier<ButtonType> cancelButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:cancel"), ButtonBar.ButtonData.CANCEL_CLOSE)
     );
+    /**
+     * Button type preset for the {@code CLOSE} action. Include traduction
+     */
     public static final SmartSupplier<ButtonType> closeButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:close"), ButtonBar.ButtonData.CANCEL_CLOSE)
     );
+    /**
+     * Button type preset for the {@code YES} action. Include traduction
+     */
     public static final SmartSupplier<ButtonType> yesButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:yes"), ButtonBar.ButtonData.YES)
     );
+    /**
+     * Button type preset for the {@code NO} action. Include traduction
+     */
     public static final SmartSupplier<ButtonType> noButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:no"), ButtonBar.ButtonData.NO)
     );
+    /**
+     * Button type preset for the {@code APPLY} action. Include traduction
+     */
     public static final SmartSupplier<ButtonType> applyButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:apply"), ButtonBar.ButtonData.NO)
     );
+    /**
+     * Button type preset for the {@code FINISH} action. Include traduction
+     */
     public static final SmartSupplier<ButtonType> finishButton = new SmartSupplier<>(() ->
             new ButtonType(Translations.get("common:finish"), ButtonBar.ButtonData.NO)
     );
 
+    /**
+     * Makes sure the class cannot be instanced
+     */
     private UiUtils() {}
 
+    /**
+     * Show an {@link Alert} to the user
+     * @param type the {@link Alert.AlertType} of the alert
+     * @param message what will be displayed in the main message area
+     * @param title displayed in the alert's bar
+     * @param header what is displayed in the upper area
+     * @param cssDir path to the file containing the styles for the alert
+     * @param iconDir path to the icon's file used as the header's graphic
+     */
     public static void showAlert(
             Alert.AlertType type,
             String message, String title, String header,
@@ -75,6 +111,10 @@ public final class UiUtils {
         alert.showAndWait();
     }
 
+    /**
+     * Displays an error pane
+     * @param message displayed to the user, actual error
+     */
     public static void showErrorPane(String message) {
         showAlert(
                 Alert.AlertType.ERROR,
@@ -82,6 +122,10 @@ public final class UiUtils {
                 null, null // todo: create css & icon files
         );
     }
+    /**
+     * Displays an information pane
+     * @param message displayed to the user, actual info
+     */
     public static void showMessagePane(String message) {
         showAlert(
                 Alert.AlertType.INFORMATION,
@@ -90,6 +134,13 @@ public final class UiUtils {
         );
     }
 
+    /**
+     * Displays a confirmation dialog
+     * @param content message node to display as confirmation
+     * @param header text displayed in the alert's header
+     * @param preciseType if specified, overrides the {@linkplain Alert.AlertType#CONFIRMATION} default value
+     * @return weather the user confirmed
+     */
     public static boolean showConfirmationDialog(
             Node content,
             @Nullable String header,
@@ -108,17 +159,45 @@ public final class UiUtils {
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.YES;
     }
+    /**
+     * Displays a confirmation dialog
+     * @param content message node to display as confirmation
+     * @param header text displayed in the alert's header
+     * @return weather the user confirmed
+     */
     public static boolean showConfirmationDialog(Node content, @Nullable String header) {
         return showConfirmationDialog(content, header, null);
     }
+    /**
+     * Displays a confirmation dialog
+     * @param content message node to display as confirmation
+     * @return weather the user confirmed
+     */
     public static boolean showConfirmationDialog(Node content) {
         return showConfirmationDialog(content, null);
     }
+    /**
+     * Displays a confirmation dialog
+     * @param message text to display as confirmation
+     * @return weather the user confirmed
+     */
     public static boolean showConfirmationDialog(String message) {
         return showConfirmationDialog(new Label(message));
     }
 
-    public static <R> R showInputDialog(
+    /**
+     * Displays an input dialog
+     * @param options array of options that the user can choose from.
+     * @param defaultIndex index on what we can find the default selected value
+     * @param title of the dialog
+     * @param header text displayed in the dialog's header
+     * @param content text displayed as query
+     * @param iconDir path to the icon file for the alert
+     * @param cssDir path to the file containing the styles for the alert
+     * @return which item has been selected, or {@code null} if the user canceled
+     * @param <R> type of the input. This type gets returned and the options are also of this type
+     */
+    public static <R> @Nullable R showInputDialog(
             @NotNull R[] options, int defaultIndex,
             @Nullable String title,
             @Nullable String header,
@@ -148,6 +227,17 @@ public final class UiUtils {
 
         return result.orElse(null);
     }
+    /**
+     * Displays an input dialog
+     * @param options array of options that the user can choose from.
+     * @param defaultIndex index on what we can find the default selected value
+     * @param title of the dialog
+     * @param header text displayed in the dialog's header
+     * @param content text displayed as query
+     * @param cssDir path to the file containing the styles for the alert
+     * @return which item has been selected, or {@code null} if the user canceled
+     * @param <R> type of the input. This type gets returned and the options are also of this type
+     */
     public static <R> R showInputDialog(
             @NotNull R[] options, int defaultIndex,
             @Nullable String title,
@@ -161,6 +251,16 @@ public final class UiUtils {
                 null, cssDir
         );
     }
+    /**
+     * Displays an input dialog
+     * @param options array of options that the user can choose from.
+     * @param defaultIndex index on what we can find the default selected value
+     * @param title of the dialog
+     * @param header text displayed in the dialog's header
+     * @param content text displayed as query
+     * @return which item has been selected, or {@code null} if the user canceled
+     * @param <R> type of the input. This type gets returned and the options are also of this type
+     */
     public static <R> R showInputDialog(
             @NotNull R[] options, int defaultIndex,
             @Nullable String title,
@@ -174,10 +274,18 @@ public final class UiUtils {
         );
     }
 
+    /**
+     * Hides a node, and also makes sure it isn't managed so it don't take empty room
+     * @param node component to disable
+     */
     public static void hideNode(@NotNull Node node) {
         node.setVisible(false);
         node.setManaged(false);
     }
+    /**
+     * Show a node, used to invert action of {@link #hideNode(Node)}
+     * @param node component to enable
+     */
     public static void showNode(@NotNull Node node) {
         node.setVisible(true);
         node.setManaged(true);
