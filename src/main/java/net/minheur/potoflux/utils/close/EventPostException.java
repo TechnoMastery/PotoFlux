@@ -1,5 +1,8 @@
 package net.minheur.potoflux.utils.close;
 
+/**
+ * Used to report an exception during event posing stage
+ */
 public class EventPostException extends RuntimeException {
     public EventPostException(String message) {
         super(message);
