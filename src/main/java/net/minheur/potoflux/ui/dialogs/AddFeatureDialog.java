@@ -8,17 +8,41 @@ import javafx.util.Pair;
 import net.minheur.potoflux.settings.OptionalFeature;
 import net.minheur.potoflux.ui.UiUtils;
 
+/**
+ * Dialog displayed to add a new optional feature
+ */
 public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
 
+    /**
+     * Grid containing all components
+     */
     private final GridPane grid;
 
+    /**
+     * Combo to choose the type of feature we want to add
+     */
     private ComboBox<OptionalFeature.Type> typeCombo;
+    /**
+     * Field to enter the key (id) of the  field
+     */
     private TextField keyField;
 
+    /**
+     * Value input field used if {@link OptionalFeature.Type#STRING} is selected in {@linkplain #typeCombo}
+     */
     private TextField stringField;
+    /**
+     * Value input box used if {@link OptionalFeature.Type#BOOL} is selected in {@linkplain #typeCombo}
+     */
     private ComboBox<Boolean> boolField;
+    /**
+     * Value input spinner used if {@link OptionalFeature.Type#INT} is selected in {@linkplain #typeCombo}
+     */
     private Spinner<Integer> intField;
 
+    /**
+     * Makes the dialog, sets up the layout, adds the buttons and components
+     */
     public AddFeatureDialog() {
 
         this.grid = new GridPane();
@@ -44,6 +68,9 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
 
     }
 
+    /**
+     * Makes the result converter
+     */
     private void setupResult() {
         setResultConverter(buttonType -> {
 
@@ -74,6 +101,9 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         });
     }
 
+    /**
+     * Adds the buttons to the dialog's button bar
+     */
     private void setupButtons() {
         getDialogPane().getButtonTypes().addAll(
                 UiUtils.cancelButton.get(),
@@ -81,6 +111,10 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         );
     }
 
+    /**
+     * Remakes the grid, depending on what type is selected
+     * @param type selected in {@link #typeCombo}
+     */
     private void fillGrid(OptionalFeature.Type type) {
 
         grid.getChildren().clear();
@@ -97,24 +131,42 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
 
     }
 
+    /**
+     * Adds the {@link #stringField} to the {@linkplain #grid}
+     */
     private void addStringField() {
         grid.add(stringField, 1, 2);
     }
+    /**
+     * Adds the {@link #boolField} to the {@linkplain #grid}
+     */
     private void addBoolField() {
         grid.add(boolField, 1, 2);
     }
+    /**
+     * Adds the {@link #intField} to the {@linkplain #grid}
+     */
     private void addIntField() {
         grid.add(intField, 1, 2);
     }
 
+    /**
+     * Creates the {@link #stringField}
+     */
     private void initStringField() {
         stringField = new TextField();
         stringField.setPromptText("Enter value..."); // todo
     }
+    /**
+     * Creates the {@link #boolField}
+     */
     private void initBoolField() {
         boolField = new ComboBox<>(FXCollections.observableArrayList(true, false));
         boolField.getSelectionModel().select(false);
     }
+    /**
+     * Creates the {@link #intField}
+     */
     private void initIntField() {
         intField = new Spinner<>(
                 Integer.MIN_VALUE,
@@ -123,6 +175,9 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         );
     }
 
+    /**
+     * Makes and adds the {@link #keyField} to the {@linkplain #grid}
+     */
     private void addKeyField() {
         keyField = new TextField();
         keyField.setPromptText("Enter key..."); // todo
@@ -131,6 +186,9 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         grid.add(keyField, 0, 2);
     }
 
+    /**
+     * Adds a separator to the {@linkplain #grid}
+     */
     private void addSep() {
         Separator separator = new Separator();
         separator.setMaxWidth(Double.MAX_VALUE);
@@ -139,6 +197,10 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         GridPane.setColumnSpan(separator, GridPane.REMAINING);
     }
 
+    /**
+     * Adds the {@link #typeCombo} to the {@linkplain #grid}, respecting the selected value
+     * @param actual selected into the combo, used to keep the actual selected value
+     */
     private void addChoseType(OptionalFeature.Type actual) {
         typeCombo = new ComboBox<>(FXCollections.observableArrayList(
                 OptionalFeature.Type.values()

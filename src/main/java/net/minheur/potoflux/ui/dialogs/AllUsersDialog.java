@@ -21,11 +21,24 @@ import java.util.List;
  */
 public class AllUsersDialog extends Dialog<Void> {
 
+    /**
+     * Contains all the accounts sent by the server
+     */
     private final List<Account> accounts;
 
+    /**
+     * Main container for the dialog
+     */
     private final BorderPane root;
+    /**
+     * Panel actually containing user's rows
+     */
     private VBox listPanel;
 
+    /**
+     * Creates the dialog with a given list of account
+     * @param accounts
+     */
     public AllUsersDialog(List<Account> accounts) {
         this.accounts = accounts;
         setTitle("All accounts"); // todo
@@ -41,11 +54,19 @@ public class AllUsersDialog extends Dialog<Void> {
 
     }
 
+    /**
+     * Goes through the account and call {@linkplain #mkRow} for each of them
+     */
     private void fillAccounts() {
         for (Account account : accounts)
             listPanel.getChildren().add(mkRow(account));
     }
 
+    /**
+     * Creates a row for a specific account
+     * @param account creates the row of this account
+     * @return the row of the account
+     */
     private @NotNull HBox mkRow(@NotNull Account account) {
 
         HBox row = new HBox(10);
@@ -77,6 +98,10 @@ public class AllUsersDialog extends Dialog<Void> {
         return row;
     }
 
+    /**
+     * Called to open an {@link AccountDetailsDialog} for an account
+     * @param account to open the details of
+     */
     private void showDetails(Account account) {
 
         AccountDetailsDialog dialog = new AccountDetailsDialog(this, account);
@@ -84,6 +109,9 @@ public class AllUsersDialog extends Dialog<Void> {
 
     }
 
+    /**
+     * Sets up the layout of the main panels
+     */
     private void setupPanel() {
         listPanel = new VBox(10);
         listPanel.setPadding(new Insets(10));

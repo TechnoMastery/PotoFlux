@@ -53,6 +53,9 @@ public class RmUserDialog extends Dialog<String> {
         setupResult();
     }
 
+    /**
+     * Add the buttons to the dialog's button bar
+     */
     private void setupButtons() {
         getDialogPane().getButtonTypes().addAll(
                 UiUtils.cancelButton.get(),
@@ -60,6 +63,10 @@ public class RmUserDialog extends Dialog<String> {
         );
     }
 
+    /**
+     * Shows a confirmation popup to delete the account
+     * @return weather the user confirmed to removal
+     */
     private boolean showConfirm() {
         return UiUtils.showConfirmationDialog(Functions.formatMessage(
                 Translations.get("potoflux:tabs.account.rmUser.check"),
@@ -67,6 +74,9 @@ public class RmUserDialog extends Dialog<String> {
         ));
     }
 
+    /**
+     * Adds the dialog's result converter
+     */
     private void setupResult() {
         setResultConverter(buttonType -> {
 
@@ -81,6 +91,9 @@ public class RmUserDialog extends Dialog<String> {
         });
     }
 
+    /**
+     * Adds the email field for the account to remove
+     */
     private void addEmail() {
         rmUserEmail = new TextField();
         rmUserEmail.setPrefWidth(250);
@@ -89,6 +102,9 @@ public class RmUserDialog extends Dialog<String> {
         grid.add(rmUserEmail, 1, 0);
     }
 
+    /**
+     * Sets up the {@linkplain #grid} layout
+     */
     private void setupForm() {
         grid = new GridPane();
         grid.setHgap(10);

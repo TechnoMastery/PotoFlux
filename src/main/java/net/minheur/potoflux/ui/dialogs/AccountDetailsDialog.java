@@ -37,8 +37,14 @@ import static net.minheur.potoflux.ui.UiUtils.*;
  */
 public class AccountDetailsDialog extends Dialog<Void> {
 
+    /**
+     * Parent dialog of the details, used when {@link #closeParent()}
+     */
     private final Dialog<?> parent;
 
+    /**
+     * Specific account that this dialog is for
+     */
     private final Account account;
     private final List<Perms> actualPerms = new ArrayList<>();
 

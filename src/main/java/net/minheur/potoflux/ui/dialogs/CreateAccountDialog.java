@@ -13,18 +13,39 @@ import net.minheur.potoflux.ui.dialogData.NewAccountData;
  */
 public class CreateAccountDialog extends Dialog<NewAccountData> {
 
+    /**
+     * Grid containing all components
+     */
     private GridPane grid;
 
+    /**
+     * Query for the new account's email
+     */
     private TextField emailField;
+    /**
+     * Query for the account's password
+     */
     private PasswordField passwordField;
+    /**
+     * Query for the user's first name
+     */
     private TextField firstName;
+    /**
+     * Query for the user's last name
+     */
     private TextField lastName;
 
+    /**
+     * Creates the dialog and runs {@link #initGui()}
+     */
     public CreateAccountDialog() {
         setTitle("Create Account"); // todo
         initGui();
     }
 
+    /**
+     * Setups the UI and layout, add buttons and content
+     */
     private void initGui() {
 
         setupButtons();
@@ -45,6 +66,9 @@ public class CreateAccountDialog extends Dialog<NewAccountData> {
         setupResult();
     }
 
+    /**
+     * Setups the result converter
+     */
     private void setupResult() {
         setResultConverter(buttonType -> {
 
@@ -63,6 +87,9 @@ public class CreateAccountDialog extends Dialog<NewAccountData> {
         });
     }
 
+    /**
+     * Adds all buttons the the dialog's button bar
+     */
     private void setupButtons() {
 
         getDialogPane().getButtonTypes().addAll(
@@ -72,6 +99,9 @@ public class CreateAccountDialog extends Dialog<NewAccountData> {
 
     }
 
+    /**
+     * Adds the {@link #lastName} field to the {@linkplain #grid}
+     */
     private void addLastName() {
         lastName = new TextField();
         lastName.setPrefWidth(250);
@@ -80,6 +110,9 @@ public class CreateAccountDialog extends Dialog<NewAccountData> {
         grid.add(lastName, 1, 3);
     }
 
+    /**
+     * Adds the {@link #firstName} field to the {@linkplain #grid}
+     */
     private void addFirstName() {
         firstName = new TextField();
         firstName.setPrefWidth(250);
@@ -88,6 +121,9 @@ public class CreateAccountDialog extends Dialog<NewAccountData> {
         grid.add(firstName, 1, 2);
     }
 
+    /**
+     * Adds the {@link #passwordField} to the {@linkplain #grid}
+     */
     private void addPassword() {
         passwordField = new PasswordField();
         passwordField.setPrefWidth(250);
@@ -96,6 +132,9 @@ public class CreateAccountDialog extends Dialog<NewAccountData> {
         grid.add(passwordField, 1, 1);
     }
 
+    /**
+     * Adds the {@link #emailField} to the {@linkplain #grid}
+     */
     private void addEmail() {
         emailField = new TextField();
         emailField.setPrefWidth(250);
@@ -104,6 +143,9 @@ public class CreateAccountDialog extends Dialog<NewAccountData> {
         grid.add(emailField, 1, 0);
     }
 
+    /**
+     * Sets up the layout of the {@link #grid}
+     */
     private void setupForm() {
         grid = new GridPane();
         grid.setHgap(10);
