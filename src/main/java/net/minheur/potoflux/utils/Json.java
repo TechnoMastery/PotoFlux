@@ -11,6 +11,9 @@ import java.util.List;
  * This allows to have less as possible in the project.
  */
 public class Json {
+    /**
+     * Locks the classes instanciation
+     */
     private Json() {}
 
     /**

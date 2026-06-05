@@ -35,12 +35,25 @@ public class OnlineReader {
         }
     }
 
+    /**
+     * Gets a response for a client and a specific request
+     * @param client used to post the request
+     * @param request to post via the client
+     * @return the response sent by the server
+     * @throws IOException if server couldn't be reached
+     * @throws InterruptedException if the connection got cut
+     */
     private static HttpResponse<String> getHttpResponse(HttpClient client, HttpRequest request) throws IOException, InterruptedException {
         HttpResponse<String> response =
                 client.send(request, HttpResponse.BodyHandlers.ofString());
         return response;
     }
 
+    /**
+     * Creates an HTTP request that gets a page or file stored at a given URL
+     * @param url address to the page / file to get
+     * @return the request that can get the target
+     */
     private static HttpRequest getHttpRequest(String url) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
