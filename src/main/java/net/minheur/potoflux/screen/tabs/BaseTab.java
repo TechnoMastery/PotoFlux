@@ -12,12 +12,16 @@ import javax.swing.*;
 
 /**
  * The base tab, overridden to create your own tabs.
+ * @param <T> type of {@link Pane} added to the tab
  */
 public abstract class BaseTab<T extends Pane> {
     /**
      * The actual {@link Pane}, that will be added to the tabbed pane.
      */
     protected T PANEL;
+    /**
+     * The built tab, with the graphic, name and panel
+     */
     private final Tab builtTab;
 
     /**
@@ -34,6 +38,9 @@ public abstract class BaseTab<T extends Pane> {
         setupBuiltTab();
     }
 
+    /**
+     * Creates the {@linkplain #builtTab}, and adds the name, panel and graphic
+     */
     private void setupBuiltTab() {
         builtTab.setContent(PANEL);
         builtTab.setClosable(false);
@@ -71,6 +78,10 @@ public abstract class BaseTab<T extends Pane> {
      * @return the tab's name
      */
     protected abstract String getName();
+    /**
+     * Sets the graphic displayed in the tab list
+     * @return the tab's icon
+     */
     protected @Nullable Node getIcon() {
         return null;
     }

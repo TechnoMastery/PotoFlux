@@ -5,7 +5,13 @@ package net.minheur.potoflux.login.response;
  */
 public class BaseResponse {
 
+    /**
+     * Defines if the action was a success
+     */
     public boolean success;
+    /**
+     * If {@link #success} is {@code false}, this stores the error sent by the database.
+     */
     public String error;
 
 }

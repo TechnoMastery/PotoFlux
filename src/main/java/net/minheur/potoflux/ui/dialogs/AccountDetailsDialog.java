@@ -37,24 +37,65 @@ import static net.minheur.potoflux.ui.UiUtils.*;
  */
 public class AccountDetailsDialog extends Dialog<Void> {
 
+    /**
+     * Parent dialog of the details, used when {@link #closeParent()}
+     */
     private final Dialog<?> parent;
 
+    /**
+     * Specific account that this dialog is for
+     */
     private final Account account;
+    /**
+     * List of perms owned by the admin, gotten from {@link ConnectionHandler#account}
+     */
     private final List<Perms> actualPerms = new ArrayList<>();
 
+    /**
+     * Grid containing all components for the dialog
+     */
     private GridPane grid;
 
+    /**
+     * Field for the {@linkplain #account}'s email
+     */
     private TextField emailField;
+    /**
+     * Field for the {@linkplain #account}'s first name
+     */
     private TextField firstNameField;
+    /**
+     * Field for the {@linkplain #account}'s last name
+     */
     private TextField lastNameField;
+    /**
+     * Field for the {@linkplain #account}'s rank
+     */
     private Spinner<Integer> rankSpinner;
 
+    /**
+     * Actual displayed list of all perms, containing perms owned by the {@linkplain #account}  and by the admin
+     */
     private ListView<Perms> permsList;
+    /**
+     * Map of all perms, being ticked or not.
+     */
     private Map<Perms, LockableField<BooleanProperty>> selectedPermMap;
 
+    /**
+     * Button to open the password reset popup
+     */
     private ButtonType changePasswordButton;
+    /**
+     * Button to toggle locked state of the {@linkplain #account}
+     */
     private ButtonType lockButton;
 
+    /**
+     * Creates the dialog, adds the buttons, the components and sets up the layout
+     * @param parent the {@link AllUsersDialog} that called this one
+     * @param account to display details of
+     */
     public AccountDetailsDialog(Dialog<?> parent, Account account) {
         setTitle("Account details"); // todo
         this.parent = parent;
@@ -77,6 +118,9 @@ public class AccountDetailsDialog extends Dialog<Void> {
 
     }
 
+    /**
+     * Creates the constraints of the different colums
+     */
     private void setupColumns() {
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints();
@@ -91,6 +135,11 @@ public class AccountDetailsDialog extends Dialog<Void> {
         grid.getColumnConstraints().addAll(col1, col2, col3);
     }
 
+    /**
+     * Adds the {@link #permsList} into the {@linkplain #grid}<br>
+     * Will add all perms owned by the {@linkplain #account}, wich are all ticked, and all the ones of the admin (got from {@link #actualPerms}).<br>
+     * The admin's perm are ticked if the user already has them, otherwise they aren't ticked. If the user has ticked perms that the admin don't, it is disabled and cannot be changed.
+     */
     private void addPerms() {
         permsList = new ListView<>();
         ObservableList<Perms> items = FXCollections.observableArrayList();
@@ -141,6 +190,9 @@ public class AccountDetailsDialog extends Dialog<Void> {
         GridPane.setColumnSpan(permsList, 3);
     }
 
+    /**
+     * Reloads the UI, toggling visible or editable depending on the actual user permissions
+     */
     private void reload() {
         if (actualPerms.contains(Perms.CHANGE_INFORMATIONS)) {
 
@@ -177,11 +229,17 @@ public class AccountDetailsDialog extends Dialog<Void> {
         ));
     }
 
+    /**
+     * Fills the actual user perms from {@link ConnectionHandler#account} to {@link #actualPerms}
+     */
     private void fillActualPerms() {
         Perms[] permsArray = ConnectionHandler.account.perms;
         actualPerms.addAll(List.of(permsArray));
     }
 
+    /**
+     * Creates {@linkplain #lockButton} and {@linkplain #changePasswordButton}, add all to the button bar then define their action
+     */
     private void setupButtons() {
         lockButton = new ButtonType(Translations.get("potoflux:tabs.account.lock.button"), ButtonBar.ButtonData.OTHER);
         changePasswordButton = new ButtonType(Translations.get("potoflux:tabs.account.mdUserPassword.button"), ButtonBar.ButtonData.OTHER);
@@ -420,10 +478,16 @@ public class AccountDetailsDialog extends Dialog<Void> {
 
     }
 
+    /**
+     * Closes the {@link #parent}
+     */
     private void closeParent() {
         parent.close();
     }
 
+    /**
+     * Adds the {@link #rankSpinner} to the {@linkplain #grid}
+     */
     private void addRank() {
         rankSpinner = new Spinner<>();
         rankSpinner.setValueFactory(
@@ -438,6 +502,9 @@ public class AccountDetailsDialog extends Dialog<Void> {
         GridPane.setColumnSpan(rankSpinner, 2);
     }
 
+    /**
+     * Adds {@link #firstNameField} and {@link #lastNameField} to the {@linkplain #grid}
+     */
     private void addName() {
         firstNameField = new TextField(account.firstName);
         lastNameField = new TextField(account.lastName);
@@ -447,6 +514,9 @@ public class AccountDetailsDialog extends Dialog<Void> {
         grid.add(lastNameField, 2, 1);
     }
 
+    /**
+     * Adds the {@link #emailField} to the {@linkplain #grid}
+     */
     private void addEmail() {
         emailField = new TextField(account.email);
 
@@ -455,6 +525,9 @@ public class AccountDetailsDialog extends Dialog<Void> {
         GridPane.setColumnSpan(emailField, 2);
     }
 
+    /**
+     * Sets up the layout of the main panel
+     */
     private void setupPanel() {
         grid = new GridPane();
         grid.setHgap(10);

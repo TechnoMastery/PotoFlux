@@ -6,10 +6,20 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 
+/**
+ * Base tab, but also including a preset {@link #hContent} and {@link #boxPreset()}
+ * @param <T> type of {@link Pane} added to the tab
+ */
 public abstract class BaseHTab<T extends Pane> extends BaseTab<T> {
 
+    /**
+     * Preset {@link HBox} to add to the panel
+     */
     protected HBox hContent;
 
+    /**
+     * Preset with the title, content and box preset
+     */
     @Override
     void runPreset() {
         boxPreset();
@@ -17,6 +27,9 @@ public abstract class BaseHTab<T extends Pane> extends BaseTab<T> {
         hContent.getChildren().add(mkTitle());
     }
 
+    /**
+     * Preset layout for the {@link #hContent}
+     */
     protected void boxPreset() {
         hContent = new HBox();
         hContent.setSpacing(20);

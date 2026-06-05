@@ -21,22 +21,52 @@ import static net.minheur.potoflux.login.ConnectionHandler.account;
  */
 public class AddUserDialog extends Dialog<NewAccountData> {
 
+    /**
+     * Grid containing all components of the dialog
+     */
     private GridPane grid;
 
+    /**
+     * Field to enter the email of the new account
+     */
     private TextField emailField;
+    /**
+     * Field to enter the password of the account
+     */
     private PasswordField passwordField;
+    /**
+     * field to enter the first name of the user
+     */
     private TextField firstName;
+    /**
+     * field to enter the last name of the user
+     */
     private TextField lastName;
+    /**
+     * Spinner to enter the new user's rank
+     */
     private Spinner<Integer> rankSpinner;
 
+    /**
+     * List of all perms owned by the admin, so he can transfer them to the new user
+     */
     private ListView<Perms> permsList;
+    /**
+     * Property map to know which perm has been selected and need to be transferred
+     */
     private Map<Perms, BooleanProperty> selectedPermMap;
 
+    /**
+     * Creates the dialog and calls {@link #initUI()}
+     */
     public AddUserDialog() {
         setTitle("Add user"); // todo
         initUI();
     }
 
+    /**
+     * Sets up the form, adds components and adds buttons
+     */
     private void initUI() {
 
         setupButton();
@@ -59,6 +89,9 @@ public class AddUserDialog extends Dialog<NewAccountData> {
         setupResult();
     }
 
+    /**
+     * Adds the {@link #rankSpinner} to the {@linkplain #grid}
+     */
     private void addRank() {
         rankSpinner = new Spinner<>();
         rankSpinner.setValueFactory(
@@ -72,6 +105,9 @@ public class AddUserDialog extends Dialog<NewAccountData> {
         grid.add(rankSpinner, 1, 4);
     }
 
+    /**
+     * Adds all buttons to the dialog button bar
+     */
     private void setupButton() {
         getDialogPane().getButtonTypes().addAll(
                 UiUtils.cancelButton.get(),
@@ -79,6 +115,9 @@ public class AddUserDialog extends Dialog<NewAccountData> {
         );
     }
 
+    /**
+     * Fills and adds the {@link #permsList} to the {@linkplain #grid}
+     */
     private void addPermList() {
         permsList = new ListView<>();
         ObservableList<Perms> items = FXCollections.observableArrayList();
@@ -103,6 +142,9 @@ public class AddUserDialog extends Dialog<NewAccountData> {
         GridPane.setColumnSpan(permsList, 2);
     }
 
+    /**
+     * Adds the {@link #lastName} field to the {@linkplain #grid}
+     */
     private void addLastName() {
         lastName = new TextField();
         lastName.setPrefWidth(250);
@@ -111,6 +153,9 @@ public class AddUserDialog extends Dialog<NewAccountData> {
         grid.add(lastName, 1, 3);
     }
 
+    /**
+     * Adds the {@link #firstName} field to the {@linkplain #grid}
+     */
     private void addFirstName() {
         firstName = new TextField();
         firstName.setPrefWidth(250);
@@ -119,6 +164,9 @@ public class AddUserDialog extends Dialog<NewAccountData> {
         grid.add(firstName, 1, 2);
     }
 
+    /**
+     * Adds the {@link #passwordField} to the {@linkplain #grid}
+     */
     private void addPassword() {
         passwordField = new PasswordField();
         passwordField.setPrefWidth(250);
@@ -127,6 +175,9 @@ public class AddUserDialog extends Dialog<NewAccountData> {
         grid.add(passwordField, 1, 1);
     }
 
+    /**
+     * Adds the {@link #emailField} to the {@linkplain #grid}
+     */
     private void addEmail() {
         emailField = new TextField();
         emailField.setPrefWidth(250);
@@ -135,6 +186,9 @@ public class AddUserDialog extends Dialog<NewAccountData> {
         grid.add(emailField, 1, 0);
     }
 
+    /**
+     * Sets up the layout of the {@link #grid}
+     */
     private void setupForm() {
         grid = new GridPane();
         grid.setHgap(10);
@@ -142,6 +196,9 @@ public class AddUserDialog extends Dialog<NewAccountData> {
         grid.setPadding(new Insets(15));
     }
 
+    /**
+     * Makes the result converter
+     */
     private void setupResult() {
         setResultConverter(buttonType -> {
 

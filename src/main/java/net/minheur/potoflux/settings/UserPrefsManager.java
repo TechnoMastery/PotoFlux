@@ -19,11 +19,15 @@ public final class UserPrefsManager {
      */
     private static final Preferences prefs = Preferences.userNodeForPackage(UserPrefsManager.class);
 
+    /**
+     * Lock the instanciation of the class
+     */
     private UserPrefsManager() {}
 
     /**
-     * Return the actual value (or default if not set) if a given setting.
-     * @param type the {@link ISettingType} of the setting, used to get the pref type and the default value
+     * Returns the actual value (or default if not set) for a given setting.
+     * @param type the {@link PreferencesTypes} of the setting
+     * @param defaultValue of the setting, if no value is set
      * @param id the ressource location of the setting. Is where the setting will be written and red from.
      * @return the value of the setting.
      * @throws ClassCastException if the default value is not the correct type for the type specified
@@ -39,12 +43,31 @@ public final class UserPrefsManager {
             case BYTE_ARRAY -> prefs.getByteArray(id.toString(), ((byte[]) defaultValue));
         };
     }
+    /**
+     * Returns the actual value for a given setting, from the {@link ISettingType}
+     * @param type of the setting, used to get {@linkplain PreferencesTypes} and default
+     * @param id the resource location used as key
+     * @return the value of the setting.
+     * @throws ClassCastException if the default value is not the correct type for the type specified
+     */
     public static Object getValueFor(@NotNull ISettingType<?> type, ResourceLocation id) {
         return getValueFor(type.prefType(), type.getDefaultValue(), id);
     }
+    /**
+     * Returns the actual value (or default if not set) for a given setting.
+     * @param setting used to get {@linkplain ISettingType}, id and default
+     * @return the value of the setting
+     * @throws ClassCastException if the default value is not the correct type for the type specified
+     */
     public static Object getValueFor(@NotNull Setting setting) {
         return getValueFor(setting.type(), setting.id());
     }
+    /**
+     * Sets a setting value
+     * @param id resource location used as key
+     * @param type type of value, used to put the right type of setting
+     * @param value of the setting, to be set
+     */
     public static void setValueFor(ResourceLocation id, PreferencesTypes type, Object value) {
 
         if (value == null) throw new IllegalArgumentException("Can't have null value !");

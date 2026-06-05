@@ -34,6 +34,14 @@ public class Bootstrap {
 
     private static final AtomicBoolean built = new AtomicBoolean(false);
 
+    /**
+     * It will first check for args, then enable devEnv if args contains it.<br>
+     * We then get version and log it, load all optionalFeatures, set the theme and set the loaded translations.<br>
+     * We get the loading bus, register all into it then list and load mods.<br>
+     * We post all events to the bus, and invoke the app.
+     * @param updateText consumer that allows to change the text of the loading screen
+     * @param args args given on app startup
+     */
     public static void bootstrap(Consumer<String> updateText, String[] args) {
         if (!built.compareAndSet(false, true)) return;
 

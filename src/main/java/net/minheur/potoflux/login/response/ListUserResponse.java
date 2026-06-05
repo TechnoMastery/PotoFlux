@@ -5,6 +5,9 @@ package net.minheur.potoflux.login.response;
  */
 public class ListUserResponse extends BaseResponse {
 
+    /**
+     * List of all user uuid
+     */
     public String[] list;
 
 }

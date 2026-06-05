@@ -12,8 +12,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
+/**
+ * Defines all menus that are simple enough to be set withing a single method
+ */
 public class MenuDefiners {
 
+    /**
+     * Defines the file menu, featuring {@code open mod dir} and {@code open log dir} buttons
+     * @return the file menu
+     */
     public static @NotNull Menu getFileMenu() {
 
         // open mod dir

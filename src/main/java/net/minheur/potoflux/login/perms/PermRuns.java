@@ -31,6 +31,9 @@ import static net.minheur.potoflux.ui.UiUtils.*;
  * Runnable called by perms when you run them
  */
 public class PermRuns {
+    /**
+     * This is used when an admin clicks the button to create an account
+     */
     static void addUser() {
         AddUserDialog dialog = new AddUserDialog();
 
@@ -98,6 +101,9 @@ public class PermRuns {
         );
     }
 
+    /**
+     * Used by admins to remove an account
+     */
     public static void rmUser() {
         RmUserDialog dialog = new RmUserDialog();
         Optional<String> result = dialog.showAndWait();
@@ -152,6 +158,9 @@ public class PermRuns {
 
     }
 
+    /**
+     * Used when an admin wants to toggle if users are allowed to self-create an account
+     */
     public static void setAccountCreationState() {
 
         CheckBox check = new CheckBox(Translations.get("potoflux:tabs.account.accountCreationState.box"));
@@ -167,6 +176,9 @@ public class PermRuns {
 
     }
 
+    /**
+     * Opens the dialog to look up all accounts
+     */
     public static void seeUsersInfos() {
         String listContent;
         try {

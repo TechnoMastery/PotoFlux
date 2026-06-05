@@ -8,20 +8,45 @@ import org.jetbrains.annotations.NotNull;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
+/**
+ * Lists all potoflux's menus
+ */
 public class MenuContent {
+    /**
+     * Actua list of menus
+     */
     private final RegistryList<PotoMenuItem> LIST = new RegistryList<>();
+    /**
+     * Weather the list has been generated
+     */
     private static boolean hasGenerated = false;
+    /**
+     * Only instance of the class
+     */
     public static MenuContent INSTANCE;
 
+    /**
+     * The constructor makes sure the reg can only be generated once
+     */
     private MenuContent() {
         if (hasGenerated) throw new IllegalStateException("Can't create the registry 2 times !");
         hasGenerated = true;
     }
 
     // --- file ---
+    /**
+     * Item for the file menu
+     */
     public final PotoMenuItem FILE = LIST.add(new PotoMenuItem(fromModId("file"), MenuDefiners.getFileMenu()));
+    /**
+     * Item for the account menu
+     */
     public final PotoMenuItem ACCOUNT = LIST.add(new PotoMenuItem(fromModId("account"), new AccountMenu()));
 
+    /**
+     * Instances the reg and puts all into the event
+     * @param event to add items to
+     */
     public static void register(@NotNull RegisterMenuEvent event) {
         INSTANCE = new MenuContent();
 

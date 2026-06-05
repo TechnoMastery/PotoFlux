@@ -18,6 +18,10 @@ import static net.minheur.potoflux.ui.UiUtils.*;
  */
 public class CreateAccountHandler {
 
+    /**
+     * Creates, displays and interprets a {@link CreateAccountDialog}.<br>
+     * If validated, will send a request to create the account on the server
+     */
     public static void create() {
 
         CreateAccountDialog dialog = new CreateAccountDialog();

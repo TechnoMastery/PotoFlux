@@ -240,11 +240,19 @@ public class SettingsTab extends BaseVTab<VBox> {
     protected String getTitle() {
         return Translations.get("potoflux:tabs.settings.name");
     }
+    /**
+     * Tells the name of the tab, same as the title
+     * @return {@link #getTitle()}
+     */
     @Override
     protected String getName() {
         return getTitle(); // same
     }
 
+    /**
+     * Disables the preset
+     * @return {@code false}
+     */
     @Override
     protected boolean doPreset() {
         return false;
