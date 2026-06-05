@@ -140,6 +140,11 @@ public class Functions {
             return false;
         }
     }
+    /**
+     * Simply opens a given file dir in the explorer. Handles exception.
+     * @param dir file to open
+     * @return weather the file go opened
+     */
     public static boolean openDir(File dir) {
 
         if (!Desktop.isDesktopSupported()) return false;

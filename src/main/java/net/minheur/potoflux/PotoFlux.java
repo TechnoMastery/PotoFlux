@@ -37,6 +37,26 @@ public class PotoFlux extends Application {
      */
     public static FXPotoScreen app;
 
+    /**
+     * The entry point for Potoflux's UI.
+     * The start method is called after the init method has returned,
+     * and after the system is ready for the application to begin running.
+     *
+     * <p>
+     * NOTE: This method is called on the JavaFX Application Thread.
+     * </p>
+     *
+     * <p>
+     *     Will first display the {@link FXLoadingScreen}, then launch the bootstrap in a {@link Task}
+     *     (making sure it won't freeze the app).
+     *     It finally creates {@link FXPotoScreen} if the bootstrap succeeded
+     * </p>
+     *
+     * @param primaryStage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     */
     @Override
     public void start(Stage primaryStage) {
 
@@ -83,6 +103,9 @@ public class PotoFlux extends Application {
 
     }
 
+    /**
+     * When the app is closed normally in the JavaFX sustem, this gets called to run the exit logic.
+     */
     @Override
     public void stop() {
         runExitLogic(ExitCode.SUCCESS);
@@ -90,10 +113,7 @@ public class PotoFlux extends Application {
 
     /**
      * The main method, that runs PotoFlux.<br>
-     * It will first check for args, then enable devEnv if args contains it.<br>
-     * We then get version and log it, load all optionalFeatures, set the theme and set the loaded translations.<br>
-     * We get the loading bus, register all into it then list and load mods.<br>
-     * We post all events to the bus, and invoke the app.
+     * It defines the uncaught exception handler, then runs {@link #launch}
      * @param args what you give to the app. Can contain 'devEnv' to enable PotoFlux's dev mod
      */
     public static void main(String[] args) {
@@ -133,7 +153,8 @@ public class PotoFlux extends Application {
     }
 
     /**
-     * This method should be used to close the app. This allows the app to run extra saving code before exiting.
+     * This method should be used to kill the app.<br>
+     * Used when crashing the app mainly
      * @param exitCode the code given on closing.
      */
     public static void runProgramKill(ExitCode exitCode) {
@@ -141,6 +162,11 @@ public class PotoFlux extends Application {
         runExitLogic(exitCode);
         System.exit(exitCode.code()); // close app
     }
+    /**
+     * Runs the logic on exit, saves things and launches close action runs if exit code is {@code 0}.<br>
+     * This allows the app to run extra saving code before exiting.
+     * @param exitCode the code given on closing.
+     */
     public static void runExitLogic(@NotNull ExitCode exitCode) {
         if (exitCode.code() == 0) for (ActionRun ar : CloseRunRegistry.getAll()) {
             try {
