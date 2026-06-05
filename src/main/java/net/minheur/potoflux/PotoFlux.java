@@ -78,7 +78,7 @@ public class PotoFlux extends Application {
 
         bootstrap.setOnSucceeded(event -> {
             startScreen.updateStage("Launching app...");
-            app = new FXPotoScreen();
+            app = new FXPotoScreen(primaryStage);
             startScreen.close();
 
             for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
