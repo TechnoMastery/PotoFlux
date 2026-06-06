@@ -6,6 +6,7 @@ import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
 import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.registry.RegistryList;
+import net.minheur.potoflux.utils.SmartSupplier;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
@@ -16,67 +17,48 @@ public class ActionRuns {
     /**
      * The reg of actions that runs on close
      */
-    private final RegistryList<ActionRun> LIST_CLOSE = new RegistryList<>();
+    private static final RegistryList<ActionRun> LIST_CLOSE = new RegistryList<>();
     /**
      * The reg of actions that runs on start, in the UI scope
      */
-    private final RegistryList<ActionRun> LIST_START_UI = new RegistryList<>();
+    private static final RegistryList<ActionRun> LIST_START_UI = new RegistryList<>();
     /**
      * The reg of actions that runs on start, in the logic scope
      */
-    private final RegistryList<ActionRun> LIST_START_LOGIC = new RegistryList<>();
-
-    /**
-     * Handles if the reg has already generated
-     */
-    private static boolean hasGenerated = false;
-    /**
-     * The instance of the reg, used to access action runs
-     */
-    public static ActionRuns INSTANCE;
-
-    /**
-     * Make sure the reg cannot generate 2 times
-     */
-    private ActionRuns() {
-        if (hasGenerated) throw new IllegalStateException("Can't create the registry 2 times !");
-        hasGenerated = true;
-    }
+    private static final RegistryList<ActionRun> LIST_START_LOGIC = new RegistryList<>();
 
     // start ui
     /**
      * This action fills the terminal when the UI starts
      */
-    public final ActionRun FILL_TERMINAL = LIST_START_UI.add(new ActionRun(fromModId("fill_terminal"), ActionRunRunnable::fillTerminal));
-    public final ActionRun UPDATE_AUTH_BUTTONS = LIST_START_UI.add(new ActionRun(fromModId("update_auth_buttons"), ConnectionHandler::reloadAuthUi));
-    public final ActionRun DISPLAY_MOD_UPDATES = LIST_START_UI.add(new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
-    public final ActionRun CHECK_POTOFLUX_UPDATE = LIST_START_UI.add(new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates));
+    public static final SmartSupplier<ActionRun> FILL_TERMINAL = LIST_START_UI.add(new SmartSupplier<>(() -> new ActionRun(fromModId("fill_terminal"), ActionRunRunnable::fillTerminal)));
+    public static final SmartSupplier<ActionRun> UPDATE_AUTH_BUTTONS = LIST_START_UI.add(new SmartSupplier<>(() -> new ActionRun(fromModId("update_auth_buttons"), ConnectionHandler::reloadAuthUi)));
+    public static final SmartSupplier<ActionRun> DISPLAY_MOD_UPDATES = LIST_START_UI.add(new SmartSupplier<>(() -> new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates)));
+    public static final SmartSupplier<ActionRun> CHECK_POTOFLUX_UPDATE = LIST_START_UI.add(new SmartSupplier<>(() -> new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates)));
 
     // start logic
-    public final ActionRun CHECK_RICK_ROLL = LIST_START_LOGIC.add(new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll));
-    public final ActionRun LOAD_COMMAND_HISTORY = LIST_START_LOGIC.add(new ActionRun(fromModId("load_command_history"), ActionRunRunnable::loadCommandHistory));
+    public static final SmartSupplier<ActionRun> CHECK_RICK_ROLL = LIST_START_LOGIC.add(new SmartSupplier<>(() -> new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll)));
+    public static final SmartSupplier<ActionRun> LOAD_COMMAND_HISTORY = LIST_START_LOGIC.add(new SmartSupplier<>(() -> new ActionRun(fromModId("load_command_history"), ActionRunRunnable::loadCommandHistory)));
     /**
      * Connect to your account with your token, if you have one
      */
-    public final ActionRun CONNECT_TOKEN = LIST_START_LOGIC.add(new ActionRun(fromModId("connect_token"), ActionRunRunnable::connectToken));
-    public final ActionRun CHECK_ALLOW_ACCOUNT_CREATION = LIST_START_LOGIC.add(new ActionRun(fromModId("check_allow_account_creation"), ConnectionHandler::reloadAccountCreationPermission));
+    public static final SmartSupplier<ActionRun> CONNECT_TOKEN = LIST_START_LOGIC.add(new SmartSupplier<>(() -> new ActionRun(fromModId("connect_token"), ActionRunRunnable::connectToken)));
+    public static final SmartSupplier<ActionRun> CHECK_ALLOW_ACCOUNT_CREATION = LIST_START_LOGIC.add(new SmartSupplier<>(() -> new ActionRun(fromModId("check_allow_account_creation"), ConnectionHandler::reloadAccountCreationPermission)));
 
     // close
     /**
      * This action saves the terminal when the app closes
      */
-    public final ActionRun SAVE_TERMINAL = LIST_CLOSE.add(new ActionRun(fromModId("save_terminal"), ActionRunRunnable::saveTerminal));
-    public final ActionRun SAVE_COMMAND_HISTORY = LIST_CLOSE.add(new ActionRun(fromModId("save_command_history"), ActionRunRunnable::saveCommandHistory));
+    public static final SmartSupplier<ActionRun> SAVE_TERMINAL = LIST_CLOSE.add(new SmartSupplier<>(() -> new ActionRun(fromModId("save_terminal"), ActionRunRunnable::saveTerminal)));
+    public static final SmartSupplier<ActionRun> SAVE_COMMAND_HISTORY = LIST_CLOSE.add(new SmartSupplier<>(() -> new ActionRun(fromModId("save_command_history"), ActionRunRunnable::saveCommandHistory)));
 
     /**
      * This registers all action runs to the main reg
      * @param event the event to register all actions to
      */
     public static void register(RegisterRunsEvent event) {
-        INSTANCE = new ActionRuns();
-
-        INSTANCE.LIST_CLOSE.register(event.closeReg);
-        INSTANCE.LIST_START_UI.register(event.startUiReg);
-        INSTANCE.LIST_START_LOGIC.register(event.startLogicReg);
+        LIST_CLOSE.register(event.closeReg);
+        LIST_START_UI.register(event.startUiReg);
+        LIST_START_LOGIC.register(event.startLogicReg);
     }
 }

@@ -4,6 +4,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.tabs.all.*;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.SmartSupplier;
 import org.jetbrains.annotations.NotNull;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
@@ -15,41 +16,24 @@ public class Tabs {
     /**
      * Registry list of the tabs
      */
-    private final RegistryList<Tab> LIST = new RegistryList<>();
-    /**
-     * Checks if the list has already been added to the reg.
-     */
-    private static boolean hasGenerated = false;
-
-    /**
-     * The instance of this class, used to keep a link to the tab def
-     */
-    public static Tabs INSTANCE;
-
-    /**
-     * Private builder, used to check that the tabs are not added twice to the reg.
-     */
-    private Tabs() {
-        if (hasGenerated) throw new IllegalStateException("Can't create the registry 2 times !");
-        hasGenerated = true;
-    }
+    private static final RegistryList<Tab> LIST = new RegistryList<>();
 
     /**
      * The item of the home tab ({@link HomeTab}).
      */
-    public final Tab HOME = LIST.add(new Tab(fromModId("home"), Translations.get("potoflux:tabs.home.name"), HomeTab.class));
+    public static final SmartSupplier<Tab> HOME = LIST.add(new SmartSupplier<>(() -> new Tab(fromModId("home"), Translations.get("potoflux:tabs.home.name"), HomeTab.class)));
     /**
      * The item of the account tab ({@link AccountTab})
      */
-    public final Tab ACCOUNT = LIST.add(new Tab(fromModId("account"), Translations.get("potoflux:tabs.account.name"), AccountTab.class));
+    public static final SmartSupplier<Tab> ACCOUNT = LIST.add(new SmartSupplier<>(() -> new Tab(fromModId("account"), Translations.get("potoflux:tabs.account.name"), AccountTab.class)));
     /**
      * The item of the terminal tab ({@link TerminalTab}).
      */
-    public final Tab TERMINAL = LIST.add(new Tab(fromModId("terminal"), Translations.get("potoflux:tabs.terminal.name"), TerminalTab.class));
+    public static final SmartSupplier<Tab> TERMINAL = LIST.add(new SmartSupplier<>(() -> new Tab(fromModId("terminal"), Translations.get("potoflux:tabs.terminal.name"), TerminalTab.class)));
     /**
      * The item of the settings tab ({@link SettingsTab}).
      */
-    public final Tab SETTINGS = LIST.add(new Tab(fromModId("settings"), Translations.get("potoflux:tabs.settings.name"), SettingsTab.class));
+    public static final SmartSupplier<Tab> SETTINGS = LIST.add(new SmartSupplier<>(() -> new Tab(fromModId("settings"), Translations.get("potoflux:tabs.settings.name"), SettingsTab.class)));
 
     /**
      * Create the instance of the class, then add the tabs to the events.<br>
@@ -57,8 +41,6 @@ public class Tabs {
      * @param event the event to register to
      */
     public static void register(@NotNull RegisterTabsEvent event) {
-        INSTANCE = new Tabs();
-
-        INSTANCE.LIST.register(event.reg);
+        LIST.register(event.reg);
     }
 }

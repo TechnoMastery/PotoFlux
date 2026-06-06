@@ -1,5 +1,7 @@
 package net.minheur.potoflux.registry;
 
+import net.minheur.potoflux.utils.SmartSupplier;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,14 +14,14 @@ public class RegistryList<T extends IRegistryType> {
     /**
      * The actual list containing items
      */
-    private final List<T> innerList = new ArrayList<>();
+    private final List<SmartSupplier<T>> innerList = new ArrayList<>();
 
     /**
      * Method to add an item to the registry.
      * @param item item to add
      * @return the item added, or null if already added
      */
-    public T add(T item) {
+    public SmartSupplier<T> add(SmartSupplier<T> item) {
         if (innerList.contains(item)) return null;
         innerList.add(item);
         return item;
@@ -30,8 +32,8 @@ public class RegistryList<T extends IRegistryType> {
      * @param reg the registry to add the items to
      */
     public void register(IRegistry<T> reg) {
-        for (T t : innerList) {
-            reg.add(t);
+        for (SmartSupplier<T> sup : innerList) {
+            reg.add(sup.get());
         }
     }
 }
