@@ -1,9 +1,13 @@
 package net.minheur.potoflux.screen.menu;
 
+import javafx.scene.control.Menu;
 import net.minheur.potoflux.registry.IRegistryType;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 
-import javax.swing.*;
-
-public record PotoMenuItem(ResourceLocation id, JComponent content) implements IRegistryType {
+/**
+ * Item for a menu
+ * @param id of the menu
+ * @param content to add to the menu bar
+ */
+public record PotoMenuItem(ResourceLocation id, Menu content) implements IRegistryType {
 }

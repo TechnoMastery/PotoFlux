@@ -1,109 +1,124 @@
 package net.minheur.potoflux.ui.dialogs;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import net.minheur.potoflux.login.Account;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.util.List;
 
 /**
  * Contains the list of all users, each with a button allowing the user to see their details.
  */
-public class AllUsersDialog extends JDialog {
+public class AllUsersDialog extends Dialog<Void> {
 
+    /**
+     * Contains all the accounts sent by the server
+     */
     private final List<Account> accounts;
 
-    private JScrollPane listScrollPane;
-    private JPanel listPanel;
-    private Border lineBorder;
+    /**
+     * Main container for the dialog
+     */
+    private final BorderPane root;
+    /**
+     * Panel actually containing user's rows
+     */
+    private VBox listPanel;
 
-    public AllUsersDialog(Frame parent, List<Account> accounts) {
-        super(parent, "All users", true);
-
+    /**
+     * Creates the dialog with a given list of account
+     * @param accounts
+     */
+    public AllUsersDialog(List<Account> accounts) {
         this.accounts = accounts;
+        setTitle("All accounts"); // todo
 
-        setLayout(new BorderLayout());
+        root = new BorderPane();
 
         setupPanel();
-        setupBorder();
         fillAccounts();
-        setupScroll();
-        setupButton();
 
-        pack();
-        setMaximumSize(new Dimension(400, 500));
+        getDialogPane().setContent(root);
+        getDialogPane().getButtonTypes().add(UiUtils.closeButton.get());
+        getDialogPane().setPrefSize(400, 500);
 
-        setLocationRelativeTo(parent);
     }
 
-    private void setupButton() {
-        JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(e -> dispose());
-
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        bottomPanel.add(closeButton);
-
-        add(bottomPanel, BorderLayout.SOUTH);
-    }
-
-    private void setupScroll() {
-        listScrollPane = new JScrollPane(listPanel);
-        add(listScrollPane);
-    }
-
+    /**
+     * Goes through the account and call {@linkplain #mkRow} for each of them
+     */
     private void fillAccounts() {
-        for (Account account : accounts) {
-            JPanel row = mkRow(account);
-
-            JPanel wrapper = new JPanel(new BorderLayout());
-            wrapper.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            wrapper.add(row, BorderLayout.CENTER);
-
-            listPanel.add(wrapper);
-        }
+        for (Account account : accounts)
+            listPanel.getChildren().add(mkRow(account));
     }
 
-    private @NotNull JPanel mkRow(Account account) {
-        JPanel row = new JPanel();
-        row.setLayout(new BoxLayout(row, BoxLayout.X_AXIS));
+    /**
+     * Creates a row for a specific account
+     * @param account creates the row of this account
+     * @return the row of the account
+     */
+    private @NotNull HBox mkRow(@NotNull Account account) {
 
-        row.setBorder(BorderFactory.createCompoundBorder(
-                lineBorder,
-                BorderFactory.createEmptyBorder(5, 5, 5, 5)
+        HBox row = new HBox(10);
+        row.setPadding(new Insets(10));
+
+        row.setBorder(new Border(
+                new BorderStroke(
+                        Color.LIGHTGRAY,
+                        BorderStrokeStyle.SOLID,
+                        new CornerRadii(5),
+                        BorderWidths.DEFAULT
+                )
         ));
 
-        JLabel emailLabel = new JLabel(account.email);
+        Label emailLabel = new Label(account.email);
 
-        JButton detailsButton = new JButton(Translations.get("common:details"));
-        detailsButton.addActionListener(e -> showDetails(account));
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        row.add(emailLabel);
-        row.add(Box.createHorizontalGlue());
-        row.add(Box.createHorizontalStrut(15));
-        row.add(detailsButton);
+        Button detailsButton = new Button(Translations.get("common:details"));
+        detailsButton.setOnAction(e -> showDetails(account));
+
+        row.getChildren().addAll(
+                emailLabel,
+                spacer,
+                detailsButton
+        );
 
         return row;
     }
 
+    /**
+     * Called to open an {@link AccountDetailsDialog} for an account
+     * @param account to open the details of
+     */
     private void showDetails(Account account) {
 
         AccountDetailsDialog dialog = new AccountDetailsDialog(this, account);
-        dialog.setVisible(true);
+        dialog.showAndWait();
 
     }
 
-    private void setupBorder() {
-        lineBorder = BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.LIGHT_GRAY),
-                BorderFactory.createEmptyBorder(5, 10, 5, 10)
-        );
-    }
-
+    /**
+     * Sets up the layout of the main panels
+     */
     private void setupPanel() {
-        listPanel = new JPanel();
-        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+        listPanel = new VBox(10);
+        listPanel.setPadding(new Insets(10));
+
+        ScrollPane scrollPane = new ScrollPane(listPanel);
+        scrollPane.setFitToWidth(true);
+
+        root.setCenter(scrollPane);
     }
 }

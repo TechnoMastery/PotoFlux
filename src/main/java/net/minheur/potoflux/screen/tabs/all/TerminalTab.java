@@ -1,5 +1,6 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import javafx.scene.layout.StackPane;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.terminal.Terminal;
 import net.minheur.potoflux.translations.Translations;
@@ -7,19 +8,36 @@ import net.minheur.potoflux.translations.Translations;
 /**
  * The tab that contains the terminal of potoflux.
  */
-public class TerminalTab extends BaseTab {
+public class TerminalTab extends BaseTab<StackPane> {
     /**
      * Actual var containing the terminal
      */
     private Terminal terminal;
 
     /**
-     * This is the actual method to set the panel.<br>
-     * The overriding class will have to use this to add content to the {@link #PANEL}.
+     * Add content to the pane.<br>
+     * Calls {@link #addTerminal()}
      */
     @Override
     protected void setPanel() {
         addTerminal();
+    }
+
+    /**
+     * Instancies main panels
+     */
+    @Override
+    protected void instantiate() {
+        PANEL = new StackPane();
+    }
+
+    /**
+     * Gets the name of the tab, displayed in the tab list
+     * @return the tab's name
+     */
+    @Override
+    protected String getName() {
+        return Translations.get("potoflux:tabs.terminal.name");
     }
 
     /**

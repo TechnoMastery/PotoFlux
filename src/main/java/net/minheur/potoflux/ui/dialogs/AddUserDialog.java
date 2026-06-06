@@ -1,49 +1,75 @@
 package net.minheur.potoflux.ui.dialogs;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.layout.GridPane;
 import net.minheur.potoflux.login.perms.Perms;
-import net.minheur.potoflux.ui.CheckboxListRenderer;
+import net.minheur.potoflux.ui.UiUtils;
+import net.minheur.potoflux.ui.dialogData.NewAccountData;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static net.minheur.potoflux.login.ConnectionHandler.account;
 
 /**
  * Used by admins when creating a new account for someone
  */
-public class AddUserDialog extends JDialog {
+public class AddUserDialog extends Dialog<NewAccountData> {
 
-    private JPanel formPanel;
-    private GridBagConstraints gbc;
+    /**
+     * Grid containing all components of the dialog
+     */
+    private GridPane grid;
 
-    private JTextField emailField;
-    private JPasswordField passwordField;
-    private JTextField firstName;
-    private JTextField lastName;
-    private JSpinner rankSpinner;
+    /**
+     * Field to enter the email of the new account
+     */
+    private TextField emailField;
+    /**
+     * Field to enter the password of the account
+     */
+    private PasswordField passwordField;
+    /**
+     * field to enter the first name of the user
+     */
+    private TextField firstName;
+    /**
+     * field to enter the last name of the user
+     */
+    private TextField lastName;
+    /**
+     * Spinner to enter the new user's rank
+     */
+    private Spinner<Integer> rankSpinner;
 
-    private JScrollPane permScroll;
-    private JList<Perms> permsList;
+    /**
+     * List of all perms owned by the admin, so he can transfer them to the new user
+     */
+    private ListView<Perms> permsList;
+    /**
+     * Property map to know which perm has been selected and need to be transferred
+     */
+    private Map<Perms, BooleanProperty> selectedPermMap;
 
-    private JPanel buttonPanel;
-    private JButton cancelButton;
-    private JButton validateButton;
-
-    private boolean confirmed = false;
-
-    public AddUserDialog(Frame owner) {
-        super(owner, "Add user", true); // TODO
+    /**
+     * Creates the dialog and calls {@link #initUI()}
+     */
+    public AddUserDialog() {
+        setTitle("Add user"); // todo
         initUI();
     }
 
+    /**
+     * Sets up the form, adds components and adds buttons
+     */
     private void initUI() {
-        setLayout(new BorderLayout(10, 10));
 
+        setupButton();
         setupForm();
 
         addEmail();
@@ -53,174 +79,148 @@ public class AddUserDialog extends JDialog {
         addRank();
         addPermList();
 
-        add(formPanel, BorderLayout.CENTER);
+        getDialogPane().setContent(grid);
 
-        addButtons();
-        add(buttonPanel, BorderLayout.SOUTH);
+        ((Button) getDialogPane().lookupButton(UiUtils.confirmButton.get()))
+                .setDefaultButton(true);
+        ((Button) getDialogPane().lookupButton(UiUtils.cancelButton.get()))
+                .setCancelButton(true);
 
-        pack();
-        setLocationRelativeTo(getParent());
-
-        getRootPane().setDefaultButton(validateButton);
+        setupResult();
     }
 
+    /**
+     * Adds the {@link #rankSpinner} to the {@linkplain #grid}
+     */
     private void addRank() {
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.anchor = GridBagConstraints.NORTH;
-        formPanel.add(new JLabel("Rank :"), gbc);
-
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-
-        rankSpinner = new JSpinner(
-                new SpinnerNumberModel(
-                        account.rank +1, 0, 100, 1
+        rankSpinner = new Spinner<>();
+        rankSpinner.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(
+                        0, 100, account.rank +1, 1
                 )
         );
-        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(rankSpinner, "#");
-        rankSpinner.setEditor(editor);
+        rankSpinner.setPrefWidth(100);
 
-        formPanel.add(rankSpinner, gbc);
+        grid.add(new Label("Rank: "), 0, 4);
+        grid.add(rankSpinner, 1, 4);
     }
 
-    private void addButtons() {
-        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        cancelButton = new JButton("cancel");
-        validateButton = new JButton("Validate");
-
-        cancelButton.addActionListener(e -> {
-            confirmed = false;
-            dispose();
-        });
-
-        validateButton.addActionListener(e -> {
-            confirmed = true;
-            dispose();
-        });
-
-        buttonPanel.add(cancelButton);
-        buttonPanel.add(validateButton);
+    /**
+     * Adds all buttons to the dialog button bar
+     */
+    private void setupButton() {
+        getDialogPane().getButtonTypes().addAll(
+                UiUtils.cancelButton.get(),
+                UiUtils.confirmButton.get()
+        );
     }
 
+    /**
+     * Fills and adds the {@link #permsList} to the {@linkplain #grid}
+     */
     private void addPermList() {
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.anchor = GridBagConstraints.NORTH;
-        formPanel.add(new JLabel("Permissions :"), gbc);
+        permsList = new ListView<>();
+        ObservableList<Perms> items = FXCollections.observableArrayList();
 
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-
-        permsList = new JList<>();
-        permsList.setCellRenderer(new CheckboxListRenderer());
-        permsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        permsList.setFocusable(false);
-
-        permsList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                int index = permsList.locationToIndex(e.getPoint());
-
-                if (index >= 0) {
-                    if (permsList.isSelectedIndex(index))
-                        permsList.removeSelectionInterval(index, index);
-                    else permsList.addSelectionInterval(index, index);
-                }
-            }
-        });
-        permsList.setSelectionModel(new DefaultListSelectionModel() {
-            @Override
-            public void setSelectionInterval(int index0, int index1) {}
-        });
-
-        List<Perms> available = new ArrayList<>();
-        for (Perms perm : Perms.values()) {
+        for (Perms perm : Perms.values())
             if (Arrays.asList(account.perms).contains(perm))
-                available.add(perm);
-        }
-        permsList.setListData(available.toArray(Perms[]::new));
+                items.add(perm);
+        permsList.setItems(items);
 
-        permScroll = new JScrollPane(permsList);
-        permScroll.setPreferredSize(new Dimension(200, 100));
+        selectedPermMap = new HashMap<>();
 
-        formPanel.add(permScroll, gbc);
+        for (Perms perm : items)
+            selectedPermMap.put(perm, new SimpleBooleanProperty(false));
+        permsList.setCellFactory(CheckBoxListCell.forListView(
+                selectedPermMap::get
+        ));
+
+        permsList.setFocusTraversable(true);
+        permsList.setPrefSize(200, 250);
+
+        grid.add(permsList, 0, 5);
+        GridPane.setColumnSpan(permsList, 2);
     }
 
+    /**
+     * Adds the {@link #lastName} field to the {@linkplain #grid}
+     */
     private void addLastName() {
-        gbc.gridx = 0;
-        gbc.gridy++;
-        formPanel.add(new JLabel("Last name :"), gbc);
+        lastName = new TextField();
+        lastName.setPrefWidth(250);
 
-        gbc.gridx = 1;
-        lastName = new JTextField(20);
-        formPanel.add(lastName, gbc);
+        grid.add(new Label("Last name: "), 0, 3);
+        grid.add(lastName, 1, 3);
     }
 
+    /**
+     * Adds the {@link #firstName} field to the {@linkplain #grid}
+     */
     private void addFirstName() {
-        gbc.gridx = 0;
-        gbc.gridy++;
-        formPanel.add(new JLabel("First name :"), gbc);
+        firstName = new TextField();
+        firstName.setPrefWidth(250);
 
-        gbc.gridx = 1;
-        firstName = new JTextField(20);
-        formPanel.add(firstName, gbc);
+        grid.add(new Label("First name: "), 0, 2);
+        grid.add(firstName, 1, 2);
     }
 
+    /**
+     * Adds the {@link #passwordField} to the {@linkplain #grid}
+     */
     private void addPassword() {
-        gbc.gridx = 0;
-        gbc.gridy++;
-        formPanel.add(new JLabel("Password :"), gbc);
+        passwordField = new PasswordField();
+        passwordField.setPrefWidth(250);
 
-        gbc.gridx = 1;
-        passwordField = new JPasswordField(20);
-        formPanel.add(passwordField, gbc);
+        grid.add(new Label("Password: "), 0, 1);
+        grid.add(passwordField, 1, 1);
     }
 
+    /**
+     * Adds the {@link #emailField} to the {@linkplain #grid}
+     */
     private void addEmail() {
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        formPanel.add(new JLabel("Email :"), gbc);
+        emailField = new TextField();
+        emailField.setPrefWidth(250);
 
-        gbc.gridx = 1;
-        emailField = new JTextField(20);
-        formPanel.add(emailField, gbc);
+        grid.add(new Label("Email: "), 0, 0);
+        grid.add(emailField, 1, 0);
     }
 
+    /**
+     * Sets up the layout of the {@link #grid}
+     */
     private void setupForm() {
-        formPanel = new JPanel();
-        formPanel.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(15));
     }
 
-    public boolean isConfirmed() {
-        return confirmed;
+    /**
+     * Makes the result converter
+     */
+    private void setupResult() {
+        setResultConverter(buttonType -> {
+
+            if (buttonType == UiUtils.confirmButton.get()) {
+                NewAccountData result = new NewAccountData();
+
+                result.email = emailField.getText();
+                result.password = passwordField.getText();
+                result.firstName = firstName.getText();
+                result.lastName = lastName.getText();
+                result.rank = rankSpinner.getValue();
+                result.perms = selectedPermMap.entrySet()
+                        .stream()
+                        .filter(entry -> entry.getValue().get())
+                        .map(Map.Entry::getKey)
+                        .toList();
+
+                return result;
+
+            } else return null;
+
+        });
     }
 
-    public String getEmail() {
-        return emailField.getText();
-    }
-
-    public String getPassword() {
-        return new String(passwordField.getPassword());
-    }
-
-    public String getFirstName() {
-        return firstName.getText();
-    }
-
-    public String getLastName() {
-        return lastName.getText();
-    }
-
-    public List<Perms> getSelectedPerms() {
-        return permsList.getSelectedValuesList();
-    }
-
-    public int getRank() {
-        return ((int) rankSpinner.getValue());
-    }
 }

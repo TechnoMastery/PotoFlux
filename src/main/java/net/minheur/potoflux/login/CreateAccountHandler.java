@@ -1,12 +1,13 @@
 package net.minheur.potoflux.login;
 
-import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.response.BaseResponse;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.dialogData.NewAccountData;
 import net.minheur.potoflux.ui.dialogs.CreateAccountDialog;
 import net.minheur.potoflux.utils.Json;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static net.minheur.potoflux.Functions.formatMessage;
 import static net.minheur.potoflux.ui.UiUtils.*;
@@ -17,17 +18,21 @@ import static net.minheur.potoflux.ui.UiUtils.*;
  */
 public class CreateAccountHandler {
 
+    /**
+     * Creates, displays and interprets a {@link CreateAccountDialog}.<br>
+     * If validated, will send a request to create the account on the server
+     */
     public static void create() {
 
-        CreateAccountDialog dialog = new CreateAccountDialog(PotoFlux.app.getFrame());
-        dialog.setVisible(true);
+        CreateAccountDialog dialog = new CreateAccountDialog();
+        Optional<NewAccountData> result = dialog.showAndWait();
 
-        if (!dialog.isConfirmed()) return;
+        if (result.isEmpty()) return;
 
-        String email = dialog.getEmail();
-        String password = dialog.getPassword();
-        String firstName = dialog.getFirstName();
-        String lastName = dialog.getLastName();
+        final String email = result.get().email;
+        final String password = result.get().password;
+        final String firstName = result.get().firstName;
+        final String lastName = result.get().lastName;
 
         String content;
         try {

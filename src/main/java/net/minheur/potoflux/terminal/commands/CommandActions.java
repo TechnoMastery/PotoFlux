@@ -13,11 +13,9 @@ import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.CommandRegistry;
 import net.minheur.potoflux.terminal.Terminal;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.close.ExitCode;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -117,7 +115,7 @@ public class CommandActions {
         }
 
         CommandProcessor.appendOutput(Translations.get("potoflux:command.quit.out"));
-        Functions.exit(500, 0);
+        Functions.exit(500, ExitCode.SUCCESS);
     }
 
     /**
@@ -125,7 +123,7 @@ public class CommandActions {
      * @param args all the args given to the command
      */
     static void echo(List<String> args) {
-        if (argAmountCheck(1, args)) {
+        if (args.isEmpty()) {
             CommandProcessor.appendOutput(CommandHelp.echo());
             return;
         }

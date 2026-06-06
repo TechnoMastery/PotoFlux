@@ -1,37 +1,65 @@
 package net.minheur.potoflux.screen.tabs;
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import org.jetbrains.annotations.Nullable;
+
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * The base tab, overridden to create your own tabs.
+ * @param <T> type of {@link Pane} added to the tab
  */
-public abstract class BaseTab {
+public abstract class BaseTab<T extends Pane> {
     /**
-     * The actual {@link JPanel}, that will be added to the tabbed pane.
+     * The actual {@link Pane}, that will be added to the tabbed pane.
      */
-    protected final JPanel PANEL = new JPanel();
+    protected T PANEL;
+    /**
+     * The built tab, with the graphic, name and panel
+     */
+    private final Tab builtTab;
 
     /**
      * Constructor for the tab.<br>
      * It will do the preset if enabled, and execute (or invokeLater) the {@link #setPanel()} method, to add data to the {@link #PANEL}.
      */
     public BaseTab() {
-        if (doPreset()) preset();
-        if (invokeLater()) SwingUtilities.invokeLater(this::setPanel);
-        else setPanel();
+        instantiate();
+        if (doPreset()) runPreset();
+
+        setPanel();
+
+        this.builtTab = new Tab();
+        setupBuiltTab();
     }
 
     /**
-     * The preset, that is by default enabled.<br>
-     * It sets the layout and add the title.
+     * Creates the {@linkplain #builtTab}, and adds the name, panel and graphic
      */
-    protected void preset() {
-        PANEL.setLayout(new BoxLayout(PANEL, BoxLayout.Y_AXIS));
-        PANEL.add(Box.createVerticalStrut(30));
-        createTitle();
-        PANEL.add(Box.createVerticalStrut(20));
+    private void setupBuiltTab() {
+        builtTab.setContent(PANEL);
+        builtTab.setClosable(false);
+
+        builtTab.setText(getName());
     }
+    public Tab getBuiltTab() {
+        return builtTab;
+    }
+
+    /**
+     * You need to instantiate {@link #PANEL}.
+     */
+    protected abstract void instantiate();
+
+    /**
+     * This is reserved to other Base tabs, allowing presets
+     */
+    void runPreset() {}
 
     /**
      * This is the actual method to set the panel.<br>
@@ -45,13 +73,17 @@ public abstract class BaseTab {
     protected String getTitle() {
         return "[NO TITLE SET]";
     }
-
     /**
-     * Getter for the {@link #PANEL}.
-     * @return the {@link #PANEL}
+     * The name of the tab in the list displayed
+     * @return the tab's name
      */
-    public JPanel getPanel() {
-        return PANEL;
+    protected abstract String getName();
+    /**
+     * Sets the graphic displayed in the tab list
+     * @return the tab's icon
+     */
+    protected @Nullable Node getIcon() {
+        return null;
     }
 
     /**
@@ -64,22 +96,11 @@ public abstract class BaseTab {
     }
 
     /**
-     * Handles if the creation should be added to the swing EDT, otherwise it will be executed on the tab creation.
-     * @return if the app should be {@link SwingUtilities#invokeLater(Runnable)}.
+     * Creates the title, from the text given via {@link #getTitle()}.
      */
-    @Deprecated(since = "6.4")
-    protected boolean invokeLater() {
-        return false;
-    }
-
-    /**
-     * Creates the title, from the text given via {@link #getTitle()}.<br>
-     * It is used in the {@link #preset()}
-     */
-    protected void createTitle() {
-        JLabel title = new JLabel(getTitle());
-        title.setFont(new Font("Consolas", Font.BOLD, 20));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        PANEL.add(title);
+    protected Label mkTitle() {
+        Label title = new Label(getTitle());
+        title.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
+        return title;
     }
 }

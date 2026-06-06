@@ -1,10 +1,10 @@
 package net.minheur.potoflux.screen.tabs;
 
-import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.tabs.all.*;
 import net.minheur.potoflux.translations.Translations;
+import org.jetbrains.annotations.NotNull;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
@@ -56,7 +56,7 @@ public class Tabs {
      * This is called on the tab register event.
      * @param event the event to register to
      */
-    public static void register(RegisterTabsEvent event) {
+    public static void register(@NotNull RegisterTabsEvent event) {
         INSTANCE = new Tabs();
 
         INSTANCE.LIST.register(event.reg);

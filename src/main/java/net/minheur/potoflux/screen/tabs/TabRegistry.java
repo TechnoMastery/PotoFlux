@@ -2,6 +2,8 @@ package net.minheur.potoflux.screen.tabs;
 
 import net.minheur.potoflux.registry.IRegistry;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -21,7 +23,8 @@ public class TabRegistry implements IRegistry<Tab> {
      * Getter for all the tabs
      * @return all the tabs
      */
-    public static Collection<Tab> getAll() {
+    @Contract(pure = true)
+    public static @NotNull Collection<Tab> getAll() {
         return REGISTRY.values();
     }
 
@@ -31,7 +34,7 @@ public class TabRegistry implements IRegistry<Tab> {
      * @return the added item
      */
     @Override
-    public Tab add(Tab item) {
+    public Tab add(@NotNull Tab item) {
         if (REGISTRY.containsKey(item.id())) throw new IllegalArgumentException("This tab is already added: " + item.id());
         return REGISTRY.put(item.id(), item);
     }

@@ -1,8 +1,6 @@
 package net.minheur.potoflux.translations.register;
 
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.screen.tabs.Tabs;
-import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
 
 /**
@@ -171,30 +169,33 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addPref("ascii")
                 .en("ASCII")
                 .fr("ASCII");
-        addPref("ascii", "select")
-                .en("Select terminal ASCII")
-                .fr("Choisissez un ASCII du terminal");
-        addPref("ascii", "button")
-                .en("Change terminal ASCII")
-                .fr("Changer l'ASCII du terminal");
         addPref("lang")
                 .en("Language")
                 .fr("Langue");
-        addPref("lang", "select")
-                .en("Select language")
-                .fr("Sélectionnez la langue");
-        addPref("lang", "button")
-                .en("Change language")
-                .fr("Changer la langue");
         addPref("theme")
                 .en("Theme")
                 .fr("Thème");
-        addPref("theme", "select")
-                .en("Select new theme")
-                .fr("Sélectionnez le nouveau thème");
-        addPref("theme", "button")
-                .en("Change theme")
-                .fr("Changer le thème");
+        addPref("ascii_on_start")
+                .en("Write ASCII on start")
+                .fr("Réécrire l'ASCII au démarrage");
+        addPref("tab_placement")
+                .en("Tab placement")
+                .fr("Position des onglets");
+
+        addAsciiName("basic")
+                .en("Basic")
+                .fr("Basique");
+        addAsciiName("big")
+                .en("Big")
+                .fr("Grand")
+                .de("Große");
+        addAsciiName("chiseled")
+                .en("Chiseled")
+                .fr("Taillé");
+
+        addThemeName("default")
+                .en("Default")
+                .fr("Par défaut");
 
         addMenu("file", "openModDir")
                 .en("Open mods directory")
@@ -265,6 +266,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addSettingsTab("name")
                 .en("Settings")
                 .fr("Paramètres");
+        addSettingsTab("optionals", "openButton")
+                .en("Optional features")
+                .fr("Fonctionnalités optionnelles");
 
         addTerminalTab("name")
                 .en("Terminal")
@@ -456,6 +460,12 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
      */
     private TranslationBuilder addPref(String... children) {
         return add("prefs", children);
+    }
+    private TranslationBuilder addAsciiName(String... children) {
+        return add("ascii", children);
+    }
+    private TranslationBuilder addThemeName(String... children) {
+        return add("theme", children);
     }
     /**
      * Add a translation for the screen

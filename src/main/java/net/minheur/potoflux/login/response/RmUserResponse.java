@@ -7,6 +7,9 @@ import com.google.gson.annotations.SerializedName;
  * If you fail because of your rank, it will give you the target user's rank.
  */
 public class RmUserResponse extends BaseResponse {
+    /**
+     * If the removal fails with error {@code rank_to_small}, tells what is the target's rank.
+     */
     @SerializedName("target_rank")
     public int targetRank;
 }

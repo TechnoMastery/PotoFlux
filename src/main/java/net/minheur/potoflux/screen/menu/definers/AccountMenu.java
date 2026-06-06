@@ -1,29 +1,61 @@
 package net.minheur.potoflux.screen.menu.definers;
 
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.ConnectionHandler;
+import net.minheur.potoflux.login.CreateAccountHandler;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.translations.Translations;
-
-import javax.swing.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static net.minheur.potoflux.login.ConnectionHandler.*;
 
-public class AccountMenu extends JMenu {
+/**
+ * The menu for the account shortcuts
+ */
+public class AccountMenu extends Menu {
+    /**
+     * Action to open the acocunt's tab
+     */
+    private final MenuItem openTab = new MenuItem(Translations.get("potoflux:menu.account.openTab"));
+    /**
+     * Performs {@link ConnectionHandler#performAuthAction()}
+     */
+    private final MenuItem auth = new MenuItem(getAuthButtonStatus());
+    /**
+     * Runs {@link CreateAccountHandler#create()}
+     */
+    private final MenuItem createAccount = new MenuItem(Translations.get("potoflux:tabs.account.createAccount.button"));
 
-    private final JMenuItem openTab = new JMenuItem(Translations.get("potoflux:menu.account.openTab"));
-    private final JMenuItem auth = new JMenuItem(getAuthButtonStatus());
+    /**
+     * Sub menu for all perm actions
+     */
+    private final Menu perms = new Menu(Translations.get("potoflux:menu.account.perms"));
+    /**
+     * Runs the perm to open the list of accounts
+     */
+    private final MenuItem viewUsers = new MenuItem(Translations.get("potoflux:perms.viewUsers"));
+    /**
+     * Runs the perm to create a user
+     */
+    private final MenuItem createUsers = new MenuItem(Translations.get("potoflux:menu.account.createUsers"));
+    /**
+     * Runs the perm to delete an account
+     */
+    private final MenuItem deleteUsers = new MenuItem(Translations.get("potoflux:menu.account.deleteUsers"));
+    /**
+     * Controls weather the account creation is allowed
+     */
+    private final CheckMenuItem accountCreationLock = new CheckMenuItem(Translations.get("potoflux:menu.account.lockAccountCreation"));
 
-    private final JMenu perms = new JMenu(Translations.get("potoflux:menu.account.perms"));
-    private final JMenuItem viewUsers = new JMenuItem(Translations.get("potoflux:perms.viewUsers"));
-    private final JMenuItem createUsers = new JMenuItem(Translations.get("potoflux:menu.account.createUsers"));
-    private final JMenuItem deleteUsers = new JMenuItem(Translations.get("potoflux:menu.account.deleteUsers"));
-    private final JCheckBoxMenuItem accountCreationLock = new JCheckBoxMenuItem(Translations.get("potoflux:menu.account.lockAccountCreation"));
-
+    /**
+     * Creates a new account menu, adds all items and actions
+     */
     public AccountMenu() {
         super(Translations.get("common:account"));
 
@@ -32,16 +64,24 @@ public class AccountMenu extends JMenu {
         addAll();
     }
 
+    /**
+     * Adds all actions to the different menu items
+     */
     private void setupButtonActions() {
-        openTab.addActionListener(e -> PotoFlux.app.setOpenedTab(Tabs.INSTANCE.ACCOUNT));
-        auth.addActionListener(e -> performAuthAction());
+        openTab.setOnAction(e -> PotoFlux.app.setOpenedTab(Tabs.INSTANCE.ACCOUNT));
+        auth.setOnAction(e -> performAuthAction());
+        createAccount.setOnAction(e -> CreateAccountHandler.create());
 
-        viewUsers.addActionListener(e -> Perms.VIEW_USERS.getPermAction().run());
-        createUsers.addActionListener(e -> Perms.CREATE_USERS.getPermAction().run());
-        deleteUsers.addActionListener(e -> Perms.DELETE_USERS.getPermAction().run());
-        accountCreationLock.addActionListener(e -> ConnectionHandler.sendAccountCreationLockRequest(accountCreationLock.isSelected()));
+        viewUsers.setOnAction(e -> Perms.VIEW_USERS.getPermAction().run());
+        createUsers.setOnAction(e -> Perms.CREATE_USERS.getPermAction().run());
+        deleteUsers.setOnAction(e -> Perms.DELETE_USERS.getPermAction().run());
+        accountCreationLock.setOnAction(e -> ConnectionHandler.sendAccountCreationLockRequest(accountCreationLock.isSelected()));
     }
 
+    /**
+     * Reloads the menu, adding or removing perm and updating the allow account creation checkbox<br>
+     * Ran on init ({@linkplain AccountMenu#AccountMenu()}) and on UI reload ({@linkplain ConnectionHandler#reloadAuthUi()})
+     */
     public void reload() {
         auth.setText(getAuthButtonStatus());
 
@@ -60,22 +100,32 @@ public class AccountMenu extends JMenu {
             else addPerms = true;
 
             accountCreationLock.setSelected(isAccountCreationEnabled);
-            if (!addPerms) perms.setVisible(false);
+            perms.setVisible(addPerms);
 
-        } else perms.setVisible(false);
+            createAccount.setVisible(false);
+
+        } else {
+            perms.setVisible(false);
+            createAccount.setVisible(true);
+        }
 
     }
-
+    /**
+     * Adds all items to the menu.<br>
+     * Also adds item to the perm's sub menu
+     */
     public void addAll() {
-        add(openTab);
-        add(auth);
+        getItems().add(openTab);
+        getItems().add(auth);
 
         // perms
-        perms.add(viewUsers);
-        perms.add(createUsers);
-        perms.add(deleteUsers);
-        perms.add(accountCreationLock);
-        add(perms);
+        perms.getItems().add(viewUsers);
+        perms.getItems().add(createUsers);
+        perms.getItems().add(deleteUsers);
+        perms.getItems().add(accountCreationLock);
+        getItems().add(perms);
+
+        getItems().add(createAccount);
     }
 
 }

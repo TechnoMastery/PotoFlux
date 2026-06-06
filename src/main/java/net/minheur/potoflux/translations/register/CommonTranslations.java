@@ -148,5 +148,28 @@ public class CommonTranslations extends AbstractTranslationsRegistry {
         add("ok")
                 .en("OK")
                 .fr("Ok");
+        add("no")
+                .en("No")
+                .fr("Non")
+                .de("Nein");
+        add("yes")
+                .en("Yes")
+                .fr("Oui")
+                .de("Ya");
+        add("apply")
+                .en("Apply")
+                .fr("Appliquer");
+        add("top")
+                .en("Top")
+                .fr("Haut");
+        add("bottom")
+                .en("Bottom")
+                .fr("Bas");
+        add("left")
+                .en("Left")
+                .fr("Gauche");
+        add("right")
+                .en("Right")
+                .fr("Droite");
     }
 }

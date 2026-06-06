@@ -1,5 +1,6 @@
 package net.minheur.potoflux.terminal;
 
+import javafx.scene.control.TextArea;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
@@ -7,7 +8,6 @@ import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +24,7 @@ public class CommandProcessor {
      * Gets the output area from the terminal tab.<br>
      * Used to add content to the log
      */
-    private static final Supplier<JTextArea> outputArea = () -> ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().getOutputArea();
+    private static final Supplier<TextArea> outputArea = () -> ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().getOutputArea();
 
     /**
      * Process a raw command to an output in the terminal
@@ -72,8 +72,8 @@ public class CommandProcessor {
      * @param text the content to print
      */
     public static void appendOutput(String text) {
-        outputArea.get().append(text + "\n");
-        outputArea.get().setCaretPosition(outputArea.get().getDocument().getLength());
+        outputArea.get().appendText(text + "\n");
+        outputArea.get().positionCaret(outputArea.get().getLength());
     }
 
     /**
@@ -103,6 +103,13 @@ public class CommandProcessor {
         }
     }
 
+    /**
+     * Checks if the terminal's file content is empty.<br>
+     * If so, deletes the file.
+     * @param content of the terminal's content file
+     * @param file path to the file, used to remove it if needed
+     * @return if the file's content is empty
+     */
     private static boolean checkEmptyTerminal(String content, Path file) {
         if (content.trim().isEmpty()) { // if string is empty : delete file
             try {

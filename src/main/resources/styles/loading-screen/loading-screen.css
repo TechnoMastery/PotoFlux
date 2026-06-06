@@ -1,0 +1,13 @@
+.root
+{
+    -fx-background-image: url("loadingScreenTexture.png");
+    -fx-background-size: cover;
+    -fx-font-family: monospace, lucida_console;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 20;
+}
+.label
+{
+    -fx-text-fill: black;
+}

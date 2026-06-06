@@ -2,6 +2,8 @@ package net.minheur.potoflux.loader;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.Mod;
@@ -10,13 +12,13 @@ import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.utils.Json;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.vfs.Vfs;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -82,11 +84,6 @@ public class PotoFluxLoadingContext {
     private static URLClassLoader modsClassLoader = null;
 
     /**
-     * Stores all optional features
-     */
-    private static final Properties optionalFeatures = new Properties();
-
-    /**
      * Make sure no one can create a second loading context.
      */
     private PotoFluxLoadingContext() {}
@@ -129,10 +126,12 @@ public class PotoFluxLoadingContext {
      * @param lastest the version to tell the user it's the lastest
      */
     private static void showUpdateContextDialog(String lastest) {
-        int update = JOptionPane.showConfirmDialog(null, Translations.get("potoflux:ptfUpdate.desc"),
-                Translations.get("potoflux:ptfUpdate.title"),
-                JOptionPane.OK_CANCEL_OPTION);
-        if (update == JOptionPane.OK_OPTION) {
+        boolean confirmed = UiUtils.showConfirmationDialog(
+                new Label(Translations.get("potoflux:ptfUpdate.desc")),
+                Translations.get("potoflux:ptfUpdate.title")
+        );
+
+        if (confirmed) {
 
             String url = "https://github.com/TechnoMastery/PotoFlux/releases/tag/" + lastest;
             boolean hasBrowse = Functions.browse(url);
@@ -175,48 +174,6 @@ public class PotoFluxLoadingContext {
      */
     public static boolean isProdEnv() {
         return !isDevEnv;
-    }
-
-    /**
-     * Called to load optional features from the file
-     */
-    public static void loadFeatures() {
-        Path featuresPath = PotoFlux.getProgramDir().resolve("optionalFeatures.properties");
-
-        if (Files.notExists(featuresPath))
-            createOptionalFeatures(featuresPath);
-
-        else try (InputStream in = Files.newInputStream(featuresPath)) {
-
-            optionalFeatures.load(in);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not get optionalFeatures.properties !");
-        }
-    }
-
-    /**
-     * Creates the {@code optionalFeatures.properties} file
-     * @param featuresPath the path to create the file to
-     */
-    private static void createOptionalFeatures(Path featuresPath) {
-        try {
-            Files.createDirectories(featuresPath.getParent());
-            Files.createFile(featuresPath);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not create optionalFeatures.properties !");
-        }
-    }
-
-    /**
-     * Getter for the optional features
-     * @return the optional features
-     */
-    public static Properties getOptionalFeatures() {
-        return optionalFeatures;
     }
 
     /**
@@ -451,16 +408,13 @@ public class PotoFluxLoadingContext {
         else message = Functions.formatMessage(Translations.get("potoflux:modUpdate.query.notCompatible"),
                 mod.modId(), lastest);
 
-        int result = JOptionPane.showConfirmDialog(
-                null,
-                message,
+        boolean confirmed = UiUtils.showConfirmationDialog(
+                new Label(message),
                 Translations.get("potoflux:modUpdate.query.title"),
-                JOptionPane.YES_NO_OPTION,
-                isCompatible ? JOptionPane.INFORMATION_MESSAGE
-                        : JOptionPane.WARNING_MESSAGE
+                isCompatible ? null : Alert.AlertType.WARNING
         );
 
-        if (result == JOptionPane.YES_OPTION) {
+        if (confirmed) {
             PtfLogger.info("User wants to update mod " + mod.modId(), LogCategories.MOD_UPDATE);
             openInstallModPage(mod, lastest);
         }

@@ -13,6 +13,9 @@ import java.lang.reflect.*;
  */
 public class LambdaUtils {
 
+    /**
+     * Locks the classes instantation
+     */
     private LambdaUtils() {}
 
     /**

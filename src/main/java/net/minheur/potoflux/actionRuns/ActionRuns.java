@@ -49,11 +49,11 @@ public class ActionRuns {
      */
     public final ActionRun FILL_TERMINAL = LIST_START_UI.add(new ActionRun(fromModId("fill_terminal"), ActionRunRunnable::fillTerminal));
     public final ActionRun UPDATE_AUTH_BUTTONS = LIST_START_UI.add(new ActionRun(fromModId("update_auth_buttons"), ConnectionHandler::reloadAuthUi));
+    public final ActionRun DISPLAY_MOD_UPDATES = LIST_START_UI.add(new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
+    public final ActionRun CHECK_POTOFLUX_UPDATE = LIST_START_UI.add(new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates));
 
     // start logic
     public final ActionRun CHECK_RICK_ROLL = LIST_START_LOGIC.add(new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll));
-    public final ActionRun DISPLAY_MOD_UPDATES = LIST_START_LOGIC.add(new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
-    public final ActionRun CHECK_POTOFLUX_UPDATE= LIST_START_LOGIC.add(new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates));
     public final ActionRun LOAD_COMMAND_HISTORY = LIST_START_LOGIC.add(new ActionRun(fromModId("load_command_history"), ActionRunRunnable::loadCommandHistory));
     /**
      * Connect to your account with your token, if you have one

@@ -1,36 +1,22 @@
 package net.minheur.potoflux;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
-import net.minheur.potoflux.actionRuns.ActionRuns;
+import javafx.application.Application;
+import javafx.concurrent.Task;
+import javafx.stage.Stage;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.actionRuns.regs.CloseRunRegistry;
-import net.minheur.potoflux.actionRuns.regs.StartLogicRunRegistry;
 import net.minheur.potoflux.actionRuns.regs.StartUiRunRegistry;
-import net.minheur.potoflux.loader.PotoFluxLoadingContext;
-import net.minheur.potoflux.loader.mod.AddonLoader;
-import net.minheur.potoflux.loader.mod.ModEventBus;
-import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
-import net.minheur.potoflux.loader.mod.events.RegisterLangEvent;
-import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
-import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.logger.LogSaver;
-import net.minheur.potoflux.loader.mod.events.*;
-import net.minheur.potoflux.screen.PotoScreen;
-import net.minheur.potoflux.screen.LoadingScreen;
-import net.minheur.potoflux.screen.menu.MenuContent;
-import net.minheur.potoflux.screen.tabs.Tabs;
-import net.minheur.potoflux.terminal.commands.Commands;
-import net.minheur.potoflux.translations.Translations;
-import net.minheur.potoflux.translations.register.CommonTranslations;
-import net.minheur.potoflux.translations.register.FileTranslations;
-import net.minheur.potoflux.translations.register.PotoFluxTranslations;
+import net.minheur.potoflux.screen.FXLoadingScreen;
+import net.minheur.potoflux.screen.FXPotoScreen;
 import net.minheur.potoflux.logger.PtfLogger;
-import net.minheur.potoflux.utils.LogAmountManager;
+import net.minheur.potoflux.utils.close.EventPostException;
+import net.minheur.potoflux.utils.close.ExitCode;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
-import net.minheur.potoflux.utils.UserPrefsManager;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,7 +26,7 @@ import java.util.Properties;
 /**
  * Main class for PotoFlux. This should be set as mainClass in Gradle.
  */
-public class PotoFlux {
+public class PotoFlux extends Application {
     /**
      * The ID for potoflux (namespace)
      */
@@ -49,144 +35,103 @@ public class PotoFlux {
      * The actual app.<br>
      * This contains the JFrame and will be instantiated when the app will run.
      */
-    public static PotoScreen app;
+    public static FXPotoScreen app;
+
+    /**
+     * The entry point for Potoflux's UI.
+     * The start method is called after the init method has returned,
+     * and after the system is ready for the application to begin running.
+     *
+     * <p>
+     * NOTE: This method is called on the JavaFX Application Thread.
+     * </p>
+     *
+     * <p>
+     *     Will first display the {@link FXLoadingScreen}, then launch the bootstrap in a {@link Task}
+     *     (making sure it won't freeze the app).
+     *     It finally creates {@link FXPotoScreen} if the bootstrap succeeded
+     * </p>
+     *
+     * @param primaryStage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     */
+    @Override
+    public void start(Stage primaryStage) {
+
+        FXLoadingScreen startScreen = new FXLoadingScreen();
+        startScreen.setup();
+        startScreen.show();
+
+        Task<Void> bootstrap = new Task<Void>() {
+            @Override
+            protected @Nullable Void call() throws Exception {
+                Bootstrap.bootstrap(this::updateMessage, getParameters().getRaw().toArray(new String[0]));
+                return null;
+            }
+        };
+
+        bootstrap.messageProperty().addListener((obs, old, value) ->
+                startScreen.updateStage(value)
+        );
+
+        bootstrap.setOnSucceeded(event -> {
+            startScreen.updateStage("Launching app...");
+            app = new FXPotoScreen(primaryStage);
+            startScreen.close();
+
+            for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
+        });
+
+        bootstrap.setOnFailed(event -> {
+            Throwable e = bootstrap.getException();
+
+            if (e != null)
+                e.printStackTrace();
+
+            if (e instanceof EventPostException)
+                runProgramKill(ExitCode.REGISTRATION_FAILED);
+
+            else runProgramKill(ExitCode.BOOTSTRAP_FAILED);
+
+        });
+
+        Thread bootstrapThread = new Thread(bootstrap);
+        bootstrapThread.setDaemon(true);
+        bootstrapThread.start();
+
+    }
+
+    /**
+     * When the app is closed normally in the JavaFX sustem, this gets called to run the exit logic.
+     */
+    @Override
+    public void stop() {
+        runExitLogic(ExitCode.SUCCESS);
+    }
 
     /**
      * The main method, that runs PotoFlux.<br>
-     * It will first check for args, then enable devEnv if args contains it.<br>
-     * We then get version and log it, load all optionalFeatures, set the theme and set the loaded translations.<br>
-     * We get the loading bus, register all into it then list and load mods.<br>
-     * We post all events to the bus, and invoke the app.
+     * It defines the uncaught exception handler, then runs {@link #launch}
      * @param args what you give to the app. Can contain 'devEnv' to enable PotoFlux's dev mod
      */
     public static void main(String[] args) {
 
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
             throwable.printStackTrace();
-            runProgramClosing(1);
+            runProgramKill(ExitCode.UNCAUGHT_EXCEPTION);
         });
 
-        LoadingScreen startScreen = new LoadingScreen();
-        startScreen.setVisible(true);
+        launch(args);
 
-        // env setup
-        startScreen.updateStage("Loading environment...");
-        if (args.length < 1) PotoFluxLoadingContext.setDevEnv(false);
-        else PotoFluxLoadingContext.setDevEnv(args[0].equals("devEnv"));
-
-        // important inits
-        startScreen.updateStage("Init...");
-        LogSaver.init();
-        LogAmountManager.init();
-
-        if (PotoFluxLoadingContext.isDevEnv()) PtfLogger.info("App running in dev env !");
-
-        // app version
-        startScreen.updateStage("Getting version...");
-        String version = getVersion();
-        if (version != null) PtfLogger.info("Running potoflux v" + version);
-
-        // load optional features
-        startScreen.updateStage("Loading features...");
-        PotoFluxLoadingContext.loadFeatures();
-
-        // enable or not log saving
-        startScreen.updateStage("Loading log logic...");
-        runLogSavingEnablingLogic();
-
-        // set theme
-        startScreen.updateStage("Getting the theme...");
-        String theme = UserPrefsManager.getTheme();
-        if (theme.equals("dark")) FlatDarkLaf.setup(); // dark theme
-        else if (theme.equals("light")) FlatLightLaf.setup(); // light theme
-        else throw new IllegalStateException("Unknown theme: " + theme);
-        PtfLogger.info("Theme set to " + theme);
-
-        // load translations
-        startScreen.updateStage("Loading translations...");
-        if (!UserPrefsManager.getUserLang().equals("en"))
-            Translations.load(UserPrefsManager.getUserLang());
-
-        // def modEventBus
-        startScreen.updateStage("Loading event bus...");
-        ModEventBus bus = PotoFluxLoadingContext.get().getModEventBus();
-
-        // subscribe PotoFlux's data to modEventBus
-        bus.addListener(PotoFlux::onRegisterLang);
-        bus.addListener(Tabs::register);
-        bus.addListener(Commands::register);
-        bus.addListener(ActionRuns::register);
-        bus.addListener(MenuContent::register);
-
-        // load all addons
-        startScreen.updateStage("Loading addons...");
-        new AddonLoader().loadAddons();
-        PotoFluxLoadingContext.loadMods();
-
-        // post all registrations
-        startScreen.updateStage("Registering data...");
-
-        try {
-            bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
-            bus.post(new RegisterTabsEvent());
-            bus.post(new RegisterCommandsEvent());
-            bus.post(new RegisterRunsEvent());
-            bus.post(new RegisterMenuEvent());
-        } catch (Throwable e) {
-            e.printStackTrace();
-            runProgramClosing(-1);
-        }
-
-        // run all start logic runs
-        startScreen.updateStage("Running start logic...");
-        for (ActionRun ar : StartLogicRunRegistry.getAll()) ar.run().run();
-
-        // invoke app (start)
-        startScreen.updateStage("Launching app...");
-        SwingUtilities.invokeLater(() -> {
-            app = new PotoScreen();
-            startScreen.close();
-
-            // run all start ui runs
-            for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
-        });
-
-    }
-
-    /**
-     * Executes the logic to know if the log saving system will be enabled
-     */
-    private static void runLogSavingEnablingLogic() {
-        String logSavingFeature = PotoFluxLoadingContext.getOptionalFeatures().getProperty("doLogSaving");
-
-        if (logSavingFeature == null) enableLogSavingDefault();
-
-        boolean isSavingEnabled = Boolean.parseBoolean(logSavingFeature);
-        if (isSavingEnabled) LogSaver.enable();
-    }
-    /**
-     * Executes the default logic to know if the log saving system will be enabled
-     */
-    private static void enableLogSavingDefault() {
-        if (!PotoFluxLoadingContext.isDevEnv())
-            LogSaver.enable();
-    }
-
-    /**
-     * This register to the event all PotoFlux's translations
-     * @param event the event for langs in the mod bus
-     */
-    private static void onRegisterLang(RegisterLangEvent event) {
-        event.registerLang(new PotoFluxTranslations());
-        event.registerLang(new CommonTranslations());
-        event.registerLang(new FileTranslations());
     }
 
     /**
      * Getter for the main program AppData folder.
      * @return the program's appData folder
      */
-    public static Path getProgramDir() {
+    public static @NotNull Path getProgramDir() {
         Path dir = Paths.get(System.getenv("APPDATA"), "TechnoMastery", "PotoFlux");
         try {
             Files.createDirectories(dir);
@@ -199,7 +144,7 @@ public class PotoFlux {
      * Mods should use this to resolve their modIds: this will be their own appData folder
      * @return the shared appData folder for mods
      */
-    public static Path getModDataDir() {
+    public static @NotNull Path getModDataDir() {
         Path dir = getProgramDir().resolve("mod-data");
         try {
             Files.createDirectories(dir);
@@ -208,13 +153,22 @@ public class PotoFlux {
     }
 
     /**
-     * This method should be used to close the app. This allows the app to run extra saving code before exiting.
+     * This method should be used to kill the app.<br>
+     * Used when crashing the app mainly
      * @param exitCode the code given on closing.
      */
-    public static void runProgramClosing(int exitCode) {
+    public static void runProgramKill(ExitCode exitCode) {
         // executes when program close
-
-        if (exitCode == 0) for (ActionRun ar : CloseRunRegistry.getAll()) {
+        runExitLogic(exitCode);
+        System.exit(exitCode.code()); // close app
+    }
+    /**
+     * Runs the logic on exit, saves things and launches close action runs if exit code is {@code 0}.<br>
+     * This allows the app to run extra saving code before exiting.
+     * @param exitCode the code given on closing.
+     */
+    public static void runExitLogic(@NotNull ExitCode exitCode) {
+        if (exitCode.code() == 0) for (ActionRun ar : CloseRunRegistry.getAll()) {
             try {
                 ar.run().run();
             } catch (Exception e) {
@@ -222,15 +176,13 @@ public class PotoFlux {
             }
         }
 
-        if (exitCode != 0) {
+        if (exitCode.code() != 0) {
             PtfLogger.error("Execution finished with non-0 exit code: " + exitCode);
             PtfLogger.error("For more info, please check the github page at https://github.com/TechnoMastery/PotoFlux");
         }
 
         // saves logs
         LogSaver.flushAndSave();
-
-        System.exit(exitCode); // close app
     }
 
     /**
@@ -238,7 +190,7 @@ public class PotoFlux {
      * If unable to get the version, return null.
      * @return the app version
      */
-    public static String getVersion() {
+    public static @Nullable String getVersion() {
         try {
             Properties props = new Properties();
             props.load(PotoFlux.class.getResourceAsStream("/version.properties"));
@@ -256,7 +208,8 @@ public class PotoFlux {
      * @param loc the loc to add to the modId
      * @return a built {@link ResourceLocation} with potoflux's modId and the loc given
      */
-    public static ResourceLocation fromModId(String loc) {
+    @Contract("_ -> new")
+    public static @NotNull ResourceLocation fromModId(String loc) {
         return new ResourceLocation(ID, loc);
     }
 }

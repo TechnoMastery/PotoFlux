@@ -1,20 +1,20 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.screen.tabs.BaseTab;
+import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Tab class for the home tab
  */
-public class HomeTab extends BaseTab {
+public class HomeTab extends BaseVTab<StackPane> {
     /**
-     * This is the actual method to set the panel.<br>
-     * The overriding class will have to use this to add content to the {@link #PANEL}.
+     * Makes the UI
      */
     @Override
     protected void setPanel() {
@@ -23,13 +23,20 @@ public class HomeTab extends BaseTab {
     }
 
     /**
+     * Instancies the main panel
+     */
+    @Override
+    protected void instantiate() {
+        PANEL = new StackPane();
+    }
+
+    /**
      * Adds the description of the app
      */
     private void addDesc() {
-        JLabel desc = new JLabel(Translations.get("potoflux:tabs.home.credit"));
-        desc.setFont(new Font("Consolas", Font.PLAIN, 15));
-        desc.setAlignmentX(Component.CENTER_ALIGNMENT);
-        PANEL.add(desc);
+        Label desc = new Label(Translations.get("potoflux:tabs.home.credit"));
+        desc.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
+        vContent.getChildren().add(desc);
     }
 
     /**
@@ -39,18 +46,25 @@ public class HomeTab extends BaseTab {
         String name = Functions.formatMessage(Translations.get("potoflux:tabs.home.version"),
                 PotoFlux.getVersion());
 
-        JLabel version = new JLabel(name);
-        version.setFont(new Font("Consolas", Font.PLAIN, 15));
-        version.setAlignmentX(Component.CENTER_ALIGNMENT);
-        PANEL.add(version);
+        Label version = new Label(name);
+        version.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
+        vContent.getChildren().add(version);
     }
 
+    /**
+     * Gets the title of the tab, displayed in {@link #mkTitle()}
+     * @return
+     */
+    @Override
+    protected String getTitle() {
+        return Translations.get("potoflux:tabs.home.title");
+    }
     /**
      * Used to set the title.
      * @return the title of the tab.
      */
     @Override
-    protected String getTitle() {
-        return Translations.get("potoflux:tabs.home.title");
+    protected String getName() {
+        return Translations.get("potoflux:tabs.home.name");
     }
 }
