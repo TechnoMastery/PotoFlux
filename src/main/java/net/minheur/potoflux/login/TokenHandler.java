@@ -63,9 +63,7 @@ public class TokenHandler {
      */
     public static void rmOnlineToken() {
         try {
-            RequestPoster.rmToken(
-                    TokenHandler.get()
-            );
+            RequestPoster.rmToken(get());
         } catch (IOException e) {
             e.printStackTrace();
             PtfLogger.error("Could not remove token", LogCategories.CONNEXION_POST);
