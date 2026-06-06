@@ -5,6 +5,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.ConnectionHandler;
+import net.minheur.potoflux.login.CreateAccountHandler;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.translations.Translations;
@@ -26,6 +27,10 @@ public class AccountMenu extends Menu {
      * Performs {@link ConnectionHandler#performAuthAction()}
      */
     private final MenuItem auth = new MenuItem(getAuthButtonStatus());
+    /**
+     * Runs {@link CreateAccountHandler#create()}
+     */
+    private final MenuItem createAccount = new MenuItem(Translations.get("potoflux:tabs.account.createAccount.button"));
 
     /**
      * Sub menu for all perm actions
@@ -65,6 +70,7 @@ public class AccountMenu extends Menu {
     private void setupButtonActions() {
         openTab.setOnAction(e -> PotoFlux.app.setOpenedTab(Tabs.INSTANCE.ACCOUNT));
         auth.setOnAction(e -> performAuthAction());
+        createAccount.setOnAction(e -> CreateAccountHandler.create());
 
         viewUsers.setOnAction(e -> Perms.VIEW_USERS.getPermAction().run());
         createUsers.setOnAction(e -> Perms.CREATE_USERS.getPermAction().run());
@@ -94,9 +100,14 @@ public class AccountMenu extends Menu {
             else addPerms = true;
 
             accountCreationLock.setSelected(isAccountCreationEnabled);
-            if (!addPerms) perms.setVisible(false);
+            perms.setVisible(addPerms);
 
-        } else perms.setVisible(false);
+            createAccount.setVisible(false);
+
+        } else {
+            perms.setVisible(false);
+            createAccount.setVisible(true);
+        }
 
     }
     /**
@@ -113,6 +124,8 @@ public class AccountMenu extends Menu {
         perms.getItems().add(deleteUsers);
         perms.getItems().add(accountCreationLock);
         getItems().add(perms);
+
+        getItems().add(createAccount);
     }
 
 }
