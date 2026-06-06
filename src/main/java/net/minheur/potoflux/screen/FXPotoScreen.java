@@ -52,8 +52,8 @@ public class FXPotoScreen {
     /**
      * The constructor will init the stage, the layout, then add every item to it
      */
-    public FXPotoScreen() {
-        stage = new Stage();
+    public FXPotoScreen(Stage stage) {
+        this.stage = stage;
 
         BorderPane root = new BorderPane();
 
@@ -66,8 +66,8 @@ public class FXPotoScreen {
         root.setCenter(tabs);
 
         Scene scene = new Scene(root, 854, 512);
-        stage.setScene(scene);
-        stage.show();
+        this.stage.setScene(scene);
+        this.stage.show();
     }
 
     /**
