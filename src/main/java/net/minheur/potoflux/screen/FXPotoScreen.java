@@ -70,6 +70,10 @@ public class FXPotoScreen {
         this.stage.show();
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
     /**
      * Adds the tabs to the stage
      */

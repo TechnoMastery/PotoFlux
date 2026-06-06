@@ -1,12 +1,14 @@
 package net.minheur.potoflux;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.stage.Stage;
 import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.actionRuns.regs.CloseRunRegistry;
 import net.minheur.potoflux.actionRuns.regs.StartUiRunRegistry;
+import net.minheur.potoflux.loader.SingleInstanceHandler;
 import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.screen.FXLoadingScreen;
 import net.minheur.potoflux.screen.FXPotoScreen;
@@ -32,6 +34,8 @@ public class PotoFlux extends Application {
      * The ID for potoflux (namespace)
      */
     public static final String ID = "potoflux";
+    private static final int PORT = 65432;
+    private static volatile boolean isMultipleInstanceShutdown = false;
     /**
      * The actual app.<br>
      * This contains the JFrame and will be instantiated when the app will run.
@@ -107,10 +111,11 @@ public class PotoFlux extends Application {
     }
 
     /**
-     * When the app is closed normally in the JavaFX sustem, this gets called to run the exit logic.
+     * When the app is closed normally in the JavaFX system, this gets called to run the exit logic.
      */
     @Override
     public void stop() {
+        if (isMultipleInstanceShutdown) return;
         runExitLogic(ExitCode.SUCCESS);
     }
 
@@ -125,6 +130,15 @@ public class PotoFlux extends Application {
             throwable.printStackTrace();
             runProgramKill(ExitCode.UNCAUGHT_EXCEPTION);
         });
+
+        if (!SingleInstanceHandler.tryCreateLock(PORT)) {
+            SingleInstanceHandler.notifyExistingInstance(PORT);
+
+            isMultipleInstanceShutdown = true;
+            Platform.exit();
+
+            return;
+        }
 
         launch(args);
 
