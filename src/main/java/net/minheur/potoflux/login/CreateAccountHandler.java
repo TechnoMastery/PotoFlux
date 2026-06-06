@@ -27,27 +27,18 @@ public class CreateAccountHandler {
         CreateAccountDialog dialog = new CreateAccountDialog();
         Optional<NewAccountData> result = dialog.showAndWait();
 
-        final String[] email = new String[1];
-        final String[] password = new String[1];
-        final String[] firstName = new String[1];
-        final String[] lastName = new String[1];
-        boolean[] validated = {false};
+        if (result.isEmpty()) return;
 
-        result.ifPresent(data -> {
-            email[0] = data.email;
-            password[0] = data.password;
-            firstName[0] = data.firstName;
-            lastName[0] = data.lastName;
-            validated[0] = true;
-        });
-
-        if (!validated[0]) return;
+        final String email = result.get().email;
+        final String password = result.get().password;
+        final String firstName = result.get().firstName;
+        final String lastName = result.get().lastName;
 
         String content;
         try {
             content = RequestPoster.createAccount(
-                    email[0], password[0],
-                    firstName[0], lastName[0]
+                    email, password,
+                    firstName, lastName
             );
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,7 +48,7 @@ public class CreateAccountHandler {
 
         BaseResponse response = Json.GSON.fromJson(content, BaseResponse.class);
         if (response.success) {
-            showMessagePane(formatMessage(Translations.get("potoflux:tabs.account.createAccount.success"), email[0], password[0]));
+            showMessagePane(formatMessage(Translations.get("potoflux:tabs.account.createAccount.success"), email, password));
             return;
         }
 
