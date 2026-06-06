@@ -1,5 +1,6 @@
 package net.minheur.potoflux.actionRuns.regs;
 
+import javafx.scene.control.Alert;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
@@ -12,6 +13,7 @@ import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.terminal.CommandHistorySaver;
 import net.minheur.potoflux.terminal.CommandProcessor;
+import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.utils.LogAmountManager;
 
 import javax.swing.*;
@@ -42,9 +44,14 @@ public class ActionRunRunnable {
 
         if (!isCorrectLogAmount) return;
 
-        JOptionPane.showMessageDialog(null, "It looks like it's your " + logAmount + "th connection !",
+        UiUtils.showAlert(
+                Alert.AlertType.INFORMATION,
+                "It looks like it's your" + logAmount + "th connection !",
                 "Connection amount",
-                JOptionPane.INFORMATION_MESSAGE);
+                "Here's a little gift :)",
+                null, null
+        );
+
 
         Functions.browse("https://rickroll.it/rickroll.mp4");
     }

@@ -48,6 +48,10 @@ public final class LogicDelayedPopupsRegistry {
         state = State.CLOSED;
     }
 
+    public static boolean isOpened() {
+        return state == State.OPEN;
+    }
+
     public enum State {
         READY, OPEN, CLOSED, RAN
     }

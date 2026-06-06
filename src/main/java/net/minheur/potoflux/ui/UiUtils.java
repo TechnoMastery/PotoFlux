@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.translations.Translations;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -73,7 +74,8 @@ public final class UiUtils {
     private UiUtils() {}
 
     /**
-     * Show an {@link Alert} to the user
+     * Show an {@link Alert} to the user<br>
+     * If {@link LogicDelayedPopupsRegistry#isOpened()} is {@code true}, meaning we are actually running the logic action runs, adds the alert to the delayed popup reg.
      * @param type the {@link Alert.AlertType} of the alert
      * @param message what will be displayed in the main message area
      * @param title displayed in the alert's bar
@@ -82,6 +84,31 @@ public final class UiUtils {
      * @param iconDir path to the icon's file used as the header's graphic
      */
     public static void showAlert(
+            Alert.AlertType type,
+            String message, String title, String header,
+            @Nullable String cssDir,
+            @Nullable String iconDir
+    ) {
+        if (LogicDelayedPopupsRegistry.isOpened())
+            LogicDelayedPopupsRegistry.addItem(
+                    () -> pureShowAlert(
+                            type,
+                            message, title, header,
+                            cssDir, iconDir
+                    )
+            );
+        else pureShowAlert(type, message, title, header, cssDir, iconDir);
+    }
+    /**
+     * Show an {@link Alert} to the user<br>
+     * @param type the {@link Alert.AlertType} of the alert
+     * @param message what will be displayed in the main message area
+     * @param title displayed in the alert's bar
+     * @param header what is displayed in the upper area
+     * @param cssDir path to the file containing the styles for the alert
+     * @param iconDir path to the icon's file used as the header's graphic
+     */
+    private static void pureShowAlert(
             Alert.AlertType type,
             String message, String title, String header,
             @Nullable String cssDir,

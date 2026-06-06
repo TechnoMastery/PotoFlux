@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.perms.Perms;
@@ -69,6 +70,7 @@ public class ConnectionHandler {
      * Logs in with a token. Calls {@link #displayInfoError(InfoResponse)} if the authentication fails<br>
      * Used when auto-logging on startup
      * @param token actually stored for the account
+     * @param isLogicActionRun if the errors should be displayed via {@link Platform#runLater}
      */
     public static void accountFor(String token) {
         String response;
@@ -131,14 +133,12 @@ public class ConnectionHandler {
      * @param infoResponse the response containing the error
      */
     private static void displayInfoError(InfoResponse infoResponse) {
-        Platform.runLater(() -> {
-            switch (infoResponse.error) {
-                case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.noUser"));
-                case "not_exists" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.notExists"));
-                case "token_expired" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.expired"));
-                default -> showErrorPane(infoResponse.error);
-            }
-        });
+        switch (infoResponse.error) {
+            case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.noUser"));
+            case "not_exists" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.notExists"));
+            case "token_expired" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.expired"));
+            default -> showErrorPane(infoResponse.error);
+        }
     }
 
     /**
