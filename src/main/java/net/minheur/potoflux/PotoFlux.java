@@ -3,6 +3,7 @@ package net.minheur.potoflux;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.stage.Stage;
+import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.actionRuns.regs.CloseRunRegistry;
 import net.minheur.potoflux.actionRuns.regs.StartUiRunRegistry;
@@ -80,6 +81,8 @@ public class PotoFlux extends Application {
             startScreen.updateStage("Launching app...");
             app = new FXPotoScreen(primaryStage);
             startScreen.close();
+
+            LogicDelayedPopupsRegistry.run();
 
             for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
         });

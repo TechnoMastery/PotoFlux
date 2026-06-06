@@ -1,6 +1,7 @@
 package net.minheur.potoflux;
 
 import net.minheur.potoflux.actionRuns.ActionRuns;
+import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.actionRuns.regs.StartLogicRunRegistry;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
@@ -117,7 +118,11 @@ public class Bootstrap {
 
         // run all start logic runs
         updateText.accept("Running start logic...");
+        LogicDelayedPopupsRegistry.open();
+
         for (ActionRun ar : StartLogicRunRegistry.getAll()) ar.run().run();
+
+        LogicDelayedPopupsRegistry.close();
 
     }
 
