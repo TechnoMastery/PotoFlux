@@ -251,12 +251,7 @@ public class ConnectionHandler {
     public static void checkAndRemoveExistingToken() {
        if (TokenHandler.has()) {
            PtfLogger.warning("Connecting while already having a token ! Removing...", LogCategories.ACCOUNT);
-           try {
-               RequestPoster.rmToken(TokenHandler.get());
-           } catch (IOException e) {
-               e.printStackTrace();
-               PtfLogger.error("Failed to remove old token", LogCategories.CONNEXION_POST);
-           }
+           TokenHandler.rmOnlineToken();
            TokenHandler.clear();
        }
     }
