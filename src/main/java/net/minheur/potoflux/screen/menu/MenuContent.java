@@ -4,6 +4,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterMenuEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.menu.definers.AccountMenu;
 import net.minheur.potoflux.screen.menu.definers.MenuDefiners;
+import net.minheur.potoflux.utils.SmartSupplier;
 import org.jetbrains.annotations.NotNull;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
@@ -15,41 +16,23 @@ public class MenuContent {
     /**
      * Actua list of menus
      */
-    private final RegistryList<PotoMenuItem> LIST = new RegistryList<>();
-    /**
-     * Weather the list has been generated
-     */
-    private static boolean hasGenerated = false;
-    /**
-     * Only instance of the class
-     */
-    public static MenuContent INSTANCE;
-
-    /**
-     * The constructor makes sure the reg can only be generated once
-     */
-    private MenuContent() {
-        if (hasGenerated) throw new IllegalStateException("Can't create the registry 2 times !");
-        hasGenerated = true;
-    }
+    private static final RegistryList<PotoMenuItem> LIST = new RegistryList<>();
 
     // --- file ---
     /**
      * Item for the file menu
      */
-    public final PotoMenuItem FILE = LIST.add(new PotoMenuItem(fromModId("file"), MenuDefiners.getFileMenu()));
+    public static final SmartSupplier<PotoMenuItem> FILE = LIST.add(() -> new PotoMenuItem(fromModId("file"), MenuDefiners.getFileMenu()));
     /**
      * Item for the account menu
      */
-    public final PotoMenuItem ACCOUNT = LIST.add(new PotoMenuItem(fromModId("account"), new AccountMenu()));
+    public static final SmartSupplier<PotoMenuItem> ACCOUNT = LIST.add(() -> new PotoMenuItem(fromModId("account"), new AccountMenu()));
 
     /**
      * Instances the reg and puts all into the event
      * @param event to add items to
      */
     public static void register(@NotNull RegisterMenuEvent event) {
-        INSTANCE = new MenuContent();
-
-        INSTANCE.LIST.register(event.reg);
+        LIST.register(event.reg);
     }
 }

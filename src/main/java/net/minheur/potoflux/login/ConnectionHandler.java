@@ -70,7 +70,6 @@ public class ConnectionHandler {
      * Logs in with a token. Calls {@link #displayInfoError(InfoResponse)} if the authentication fails<br>
      * Used when auto-logging on startup
      * @param token actually stored for the account
-     * @param isLogicActionRun if the errors should be displayed via {@link Platform#runLater}
      */
     public static void accountFor(String token) {
         String response;
@@ -271,8 +270,8 @@ public class ConnectionHandler {
     public static void reloadAuthUi() {
         reloadAccountCreationPermission();
 
-        ((AccountTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.ACCOUNT)).reload();
-        ((AccountMenu) MenuContent.INSTANCE.ACCOUNT.content()).reload();
+        ((AccountTab) PotoFlux.app.getTabMap().get(Tabs.ACCOUNT.get())).reload();
+        ((AccountMenu) MenuContent.ACCOUNT.get().content()).reload();
     }
     /**
      * If not already so, remove the online & local token, then clears {@link #account} and set {@link #isLogged} to {@code false}

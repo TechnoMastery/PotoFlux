@@ -173,7 +173,7 @@ public class Terminal {
             }
 
             outputArea.setText(content);
-            if ((boolean) UserPrefsManager.getValueFor(Settings.INSTANCE.ASCII_ON_START))
+            if ((boolean) UserPrefsManager.getValueFor(Settings.ASCII_ON_START.get()))
                 buildASCII();
             else CommandProcessor.appendOutput("");
         } catch (IOException e) {
@@ -224,7 +224,7 @@ public class Terminal {
      * By default, using {@code big}
      */
     public static void buildASCII() {
-        String asciiFile = (String) UserPrefsManager.getValueFor(Settings.INSTANCE.ASCII);
+        String asciiFile = (String) UserPrefsManager.getValueFor(Settings.ASCII.get());
         if (asciiFile == null) asciiFile = "big";
 
         String asciiContent = getAsciiFileContent(asciiFile);

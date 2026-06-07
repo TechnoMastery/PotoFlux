@@ -24,7 +24,7 @@ public class CommandProcessor {
      * Gets the output area from the terminal tab.<br>
      * Used to add content to the log
      */
-    private static final Supplier<TextArea> outputArea = () -> ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.INSTANCE.TERMINAL)).getTerminal().getOutputArea();
+    private static final Supplier<TextArea> outputArea = () -> ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.TERMINAL.get())).getTerminal().getOutputArea();
 
     /**
      * Process a raw command to an output in the terminal

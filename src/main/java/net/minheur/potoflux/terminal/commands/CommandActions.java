@@ -145,7 +145,7 @@ public class CommandActions {
         String tabName = args.get(0);
 
         if (tabName.equals(
-                Tabs.INSTANCE.TERMINAL.id().toString()
+                Tabs.TERMINAL.get().id().toString()
         )) {
             CommandProcessor.appendOutput(Translations.get("potoflux:command.tab.opened"));
             return;
