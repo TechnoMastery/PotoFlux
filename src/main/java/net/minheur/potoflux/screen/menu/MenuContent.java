@@ -22,11 +22,11 @@ public class MenuContent {
     /**
      * Item for the file menu
      */
-    public static final SmartSupplier<PotoMenuItem> FILE = LIST.add(new SmartSupplier<>(() -> new PotoMenuItem(fromModId("file"), MenuDefiners.getFileMenu())));
+    public static final SmartSupplier<PotoMenuItem> FILE = LIST.add(() -> new PotoMenuItem(fromModId("file"), MenuDefiners.getFileMenu()));
     /**
      * Item for the account menu
      */
-    public static final SmartSupplier<PotoMenuItem> ACCOUNT = LIST.add(new SmartSupplier<>(() -> new PotoMenuItem(fromModId("account"), new AccountMenu())));
+    public static final SmartSupplier<PotoMenuItem> ACCOUNT = LIST.add(() -> new PotoMenuItem(fromModId("account"), new AccountMenu()));
 
     /**
      * Instances the reg and puts all into the event

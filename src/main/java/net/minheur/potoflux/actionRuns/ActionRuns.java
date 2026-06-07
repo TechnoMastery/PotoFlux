@@ -31,26 +31,26 @@ public class ActionRuns {
     /**
      * This action fills the terminal when the UI starts
      */
-    public static final SmartSupplier<ActionRun> FILL_TERMINAL = LIST_START_UI.add(new SmartSupplier<>(() -> new ActionRun(fromModId("fill_terminal"), ActionRunRunnable::fillTerminal)));
-    public static final SmartSupplier<ActionRun> UPDATE_AUTH_BUTTONS = LIST_START_UI.add(new SmartSupplier<>(() -> new ActionRun(fromModId("update_auth_buttons"), ConnectionHandler::reloadAuthUi)));
-    public static final SmartSupplier<ActionRun> DISPLAY_MOD_UPDATES = LIST_START_UI.add(new SmartSupplier<>(() -> new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates)));
-    public static final SmartSupplier<ActionRun> CHECK_POTOFLUX_UPDATE = LIST_START_UI.add(new SmartSupplier<>(() -> new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates)));
+    public static final SmartSupplier<ActionRun> FILL_TERMINAL = LIST_START_UI.add(() -> new ActionRun(fromModId("fill_terminal"), ActionRunRunnable::fillTerminal));
+    public static final SmartSupplier<ActionRun> UPDATE_AUTH_BUTTONS = LIST_START_UI.add(() -> new ActionRun(fromModId("update_auth_buttons"), ConnectionHandler::reloadAuthUi));
+    public static final SmartSupplier<ActionRun> DISPLAY_MOD_UPDATES = LIST_START_UI.add(() -> new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
+    public static final SmartSupplier<ActionRun> CHECK_POTOFLUX_UPDATE = LIST_START_UI.add(() -> new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates));
 
     // start logic
-    public static final SmartSupplier<ActionRun> CHECK_RICK_ROLL = LIST_START_LOGIC.add(new SmartSupplier<>(() -> new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll)));
-    public static final SmartSupplier<ActionRun> LOAD_COMMAND_HISTORY = LIST_START_LOGIC.add(new SmartSupplier<>(() -> new ActionRun(fromModId("load_command_history"), ActionRunRunnable::loadCommandHistory)));
+    public static final SmartSupplier<ActionRun> CHECK_RICK_ROLL = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll));
+    public static final SmartSupplier<ActionRun> LOAD_COMMAND_HISTORY = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("load_command_history"), ActionRunRunnable::loadCommandHistory));
     /**
      * Connect to your account with your token, if you have one
      */
-    public static final SmartSupplier<ActionRun> CONNECT_TOKEN = LIST_START_LOGIC.add(new SmartSupplier<>(() -> new ActionRun(fromModId("connect_token"), ActionRunRunnable::connectToken)));
-    public static final SmartSupplier<ActionRun> CHECK_ALLOW_ACCOUNT_CREATION = LIST_START_LOGIC.add(new SmartSupplier<>(() -> new ActionRun(fromModId("check_allow_account_creation"), ConnectionHandler::reloadAccountCreationPermission)));
+    public static final SmartSupplier<ActionRun> CONNECT_TOKEN = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("connect_token"), ActionRunRunnable::connectToken));
+    public static final SmartSupplier<ActionRun> CHECK_ALLOW_ACCOUNT_CREATION = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("check_allow_account_creation"), ConnectionHandler::reloadAccountCreationPermission));
 
     // close
     /**
      * This action saves the terminal when the app closes
      */
-    public static final SmartSupplier<ActionRun> SAVE_TERMINAL = LIST_CLOSE.add(new SmartSupplier<>(() -> new ActionRun(fromModId("save_terminal"), ActionRunRunnable::saveTerminal)));
-    public static final SmartSupplier<ActionRun> SAVE_COMMAND_HISTORY = LIST_CLOSE.add(new SmartSupplier<>(() -> new ActionRun(fromModId("save_command_history"), ActionRunRunnable::saveCommandHistory)));
+    public static final SmartSupplier<ActionRun> SAVE_TERMINAL = LIST_CLOSE.add(() -> new ActionRun(fromModId("save_terminal"), ActionRunRunnable::saveTerminal));
+    public static final SmartSupplier<ActionRun> SAVE_COMMAND_HISTORY = LIST_CLOSE.add(() -> new ActionRun(fromModId("save_command_history"), ActionRunRunnable::saveCommandHistory));
 
     /**
      * This registers all action runs to the main reg
