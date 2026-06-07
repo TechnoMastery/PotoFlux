@@ -1,8 +1,10 @@
 package net.minheur.potoflux.terminal.commands;
 
+import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
@@ -26,6 +28,8 @@ import static net.minheur.potoflux.terminal.commands.CommandMakerHelpers.*;
  * The class containing all potoflux command actions
  */
 public class CommandActions {
+    private static final RegisterCommandsEvent commandEvent = Bootstrap.commandEvent;
+
     /**
      * Command execution for command {@code hello}.
      * @param args all the args given to the command
@@ -64,7 +68,7 @@ public class CommandActions {
 
         if (args.isEmpty()) {
             StringBuilder out = new StringBuilder(Translations.get("potoflux:command.help.title"));
-            for (Command command : CommandRegistry.getAll()) {
+            for (Command command : commandEvent.reg.getAll()) {
                 if (!command.hidden()) {
                     out.append("\n").append("→ ").append(command.key()).append(" : ").append(command.commandHelp());
                 }
@@ -73,14 +77,14 @@ public class CommandActions {
             return;
         } else {
             String commandHelp = args.get(0);
-            for (Command command : CommandRegistry.getAll()) {
+            for (Command command : commandEvent.reg.getAll()) {
                 if (commandHelp.equals(command.key())) {
                     CommandProcessor.appendOutput(command.commandHelp());
                     return;
                 }
             }
         }
-        CommandProcessor.appendOutput(Commands.INSTANCE.HELP.commandHelp());
+        CommandProcessor.appendOutput(Commands.HELP.get().commandHelp());
     }
 
     /**
@@ -151,7 +155,7 @@ public class CommandActions {
             return;
         }
 
-        for (Tab tab : TabRegistry.getAll()) {
+        for (Tab tab : Bootstrap.tabEvent.reg.getAll()) {
             if (tabName.equals(
                     tab.id().toString()
             )) {
@@ -278,7 +282,7 @@ public class CommandActions {
 
         CommandProcessor.appendOutput(Translations.get("potoflux:command.tabList.intro"));
 
-        for (Tab tab : TabRegistry.getAll()) {
+        for (Tab tab : Bootstrap.tabEvent.reg.getAll()) {
 
             StringBuilder tabEntry = new StringBuilder(tabArrow);
             tabEntry.append(tab.name());

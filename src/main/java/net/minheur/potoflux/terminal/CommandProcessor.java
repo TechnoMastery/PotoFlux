@@ -1,6 +1,7 @@
 package net.minheur.potoflux.terminal;
 
 import javafx.scene.control.TextArea;
+import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
@@ -25,6 +26,7 @@ public class CommandProcessor {
      * Used to add content to the log
      */
     private static final Supplier<TextArea> outputArea = () -> ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.TERMINAL.get())).getTerminal().getOutputArea();
+    private static final CommandRegistry commandReg = Bootstrap.commandEvent.reg;
 
     /**
      * Process a raw command to an output in the terminal
@@ -49,13 +51,13 @@ public class CommandProcessor {
         List<String> args = Arrays.asList(split).subList(1, split.length);
 
         // check if command exist
-        if (!CommandRegistry.containsKey(cmdKey)) {
+        if (!commandReg.containsKey(cmdKey)) {
             appendNoCommand();
             return;
         }
 
         // define & send command result
-        Command command = CommandRegistry.getCommandWithKey(cmdKey);
+        Command command = commandReg.getCommandWithKey(cmdKey);
         if (command == null) throw new IllegalCallerException("Command exist but is empty !");
         command.commandOutput().accept(args);
     }

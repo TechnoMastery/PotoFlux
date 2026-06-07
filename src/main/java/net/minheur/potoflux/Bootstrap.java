@@ -35,6 +35,13 @@ public class Bootstrap {
 
     private static final AtomicBoolean built = new AtomicBoolean(false);
 
+    public static final RegisterLangEvent langEvent = new RegisterLangEvent();
+    public static final RegisterTabsEvent tabEvent = new RegisterTabsEvent();
+    public static final RegisterCommandsEvent commandEvent = new RegisterCommandsEvent();
+    public static final RegisterRunsEvent runEvent = new RegisterRunsEvent();
+    public static final RegisterMenuEvent menuEvent = new RegisterMenuEvent();
+    public static final RegisterSettingEvent settingEvent = new RegisterSettingEvent();
+
     /**
      * It will first check for args, then enable devEnv if args contains it.<br>
      * We then get version and log it, load all optionalFeatures, set the theme and set the loaded translations.<br>
@@ -105,13 +112,13 @@ public class Bootstrap {
         updateText.accept("Registering data...");
 
         try {
-            bus.post(new RegisterLangEvent()); // register lang BEFORE anything else
+            bus.post(langEvent); // register lang BEFORE anything else
 
-            bus.post(new RegisterTabsEvent());
-            bus.post(new RegisterCommandsEvent());
-            bus.post(new RegisterRunsEvent());
-            bus.post(new RegisterMenuEvent());
-            bus.post(new RegisterSettingEvent());
+            bus.post(tabEvent);
+            bus.post(commandEvent);
+            bus.post(runEvent);
+            bus.post(menuEvent);
+            bus.post(settingEvent);
         } catch (Throwable e) {
             throw new EventPostException(e);
         }
@@ -120,7 +127,7 @@ public class Bootstrap {
         updateText.accept("Running start logic...");
         LogicDelayedPopupsRegistry.open();
 
-        for (ActionRun ar : StartLogicRunRegistry.getAll()) ar.run().run();
+        for (ActionRun ar : runEvent.startLogicReg.getAll()) ar.run().run();
 
         LogicDelayedPopupsRegistry.close();
 

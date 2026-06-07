@@ -88,7 +88,7 @@ public class PotoFlux extends Application {
 
             LogicDelayedPopupsRegistry.run();
 
-            for (ActionRun ar : StartUiRunRegistry.getAll()) ar.run().run();
+            for (ActionRun ar : Bootstrap.runEvent.startUiReg.getAll()) ar.run().run();
         });
 
         bootstrap.setOnFailed(event -> {
@@ -185,7 +185,7 @@ public class PotoFlux extends Application {
      * @param exitCode the code given on closing.
      */
     public static void runExitLogic(@NotNull ExitCode exitCode) {
-        if (exitCode.code() == 0) for (ActionRun ar : CloseRunRegistry.getAll()) {
+        if (exitCode.code() == 0) for (ActionRun ar : Bootstrap.runEvent.closeReg.getAll()) {
             try {
                 ar.run().run();
             } catch (Exception e) {

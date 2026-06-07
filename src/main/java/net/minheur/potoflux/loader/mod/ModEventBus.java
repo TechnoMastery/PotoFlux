@@ -1,5 +1,6 @@
 package net.minheur.potoflux.loader.mod;
 
+import net.minheur.potoflux.loader.mod.events.IEvent;
 import net.minheur.potoflux.utils.EventListener;
 import net.minheur.potoflux.utils.LambdaUtils;
 
@@ -125,13 +126,19 @@ public class ModEventBus {
      * When an event is posted, the param given to this method (the event) is then transferred to all method subscribing to the event.
      * @param event the posted event.
      */
-    public void post(Object event) {
+    public void post(IEvent event) {
         if (event == null) throw new IllegalArgumentException("event null");
         List<Listener> list = listeners.get(event.getClass());
-        if (list == null) return;
+
+        if (list == null) {
+            event.close();
+            return;
+        }
+
         for (Listener l : new ArrayList<>(list)) { // security copy, if listeners modified during the post
             l.invoke(event);
         }
+        event.close();
     }
 }
 
