@@ -79,7 +79,7 @@ public class FXPotoScreen {
      */
     private void addTabs() {
         TabSides placement = TabSides.getFromCode(
-                (String) UserPrefsManager.getValueFor(Settings.INSTANCE.TAB_PLACEMENT)
+                (String) UserPrefsManager.getValueFor(Settings.TAB_PLACEMENT.get())
         );
         if (placement == null) placement = TabSides.LEFT;
         tabs.setSide(placement.getSide());
