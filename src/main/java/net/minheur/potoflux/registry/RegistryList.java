@@ -35,7 +35,7 @@ public class RegistryList<T extends IRegistryType> {
      * Registering all items in an actual registry.
      * @param reg the registry to add the items to
      */
-    public void register(IRegistry<T> reg) {
+    public void register(AbstractRegistry<T> reg) {
         for (SmartSupplier<T> sup : innerList) {
             reg.add(sup.get());
         }

@@ -1,6 +1,6 @@
 package net.minheur.potoflux.screen.tabs;
 
-import net.minheur.potoflux.registry.IRegistry;
+import net.minheur.potoflux.registry.AbstractRegistry;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +13,7 @@ import java.util.Map;
  * Registry to stores all tabs.<br>
  * All tabs should be added to it, otherwise they will not be found by the app.
  */
-public class TabRegistry implements IRegistry<Tab> {
+public class TabRegistry extends AbstractRegistry<Tab> {
     /**
      * Actual registry for the tabs, by their ID and their tabs.
      */

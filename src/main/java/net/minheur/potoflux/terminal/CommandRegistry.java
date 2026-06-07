@@ -1,6 +1,6 @@
 package net.minheur.potoflux.terminal;
 
-import net.minheur.potoflux.registry.IRegistry;
+import net.minheur.potoflux.registry.AbstractRegistry;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 
 import java.util.Collection;
@@ -11,7 +11,7 @@ import java.util.Map;
  * Reg containing all commands of the app.<br>
  * Commands should be added to this
  */
-public class CommandRegistry implements IRegistry<Command> {
+public class CommandRegistry extends AbstractRegistry<Command> {
     /**
      * Actual registry for the commands, by their ID and their command.
      */
