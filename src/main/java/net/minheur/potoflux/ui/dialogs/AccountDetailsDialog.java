@@ -310,6 +310,7 @@ public class AccountDetailsDialog extends Dialog<Void> {
             } catch (InvalidTokenException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+                TokenHandler.clear();
                 closeParent();
                 return;
             } catch (IOException ex) {
@@ -337,6 +338,8 @@ public class AccountDetailsDialog extends Dialog<Void> {
                                     default -> response.error;
                                 }
                 );
+                if (response.error.equals("not_exists") || response.error.equals("token_expired"))
+                    TokenHandler.clear();
                 closeParent();
                 return;
             }
@@ -437,6 +440,7 @@ public class AccountDetailsDialog extends Dialog<Void> {
             } catch (InvalidTokenException ex) {
                 ex.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+                TokenHandler.clear();
                 e.consume();
                 return;
             } catch (IOException ex) {
@@ -460,6 +464,8 @@ public class AccountDetailsDialog extends Dialog<Void> {
                             default -> response.error;
                         }
                 );
+                if (response.error.equals("not_exists") || response.error.equals("token_expired"))
+                    TokenHandler.clear();
                 e.consume();
                 return;
             }

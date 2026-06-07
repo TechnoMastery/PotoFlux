@@ -71,6 +71,7 @@ public class PermRuns {
         } catch (InvalidTokenException e) {
             e.printStackTrace();
             showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+            TokenHandler.clear();
             return;
         } catch (IOException e) {
             e.printStackTrace();
@@ -99,6 +100,8 @@ public class PermRuns {
                     default -> response.error;
                 }
         );
+        if (response.error.equals("not_exists") || response.error.equals("token_expired"))
+            TokenHandler.clear();
     }
 
     /**
@@ -121,6 +124,7 @@ public class PermRuns {
         } catch (InvalidTokenException e) {
             e.printStackTrace();
             showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+            TokenHandler.clear();
             return;
         } catch (IOException e) {
             e.printStackTrace();
@@ -155,6 +159,8 @@ public class PermRuns {
                     default -> response.error;
                 }
         );
+        if (response.error.equals("not_exists") || response.error.equals("token_expired"))
+            TokenHandler.clear();
 
     }
 
@@ -186,6 +192,7 @@ public class PermRuns {
         } catch (InvalidTokenException e) {
             e.printStackTrace();
             showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+            TokenHandler.clear();
             return;
         } catch (IOException e) {
             e.printStackTrace();
@@ -204,6 +211,8 @@ public class PermRuns {
                         default -> listResponse.error;
                     }
             );
+            if (listResponse.error.equals("not_exists") || listResponse.error.equals("token_expired"))
+                TokenHandler.clear();
             return;
         }
 
@@ -227,6 +236,7 @@ public class PermRuns {
             } catch (InvalidTokenException e) {
                 e.printStackTrace();
                 showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+                TokenHandler.clear();
                 return;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -255,6 +265,8 @@ public class PermRuns {
                                     default -> listResponse.error;
                                 }
                         );
+                        if (userResponse.error.equals("not_exists") || userResponse.error.equals("token_expired"))
+                            TokenHandler.clear();
                         return;
                     }
                     default -> {
