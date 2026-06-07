@@ -4,6 +4,7 @@ import net.minheur.potoflux.utils.SmartSupplier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * This class is used to store all elements of an event, for a specific mod.<br>
@@ -25,6 +26,9 @@ public class RegistryList<T extends IRegistryType> {
         if (innerList.contains(item)) return null;
         innerList.add(item);
         return item;
+    }
+    public SmartSupplier<T> add(Supplier<T> item) {
+        return add(new SmartSupplier<>(item));
     }
 
     /**
