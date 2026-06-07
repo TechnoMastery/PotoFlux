@@ -6,6 +6,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.menu.MenuRegistry;
 import net.minheur.potoflux.screen.menu.PotoMenuItem;
@@ -84,7 +85,7 @@ public class FXPotoScreen {
         if (placement == null) placement = TabSides.LEFT;
         tabs.setSide(placement.getSide());
 
-        List<Tab> allTabs = TabRegistry.getAll().stream()
+        List<Tab> allTabs = Bootstrap.tabEvent.reg.getAll().stream()
                 .sorted(Comparator.comparing(
                         tab -> !tab.id().getNamespace().equals(PotoFlux.ID)
                 ))
@@ -124,7 +125,7 @@ public class FXPotoScreen {
      */
     private void addMenu() {
         menuItems.clear();
-        menuItems.addAll(MenuRegistry.getAll().stream()
+        menuItems.addAll(Bootstrap.menuEvent.reg.getAll().stream()
                 .sorted(Comparator.comparing(
                         item -> !item.id().getNamespace().equals(PotoFlux.ID)
                 ))

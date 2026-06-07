@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.settings.Setting;
@@ -57,7 +58,7 @@ public class SettingsTab extends BaseVTab<VBox> {
     private void fillSetting() {
 
         settings.clear();
-        List<Setting> allSettings = SettingRegistry.getAll().stream()
+        List<Setting> allSettings = Bootstrap.settingEvent.reg.getAll().stream()
                 .sorted(Comparator.comparing(
                         (Setting setting) -> !setting.id().getNamespace().equals(PotoFlux.ID)
                 ))
