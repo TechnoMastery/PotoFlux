@@ -79,6 +79,7 @@ public class ConnectionHandler {
             e.printStackTrace();
             PtfLogger.error("Token malformed !", LogCategories.ACCOUNT);
             showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+            TokenHandler.clear();
             return;
         } catch (IOException e) {
             e.printStackTrace();
@@ -134,8 +135,14 @@ public class ConnectionHandler {
     private static void displayInfoError(InfoResponse infoResponse) {
         switch (infoResponse.error) {
             case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.noUser"));
-            case "not_exists" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.notExists"));
-            case "token_expired" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.expired"));
+            case "not_exists" -> {
+                showErrorPane(Translations.get("potoflux:tabs.account.error.token.notExists"));
+                TokenHandler.clear();
+            }
+            case "token_expired" -> {
+                showErrorPane(Translations.get("potoflux:tabs.account.error.token.expired"));
+                TokenHandler.clear();
+            }
             default -> showErrorPane(infoResponse.error);
         }
     }
@@ -206,6 +213,7 @@ public class ConnectionHandler {
         } catch (InvalidTokenException e) {
             e.printStackTrace();
             showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
+            TokenHandler.clear();
             return;
         } catch (IOException e) {
             e.printStackTrace();
@@ -226,6 +234,8 @@ public class ConnectionHandler {
                     default -> response.error;
                 }
         );
+        if (response.error.equals("not_exists") || response.error.equals("token_expired"))
+            TokenHandler.clear();
 
         reloadAuthUi();
         reloadAccountCreationPermission();
