@@ -466,7 +466,7 @@ public class PotoFluxLoadingContext {
             case CIRCULAR -> {
                 return LoadResult.ALREADY_CIRCULAR;
             }
-            case MISSING_DEPENDENCIES -> {
+            case MISSING_DEPENDENCIES, DEPENDENCY_WRONG_VERSION -> {
                 return LoadResult.DEPENDENCY_FAILED;
             }
             case FAILED -> {
@@ -524,7 +524,7 @@ public class PotoFluxLoadingContext {
                                         "between " + dep.minVersion + " and " + dep.maxVersion) +
                                 ". Currently, it is " + actualDepVersion
                 );
-                entry.state = ModState.MISSING_DEPENDENCIES;
+                entry.state = ModState.DEPENDENCY_WRONG_VERSION;
                 return LoadResult.DEPENDENCY_FAILED;
             }
 
