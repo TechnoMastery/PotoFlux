@@ -34,6 +34,7 @@ public class ActionRuns {
     public static final SmartSupplier<ActionRun> FILL_TERMINAL = LIST_START_UI.add(() -> new ActionRun(fromModId("fill_terminal"), ActionRunRunnable::fillTerminal));
     public static final SmartSupplier<ActionRun> UPDATE_AUTH_BUTTONS = LIST_START_UI.add(() -> new ActionRun(fromModId("update_auth_buttons"), ConnectionHandler::reloadAuthUi));
     public static final SmartSupplier<ActionRun> DISPLAY_MOD_UPDATES = LIST_START_UI.add(() -> new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
+    public static final SmartSupplier<ActionRun> DISPLAY_MOD_ERRORS = LIST_START_UI.add(() -> new ActionRun(fromModId("display_mod_errors"), ActionRunRunnable::displayModErrors));
     public static final SmartSupplier<ActionRun> CHECK_POTOFLUX_UPDATE = LIST_START_UI.add(() -> new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates));
 
     // start logic

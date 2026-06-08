@@ -6,6 +6,7 @@ public enum ModState {
     INCOMPATIBLE,
     CIRCULAR,
     MISSING_DEPENDENCIES,
+    DEPENDENCY_WRONG_VERSION,
     FAILED,
     LOADED,
     circularLastest

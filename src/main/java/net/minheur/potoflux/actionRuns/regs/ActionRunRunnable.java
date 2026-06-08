@@ -4,6 +4,8 @@ import javafx.scene.control.Alert;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
+import net.minheur.potoflux.loader.mod.errors.LoadModError;
+import net.minheur.potoflux.loader.mod.errors.ModErrorReg;
 import net.minheur.potoflux.loader.mod.update.Candidate;
 import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
 import net.minheur.potoflux.logger.PtfLogger;
@@ -13,6 +15,7 @@ import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.terminal.CommandHistorySaver;
 import net.minheur.potoflux.terminal.CommandProcessor;
+import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.utils.LogAmountManager;
 
@@ -26,6 +29,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.minheur.potoflux.Functions.formatMessage;
 
 /**
  * This class stores all potoflux action run runnable
@@ -67,6 +72,30 @@ public class ActionRunRunnable {
                     c.declaredLastest()
             );
         }
+    }
+
+    public static void displayModErrors() {
+        List<LoadModError> errors = ModErrorReg.getAll();
+        if (errors.isEmpty()) return;
+
+        for (LoadModError e : errors)
+            UiUtils.showErrorPane(switch (e.errorState) {
+                case NOT_PROCESSED -> throw new IllegalStateException("Cannot display error for NOT PROCESSED state !");
+                case LOADING -> throw new IllegalStateException("Cannot display error for LOADING state !");
+                case INCOMPATIBLE -> formatMessage(Translations.get("potoflux:modError.incompatible"), e.mod.modId(), e.mod.version());
+                case CIRCULAR -> formatMessage(Translations.get("potoflux:modError.circular"), e.mod.modId());
+                case MISSING_DEPENDENCIES -> formatMessage(Translations.get("potoflux:modError.missingDep"), e.mod.modId(), e.missingDep.id, (
+                        e.missingDep.minVersion.equals(e.missingDep.maxVersion) ? e.missingDep.minVersion :
+                                e.missingDep.minVersion + " → " + e.missingDep.maxVersion
+                ));
+                case DEPENDENCY_WRONG_VERSION -> formatMessage(Translations.get("potoflux:modError.wrongDepVersion"), e.mod.modId(), e.missingDep.id, e.actualDepVersion, (
+                        e.missingDep.minVersion.equals(e.missingDep.maxVersion) ? e.missingDep.minVersion :
+                                e.missingDep.minVersion + " → " + e.missingDep.maxVersion
+                ));
+                case FAILED -> formatMessage(Translations.get("potoflux:modError.failed"), e.mod.modId());
+                case LOADED -> throw new IllegalStateException("Cannot display error for LOADED mod state !");
+                case circularLastest -> throw new IllegalStateException("Cannot display error for unresolved circular dependency !");
+            });
     }
 
     public static void loadCommandHistory() {
