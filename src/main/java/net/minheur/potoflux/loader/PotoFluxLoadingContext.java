@@ -437,7 +437,7 @@ public class PotoFluxLoadingContext {
         if (browsed)
             PtfLogger.info("Opened install url in browser", LogCategories.MOD_UPDATE);
         else {
-            PtfLogger.error("Failede to open install url in browser", LogCategories.MOD_UPDATE);
+            PtfLogger.error("Failed to open install url in browser", LogCategories.MOD_UPDATE);
             JOptionPane.showMessageDialog(
                     null,
                     Translations.get("potoflux:modUpdate.dl.failed"),
