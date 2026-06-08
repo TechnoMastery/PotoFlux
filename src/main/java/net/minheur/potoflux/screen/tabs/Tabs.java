@@ -21,19 +21,19 @@ public class Tabs {
     /**
      * The item of the home tab ({@link HomeTab}).
      */
-    public static final SmartSupplier<Tab> HOME = LIST.add(() -> new Tab(fromModId("home"), Translations.get("potoflux:tabs.home.name"), HomeTab.class));
+    public static final SmartSupplier<Tab> HOME = LIST.add(() -> new Tab(fromModId("home"), HomeTab.class));
     /**
      * The item of the account tab ({@link AccountTab})
      */
-    public static final SmartSupplier<Tab> ACCOUNT = LIST.add(() -> new Tab(fromModId("account"), Translations.get("potoflux:tabs.account.name"), AccountTab.class));
+    public static final SmartSupplier<Tab> ACCOUNT = LIST.add(() -> new Tab(fromModId("account"), AccountTab.class));
     /**
      * The item of the terminal tab ({@link TerminalTab}).
      */
-    public static final SmartSupplier<Tab> TERMINAL = LIST.add(() -> new Tab(fromModId("terminal"), Translations.get("potoflux:tabs.terminal.name"), TerminalTab.class));
+    public static final SmartSupplier<Tab> TERMINAL = LIST.add(() -> new Tab(fromModId("terminal"), TerminalTab.class));
     /**
      * The item of the settings tab ({@link SettingsTab}).
      */
-    public static final SmartSupplier<Tab> SETTINGS = LIST.add(() -> new Tab(fromModId("settings"), Translations.get("potoflux:tabs.settings.name"), SettingsTab.class));
+    public static final SmartSupplier<Tab> SETTINGS = LIST.add(() -> new Tab(fromModId("settings"), SettingsTab.class));
 
     /**
      * Create the instance of the class, then add the tabs to the events.<br>

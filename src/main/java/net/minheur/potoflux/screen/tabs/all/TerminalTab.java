@@ -36,7 +36,7 @@ public class TerminalTab extends BaseTab<StackPane> {
      * @return the tab's name
      */
     @Override
-    protected String getName() {
+    public String getName() {
         return Translations.get("potoflux:tabs.terminal.name");
     }
 

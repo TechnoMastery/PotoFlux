@@ -7,6 +7,7 @@ import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.screen.tabs.Tabs;
@@ -283,9 +284,10 @@ public class CommandActions {
         CommandProcessor.appendOutput(Translations.get("potoflux:command.tabList.intro"));
 
         for (Tab tab : Bootstrap.tabEvent.reg.getAll()) {
+            BaseTab<?> tabClass = PotoFlux.app.getTabMap().get(tab);
 
             StringBuilder tabEntry = new StringBuilder(tabArrow);
-            tabEntry.append(tab.name());
+            tabEntry.append(tabClass.getName());
             if (displayResourceLoc) tabEntry.append(" : ").append(tab.id().toString());
 
             CommandProcessor.appendOutput(tabEntry.toString());

@@ -84,7 +84,7 @@ public class AccountTab extends BaseVTab<StackPane> {
      * Gets the tab name, displayed in the tab list
      */
     @Override
-    protected String getName() {
+    public String getName() {
         return Translations.get("potoflux:tabs.account.name");
     }
 

@@ -64,7 +64,7 @@ public class HomeTab extends BaseVTab<StackPane> {
      * @return the title of the tab.
      */
     @Override
-    protected String getName() {
+    public String getName() {
         return Translations.get("potoflux:tabs.home.name");
     }
 }

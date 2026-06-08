@@ -32,7 +32,7 @@ public class ModsTab extends BaseVTab<BorderPane> {
     }
 
     @Override
-    protected String getName() {
+    public String getName() {
         return "Mods"; // todo
     }
 
