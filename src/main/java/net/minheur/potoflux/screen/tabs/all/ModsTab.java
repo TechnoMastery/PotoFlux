@@ -14,14 +14,14 @@ import net.minheur.potoflux.screen.tabs.BaseVTab;
 
 import java.util.List;
 
-public class ModsTab extends BaseVTab<BorderPane> {
+public class ModsTab extends BaseVTab<VBox> {
 
     private VBox entriesBox;
     private ScrollPane scrollPane;
 
     @Override
     protected void instantiate() {
-        PANEL = new BorderPane();
+        PANEL = new VBox();
         entriesBox = new VBox(10);
 
         scrollPane = new ScrollPane(entriesBox);
