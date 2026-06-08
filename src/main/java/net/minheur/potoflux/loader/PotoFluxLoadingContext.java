@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.*;
+import net.minheur.potoflux.loader.mod.errors.LoadModError;
 import net.minheur.potoflux.loader.mod.errors.ModErrorReg;
 import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
 import net.minheur.potoflux.logger.LogCategories;
@@ -480,6 +481,7 @@ public class PotoFluxLoadingContext {
             case circularLastest -> {
                 PtfLogger.error("Found last of circular: " + entry.mod.modId(), LogCategories.MOD_DEPENDENCIES);
                 entry.state = ModState.CIRCULAR;
+                ModErrorReg.add(entry.mod);
                 return LoadResult.ALREADY_CIRCULAR;
             }
         }
@@ -492,10 +494,12 @@ public class PotoFluxLoadingContext {
         Boolean isCompatible = getIsCompatible(mod);
         if (isCompatible == null) {
             entry.state = ModState.FAILED;
+            ModErrorReg.add(mod);
             return LoadResult.FAILED;
         }
         if (!isCompatible) {
             entry.state = ModState.INCOMPATIBLE;
+            ModErrorReg.add(mod);
             return LoadResult.INCOMPATIBLE;
         }
 
@@ -514,6 +518,7 @@ public class PotoFluxLoadingContext {
                         LogCategories.MOD_DEPENDENCIES
                 );
                 entry.state = ModState.MISSING_DEPENDENCIES;
+                ModErrorReg.add(new LoadModError(mod, dep));
                 return LoadResult.DEPENDENCY_FAILED;
             }
 
@@ -527,6 +532,7 @@ public class PotoFluxLoadingContext {
                                 ". Currently, it is " + actualDepVersion
                 );
                 entry.state = ModState.DEPENDENCY_WRONG_VERSION;
+                ModErrorReg.add(new LoadModError(mod, dep, actualDepVersion));
                 return LoadResult.DEPENDENCY_FAILED;
             }
 
@@ -538,26 +544,31 @@ public class PotoFluxLoadingContext {
                             "Mod " + mod.modId() + " is part of a circular dependency !", LogCategories.MOD_DEPENDENCIES
                     );
                     entry.state = ModState.CIRCULAR;
+                    ModErrorReg.add(mod);
                     return LoadResult.CIRCULAR;
                 }
                 case ALREADY_CIRCULAR -> {
                     PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " was circular");
                     entry.state = ModState.MISSING_DEPENDENCIES;
+                    ModErrorReg.add(new LoadModError(mod, dep));
                     return LoadResult.DEPENDENCY_FAILED;
                 }
                 case DEPENDENCY_FAILED -> {
                     PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " is missing dependencies");
                     entry.state = ModState.MISSING_DEPENDENCIES;
+                    ModErrorReg.add(new LoadModError(mod, dep));
                     return LoadResult.DEPENDENCY_FAILED;
                 }
                 case INCOMPATIBLE -> {
                     PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " is incompatible");
                     entry.state = ModState.MISSING_DEPENDENCIES;
+                    ModErrorReg.add(new LoadModError(mod, dep));
                     return LoadResult.DEPENDENCY_FAILED;
                 }
                 case FAILED -> {
                     PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " failed");
                     entry.state = ModState.MISSING_DEPENDENCIES;
+                    ModErrorReg.add(new LoadModError(mod, dep));
                     return LoadResult.DEPENDENCY_FAILED;
                 }
             }
@@ -580,6 +591,7 @@ public class PotoFluxLoadingContext {
             e.printStackTrace();
             PtfLogger.error("Couldn't instance mod: " + entry.mod.modId());
             entry.state = ModState.FAILED;
+            ModErrorReg.add(mod);
             return LoadResult.FAILED;
         }
     }
