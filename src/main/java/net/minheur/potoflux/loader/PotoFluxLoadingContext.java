@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.*;
+import net.minheur.potoflux.loader.mod.errors.ModErrorReg;
 import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
@@ -352,6 +353,7 @@ public class PotoFluxLoadingContext {
         for (ModContainer entry : listedMods)
             loadMod(entry);
 
+        ModErrorReg.close();
         ModUpdateReg.close();
     }
 

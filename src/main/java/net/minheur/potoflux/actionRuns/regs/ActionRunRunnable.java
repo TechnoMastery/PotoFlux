@@ -69,6 +69,10 @@ public class ActionRunRunnable {
         }
     }
 
+    public static void displayModErrors() {
+
+    }
+
     public static void loadCommandHistory() {
         File target = PotoFlux.getProgramDir().resolve("commandHistory.txt").toFile();
         List<String> history = new ArrayList<>();
