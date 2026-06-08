@@ -1,5 +1,6 @@
 package net.minheur.potoflux.screen.tabs.all;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -46,8 +47,13 @@ public class ModsTab extends BaseVTab<VBox> {
         vContent.getChildren().add(scrollPane);
 
         List<ModContainer> allMods = PotoFluxLoadingContext.getListedMods();
-        for (ModContainer m : allMods)
+        if (!allMods.isEmpty()) for (ModContainer m : allMods)
             addMod(m);
+        else {
+            Label fallback = new Label("No mods listed !");
+            entriesBox.setAlignment(Pos.CENTER);
+            entriesBox.getChildren().add(fallback);
+        }
     }
 
     private void addMod(ModContainer modContainer) {
