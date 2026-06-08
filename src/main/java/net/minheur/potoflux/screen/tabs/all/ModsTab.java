@@ -77,8 +77,10 @@ public class ModsTab extends BaseVTab<BorderPane> {
     }
 
     private String formatDepLabel(Dependency dep) {
-        // TODO
-        return "";
+        if (dep.minVersion.equals(dep.maxVersion))
+            return dep.id + " [" + dep.minVersion + "]";
+
+        return dep.id + " [" + dep.minVersion + " - " + dep.maxVersion + "]";
     }
 
     private Node buildHeader(ModContainer modContainer) {
