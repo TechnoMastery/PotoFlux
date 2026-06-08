@@ -449,23 +449,36 @@ public class PotoFluxLoadingContext {
 
     private static LoadResult loadMod(ModContainer entry) {
 
-        if (entry.state == ModState.LOADED) return LoadResult.FAILED;
-        if (entry.state == ModState.FAILED) return LoadResult.FAILED;
-        if (entry.state == ModState.CIRCULAR) return LoadResult.ALREADY_CIRCULAR;
-        if (entry.state == ModState.circularLastest) {
-            PtfLogger.error("Found last of circular: " + entry.mod.modId(), LogCategories.MOD_DEPENDENCIES);
-            entry.state = ModState.CIRCULAR;
-            return LoadResult.ALREADY_CIRCULAR;
-        }
-
-        if (entry.state == ModState.LOADING) {
-            PtfLogger.error(
-                    "Circular dependency detected: " +
-                            entry.mod.modId(),
-                    LogCategories.MOD_LOADER
-            );
-            entry.state = ModState.circularLastest;
-            return LoadResult.CIRCULAR;
+        switch (entry.state) {
+            case LOADING -> {
+                PtfLogger.error(
+                        "Circular dependency detected: " +
+                                entry.mod.modId(),
+                        LogCategories.MOD_LOADER
+                );
+                entry.state = ModState.circularLastest;
+                return LoadResult.CIRCULAR;
+            }
+            case INCOMPATIBLE -> {
+                return LoadResult.INCOMPATIBLE;
+            }
+            case CIRCULAR -> {
+                return LoadResult.ALREADY_CIRCULAR;
+            }
+            case MISSING_DEPENDENCIES -> {
+                return LoadResult.DEPENDENCY_FAILED;
+            }
+            case FAILED -> {
+                return LoadResult.FAILED;
+            }
+            case LOADED -> {
+                return LoadResult.LOADED;
+            }
+            case circularLastest -> {
+                PtfLogger.error("Found last of circular: " + entry.mod.modId(), LogCategories.MOD_DEPENDENCIES);
+                entry.state = ModState.CIRCULAR;
+                return LoadResult.ALREADY_CIRCULAR;
+            }
         }
 
         entry.state = ModState.LOADING;
