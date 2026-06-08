@@ -30,6 +30,7 @@ public class Tabs {
      * The item of the terminal tab ({@link TerminalTab}).
      */
     public static final SmartSupplier<Tab> TERMINAL = LIST.add(() -> new Tab(fromModId("terminal"), TerminalTab.class));
+    public static final SmartSupplier<Tab> MODS = LIST.add(() -> new Tab(fromModId("mods"), ModsTab.class));
     /**
      * The item of the settings tab ({@link SettingsTab}).
      */
