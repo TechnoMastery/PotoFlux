@@ -39,7 +39,7 @@ public @interface Mod {
     String compatibleVersionUrl() default "NONE";
     /**
      * A list of dependencies mods.<br>
-     * Each entry needs to be formated like so : {@code id:version}
+     * Each entry needs to be formated like {@code id:minVersion:maxVersion} or {@code id:version}
      * @return an array of dependencies mods
      */
     String[] dependenciesIds() default {};
