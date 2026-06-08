@@ -437,6 +437,22 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Browsing failed")
                 .fr("La navigation a échoué");
 
+        add("modError", "incompatible")
+                .en("The mod $$1 in version $$2 is incompatible for your version of Potoflux !")
+                .fr("Le mod $11 (version $$2) est incompatible pour cette version de Potoflux !");
+        add("modError", "circular")
+                .en("The mod $$1 is part of a circular dependency !")
+                .fr("Le mod $$1 fait parti d'une chaine de dépendence circulaire !");
+        add("modError", "missingDep")
+                .en("The mod $$1 is missing dependency '$$2' ($$3).\nIt is actually not installed")
+                .fr("Le mod $$1 a besoin du mod '$$2' ($$3) pour fonctionner.\nIl n'est pas installé");
+        add("modError", "wrongDepVersion")
+                .en("The mod $$1 requires $$2 in version $$4.\nMod $$2 is actually version $$3")
+                .de("Le mod $$1 requiert le mod $$2 en version : $$4.\nLe mod $$2 est actuellement en version $$3");
+        add("modError", "failed")
+                .en("The mod $$1 failed to load.")
+                .fr("Le mod $$1 a échoué au chargement.");
+
         add("ptfUpdate", "title")
                 .en("Update")
                 .fr("Mise a jour");
