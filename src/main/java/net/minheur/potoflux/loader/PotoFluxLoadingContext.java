@@ -449,6 +449,7 @@ public class PotoFluxLoadingContext {
 
     private static LoadResult loadMod(ModContainer entry) {
 
+        // checks the state of the actual mod
         switch (entry.state) {
             case LOADING -> {
                 PtfLogger.error(
@@ -481,9 +482,11 @@ public class PotoFluxLoadingContext {
             }
         }
 
+        // start loading mod
         entry.state = ModState.LOADING;
         Mod mod = entry.mod;
 
+        // compatibility check
         Boolean isCompatible = getIsCompatible(mod);
         if (isCompatible == null) {
             entry.state = ModState.FAILED;
@@ -494,10 +497,16 @@ public class PotoFluxLoadingContext {
             return LoadResult.INCOMPATIBLE;
         }
 
-        for (String depId : mod.dependenciesIds()) {
+        // load all deps
+        for (String depFormated : mod.dependenciesIds()) {
 
-            ModContainer dep = getListedMod(depId);
-            if (dep == null) {
+            // unwraps dep infos
+            Dependency dep = new Dependency(depFormated); // dep asked
+            String depId = dep.id; // dep asked's id
+            ModContainer actualDep = getListedMod(depId); // actual listed mod for the asked dep (null if not there)
+
+            // checks dep presence
+            if (actualDep == null) {
                 PtfLogger.error(
                         "Missing dependency '" + depId + "' for mod " + mod.modId(),
                         LogCategories.MOD_DEPENDENCIES
@@ -506,8 +515,22 @@ public class PotoFluxLoadingContext {
                 return LoadResult.DEPENDENCY_FAILED;
             }
 
-            LoadResult depLoadingResult = loadMod(dep);
-            switch (depLoadingResult) {
+            // checks dep version
+            String actualDepVersion = actualDep.mod.version();
+            if (!dependencyIsCompatible(actualDepVersion, dep)) {
+                PtfLogger.error(
+                        "Mod" + mod.modId() + " require '" + dep.id + "' " +
+                                (dep.minVersion.equals(dep.maxVersion) ? dep.minVersion :
+                                        "between " + dep.minVersion + " and " + dep.maxVersion) +
+                                ". Currently, it is " + actualDepVersion
+                );
+                entry.state = ModState.MISSING_DEPENDENCIES;
+                return LoadResult.DEPENDENCY_FAILED;
+            }
+
+            // loads dep
+            LoadResult depLoadingResult = loadMod(actualDep);
+            switch (depLoadingResult) { // checks result
                 case CIRCULAR -> {
                     PtfLogger.error(
                             "Mod " + mod.modId() + " is part of a circular dependency !", LogCategories.MOD_DEPENDENCIES
@@ -557,6 +580,14 @@ public class PotoFluxLoadingContext {
             entry.state = ModState.FAILED;
             return LoadResult.FAILED;
         }
+    }
+
+    private static boolean dependencyIsCompatible(String actualDepVersion, Dependency dep) {
+        int intDepVersion = Integer.parseInt(actualDepVersion);
+        int min = Integer.parseInt(dep.minVersion);
+        int max = Integer.parseInt(dep.maxVersion);
+
+        return intDepVersion <= max && intDepVersion >= min;
     }
 
     private static @Nullable ModContainer getListedMod(String modId) {
