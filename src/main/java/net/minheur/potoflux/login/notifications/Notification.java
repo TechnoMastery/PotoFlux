@@ -4,11 +4,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import net.minheur.potoflux.Functions;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 public class Notification {
 
