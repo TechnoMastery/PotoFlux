@@ -61,4 +61,8 @@ public final class NotificationHandler {
 
     }
 
+    public static List<Notification> getNotifications() {
+        return List.copyOf(notifications);
+    }
+
 }
