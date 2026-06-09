@@ -2,6 +2,7 @@ package net.minheur.potoflux.screen.tabs;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -10,7 +11,7 @@ import javafx.scene.layout.Priority;
  * Base tab, but also including a preset {@link #hContent} and {@link #boxPreset()}
  * @param <T> type of {@link Pane} added to the tab
  */
-public abstract class BaseHTab<T extends Pane> extends BaseTab<T> {
+public abstract class BaseHTab<T extends Parent> extends BaseTab<T> {
 
     /**
      * Preset {@link HBox} to add to the panel
@@ -22,8 +23,10 @@ public abstract class BaseHTab<T extends Pane> extends BaseTab<T> {
      */
     @Override
     void runPreset() {
+        if (!(PANEL instanceof Pane)) return;
+
         boxPreset();
-        PANEL.getChildren().add(hContent);
+        ((Pane) PANEL).getChildren().add(hContent);
         hContent.getChildren().add(mkTitle());
     }
 

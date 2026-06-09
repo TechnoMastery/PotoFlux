@@ -1,6 +1,7 @@
 package net.minheur.potoflux.screen.tabs;
 
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.Pane;
@@ -8,13 +9,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-
 /**
  * The base tab, overridden to create your own tabs.
  * @param <T> type of {@link Pane} added to the tab
  */
-public abstract class BaseTab<T extends Pane> {
+public abstract class BaseTab<T extends Parent> {
     /**
      * The actual {@link Pane}, that will be added to the tabbed pane.
      */
