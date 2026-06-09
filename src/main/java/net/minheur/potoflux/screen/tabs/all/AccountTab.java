@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -17,6 +14,8 @@ import javafx.scene.text.FontWeight;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.login.CreateAccountHandler;
+import net.minheur.potoflux.login.notifications.Notification;
+import net.minheur.potoflux.login.notifications.NotificationCellFactory;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
@@ -73,8 +72,8 @@ public class AccountTab extends BaseVTab<ScrollPane> {
     private Button createAccountButton;
 
     private VBox notificationPane;
-    private ListView<String> notificationList;
-    private ObservableList<String> notificationModel;
+    private ListView<Notification> notificationList;
+    private ObservableList<Notification> notificationModel;
 
     /**
      * Create and add all components to the panel
@@ -141,6 +140,8 @@ public class AccountTab extends BaseVTab<ScrollPane> {
         notificationModel = FXCollections.observableArrayList();
         notificationList = new ListView<>(notificationModel);
         notificationList.setFocusTraversable(false);
+
+        notificationList.setCellFactory(list -> new NotificationCellFactory());
 
         notificationPane = new VBox(5);
         notificationPane.getChildren().addAll(
