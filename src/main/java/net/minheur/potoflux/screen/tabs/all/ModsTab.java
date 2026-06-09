@@ -12,6 +12,7 @@ import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModContainer;
 import net.minheur.potoflux.loader.mod.ModState;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
+import net.minheur.potoflux.translations.Translations;
 
 import java.util.List;
 import java.util.Objects;
@@ -29,12 +30,12 @@ public class ModsTab extends BaseVTab<VBox> {
 
     @Override
     public String getName() {
-        return "Mods"; // todo
+        return Translations.get("potoflux:tabs.mods.name");
     }
 
     @Override
     protected String getTitle() {
-        return "All Mods listed"; // todo
+        return Translations.get("potoflux:tabs.mods.title");
     }
 
     @Override
@@ -64,7 +65,7 @@ public class ModsTab extends BaseVTab<VBox> {
         if (!allMods.isEmpty()) for (ModContainer m : allMods)
             addMod(m);
         else {
-            Label fallback = new Label("No mods listed !");
+            Label fallback = new Label(Translations.get("potoflux:tabs.mods.list.fallback"));
             entriesBox.setAlignment(Pos.CENTER);
             entriesBox.getChildren().add(fallback);
         }
@@ -75,7 +76,7 @@ public class ModsTab extends BaseVTab<VBox> {
 
         VBox details = new VBox(5);
 
-        Label depsTitle = new Label("Dependencies"); // todo
+        Label depsTitle = new Label(Translations.get("potoflux:tabs.mods.list.dep.title"));
         VBox depsBox = new VBox(3);
 
         for (String formattedDep : mod.dependenciesIds()) {
@@ -127,12 +128,12 @@ public class ModsTab extends BaseVTab<VBox> {
 
     private String formatState(ModState state) {
         return switch (state) {
-            case LOADED -> "Loaded"; // todo
-            case FAILED -> "Failed"; // todo
-            case INCOMPATIBLE -> "Incompatible"; // todo
-            case MISSING_DEPENDENCIES -> "Missing dependencies"; // todo
-            case DEPENDENCY_WRONG_VERSION -> "Wrong dependency version"; // todo
-            case CIRCULAR -> "Circular dependency"; // todo
+            case LOADED -> Translations.get("potoflux:tabs.mods.list.dep.loaded");
+            case FAILED -> Translations.get("potoflux:tabs.mods.list.dep.failed");
+            case INCOMPATIBLE -> Translations.get("potoflux:tabs.mods.list.dep.incompatible");
+            case MISSING_DEPENDENCIES -> Translations.get("potoflux:tabs.mods.list.dep.depMissing");
+            case DEPENDENCY_WRONG_VERSION -> Translations.get("potoflux:tabs.mods.list.dep.depVersion");
+            case CIRCULAR -> Translations.get("potoflux:tabs.mods.list.dep.circularDep");
             default -> throw new IllegalStateException(
                     "Unexpected state in UI: " + state
             );
