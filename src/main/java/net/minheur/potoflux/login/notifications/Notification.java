@@ -1,5 +1,6 @@
 package net.minheur.potoflux.login.notifications;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import net.minheur.potoflux.Functions;
@@ -15,34 +16,30 @@ public class Notification {
     @SerializedName("created_at")
     private final String timestamp;
 
-    private final transient NotifTypes type;
+    private transient NotifTypes type;
 
     public Notification(long id, JsonObject messageObj, String timestamp) {
         this.id = id;
         this.messageObj = messageObj;
         this.timestamp = timestamp;
-
-        String type = messageObj.get("type").getAsString();
-        if (type == null) this.type = NotifTypes.BASIC;
-        else this.type = NotifTypes.getFromCode(type);
     }
 
     public String buildTitle() {
-        String title = switch (type) {
+        String title = switch (getType()) {
             case BASIC -> messageObj.get("title").getAsString();
         };
 
         return title == null ? "No title !" : title;
     }
     public String buildMessage() {
-        String message = switch (type) {
+        String message = switch (getType()) {
             case BASIC -> messageObj.get("msg").getAsString();
         };
 
         return message == null ? "No message !" : message;
     }
     public String buildDetail() {
-        String detail = switch (type) {
+        String detail = switch (getType()) {
             case BASIC -> messageObj.get("details").getAsString();
         };
 
@@ -64,6 +61,13 @@ public class Notification {
         return timestamp;
     }
     public NotifTypes getType() {
+        if (type == null) {
+            JsonElement e = messageObj.get("type");
+            if (e == null) type = NotifTypes.BASIC;
+            else if (e.getAsString() == null) this.type = NotifTypes.BASIC;
+            else this.type = NotifTypes.getFromCode(e.getAsString());
+        }
+
         return type;
     }
 }
