@@ -14,6 +14,7 @@ import net.minheur.potoflux.loader.mod.ModState;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ModsTab extends BaseVTab<VBox> {
 
@@ -44,6 +45,12 @@ public class ModsTab extends BaseVTab<VBox> {
         Label title = mkTitle();
 
         entriesBox = new VBox(10);
+        entriesBox.getStylesheets().add(
+                Objects.requireNonNull(
+                        getClass().getResource("/styles/tabs/mods/listEntry.css")
+                ).toExternalForm()
+        );
+        entriesBox.getStyleClass().add("modEntries");
 
         scrollPane = new ScrollPane(entriesBox);
         scrollPane.setFitToWidth(true);
@@ -106,7 +113,8 @@ public class ModsTab extends BaseVTab<VBox> {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         Label state = new Label(formatState(modContainer.state));
-        state.setStyle(getStateStyle(modContainer.state));
+        state.getStyleClass().add("state");
+        state.getStyleClass().add(getStateStyle(modContainer.state));
 
         root.getChildren().addAll(
                 name, version,
@@ -132,12 +140,12 @@ public class ModsTab extends BaseVTab<VBox> {
     }
     private String getStateStyle(ModState state) {
         return switch (state) {
-            case LOADED -> "-fx-text-fill: green;";
+            case LOADED -> "loaded";
+            case MISSING_DEPENDENCIES,
+                 DEPENDENCY_WRONG_VERSION -> "depFailed";
             case FAILED,
                  INCOMPATIBLE,
-                 MISSING_DEPENDENCIES,
-                 DEPENDENCY_WRONG_VERSION,
-                 CIRCULAR -> "-fx-text-fill: red;";
+                 CIRCULAR -> "failed";
             default -> throw new IllegalStateException(
                     "Unexpected state in UI: " + state
             );

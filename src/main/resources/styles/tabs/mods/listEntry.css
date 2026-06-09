@@ -1,0 +1,9 @@
+.modEntries .state.loaded {
+    -fx-text-fill: green;
+}
+.modEntries .state.failed {
+    -fx-text-fill: red;
+}
+.modEntries .state.depFailed {
+    -fx-text-fill: orange;
+}
