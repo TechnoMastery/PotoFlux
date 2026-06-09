@@ -7,6 +7,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -27,7 +30,7 @@ import static net.minheur.potoflux.login.ConnectionHandler.*;
 /**
  * Tab class for account tab
  */
-public class AccountTab extends BaseVTab<StackPane> {
+public class AccountTab extends BaseVTab<ScrollPane> {
 
     /**
      * Title of the tab
@@ -69,6 +72,10 @@ public class AccountTab extends BaseVTab<StackPane> {
      */
     private Button createAccountButton;
 
+    private VBox notificationPane;
+    private ListView<String> notificationList;
+    private ObservableList<String> notificationModel;
+
     /**
      * Create and add all components to the panel
      */
@@ -93,11 +100,20 @@ public class AccountTab extends BaseVTab<StackPane> {
      */
     @Override
     protected void instantiate() {
-        PANEL = new StackPane();
-        vContent = new VBox(10);
-        vContent.setPadding(new Insets(30, 0, 0, 0));
+        PANEL = new ScrollPane();
+        PANEL.setFitToWidth(true);
+        PANEL.setFitToHeight(true);
 
-        PANEL.getChildren().add(vContent);
+        PANEL.setPannable(true);
+
+        PANEL.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        PANEL.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+        vContent = new VBox(10);
+        vContent.setPadding(new Insets(30, 20, 30, 20));
+        vContent.setMinHeight(Region.USE_PREF_SIZE);
+
+        PANEL.setContent(vContent);
     }
 
     /**
@@ -122,6 +138,19 @@ public class AccountTab extends BaseVTab<StackPane> {
         authButton = new Button();
         createAccountButton = new Button(Translations.get("potoflux:tabs.account.createAccount.button"));
 
+        notificationModel = FXCollections.observableArrayList();
+        notificationList = new ListView<>(notificationModel);
+        notificationList.setFocusTraversable(false);
+
+        notificationPane = new VBox(5);
+        notificationPane.getChildren().addAll(
+                new Label("Notifications"), // todo
+                notificationList
+        );
+
+        notificationPane.setMaxSize(200, 200);
+        notificationPane.setAlignment(Pos.CENTER);
+
         vContent.setAlignment(Pos.TOP_CENTER);
     }
 
@@ -134,7 +163,8 @@ public class AccountTab extends BaseVTab<StackPane> {
                 emailLabel,
                 permsPanel,
                 authButton,
-                createAccountButton
+                createAccountButton,
+                notificationPane
         );
     }
 
