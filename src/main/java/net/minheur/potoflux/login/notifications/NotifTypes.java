@@ -3,7 +3,7 @@ package net.minheur.potoflux.login.notifications;
 import javafx.scene.control.Alert;
 
 public enum NotifTypes {
-    BASIC("base", Alert.AlertType.NONE);
+    BASIC("base", Alert.AlertType.INFORMATION);
 
     private final String sqlCode;
     private final Alert.AlertType alertType;
