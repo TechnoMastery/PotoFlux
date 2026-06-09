@@ -413,6 +413,25 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Please select a permission to run")
                 .fr("Veuillez sélectionner une permission à lancer");
 
+        addModsTab("name")
+                .en("Mods")
+                .fr("Mods");
+        addModsTab("title")
+                .en("All Mods listed")
+                .fr("Liste de tous les mods trouvés");
+        addModsTab("list", "fallback")
+                .en("No mods listed !")
+                .fr("Aucuns mods trouvés !");
+        addModsTab("list", "dep", "title")
+                .en("Dependencies:")
+                .fr("Dépendances :");
+        addModsTab("list", "dep", "loaded");
+        addModsTab("list", "dep", "failed");
+        addModsTab("list", "dep", "incompatible");
+        addModsTab("list", "dep", "depMissing");
+        addModsTab("list", "dep", "depVersion");
+        addModsTab("list", "dep", "circularDep");
+
         add("modUpdate", "query", "title")
                 .en("Mod update available")
                 .fr("Mise a jour de mod disponible");
@@ -526,5 +545,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
     }
     private TranslationBuilder addAccountTab(String... children) {
         return addTab("account", children);
+    }
+    private TranslationBuilder addModsTab(String... children) {
+        return addTab("mods", children);
     }
 }

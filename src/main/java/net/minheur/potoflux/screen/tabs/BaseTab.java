@@ -77,7 +77,7 @@ public abstract class BaseTab<T extends Pane> {
      * The name of the tab in the list displayed
      * @return the tab's name
      */
-    protected abstract String getName();
+    public abstract String getName();
     /**
      * Sets the graphic displayed in the tab list
      * @return the tab's icon

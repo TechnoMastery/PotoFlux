@@ -668,4 +668,7 @@ public class PotoFluxLoadingContext {
     public static List<String> getLoadedMods() {
         return loadedMods.keySet().stream().toList();
     }
+    public static List<ModContainer> getListedMods() {
+        return new ArrayList<>(listedMods); // safety copy
+    }
 }

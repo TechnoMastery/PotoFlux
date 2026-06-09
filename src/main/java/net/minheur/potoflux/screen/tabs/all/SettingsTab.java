@@ -246,7 +246,7 @@ public class SettingsTab extends BaseVTab<VBox> {
      * @return {@link #getTitle()}
      */
     @Override
-    protected String getName() {
+    public String getName() {
         return getTitle(); // same
     }
 
