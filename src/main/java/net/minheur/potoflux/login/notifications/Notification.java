@@ -2,6 +2,13 @@ package net.minheur.potoflux.login.notifications;
 
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
+import net.minheur.potoflux.Functions;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 public class Notification {
 
@@ -43,6 +50,11 @@ public class Notification {
         };
 
         return detail == null ? "No title !" : detail;
+    }
+
+    public String getFormattedDate() {
+        LocalDateTime dateTime = Functions.parseSqlDate(timestamp);
+        return dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
     }
 
     public long getId() {
