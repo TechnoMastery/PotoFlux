@@ -120,11 +120,11 @@ public class ModsTab extends BaseVTab<VBox> {
     private String formatState(ModState state) {
         return switch (state) {
             case LOADED -> "Loaded"; // todo
-            case FAILED -> "Failed";
-            case INCOMPATIBLE -> "Incompatible";
-            case MISSING_DEPENDENCIES -> "Missing dependencies";
-            case DEPENDENCY_WRONG_VERSION -> "Wrong dependency version";
-            case CIRCULAR -> "Circular dependency";
+            case FAILED -> "Failed"; // todo
+            case INCOMPATIBLE -> "Incompatible"; // todo
+            case MISSING_DEPENDENCIES -> "Missing dependencies"; // todo
+            case DEPENDENCY_WRONG_VERSION -> "Wrong dependency version"; // todo
+            case CIRCULAR -> "Circular dependency"; // todo
             default -> throw new IllegalStateException(
                     "Unexpected state in UI: " + state
             );
