@@ -19,7 +19,10 @@ public final class NotificationHandler {
     private static final List<Notification> notifications = new ArrayList<>();
 
     public static void load() {
-        if (!TokenHandler.has()) return;
+        if (!TokenHandler.has()) {
+            notifications.clear();
+            return;
+        }
 
         String content;
         try {
