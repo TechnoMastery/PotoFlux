@@ -3,6 +3,7 @@ package net.minheur.potoflux;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
+import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.close.ExitCode;
 
 import java.awt.*;
@@ -30,13 +31,6 @@ import java.util.jar.JarFile;
  * This class stores useful methods for all potoflux.
  */
 public class Functions {
-    private static final DateTimeFormatter DB_FORMAT =
-            new DateTimeFormatterBuilder()
-                    .appendPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
-                    .optionalStart()
-                    .appendFraction(ChronoField.NANO_OF_SECOND, 1, 6, true)
-                    .optionalEnd()
-                    .toFormatter();
 
     /**
      * This method is used to call exiting with a delay.
@@ -58,7 +52,7 @@ public class Functions {
     }
 
     public static LocalDateTime parseSqlDate(String timestamp) {
-        return LocalDateTime.parse(timestamp, DB_FORMAT);
+        return LocalDateTime.parse(timestamp);
     }
 
     /**
