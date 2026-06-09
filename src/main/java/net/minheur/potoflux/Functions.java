@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.util.Duration;
 import net.minheur.potoflux.utils.close.ExitCode;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +16,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -27,6 +30,14 @@ import java.util.jar.JarFile;
  * This class stores useful methods for all potoflux.
  */
 public class Functions {
+    private static final DateTimeFormatter DB_FORMAT =
+            new DateTimeFormatterBuilder()
+                    .appendPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")
+                    .optionalStart()
+                    .appendFraction(ChronoField.NANO_OF_SECOND, 1, 6, true)
+                    .optionalEnd()
+                    .toFormatter();
+
     /**
      * This method is used to call exiting with a delay.
      * @param delay amount of milliseconds before exiting
@@ -44,6 +55,10 @@ public class Functions {
         });
         pause.play();
 
+    }
+
+    public static LocalDateTime parseSqlDate(String timestamp) {
+        return LocalDateTime.parse(timestamp, DB_FORMAT);
     }
 
     /**
