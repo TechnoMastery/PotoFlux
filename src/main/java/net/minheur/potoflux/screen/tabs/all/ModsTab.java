@@ -23,13 +23,7 @@ public class ModsTab extends BaseVTab<VBox> {
     @Override
     protected void instantiate() {
         PANEL = new VBox();
-        entriesBox = new VBox(10);
-
-        scrollPane = new ScrollPane(entriesBox);
-        scrollPane.setFitToWidth(true);
-
-        scrollPane.setPrefHeight(Double.MAX_VALUE);
-        VBox.setVgrow(scrollPane, Priority.ALWAYS);
+        PANEL.setFillWidth(true);
     }
 
     @Override
@@ -44,7 +38,20 @@ public class ModsTab extends BaseVTab<VBox> {
 
     @Override
     protected void setPanel() {
-        vContent.getChildren().add(scrollPane);
+        vContent = new VBox(20);
+        vContent.setAlignment(Pos.TOP_CENTER);
+
+        Label title = mkTitle();
+
+        entriesBox = new VBox(10);
+
+        scrollPane = new ScrollPane(entriesBox);
+        scrollPane.setFitToWidth(true);
+
+        vContent.getChildren().addAll(title, scrollPane);
+        VBox.setVgrow(scrollPane, Priority.ALWAYS);
+
+        PANEL.getChildren().add(vContent);
 
         List<ModContainer> allMods = PotoFluxLoadingContext.getListedMods();
         if (!allMods.isEmpty()) for (ModContainer m : allMods)
@@ -137,4 +144,8 @@ public class ModsTab extends BaseVTab<VBox> {
         };
     }
 
+    @Override
+    protected boolean doPreset() {
+        return false;
+    }
 }
