@@ -47,6 +47,7 @@ public class Bootstrap {
     public static final RegisterMenuEvent menuEvent = new RegisterMenuEvent();
     public static final RegisterSettingEvent settingEvent = new RegisterSettingEvent();
     public static final RegisterNotifTypesEvent notificationTypesEvent = new RegisterNotifTypesEvent();
+    public static final RegisterStylesheetsEvent stylesheetsEvent = new RegisterStylesheetsEvent();
 
     public static final RegisterModEventsEvent modEventsEvent = new RegisterModEventsEvent();
 
@@ -129,6 +130,7 @@ public class Bootstrap {
             bus.post(menuEvent);
             bus.post(settingEvent);
             bus.post(notificationTypesEvent);
+            bus.post(stylesheetsEvent);
 
             bus.post(modEventsEvent); // register mod's posts last
         } catch (Throwable e) {
