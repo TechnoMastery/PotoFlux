@@ -89,7 +89,7 @@ public class NotificationCellFactory extends ListCell<Notification> {
 
     private void showPopup(Notification n) {
         UiUtils.showAlert(
-                n.getType().getAlertType(),
+                n.getType().detailsAlertType(),
                 n.buildDetail(),
                 n.buildTitle(),
                 n.buildMessage() + " - " + n.getFormattedDate(),
