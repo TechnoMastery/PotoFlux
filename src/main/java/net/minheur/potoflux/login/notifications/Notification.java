@@ -3,6 +3,7 @@ package net.minheur.potoflux.login.notifications;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minheur.potoflux.Functions;
+import net.minheur.potoflux.login.notifications.reg.NotifTypes;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

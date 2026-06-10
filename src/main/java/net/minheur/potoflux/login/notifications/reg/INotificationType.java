@@ -1,4 +1,4 @@
-package net.minheur.potoflux.login.notifications;
+package net.minheur.potoflux.login.notifications.reg;
 
 import javafx.scene.control.Alert;
 
