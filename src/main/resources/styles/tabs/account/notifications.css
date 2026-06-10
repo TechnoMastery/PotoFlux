@@ -1,0 +1,9 @@
+.notificationPane .notifType.red {
+    -fx-background-color: red;
+}
+.notificationPane .notifType.green {
+    -fx-background-color: green;
+}
+.notificationPane .notifType.yellow {
+    -fx-background-color: yellow;
+}

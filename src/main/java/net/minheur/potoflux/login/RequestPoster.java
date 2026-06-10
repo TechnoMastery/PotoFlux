@@ -407,6 +407,13 @@ public class RequestPoster {
         get(json, "logout");
     }
 
+    public static String getNotifications(String token) throws IOException, InvalidTokenException {
+        checkTokenFormat(token);
+
+        String json = getFormatForToken(token);
+        return get(json, "get_notifications");
+    }
+
     /**
      * Gets if the account self-creation is allowed
      * @return the database's response

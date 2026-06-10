@@ -36,7 +36,7 @@ public abstract class AbstractRegistry<T extends IRegistryType> {
      * @param item object to add to the reg
      * @return the item added
      */
-    protected T add(@NotNull T item) {
+    public T add(@NotNull T item) {
         if (closed.get()) throw new IllegalStateException("Can't add item to closed reg !");
         if (REGISTRY.containsKey(item.id())) throw new IllegalArgumentException("This tab is already added: " + item.id());
         return REGISTRY.put(item.id(), item);

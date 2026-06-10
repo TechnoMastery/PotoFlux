@@ -10,6 +10,7 @@ import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.login.notifications.reg.NotifTypes;
 import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
@@ -41,6 +42,7 @@ public class Bootstrap {
     public static final RegisterRunsEvent runEvent = new RegisterRunsEvent();
     public static final RegisterMenuEvent menuEvent = new RegisterMenuEvent();
     public static final RegisterSettingEvent settingEvent = new RegisterSettingEvent();
+    public static final RegisterNotifTypesEvent notificationTypesEvent = new RegisterNotifTypesEvent();
 
     /**
      * It will first check for args, then enable devEnv if args contains it.<br>
@@ -102,6 +104,7 @@ public class Bootstrap {
         bus.addListener(ActionRuns::register);
         bus.addListener(MenuContent::register);
         bus.addListener(Settings::register);
+        bus.addListener(NotifTypes::register);
 
         // load all addons
         updateText.accept("Loading addons...");
@@ -119,6 +122,7 @@ public class Bootstrap {
             bus.post(runEvent);
             bus.post(menuEvent);
             bus.post(settingEvent);
+            bus.post(notificationTypesEvent);
         } catch (Throwable e) {
             throw new EventPostException(e);
         }

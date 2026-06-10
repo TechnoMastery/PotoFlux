@@ -4,22 +4,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.login.CreateAccountHandler;
+import net.minheur.potoflux.login.notifications.Notification;
+import net.minheur.potoflux.login.notifications.NotificationCellFactory;
+import net.minheur.potoflux.login.notifications.NotificationHandler;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 import static net.minheur.potoflux.login.ConnectionHandler.*;
@@ -27,7 +29,7 @@ import static net.minheur.potoflux.login.ConnectionHandler.*;
 /**
  * Tab class for account tab
  */
-public class AccountTab extends BaseVTab<StackPane> {
+public class AccountTab extends BaseVTab<ScrollPane> {
 
     /**
      * Title of the tab
@@ -69,6 +71,10 @@ public class AccountTab extends BaseVTab<StackPane> {
      */
     private Button createAccountButton;
 
+    private VBox notificationPane;
+    private ListView<Notification> notificationList;
+    private ObservableList<Notification> notificationModel;
+
     /**
      * Create and add all components to the panel
      */
@@ -93,11 +99,20 @@ public class AccountTab extends BaseVTab<StackPane> {
      */
     @Override
     protected void instantiate() {
-        PANEL = new StackPane();
-        vContent = new VBox(10);
-        vContent.setPadding(new Insets(30, 0, 0, 0));
+        PANEL = new ScrollPane();
+        PANEL.setFitToWidth(true);
+        PANEL.setFitToHeight(true);
 
-        PANEL.getChildren().add(vContent);
+        PANEL.setPannable(true);
+
+        PANEL.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        PANEL.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+        vContent = new VBox(10);
+        vContent.setPadding(new Insets(30, 20, 30, 20));
+        vContent.setMinHeight(Region.USE_PREF_SIZE);
+
+        PANEL.setContent(vContent);
     }
 
     /**
@@ -122,6 +137,28 @@ public class AccountTab extends BaseVTab<StackPane> {
         authButton = new Button();
         createAccountButton = new Button(Translations.get("potoflux:tabs.account.createAccount.button"));
 
+        notificationModel = FXCollections.observableArrayList();
+        notificationList = new ListView<>(notificationModel);
+        notificationList.setFocusTraversable(false);
+
+        notificationList.setCellFactory(list -> new NotificationCellFactory());
+
+        notificationPane = new VBox(5);
+        notificationPane.getChildren().addAll(
+                new Label("Notifications"), // todo
+                notificationList
+        );
+
+        notificationPane.getStylesheets().add(
+                Objects.requireNonNull(
+                        getClass().getResource("/styles/tabs/account/notifications.css")
+                ).toExternalForm()
+        );
+        notificationPane.getStyleClass().add("notificationPane");
+
+        notificationPane.setMaxHeight(350);
+        notificationPane.setAlignment(Pos.CENTER);
+
         vContent.setAlignment(Pos.TOP_CENTER);
     }
 
@@ -134,7 +171,8 @@ public class AccountTab extends BaseVTab<StackPane> {
                 emailLabel,
                 permsPanel,
                 authButton,
-                createAccountButton
+                createAccountButton,
+                notificationPane
         );
     }
 
@@ -178,6 +216,15 @@ public class AccountTab extends BaseVTab<StackPane> {
         updateEmail();
         updatePerms();
         updateButton();
+        refillNotifs();
+    }
+
+    private void refillNotifs() {
+        notificationModel.clear();
+        NotificationHandler.load();
+        notificationModel.addAll(
+                NotificationHandler.getNotifications()
+        );
     }
 
     /**

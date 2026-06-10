@@ -5,6 +5,7 @@ import net.minheur.potoflux.actionRuns.regs.ActionRunRunnable;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterRunsEvent;
 import net.minheur.potoflux.login.ConnectionHandler;
+import net.minheur.potoflux.login.notifications.NotificationHandler;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.utils.SmartSupplier;
 
@@ -45,6 +46,7 @@ public class ActionRuns {
      */
     public static final SmartSupplier<ActionRun> CONNECT_TOKEN = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("connect_token"), ActionRunRunnable::connectToken));
     public static final SmartSupplier<ActionRun> CHECK_ALLOW_ACCOUNT_CREATION = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("check_allow_account_creation"), ConnectionHandler::reloadAccountCreationPermission));
+    public static final SmartSupplier<ActionRun> INIT_NOTIFICATIONS = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("init_notifications"), NotificationHandler::load));
 
     // close
     /**
