@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * This is the main class which handles the loading of potoflux and all mods related compounds
  */
-public class PotoFluxLoadingContext {
+public final class PotoFluxLoadingContext {
     /**
      * This unique instance of this class.<br>
      * Used to instance things that should only exist once.
