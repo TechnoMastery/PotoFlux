@@ -284,7 +284,7 @@ public class ConnectionHandler {
         ((AccountMenu) MenuContent.ACCOUNT.get().content()).reload();
     }
     /**
-     * If not already so, remove the online & local token, then clears {@link #account} and set {@link #isLogged} to {@code false}
+     * If not already so, remove the online and local token, then clears {@link #account} and set {@link #isLogged} to {@code false}
      */
     public static void logout() {
        if (!isLogged) return;
