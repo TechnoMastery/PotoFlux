@@ -8,6 +8,8 @@ plugins {
 group = "net.minheur"
 version = "7.0"
 
+def javafxversion = "17.0.10"
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
@@ -46,6 +48,9 @@ repositories {
 }
 
 dependencies {
+    implementation "org.openjfx:javafx-controls:$javafxversion"
+    implementation "org.openjfx:javafx-graphics:$javafxversion"
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
@@ -114,9 +119,15 @@ tasks.register("prepMsi") {
     group = "potoflux"
     description = "Prepare for MSI package"
 
-    dependsOn("copyLibs", "copyJar")
+    dependsOn("copyLibs", "copyJar", "copyJfx")
 
     finalizedBy("msiPackage")
+}
+
+tasks.register("copyJfx", Copy) {
+    from configurations.runtimeClasspath
+    include "javafx-*.jar"
+    into "$buildDir/libs/build/lib/"
 }
 
 tasks.named("run", JavaExec) {
@@ -158,6 +169,8 @@ tasks.register("msiPackage") {
             "--name", "PotoFlux",
             "--main-jar", "$buildDir/libs/build/PotoFlux-$version" + ".jar",
             "--main-class", "net.minheur.potoflux.PotoFlux",
+            "--module-path", configurations.runtimeClasspath.asPath,
+            "--add-modules", "javafx.controls,javafx.graphics",
             "--type", "msi",
             "--dest", "$buildDir/libs/output",
             "--win-dir-chooser",
