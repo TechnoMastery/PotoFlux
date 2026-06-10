@@ -258,5 +258,8 @@ public class AddonLoader {
     public static List<String> getAvailableClasses() {
         return availableClasses;
     }
+    public static boolean isClassAvailable(String path) {
+        return availableClasses.contains(path);
+    }
 }
 
