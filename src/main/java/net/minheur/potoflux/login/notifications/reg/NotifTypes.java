@@ -10,7 +10,7 @@ import java.util.function.Function;
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
 public enum NotifTypes implements INotificationType {
-    BASIC("base", Alert.AlertType.INFORMATION, obj -> {
+    BASIC("base", obj -> Alert.AlertType.INFORMATION, obj -> {
         JsonElement e = obj.get("title");
         if (e == null) return "No title !";
         else return e.getAsString();
@@ -22,10 +22,12 @@ public enum NotifTypes implements INotificationType {
         JsonElement e = obj.get("details");
         if (e == null) return "No details !";
         else return e.getAsString();
-    }, obj -> "green");
+    }, obj -> "green")
+
+    FULL_MANUAL("manual", );
 
     private final String sqlCode;
-    private final Alert.AlertType alertType;
+    private final Function<JsonObject, Alert.AlertType> alertType;
 
     private final Function<JsonObject, String> title;
     private final Function<JsonObject, String> message;
@@ -33,7 +35,7 @@ public enum NotifTypes implements INotificationType {
 
     private final Function<JsonObject, String> typeBarColorClass;
 
-    NotifTypes(String sqlCode, Alert.AlertType alertType, Function<JsonObject, String> title, Function<JsonObject, String> message, Function<JsonObject, String> details, Function<JsonObject, String> typeBarColorClass) {
+    NotifTypes(String sqlCode, Function<JsonObject, Alert.AlertType> alertType, Function<JsonObject, String> title, Function<JsonObject, String> message, Function<JsonObject, String> details, Function<JsonObject, String> typeBarColorClass) {
         this.sqlCode = sqlCode;
         this.alertType = alertType;
 
@@ -49,8 +51,8 @@ public enum NotifTypes implements INotificationType {
         return sqlCode;
     }
     @Override
-    public Alert.AlertType detailsAlertType() {
-        return alertType;
+    public Alert.AlertType detailsAlertType(JsonObject obj) {
+        return alertType.apply(obj);
     }
 
     @Override

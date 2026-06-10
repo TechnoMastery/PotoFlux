@@ -2,6 +2,7 @@ package net.minheur.potoflux.login.notifications;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import javafx.scene.control.Alert;
 import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
@@ -64,6 +65,11 @@ public class Notification {
     public String buildDetail() {
         String detail = type.buildDetails(messageObj);
         return detail == null ? "No details !" : detail;
+    }
+
+    public Alert.AlertType detailsAlertType() {
+        Alert.AlertType type = this.type.detailsAlertType(messageObj);
+        return type == null ? Alert.AlertType.INFORMATION : type;
     }
 
     public String getFormattedDate() {
