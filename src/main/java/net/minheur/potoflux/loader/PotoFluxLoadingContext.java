@@ -580,7 +580,7 @@ public final class PotoFluxLoadingContext {
             for (String depId : mod.externalDependencies()) {
                 if (AddonLoader.isClassAvailable(depId)) continue;
 
-                entry.state = ModState.FAILED; // todo: custom type
+                entry.state = ModState.FAILED;
                 ModErrorReg.add(new LoadModError(mod, entry.state));
                 return LoadResult.FAILED;
 
