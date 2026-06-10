@@ -1,6 +1,9 @@
 package net.minheur.potoflux.login.notifications.reg;
 
 import javafx.scene.control.Alert;
+import net.minheur.potoflux.loader.mod.events.RegisterNotifTypesEvent;
+
+import static net.minheur.potoflux.PotoFlux.fromModId;
 
 public enum NotifTypes implements INotificationType {
     BASIC("base", Alert.AlertType.INFORMATION);
@@ -26,5 +29,12 @@ public enum NotifTypes implements INotificationType {
         for (NotifTypes t : NotifTypes.values())
             if (t.sqlCode.equals(sqlCode)) return t;
         return BASIC;
+    }
+
+    public static void register(RegisterNotifTypesEvent event) {
+        event.reg.add(new NotificationType(
+                fromModId("notifTypes"),
+                NotifTypes.class
+        ));
     }
 }
