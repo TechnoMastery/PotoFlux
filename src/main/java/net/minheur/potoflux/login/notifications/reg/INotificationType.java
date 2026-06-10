@@ -7,7 +7,8 @@ public interface INotificationType {
     String getSqlCode();
     Alert.AlertType detailsAlertType();
 
-    String buildTitle(JsonObject message);
-    String buildMessage(JsonObject message);
-    String buildDetails(JsonObject message);
+    String buildTitle(JsonObject obj);
+    String buildMessage(JsonObject obj);
+    String buildDetails(JsonObject obj);
+    String typeBarColorClass(JsonObject obj);
 }

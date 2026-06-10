@@ -71,8 +71,9 @@ public class Notification {
         return dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
     }
 
-    public String getTypeColor() {
-        return "red";
+    public String getTypeColorClass() {
+        String colorClass = type.typeBarColorClass(messageObj);
+        return colorClass == null ? "red" : colorClass;
     }
 
     public long getId() {

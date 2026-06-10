@@ -22,7 +22,7 @@ public enum NotifTypes implements INotificationType {
         JsonElement e = obj.get("details");
         if (e == null) return "No details !";
         else return e.getAsString();
-    });
+    }, obj -> "green");
 
     private final String sqlCode;
     private final Alert.AlertType alertType;
@@ -31,13 +31,17 @@ public enum NotifTypes implements INotificationType {
     private final Function<JsonObject, String> message;
     private final Function<JsonObject, String> details;
 
-    NotifTypes(String sqlCode, Alert.AlertType alertType, Function<JsonObject, String> title, Function<JsonObject, String> message, Function<JsonObject, String> details) {
+    private final Function<JsonObject, String> typeBarColorClass;
+
+    NotifTypes(String sqlCode, Alert.AlertType alertType, Function<JsonObject, String> title, Function<JsonObject, String> message, Function<JsonObject, String> details, Function<JsonObject, String> typeBarColorClass) {
         this.sqlCode = sqlCode;
         this.alertType = alertType;
 
         this.title = title;
         this.message = message;
         this.details = details;
+
+        this.typeBarColorClass = typeBarColorClass;
     }
 
     @Override
@@ -60,6 +64,11 @@ public enum NotifTypes implements INotificationType {
     @Override
     public String buildDetails(JsonObject obj) {
         return details.apply(obj);
+    }
+
+    @Override
+    public String typeBarColorClass(JsonObject obj) {
+        return typeBarColorClass.apply(obj);
     }
 
     public static void register(RegisterNotifTypesEvent event) {
