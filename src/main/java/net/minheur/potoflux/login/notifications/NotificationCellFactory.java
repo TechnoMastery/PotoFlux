@@ -1,16 +1,16 @@
 package net.minheur.potoflux.login.notifications;
 
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.*;
 import net.minheur.potoflux.ui.UiUtils;
 
 public class NotificationCellFactory extends ListCell<Notification> {
 
+    private final BorderPane root;
     private final GridPane grid;
 
     private final Label title;
@@ -53,6 +53,16 @@ public class NotificationCellFactory extends ListCell<Notification> {
         grid.add(expandBtn, 0, 2);
         grid.add(date, 1, 2);
 
+        Region typeBar = new Region();
+        typeBar.setPrefWidth(5);
+        typeBar.setStyle("-fx-background-color: red;");
+
+        this.root = new BorderPane();
+        root.setCenter(grid);
+        root.setRight(typeBar);
+
+        BorderPane.setMargin(grid, new Insets(0, 5, 10, 0));
+
     }
 
     @Override
@@ -69,7 +79,7 @@ public class NotificationCellFactory extends ListCell<Notification> {
         String formattedDate = item.getFormattedDate();
         date.setText(formattedDate == null ? "" : formattedDate);
 
-        setGraphic(grid);
+        setGraphic(root);
     }
 
     private void showPopup(Notification n) {
