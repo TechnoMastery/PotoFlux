@@ -21,6 +21,8 @@ import static net.minheur.potoflux.loader.PotoFluxLoadingContext.*;
 
 public class AddonLoader {
 
+    private static final List<String> availableClasses = new ArrayList<>();
+
     private ClassLoader normalClassLoader;
     private Set<Class<?>> addons;
 
@@ -199,6 +201,8 @@ public class AddonLoader {
 
                         String className = getClassName(entry);
 
+                        availableClasses.add(className);
+
                         try {
                             // turn to class
                             Class<?> clazz = getClassForName(className);
@@ -249,6 +253,10 @@ public class AddonLoader {
         return entry.getName()
                 .replace('/', '.')
                 .replace(".class", "");
+    }
+
+    public static List<String> getAvailableClasses() {
+        return availableClasses;
     }
 }
 
