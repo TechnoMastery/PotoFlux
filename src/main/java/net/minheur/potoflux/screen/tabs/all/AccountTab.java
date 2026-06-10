@@ -18,6 +18,7 @@ import net.minheur.potoflux.login.notifications.NotificationHandler;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.ui.UiUtils;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -220,6 +221,9 @@ public class AccountTab extends BaseVTab<ScrollPane> {
         notificationModel.addAll(
                 NotificationHandler.getNotifications()
         );
+
+        if (isLogged) UiUtils.showNode(notificationPane);
+        else UiUtils.hideNode(notificationPane);
     }
 
     /**
@@ -253,13 +257,14 @@ public class AccountTab extends BaseVTab<ScrollPane> {
         permsModel.clear();
 
         if (isLogged) {
-            permsPanel.setVisible(account.perms.length > 0);
+            if (account.perms.length > 0) UiUtils.showNode(permsPanel);
+            else UiUtils.hideNode(permsPanel);
 
             for (Perms perm : Perms.values())
                 if (Arrays.asList(account.perms).contains(perm))
                     permsModel.add(perm);
         }
-        else permsPanel.setVisible(false);
+        else UiUtils.hideNode(permsPanel);
     }
 
     /**
