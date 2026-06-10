@@ -21,6 +21,8 @@ public class NotificationCellFactory extends ListCell<Notification> {
     private final Button closeBtn;
     private final Button expandBtn;
 
+    private final Region typeBar;
+
     public NotificationCellFactory() {
 
         ColumnConstraints col1 = new ColumnConstraints();
@@ -55,9 +57,8 @@ public class NotificationCellFactory extends ListCell<Notification> {
         grid.add(expandBtn, 0, 2);
         grid.add(date, 1, 2);
 
-        Region typeBar = new Region();
+        this.typeBar = new Region();
         typeBar.setPrefWidth(5);
-        typeBar.getStyleClass().addAll("notifType", "red");
 
         this.root = new BorderPane();
         root.setCenter(grid);
@@ -80,6 +81,8 @@ public class NotificationCellFactory extends ListCell<Notification> {
         message.setText(item.buildMessage());
         String formattedDate = item.getFormattedDate();
         date.setText(formattedDate == null ? "" : formattedDate);
+
+        typeBar.getStyleClass().addAll("notifType", item.getTypeColor());
 
         setGraphic(root);
     }

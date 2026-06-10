@@ -51,6 +51,10 @@ public class Notification {
         return dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
     }
 
+    public String getTypeColor() {
+        return "red";
+    }
+
     public long getId() {
         return id;
     }
