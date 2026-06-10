@@ -3,6 +3,7 @@ package net.minheur.potoflux.login.notifications;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minheur.potoflux.Functions;
+import net.minheur.potoflux.login.notifications.reg.INotificationType;
 import net.minheur.potoflux.login.notifications.reg.NotifTypes;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ public class Notification {
     private final JsonObject messageObj;
     private final String timestamp;
 
-    private final transient NotifTypes type;
+    private final transient INotificationType type;
 
     public Notification(long id, JsonObject messageObj, String timestamp) {
         this.id = id;
@@ -28,24 +29,15 @@ public class Notification {
     }
 
     public String buildTitle() {
-        String title = switch (type) {
-            case BASIC -> messageObj.get("title").getAsString();
-        };
-
+        String title = type.buildTitle(messageObj);
         return title == null ? "No title !" : title;
     }
     public String buildMessage() {
-        String message = switch (type) {
-            case BASIC -> messageObj.get("msg").getAsString();
-        };
-
+        String message = type.buildMessage(messageObj);
         return message == null ? "No message !" : message;
     }
     public String buildDetail() {
-        String detail = switch (type) {
-            case BASIC -> messageObj.get("details").getAsString();
-        };
-
+        String detail = type.buildDetails(messageObj);
         return detail == null ? "No details !" : detail;
     }
 
@@ -67,7 +59,7 @@ public class Notification {
     public String getTimestamp() {
         return timestamp;
     }
-    public NotifTypes getType() {
+    public INotificationType getType() {
         return type;
     }
 }
