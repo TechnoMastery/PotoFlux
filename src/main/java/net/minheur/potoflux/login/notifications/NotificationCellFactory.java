@@ -57,7 +57,7 @@ public class NotificationCellFactory extends ListCell<Notification> {
 
         Region typeBar = new Region();
         typeBar.setPrefWidth(5);
-        typeBar.setStyle("-fx-background-color: red;");
+        typeBar.getStyleClass().addAll("notifType", "red");
 
         this.root = new BorderPane();
         root.setCenter(grid);

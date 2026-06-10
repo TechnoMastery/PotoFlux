@@ -21,6 +21,7 @@ import net.minheur.potoflux.translations.Translations;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 import static net.minheur.potoflux.login.ConnectionHandler.*;
@@ -147,6 +148,13 @@ public class AccountTab extends BaseVTab<ScrollPane> {
                 new Label("Notifications"), // todo
                 notificationList
         );
+
+        notificationPane.getStylesheets().add(
+                Objects.requireNonNull(
+                        getClass().getResource("/styles/tabs/account/notifications.css")
+                ).toExternalForm()
+        );
+        notificationPane.getStyleClass().add("notificationPane");
 
         notificationPane.setMaxHeight(350);
         notificationPane.setAlignment(Pos.CENTER);
