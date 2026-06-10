@@ -2,12 +2,17 @@ package net.minheur.potoflux.login.notifications;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.Functions;
+import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.notifications.reg.INotificationType;
 import net.minheur.potoflux.login.notifications.reg.NotifTypes;
+import net.minheur.potoflux.login.notifications.reg.NotificationType;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.List;
 
 public class Notification {
 
@@ -25,7 +30,27 @@ public class Notification {
         JsonElement e = messageObj.get("type");
         if (e == null) type = NotifTypes.BASIC;
         else if (e.getAsString() == null) this.type = NotifTypes.BASIC;
-        else this.type = NotifTypes.getFromCode(e.getAsString());
+        else {
+            INotificationType tempType = NotifTypes.BASIC;
+            List<NotificationType> notifTypes = Bootstrap.notificationTypesEvent.reg.getAll()
+                    .stream()
+                    .sorted(Comparator.comparing(
+                            typeClass -> !typeClass.id().getNamespace().equals(PotoFlux.ID)
+                    )).toList();
+
+            for (NotificationType t : notifTypes) {
+                boolean found = false;
+                if (!t.clazz().isEnum()) continue;
+                for (INotificationType notif : t.clazz().getEnumConstants())
+                    if (notif.getSqlCode().equals(e.getAsString())) {
+                        tempType = notif;
+                        found = true;
+                        break;
+                    }
+                if (found) break;
+            }
+            this.type = tempType;
+        }
     }
 
     public String buildTitle() {

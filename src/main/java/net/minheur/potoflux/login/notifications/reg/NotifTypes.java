@@ -62,11 +62,6 @@ public enum NotifTypes implements INotificationType {
         return details.apply(obj);
     }
 
-    public static NotifTypes getFromCode(String sqlCode) {
-        for (NotifTypes t : NotifTypes.values())
-            if (t.sqlCode.equals(sqlCode)) return t;
-        return BASIC;
-    }
     public static void register(RegisterNotifTypesEvent event) {
         event.reg.add(new NotificationType(
                 fromModId("notifTypes"),
