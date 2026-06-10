@@ -171,16 +171,14 @@ public class AccountDetailsDialog extends Dialog<Void> {
                 super.updateItem(item, empty);
 
                 if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
+                    setDisable(false);
                     return;
                 }
 
                 LockableField<BooleanProperty> field = selectedPermMap.get(item);
-                ((CheckBox) getGraphic()).selectedProperty().bindBidirectional(field.get());
-                getGraphic().setDisable(field.getIsLocked());
-            }
 
+                setDisable(field.getIsLocked());
+            }
         });
 
         permsList.setFocusTraversable(true);
