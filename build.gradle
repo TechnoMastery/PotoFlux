@@ -163,13 +163,17 @@ tasks.register("msiPackage") {
     description = "build as msi installer"
 
     doLast {
+        def jfx = configurations.runtimeClasspath.filter  {
+            it.name.startsWith("javafx-")
+        }.asPath
+
         exec {
             commandLine "jpackage",
             "--input", "$buildDir/libs/build",
             "--name", "PotoFlux",
-            "--main-jar", "$buildDir/libs/build/PotoFlux-$version" + ".jar",
+            "--main-jar", "PotoFlux-$version" + ".jar",
             "--main-class", "net.minheur.potoflux.PotoFlux",
-            "--module-path", configurations.runtimeClasspath.asPath,
+            "--module-path", jfx,
             "--add-modules", "javafx.controls,javafx.graphics",
             "--type", "msi",
             "--dest", "$buildDir/libs/output",

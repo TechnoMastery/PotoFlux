@@ -7,9 +7,13 @@ import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import org.jetbrains.annotations.Nullable;
 
-import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
-import java.net.URL;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.UUID;
 
 /**
@@ -37,34 +41,59 @@ public class RequestPoster {
      */
     private static String get(String message, String method) throws IOException {
 
-        URL url = new URL(address + method);
-        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+        HttpClient client = HttpClient.newHttpClient();
 
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("apikey", anonKey);
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setRequestProperty("Authorization", "Bearer " + anonKey);
-        conn.setDoOutput(true);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(address + method))
+                .timeout(Duration.ofSeconds(10))
+                .header("apikey", anonKey)
+                .header("Authorization", "Bearer " + anonKey)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(message, StandardCharsets.UTF_8))
+                .build();
 
-        try (OutputStream os = conn.getOutputStream()) {
-            os.write(message.getBytes());
+        // URL url = new URL(address + method);
+        // HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+
+        // conn.setRequestMethod("POST");
+        // conn.setRequestProperty("apikey", anonKey);
+        // conn.setRequestProperty("Content-Type", "application/json");
+        // conn.setRequestProperty("Authorization", "Bearer " + anonKey);
+        // conn.setRequestProperty("Accept", "application/json");
+        // conn.setRequestProperty("Connection", "keep-alive");
+        // conn.setDoOutput(true);
+
+        // byte[] body = message.getBytes(StandardCharsets.UTF_8);
+        // conn.setRequestProperty("Content-Length", String.valueOf(body.length));
+
+        // try (OutputStream os = conn.getOutputStream()) {
+        //     os.write(body);
+        //     os.flush();
+        // }
+
+        try {
+            HttpResponse<String> response =
+                    client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return response.body();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException(e);
         }
 
-        InputStream is;
+        // InputStream is;
+        // if (conn.getResponseCode() >= 200 && conn.getResponseCode() < 300)
+        //     is = conn.getInputStream();
+        // else
+        //     is = conn.getErrorStream();
+        // BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        // StringBuilder response = new StringBuilder();
+        // String line;
 
-        if (conn.getResponseCode() >= 200 && conn.getResponseCode() < 300)
-            is = conn.getInputStream();
-        else
-            is = conn.getErrorStream();
+        // while ((line = br.readLine()) != null)
+        //     response.append(line);
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        StringBuilder response = new StringBuilder();
-        String line;
-
-        while ((line = br.readLine()) != null)
-            response.append(line);
-
-        return response.toString();
+        // return response.toString();
 
     }
 
@@ -423,4 +452,16 @@ public class RequestPoster {
         return get("{}", "is_account_creation_enabled");
     }
 
+    public static void warmupTls() {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://rkujwtknzfbyocjrrpbi.supabase.co"))
+                    .timeout(Duration.ofSeconds(3))
+                    .GET()
+                    .build();
+            client.send(request, HttpResponse.BodyHandlers.discarding());
+        } catch (Exception ignored) {}
+    }
 }
