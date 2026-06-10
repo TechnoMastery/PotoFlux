@@ -43,4 +43,5 @@ public @interface Mod {
      * @return an array of dependencies mods
      */
     String[] dependenciesIds() default {};
+    String[] externalDependencies() default {};
 }

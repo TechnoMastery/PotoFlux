@@ -575,6 +575,17 @@ public final class PotoFluxLoadingContext {
 
         }
 
+        // check external deps
+        if (!isDevEnv) // skip if dev env
+            for (String depId : mod.externalDependencies()) {
+                if (AddonLoader.isClassAvailable(depId)) continue;
+
+                entry.state = ModState.FAILED;
+                ModErrorReg.add(new LoadModError(mod, entry.state));
+                return LoadResult.FAILED;
+
+            }
+
         try { // try to create mod
 
             Object instance = entry.clazz.getDeclaredConstructor().newInstance();
