@@ -54,9 +54,20 @@ public final class NotificationHandler {
 
         List<Notification> notifs = new ArrayList<>();
 
-        for (JsonObject notifObj : response.notifications) {
-            Notification notif = Json.GSON.fromJson(notifObj, Notification.class);
-            notifs.add(notif);
+        for (JsonObject obj : response.notifications) {
+            if (!obj.has("id")
+                    || !obj.has("message")
+                    || !obj.has("created_at")) {
+                continue;
+            }
+            try {
+                Notification notif = new Notification(
+                        obj.get("id").getAsLong(),
+                        obj.get("message").getAsJsonObject(),
+                        obj.get("created_at").getAsString()
+                );
+                notifs.add(notif);
+            } catch (IllegalStateException | NumberFormatException ignored) {}
         }
 
         notifications.clear();
