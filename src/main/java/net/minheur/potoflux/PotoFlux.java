@@ -9,6 +9,7 @@ import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.actionRuns.regs.CloseRunRegistry;
 import net.minheur.potoflux.actionRuns.regs.StartUiRunRegistry;
 import net.minheur.potoflux.loader.SingleInstanceHandler;
+import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.login.RequestPoster;
 import net.minheur.potoflux.screen.FXLoadingScreen;

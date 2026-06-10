@@ -163,7 +163,7 @@ tasks.register("msiPackage") {
     description = "build as msi installer"
 
     doLast {
-        def jfx = configurations.runtimeClasspath.filter  {
+        def jfx = configurations.runtimeClasspath.filter {
             it.name.startsWith("javafx-")
         }.asPath
 
@@ -173,15 +173,21 @@ tasks.register("msiPackage") {
             "--name", "PotoFlux",
             "--main-jar", "PotoFlux-$version" + ".jar",
             "--main-class", "net.minheur.potoflux.PotoFlux",
-            "--module-path", jfx,
-            "--add-modules", "javafx.controls,javafx.graphics",
+
+            // "--class-path", "lib/*",
+            // "--module-path", configurations.runtimeClasspath.filter { it.name.startsWith("javafx") }.asPath,
+            // "--add-modules", "javafx.controls,javafx.graphics",
+
             "--type", "msi",
             "--dest", "$buildDir/libs/output",
+
+            "--java-options", "--module-path=lib --add-modules javafx.controls,javafx.graphics -Xmx512m",
+
             "--win-dir-chooser",
             "--install-dir", "TechnoMastery/PotoFlux",
             "--win-shortcut",
             "--win-menu",
-            "--java-options", "-Xmx512m",
+
             "--app-version", "$version",
             "--icon", "$buildDir/libs/main.ico",
             "--win-upgrade-uuid", "5536eb5f-55c0-408d-b034-677536a3a078"
