@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "net.minheur"
-version = "6.12"
+version = "7.0"
 
 java {
     toolchain {
