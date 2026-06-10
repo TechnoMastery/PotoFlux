@@ -8,6 +8,8 @@ import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.*;
+import net.minheur.potoflux.loader.mod.post.ModEvent;
+import net.minheur.potoflux.loader.mod.post.ModEventsRegistry;
 import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.notifications.reg.NotifTypes;
@@ -27,6 +29,7 @@ import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.close.EventPostException;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
@@ -37,12 +40,15 @@ public class Bootstrap {
     private static final AtomicBoolean built = new AtomicBoolean(false);
 
     public static final RegisterLangEvent langEvent = new RegisterLangEvent();
+
     public static final RegisterTabsEvent tabEvent = new RegisterTabsEvent();
     public static final RegisterCommandsEvent commandEvent = new RegisterCommandsEvent();
     public static final RegisterRunsEvent runEvent = new RegisterRunsEvent();
     public static final RegisterMenuEvent menuEvent = new RegisterMenuEvent();
     public static final RegisterSettingEvent settingEvent = new RegisterSettingEvent();
     public static final RegisterNotifTypesEvent notificationTypesEvent = new RegisterNotifTypesEvent();
+
+    public static final RegisterModEventsEvent modEventsEvent = new RegisterModEventsEvent();
 
     /**
      * It will first check for args, then enable devEnv if args contains it.<br>
@@ -123,8 +129,19 @@ public class Bootstrap {
             bus.post(menuEvent);
             bus.post(settingEvent);
             bus.post(notificationTypesEvent);
+
+            bus.post(modEventsEvent); // register mod's posts last
         } catch (Throwable e) {
             throw new EventPostException(e);
+        }
+
+        // post all event created by mods
+        List<ModEvent> modEventsList = modEventsEvent.reg.getAll().stream().toList();
+        try {
+            for (ModEvent modEvent : modEventsList)
+                bus.post(modEvent.event());
+        } catch (Throwable e) {
+            throw new EventPostException("Failed while running mod's event posting !", e);
         }
 
         // run all start logic runs
