@@ -19,6 +19,7 @@ import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
+import net.minheur.potoflux.styles.PtfStylesheets;
 import net.minheur.potoflux.terminal.commands.Commands;
 import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
@@ -112,6 +113,7 @@ public class Bootstrap {
         bus.addListener(MenuContent::register);
         bus.addListener(Settings::register);
         bus.addListener(NotifTypes::register);
+        bus.addListener(PtfStylesheets::register);
 
         // load all addons
         updateText.accept("Loading addons...");
