@@ -17,6 +17,7 @@ import net.minheur.potoflux.screen.tabs.TabSides;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.settings.UserPrefsManager;
+import net.minheur.potoflux.styles.StylesheetEntry;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
 import org.jetbrains.annotations.NotNull;
@@ -32,6 +33,7 @@ public class FXPotoScreen {
      * Actual screen
      */
     private final Stage stage;
+    private final Scene scene;
     /**
      * Potoflux's menu
      */
@@ -57,6 +59,8 @@ public class FXPotoScreen {
         this.stage = stage;
 
         BorderPane root = new BorderPane();
+        this.scene = new Scene(root, 854, 512);
+        addStyles();
 
         setupStage();
         addIcon();
@@ -66,7 +70,6 @@ public class FXPotoScreen {
         root.setTop(menu);
         root.setCenter(tabs);
 
-        Scene scene = new Scene(root, 854, 512);
         this.stage.setScene(scene);
         this.stage.show();
     }
@@ -152,6 +155,21 @@ public class FXPotoScreen {
 
         boolean isResizable = OptionalFeaturesManager.getBoolean("resizableWindow", false);
         stage.setResizable(isResizable);
+    }
+
+    private void addStyles() {
+        List<StylesheetEntry> entries = Bootstrap.stylesheetsEvent.reg.getAll()
+                .stream()
+                .sorted(Comparator.comparing(
+                        stylesheet -> !stylesheet.id().getNamespace().equals(PotoFlux.ID)
+                )).toList();
+
+        scene.getStylesheets().clear();
+        scene.getStylesheets().addAll(
+                entries.stream().map(
+                        StylesheetEntry::stylesheetDir
+                ).toList()
+        );
     }
 
     /**

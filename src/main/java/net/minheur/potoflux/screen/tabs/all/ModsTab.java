@@ -46,11 +46,6 @@ public class ModsTab extends BaseVTab<VBox> {
         Label title = mkTitle();
 
         entriesBox = new VBox(10);
-        entriesBox.getStylesheets().add(
-                Objects.requireNonNull(
-                        getClass().getResource("/styles/tabs/mods/listEntry.css")
-                ).toExternalForm()
-        );
         entriesBox.getStyleClass().add("modEntries");
 
         scrollPane = new ScrollPane(entriesBox);
