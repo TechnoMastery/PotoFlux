@@ -149,11 +149,6 @@ public class AccountTab extends BaseVTab<ScrollPane> {
                 notificationList
         );
 
-        notificationPane.getStylesheets().add(
-                Objects.requireNonNull(
-                        getClass().getResource("/styles/tabs/account/notifications.css")
-                ).toExternalForm()
-        );
         notificationPane.getStyleClass().add("notificationPane");
 
         notificationPane.setMaxHeight(350);
