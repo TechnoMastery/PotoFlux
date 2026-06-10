@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import net.minheur.potoflux.ui.UiUtils;
 
 public class NotificationCellFactory extends ListCell<Notification> {
@@ -37,6 +38,7 @@ public class NotificationCellFactory extends ListCell<Notification> {
         this.title = new Label();
         this.date = new Label();
         this.message = new Label();
+        title.setFont(Font.font("Consolas", 13));
         message.setWrapText(true);
 
         this.closeBtn = new Button("✕");
