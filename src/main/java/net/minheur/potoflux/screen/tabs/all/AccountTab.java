@@ -148,7 +148,7 @@ public class AccountTab extends BaseVTab<ScrollPane> {
                 notificationList
         );
 
-        notificationPane.setMaxSize(200, 200);
+        notificationPane.setMaxHeight(350);
         notificationPane.setAlignment(Pos.CENTER);
 
         vContent.setAlignment(Pos.TOP_CENTER);
