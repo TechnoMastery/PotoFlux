@@ -22,9 +22,34 @@ public enum NotifTypes implements INotificationType {
         JsonElement e = obj.get("details");
         if (e == null) return "No details !";
         else return e.getAsString();
-    }, obj -> "green")
-
-    FULL_MANUAL("manual", );
+    }, obj -> "green"),
+    FULL_MANUAL("manual", obj -> {
+        JsonElement e = obj.get("alertType");
+        if (e == null) return Alert.AlertType.INFORMATION;
+        return switch (e.getAsString()) {
+            case "info" -> Alert.AlertType.INFORMATION;
+            case "warning" -> Alert.AlertType.WARNING;
+            case "confirm" -> Alert.AlertType.CONFIRMATION;
+            case "error" -> Alert.AlertType.ERROR;
+            default -> Alert.AlertType.NONE;
+        };
+    }, obj -> {
+        JsonElement e = obj.get("title");
+        if (e == null) return "No title !";
+        else return e.getAsString();
+    }, obj -> {
+        JsonElement e = obj.get("msg");
+        if (e == null) return "No message !";
+        else return e.getAsString();
+    }, obj -> {
+        JsonElement e = obj.get("details");
+        if (e == null) return "No details !";
+        else return e.getAsString();
+    }, obj -> {
+        JsonElement e = obj.get("barColorClass");
+        if (e == null) return "red";
+        else return e.getAsString();
+    });
 
     private final String sqlCode;
     private final Function<JsonObject, Alert.AlertType> alertType;
