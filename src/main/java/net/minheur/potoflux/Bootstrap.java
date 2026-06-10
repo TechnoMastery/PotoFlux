@@ -37,12 +37,15 @@ public class Bootstrap {
     private static final AtomicBoolean built = new AtomicBoolean(false);
 
     public static final RegisterLangEvent langEvent = new RegisterLangEvent();
+
     public static final RegisterTabsEvent tabEvent = new RegisterTabsEvent();
     public static final RegisterCommandsEvent commandEvent = new RegisterCommandsEvent();
     public static final RegisterRunsEvent runEvent = new RegisterRunsEvent();
     public static final RegisterMenuEvent menuEvent = new RegisterMenuEvent();
     public static final RegisterSettingEvent settingEvent = new RegisterSettingEvent();
     public static final RegisterNotifTypesEvent notificationTypesEvent = new RegisterNotifTypesEvent();
+
+    public static final RegisterModEventsEvent modEventsEvent = new RegisterModEventsEvent();
 
     /**
      * It will first check for args, then enable devEnv if args contains it.<br>
@@ -123,6 +126,8 @@ public class Bootstrap {
             bus.post(menuEvent);
             bus.post(settingEvent);
             bus.post(notificationTypesEvent);
+
+            bus.post(modEventsEvent); // register mod's posts last
         } catch (Throwable e) {
             throw new EventPostException(e);
         }
