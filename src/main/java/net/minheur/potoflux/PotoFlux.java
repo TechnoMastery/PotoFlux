@@ -34,8 +34,6 @@ public class PotoFlux extends Application {
      * The ID for potoflux (namespace)
      */
     public static final String ID = "potoflux";
-    private static final int PORT = 65432;
-    private static volatile boolean isMultipleInstanceShutdown = false;
     /**
      * The actual app.<br>
      * This contains the JFrame and will be instantiated when the app will run.
@@ -115,7 +113,6 @@ public class PotoFlux extends Application {
      */
     @Override
     public void stop() {
-        if (isMultipleInstanceShutdown) return;
         runExitLogic(ExitCode.SUCCESS);
     }
 
@@ -130,15 +127,6 @@ public class PotoFlux extends Application {
             throwable.printStackTrace();
             runProgramKill(ExitCode.UNCAUGHT_EXCEPTION);
         });
-
-        if (!SingleInstanceHandler.tryCreateLock(PORT)) {
-            SingleInstanceHandler.notifyExistingInstance(PORT);
-
-            isMultipleInstanceShutdown = true;
-            Platform.exit();
-
-            return;
-        }
 
         launch(args);
 
