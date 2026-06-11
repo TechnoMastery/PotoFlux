@@ -18,6 +18,15 @@ java {
     withJavadocJar()
 }
 
+javadoc {
+    options.links(
+            "https://openjfx.io/javadoc/17/",
+            "https://javadoc.io/doc/org.reflections/reflections/0.10.2/",
+            "https://javadoc.io/doc/com.google.code.gson/gson/2.11.0/",
+            "https://javadoc.io/doc/org.jetbrains/annotations/24.1.0/"
+    )
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
