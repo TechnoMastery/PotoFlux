@@ -184,7 +184,7 @@ public final class UiUtils {
         alert.setHeaderText(header);
 
         Optional<ButtonType> result = alert.showAndWait();
-        return result.isPresent() && result.get() == ButtonType.YES;
+        return result.isPresent() && result.get() == yesButton.get();
     }
     /**
      * Displays a confirmation dialog
