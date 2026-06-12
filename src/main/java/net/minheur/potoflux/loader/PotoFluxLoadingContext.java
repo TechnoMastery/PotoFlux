@@ -643,10 +643,13 @@ public final class PotoFluxLoadingContext {
             JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
             if (checkOnlineListNotnull(mainObject, mod)) return null;
 
-            JsonObject versionObject = mainObject.getAsJsonObject("versions");
+            JsonObject versionsObject = mainObject.getAsJsonObject("versions");
+            if (checkOnlineListNotnull(versionsObject, mod)) return null;
+
+            JsonObject versionObject = versionsObject.getAsJsonObject(mod.version());
             if (checkOnlineListNotnull(versionObject, mod)) return null;
 
-            List<String> compatibleVersionList = Json.listFromObject(versionObject, mod.version());
+            List<String> compatibleVersionList = Json.listFromObject(versionObject, "compatList");
             if (checkOnlineListEmpty(compatibleVersionList, mod)) return null;
 
             return compatibleVersionList;
