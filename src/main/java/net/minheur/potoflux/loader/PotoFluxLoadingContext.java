@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.reflections.vfs.Vfs;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -186,11 +187,22 @@ public final class PotoFluxLoadingContext {
         if (!isDevEnv()) return Collections.emptyList();
 
         try {
+            Collection<URL> urls = new HashSet<>();
+
+            // 1. current dev mod
             Path classes = Paths.get(
                     System.getProperty("user.dir"),
                     "build", "classes", "java", "main"
             );
-            return List.of(classes.toUri().toURL());
+            urls.add(classes.toUri().toURL());
+
+            // 2. gradle deps
+            String classpath = System.getProperty("java.class.path");
+
+            for (String path : classpath.split(File.pathSeparator))
+                urls.add(Paths.get(path).toUri().toURL());
+
+            return urls;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
