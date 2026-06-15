@@ -1,6 +1,7 @@
 # PotoFlux
-Potoflux is a simple JavaSwing tab based app :
+Potoflux is a simple JavaFX app :
 It has different purposes, each one having their very own tabs.
+It also features a menu bar, advanced setting reg, accounts, a terminal, and more to come !
 ## User side
 An easy API, commands and tabs allow the user to download any mod he wants, granting a cool and fast setup.
 ## Main features
