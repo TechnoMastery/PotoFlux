@@ -1,0 +1,45 @@
+package net.minheur.potoflux.login;
+
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
+import java.io.IOException;
+import java.util.prefs.Preferences;
+
+/**
+ * Saves, stores and retrieves connection token
+ */
+public final class TokenHandler {
+    private static final Preferences prefs = Preferences.userNodeForPackage(TokenHandler.class);
+    private static final String KEY = "token";
+
+    private TokenHandler() {}
+
+    public static void save(String token) {
+        if (token == null || token.isEmpty()) return;
+        prefs.put(KEY, token);
+        PtfLogger.info("Saved token !", LogCategories.TOKEN);
+    }
+
+    public static String get() {
+        return prefs.get(KEY, null);
+    }
+
+    public static void clear() {
+        prefs.remove(KEY);
+        PtfLogger.info("Cleared local token !", LogCategories.TOKEN);
+    }
+
+    public static boolean has() {
+        String token = get();
+        return token != null && !token.isEmpty();
+    }
+
+    public static void rmOnlineToken() {
+        try {
+            RequestPoster.rmToken(get());
+        } catch (IOException e) {
+            e.printStackTrace();
+            PtfLogger.error("Could not remove token", LogCategories.CONNEXION_POST);
+        }
+    }
+}
