@@ -15,8 +15,10 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.utils.Json;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 import org.reflections.vfs.Vfs;
 
 import javax.swing.*;
@@ -191,7 +193,7 @@ public final class PotoFluxLoadingContext {
      * Used to get the URLs to scan for mods in dev environment
      * @return the URLs to scan for mod in dev env
      */
-    public static Collection<URL> getDevScanUrls() {
+    public static @NotNull Collection<URL> getDevScanUrls() {
         if (!isDevEnv()) return Collections.emptyList();
 
         try {
@@ -220,7 +222,7 @@ public final class PotoFluxLoadingContext {
      * Create and fill a class loader in prod environment
      * @return a class loader filled with prod mods
      */
-    public static URLClassLoader mkModClassLoader() {
+    public static @NotNull URLClassLoader mkModClassLoader() {
         Path modsDir = PotoFlux.getProgramDir().resolve("mods");
 
         try {
@@ -246,7 +248,8 @@ public final class PotoFluxLoadingContext {
      * @param urls the list of URLs loaded by the class loader
      * @return a built class loader with the URLs
      */
-    private static @NotNull URLClassLoader buildModClassLoader(List<URL> urls) {
+    @Contract("_ -> new")
+    private static @NotNull URLClassLoader buildModClassLoader(@NotNull List<URL> urls) {
         return new URLClassLoader(
                 urls.toArray(new URL[0]),
                 PotoFluxLoadingContext.class.getClassLoader() // parent = app
@@ -259,7 +262,7 @@ public final class PotoFluxLoadingContext {
      * @param urls the list to add the jar to
      * @throws MalformedURLException if the URL is incorrect (from the path)
      */
-    private static void registerJar(Path jarPath, List<URL> urls) throws MalformedURLException {
+    private static void registerJar(@NotNull Path jarPath, @NotNull List<URL> urls) throws MalformedURLException {
         URL jarURL = jarPath.toUri().toURL();
         urls.add(jarURL);
         PtfLogger.info("Jar detected: " + jarURL, LogCategories.MOD_LOADER);
@@ -286,7 +289,7 @@ public final class PotoFluxLoadingContext {
      * Getter for the potoflux mods dir
      * @return the potoflux mods dir
      */
-    public static Path getPotofluxModDir() {
+    public static @NotNull Path getPotofluxModDir() {
         return PotoFlux.getProgramDir().resolve("mods");
     }
 
@@ -306,7 +309,7 @@ public final class PotoFluxLoadingContext {
      * @param mod the mod to check loading status
      * @return if the mod is loaded
      */
-    public static boolean isModLoaded(Mod mod) {
+    public static boolean isModLoaded(@NotNull Mod mod) {
         if (illegalModIds.contains(mod.modId())) return true;
         return loadedMods.containsKey(mod.modId());
     }
@@ -325,7 +328,7 @@ public final class PotoFluxLoadingContext {
      * @param mod the mod to check if listed
      * @return if the mod is listed
      */
-    public static boolean isModListed(Mod mod) {
+    public static boolean isModListed(@NotNull Mod mod) {
         if (illegalModIds.contains(mod.modId())) return true;
         return isModListed(mod.modId());
     }
@@ -345,7 +348,7 @@ public final class PotoFluxLoadingContext {
      * @param modId mod to get version
      * @return the mod version if listed, {@code null} else
      */
-    public static String getModVersion(String modId) {
+    public static @Nullable String getModVersion(String modId) {
         if (!isModListed(modId)) return null;
 
         for (ModContainer entry : listedMods)
@@ -378,7 +381,7 @@ public final class PotoFluxLoadingContext {
         ModUpdateReg.close();
     }
 
-    private static @Nullable Boolean getIsCompatible(Mod mod) {
+    private static @Nullable Boolean getIsCompatible(@NotNull Mod mod) {
         List<String> compatibleVersions =
                 Arrays.stream(
                         mod.compatibleVersions()
@@ -406,7 +409,7 @@ public final class PotoFluxLoadingContext {
         return isCompatible;
     }
 
-    private static void checkUpdate(Mod mod, boolean isCompatible) {
+    private static void checkUpdate(@NotNull Mod mod, boolean isCompatible) {
         JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
         if (mainObject == null) return;
         JsonObject lastestObject = mainObject.getAsJsonObject("lastestForPtf");
@@ -440,7 +443,7 @@ public final class PotoFluxLoadingContext {
         }
     }
 
-    private static void openInstallModPage(Mod mod, String version) {
+    private static void openInstallModPage(@NotNull Mod mod, String version) {
         JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
         String installUrl = mainObject.get("installUrl").getAsString();
 
@@ -471,7 +474,7 @@ public final class PotoFluxLoadingContext {
         }
     }
 
-    private static LoadResult loadMod(ModContainer entry) {
+    private static LoadResult loadMod(@NotNull ModContainer entry) {
 
         // checks the state of the actual mod
         switch (entry.state) {
@@ -628,7 +631,7 @@ public final class PotoFluxLoadingContext {
         }
     }
 
-    private static boolean dependencyIsCompatible(String actualDepVersion, Dependency dep) {
+    private static boolean dependencyIsCompatible(String actualDepVersion, @NotNull Dependency dep) {
         int intDepVersion = Integer.parseInt(actualDepVersion);
         int min = Integer.parseInt(dep.minVersion);
         int max = Integer.parseInt(dep.maxVersion);
@@ -642,11 +645,12 @@ public final class PotoFluxLoadingContext {
         return null;
     }
 
-    private static boolean modUsesOnlineList(List<String> compatibleVersions) {
+    @Contract(pure = true)
+    private static boolean modUsesOnlineList(@NotNull List<String> compatibleVersions) {
         return compatibleVersions.contains("-1");
     }
 
-    private static List<String> getOnlineCompatibleList(Mod mod) {
+    private static @Nullable List<String> getOnlineCompatibleList(Mod mod) {
         try {
 
             JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
@@ -671,7 +675,7 @@ public final class PotoFluxLoadingContext {
         }
     }
 
-    private static boolean checkOnlineListEmpty(List<String> compatibleVersionList, Mod mod) {
+    private static boolean checkOnlineListEmpty(@NotNull List<String> compatibleVersionList, Mod mod) {
         if (compatibleVersionList.isEmpty()) {
             PtfLogger.error("Empty online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
             return true;
@@ -688,7 +692,7 @@ public final class PotoFluxLoadingContext {
         else return false;
     }
 
-    private static boolean checkOnlineListExists(Mod mod) {
+    private static boolean checkOnlineListExists(@NotNull Mod mod) {
         if (mod.compatibleVersionUrl().equals("NONE")) {
             PtfLogger.error("No compatible version list system set for mod: " + mod.modId(), LogCategories.MOD_LOADER);
             return true;
@@ -700,10 +704,11 @@ public final class PotoFluxLoadingContext {
      * Getter for a list of all loaded mods
      * @return a list of all loaded mod IDs
      */
-    public static List<String> getLoadedMods() {
+    public static @NotNull @Unmodifiable List<String> getLoadedMods() {
         return loadedMods.keySet().stream().toList();
     }
-    public static List<ModContainer> getListedMods() {
+    @Contract(value = " -> new", pure = true)
+    public static @NotNull List<ModContainer> getListedMods() {
         return new ArrayList<>(listedMods); // safety copy
     }
 }

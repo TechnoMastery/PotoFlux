@@ -2,6 +2,7 @@ package net.minheur.potoflux.translations;
 
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class Translations {
      * Adds a translation registry to {@link #allTranslations}
      * @param registry the reg to add translations from
      */
-    public static void registerTranslations(AbstractTranslationsRegistry registry) {
+    public static void registerTranslations(@NotNull AbstractTranslationsRegistry registry) {
         registry.registerTranslations();
         Map<Lang, Map<String, String>> registryTranslations = registry.getTranslations();
 

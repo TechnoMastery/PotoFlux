@@ -1,5 +1,7 @@
 package net.minheur.potoflux.logger;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Enum containing all potoflux log categories
  */
@@ -68,7 +70,7 @@ public enum LogCategories implements ILogCategory {
         this.more = more;
     }
 
-    LogCategories(ILogCategory parent, String... more) {
+    LogCategories(@NotNull ILogCategory parent, String... more) {
         this.code = parent.code();
         this.more = more;
     }

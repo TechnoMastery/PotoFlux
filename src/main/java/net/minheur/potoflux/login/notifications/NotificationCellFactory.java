@@ -8,6 +8,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import net.minheur.potoflux.ui.UiUtils;
+import org.jetbrains.annotations.NotNull;
 
 public class NotificationCellFactory extends ListCell<Notification> {
 
@@ -87,7 +88,7 @@ public class NotificationCellFactory extends ListCell<Notification> {
         setGraphic(root);
     }
 
-    private void showPopup(Notification n) {
+    private void showPopup(@NotNull Notification n) {
         UiUtils.showAlert(
                 n.detailsAlertType(),
                 n.buildDetail(),

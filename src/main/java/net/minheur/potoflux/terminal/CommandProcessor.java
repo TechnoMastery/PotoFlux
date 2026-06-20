@@ -8,6 +8,7 @@ import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -112,7 +113,7 @@ public class CommandProcessor {
      * @param file path to the file, used to remove it if needed
      * @return if the file's content is empty
      */
-    private static boolean checkEmptyTerminal(String content, Path file) {
+    private static boolean checkEmptyTerminal(@NotNull String content, Path file) {
         if (content.trim().isEmpty()) { // if string is empty : delete file
             try {
                 Files.deleteIfExists(file);

@@ -1,5 +1,8 @@
 package net.minheur.potoflux.translations;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +64,7 @@ public abstract class AbstractTranslationsRegistry {
      * @param children all other keys to add
      * @return the new {@link TranslationBuilder}
      */
-    protected TranslationBuilder add(String mainKey, String... children) {
+    protected TranslationBuilder add(String mainKey, String @NotNull ... children) {
         StringBuilder builder = new StringBuilder(mainKey);
         for (String child : children) {
             builder.append(".");
@@ -104,7 +107,8 @@ public abstract class AbstractTranslationsRegistry {
      * @param key the key to be preceded by the mod ID
      * @return the full ID
      */
-    private String getKeyMod(String key) {
+    @Contract(pure = true)
+    private @NotNull String getKeyMod(String key) {
         return modId + ":" + key;
     }
 

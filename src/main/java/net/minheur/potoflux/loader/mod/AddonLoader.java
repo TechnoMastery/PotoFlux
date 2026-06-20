@@ -12,6 +12,7 @@ import java.util.jar.JarFile;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -61,7 +62,7 @@ public class AddonLoader {
      * First Checks if the mod is valid, then list it if so.
      * @param clazz the main class of the mod to load (should be annotated with {@link Mod})
      */
-    private static void listModIfValid(Class<?> clazz) {
+    private static void listModIfValid(@NotNull Class<?> clazz) {
         Mod modAnnotation = clazz.getAnnotation(Mod.class);
 
         if (isModIncorrectAfterCheck(
@@ -176,7 +177,7 @@ public class AddonLoader {
         );
     }
 
-    public static Set<Class<?>> getModProdEnv() {
+    public static @NotNull Set<Class<?>> getModProdEnv() {
         setModClassLoader();
 
         Set<Class<?>> addons = new HashSet<>();
@@ -229,11 +230,12 @@ public class AddonLoader {
         return addons;
     }
 
-    private static @NotNull JarFile getJar(Path jarPath) throws IOException {
+    @Contract("_ -> new")
+    private static @NotNull JarFile getJar(@NotNull Path jarPath) throws IOException {
         return new JarFile(jarPath.toFile());
     }
 
-    private static boolean isNotClass(JarEntry entry) {
+    private static boolean isNotClass(@NotNull JarEntry entry) {
         return !entry.getName().endsWith(".class");
     }
 
@@ -245,11 +247,12 @@ public class AddonLoader {
         return Class.forName(className, false, getModsClassLoader());
     }
 
-    private static boolean isModPresent(Class<?> clazz) {
+    @Contract(pure = true)
+    private static boolean isModPresent(@NotNull Class<?> clazz) {
         return clazz.isAnnotationPresent(Mod.class);
     }
 
-    private static @NotNull String getClassName(JarEntry entry) {
+    private static @NotNull String getClassName(@NotNull JarEntry entry) {
         return entry.getName()
                 .replace('/', '.')
                 .replace(".class", "");

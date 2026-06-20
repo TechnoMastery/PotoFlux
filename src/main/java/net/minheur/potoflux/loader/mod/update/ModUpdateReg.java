@@ -3,6 +3,7 @@ package net.minheur.potoflux.loader.mod.update;
 import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class ModUpdateReg {
         if (opened) opened = false;
     }
 
-    public static List<Candidate> getAll() {
+    public static @NotNull List<Candidate> getAll() {
         if (!opened) return List.copyOf(candidates);
         return new ArrayList<>();
     }

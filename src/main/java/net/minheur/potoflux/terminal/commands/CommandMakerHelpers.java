@@ -1,5 +1,8 @@
 package net.minheur.potoflux.terminal.commands;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class CommandMakerHelpers {
@@ -23,7 +26,8 @@ public class CommandMakerHelpers {
      * @param args the args to check
      * @return if the args are good
      */
-    public static boolean argAmountCheck(int min, int max, List<String> args) {
+    @Contract(pure = true)
+    public static boolean argAmountCheck(int min, int max, @NotNull List<String> args) {
         int actual = args.size();
         return actual < min || actual > max;
     }
@@ -33,7 +37,8 @@ public class CommandMakerHelpers {
      * @param args the args to check
      * @return if the args are good
      */
-    public static boolean argAmountCheck(int amount, List<String> args) {
+    @Contract(pure = true)
+    public static boolean argAmountCheck(int amount, @NotNull List<String> args) {
         int actual = args.size();
         return actual != amount;
     }
@@ -43,7 +48,8 @@ public class CommandMakerHelpers {
      * @param allowed the varargs of amount of args allowed
      * @return if the arg are good
      */
-    public static boolean argAmountCheck(List<String> args, int... allowed) {
+    @Contract(pure = true)
+    public static boolean argAmountCheck(@NotNull List<String> args, int @NotNull ... allowed) {
         int actual = args.size();
         for (int a : allowed) if (a == actual) return false;
         return true;
@@ -53,7 +59,8 @@ public class CommandMakerHelpers {
      * @param args args to check
      * @return if there are no args
      */
-    public static boolean checkNoArgs(List<String> args) {
+    @Contract(pure = true)
+    public static boolean checkNoArgs(@NotNull List<String> args) {
         return !args.isEmpty();
     }
 }

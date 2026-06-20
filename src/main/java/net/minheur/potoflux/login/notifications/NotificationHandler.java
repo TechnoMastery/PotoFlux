@@ -7,6 +7,9 @@ import net.minheur.potoflux.login.TokenHandler;
 import net.minheur.potoflux.login.response.NotificationListResponse;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,7 +78,8 @@ public final class NotificationHandler {
 
     }
 
-    public static List<Notification> getNotifications() {
+    @Contract(pure = true)
+    public static @NotNull @Unmodifiable List<Notification> getNotifications() {
         return List.copyOf(notifications);
     }
 

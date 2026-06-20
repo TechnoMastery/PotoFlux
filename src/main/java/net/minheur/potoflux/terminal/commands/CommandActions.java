@@ -17,6 +17,7 @@ import net.minheur.potoflux.terminal.CommandRegistry;
 import net.minheur.potoflux.terminal.Terminal;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.close.ExitCode;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.time.LocalTime;
@@ -127,7 +128,7 @@ public class CommandActions {
      * Command execution for command {@code echo}.
      * @param args all the args given to the command
      */
-    static void echo(List<String> args) {
+    static void echo(@NotNull List<String> args) {
         if (args.isEmpty()) {
             CommandProcessor.appendOutput(CommandHelp.echo());
             return;

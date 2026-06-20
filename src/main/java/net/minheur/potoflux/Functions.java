@@ -5,6 +5,8 @@ import javafx.application.Platform;
 import javafx.util.Duration;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.close.ExitCode;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.File;
@@ -51,7 +53,8 @@ public class Functions {
 
     }
 
-    public static LocalDateTime parseSqlDate(String timestamp) {
+    @Contract(pure = true)
+    public static @NotNull LocalDateTime parseSqlDate(String timestamp) {
         return LocalDateTime.parse(timestamp);
     }
 
@@ -83,7 +86,7 @@ public class Functions {
      * @throws IOException if the folder couldn't get accessed
      */
     @Deprecated(since = "6.4")
-    public static List<String> listResourceFiles(String folder) throws IOException {
+    public static @NotNull List<String> listResourceFiles(String folder) throws IOException {
         List<String> result = new ArrayList<>();
 
         URL dirURL = Functions.class.getClassLoader().getResource(folder);
@@ -122,7 +125,7 @@ public class Functions {
      * @param args your placeholder's values. the first one is $$1, then $$2...
      * @return the formated message
      */
-    public static String formatMessage(String message, Object... args) {
+    public static String formatMessage(String message, Object @NotNull ... args) {
         String result = message;
 
         for (int i = 0; i < args.length; i++)

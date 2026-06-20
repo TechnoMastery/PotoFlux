@@ -21,6 +21,7 @@ import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.ui.dialogData.LoginData;
 import net.minheur.potoflux.utils.Json;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -116,7 +117,7 @@ public class ConnectionHandler {
      * @param perms array of SQL codes sent by the database
      * @return the array of {@link Perms} corresponding the SQL codes.
      */
-    public static Perms[] fillPerms(String[] perms) {
+    public static Perms[] fillPerms(String @NotNull [] perms) {
         List<Perms> newPerms = new ArrayList<>();
 
         for (String perm : perms) {
@@ -132,7 +133,7 @@ public class ConnectionHandler {
      * Displays the error when logging fails, resulting in an error in {@link InfoResponse}
      * @param infoResponse the response containing the error
      */
-    private static void displayInfoError(InfoResponse infoResponse) {
+    private static void displayInfoError(@NotNull InfoResponse infoResponse) {
         switch (infoResponse.error) {
             case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.token.noUser"));
             case "not_exists" -> {
@@ -245,7 +246,7 @@ public class ConnectionHandler {
      * Displays the error when the server refuses to give you a token
      * @param loginResponse with the error sent by the database
      */
-    private static void displayLoggingError(LoginResponse loginResponse) {
+    private static void displayLoggingError(@NotNull LoginResponse loginResponse) {
         switch (loginResponse.error) {
             case "user_not_found" -> showErrorPane(Translations.get("potoflux:tabs.account.error.noUser"));
             case "invalid_password" -> showErrorPane(Translations.get("potoflux:tabs.account.error.invalidPassword"));

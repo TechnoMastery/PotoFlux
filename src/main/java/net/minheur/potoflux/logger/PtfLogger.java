@@ -1,5 +1,7 @@
 package net.minheur.potoflux.logger;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ public final class PtfLogger {
      * @param data the list of components to add to the prefix
      * @return the built prefix
      */
-    public static String buildPrefix(List<String> data) {
+    public static @NotNull String buildPrefix(@NotNull List<String> data) {
         LocalTime now = LocalTime.now();
         String time = now.format(formatter);
 
@@ -36,7 +38,7 @@ public final class PtfLogger {
      * @param data vararg of the categories
      * @return the built prefix
      */
-    public static String buildPrefix(String... data) {
+    public static @NotNull String buildPrefix(String... data) {
         return buildPrefix(Arrays.stream(data).toList());
     }
 
@@ -47,7 +49,7 @@ public final class PtfLogger {
      * @param more adds more categories to the log
      * @return the message
      */
-    public static String buildWithCategory(String category, String message, List<String> more) {
+    public static @NotNull String buildWithCategory(String category, String message, List<String> more) {
         List<String> data = new ArrayList<>();
         data.add(category);
         data.addAll(more);
@@ -70,7 +72,7 @@ public final class PtfLogger {
      * @param category main category of the log, should be a {@link ILogCategory}
      * @param extraCategories optional categories of the log
      */
-    public static void info(String message, ILogCategory category, String... extraCategories) {
+    public static void info(String message, @NotNull ILogCategory category, String... extraCategories) {
         List<String> allCategories = new ArrayList<>();
 
         allCategories.add(category.code());
@@ -94,7 +96,7 @@ public final class PtfLogger {
      * @param category main category of the log, should be a {@link ILogCategory}
      * @param extraCategories optional categories of the log
      */
-    public static void warning(String message, ILogCategory category, String... extraCategories) {
+    public static void warning(String message, @NotNull ILogCategory category, String... extraCategories) {
         List<String> allCategories = new ArrayList<>();
 
         allCategories.add(category.code());
@@ -118,7 +120,7 @@ public final class PtfLogger {
      * @param category main category of the log, should be a {@link ILogCategory}
      * @param extraCategories optional categories of the log
      */
-    public static void error(String message, ILogCategory category, String... extraCategories) {
+    public static void error(String message, @NotNull ILogCategory category, String... extraCategories) {
         List<String> allCategories = new ArrayList<>();
 
         allCategories.add(category.code());

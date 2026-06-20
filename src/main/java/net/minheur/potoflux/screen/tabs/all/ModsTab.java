@@ -13,6 +13,8 @@ import net.minheur.potoflux.loader.mod.ModContainer;
 import net.minheur.potoflux.loader.mod.ModState;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -66,7 +68,7 @@ public class ModsTab extends BaseVTab<VBox> {
         }
     }
 
-    private void addMod(ModContainer modContainer) {
+    private void addMod(@NotNull ModContainer modContainer) {
         Mod mod = modContainer.mod;
 
         VBox details = new VBox(5);
@@ -92,14 +94,15 @@ public class ModsTab extends BaseVTab<VBox> {
 
     }
 
-    private String formatDepLabel(Dependency dep) {
+    @Contract(pure = true)
+    private @NotNull String formatDepLabel(@NotNull Dependency dep) {
         if (dep.minVersion.equals(dep.maxVersion))
             return dep.id + " [" + dep.minVersion + "]";
 
         return dep.id + " [" + dep.minVersion + " - " + dep.maxVersion + "]";
     }
 
-    private Node buildHeader(ModContainer modContainer) {
+    private @NotNull Node buildHeader(@NotNull ModContainer modContainer) {
         HBox root = new HBox(10);
 
         Label name = new Label(modContainer.mod.modId());
@@ -121,7 +124,7 @@ public class ModsTab extends BaseVTab<VBox> {
         return root;
     }
 
-    private String formatState(ModState state) {
+    private String formatState(@NotNull ModState state) {
         return switch (state) {
             case LOADED -> Translations.get("potoflux:tabs.mods.list.dep.loaded");
             case FAILED -> Translations.get("potoflux:tabs.mods.list.dep.failed");
@@ -134,7 +137,8 @@ public class ModsTab extends BaseVTab<VBox> {
             );
         };
     }
-    private String getStateStyle(ModState state) {
+    @Contract(pure = true)
+    private @NotNull String getStateStyle(@NotNull ModState state) {
         return switch (state) {
             case LOADED -> "loaded";
             case MISSING_DEPENDENCIES,

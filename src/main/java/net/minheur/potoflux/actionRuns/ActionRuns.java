@@ -8,6 +8,7 @@ import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.login.notifications.NotificationHandler;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.utils.SmartSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
@@ -59,7 +60,7 @@ public class ActionRuns {
      * This registers all action runs to the main reg
      * @param event the event to register all actions to
      */
-    public static void register(RegisterRunsEvent event) {
+    public static void register(@NotNull RegisterRunsEvent event) {
         LIST_CLOSE.register(event.closeReg);
         LIST_START_UI.register(event.startUiReg);
         LIST_START_LOGIC.register(event.startLogicReg);

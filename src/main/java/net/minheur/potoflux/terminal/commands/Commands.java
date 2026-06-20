@@ -4,6 +4,7 @@ import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.terminal.Command;
 import net.minheur.potoflux.utils.SmartSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
@@ -93,7 +94,7 @@ public class Commands {
      * Registers the commands to the reg
      * @param event the event to register commands to
      */
-    public static void register(RegisterCommandsEvent event) {
+    public static void register(@NotNull RegisterCommandsEvent event) {
         LIST.register(event.reg);
     }
 }

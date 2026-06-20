@@ -9,6 +9,7 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.login.notifications.reg.INotificationType;
 import net.minheur.potoflux.login.notifications.reg.NotifTypes;
 import net.minheur.potoflux.login.notifications.reg.NotificationType;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,7 +24,7 @@ public class Notification {
 
     private final transient INotificationType type;
 
-    public Notification(long id, JsonObject messageObj, String timestamp) {
+    public Notification(long id, @NotNull JsonObject messageObj, String timestamp) {
         this.id = id;
         this.messageObj = messageObj;
         this.timestamp = timestamp;

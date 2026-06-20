@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.scene.control.Alert;
 import net.minheur.potoflux.loader.mod.events.RegisterNotifTypesEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
@@ -98,7 +99,7 @@ public enum NotifTypes implements INotificationType {
         return typeBarColorClass.apply(obj);
     }
 
-    public static void register(RegisterNotifTypesEvent event) {
+    public static void register(@NotNull RegisterNotifTypesEvent event) {
         event.reg.add(new NotificationType(
                 fromModId("notifTypes"),
                 NotifTypes.class

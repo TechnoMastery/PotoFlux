@@ -2,6 +2,7 @@ package net.minheur.potoflux.loader.mod.errors;
 
 import net.minheur.potoflux.loader.mod.Mod;
 import net.minheur.potoflux.loader.mod.ModState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ModErrorReg {
         if (opened) opened = false;
     }
 
-    public static List<LoadModError> getAll() {
+    public static @NotNull List<LoadModError> getAll() {
         if (!opened) return List.copyOf(errors);
         return new ArrayList<>();
     }

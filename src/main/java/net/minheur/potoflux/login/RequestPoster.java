@@ -5,6 +5,7 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
@@ -157,7 +158,7 @@ public class RequestPoster {
             String password,
             String firstName,
             String lastName,
-            String[] perms,
+            String @NotNull [] perms,
             int rank
     ) throws InvalidTokenException, IOException {
         checkTokenFormat(token);
@@ -266,7 +267,7 @@ public class RequestPoster {
      * @throws IOException if the server couldn't be reached
      * @throws InvalidTokenException if the admin's token has invalid format
      */
-    public static String mdUserInfos(
+    public static @Nullable String mdUserInfos(
             String token,
             String targetUuid,
             @Nullable String newEmail,
@@ -325,7 +326,7 @@ public class RequestPoster {
      * @throws IOException if the server couldn't be reached
      * @throws InvalidTokenException if the admin's token has invalid format
      */
-    public static String mdUserPassword(
+    public static @Nullable String mdUserPassword(
             String token,
             String targetUuid,
             String newPassword
@@ -349,7 +350,7 @@ public class RequestPoster {
      * @throws IOException if the server couldn't be reached
      * @throws InvalidTokenException if the admin's token has invalid format
      */
-    public static String lockUser(
+    public static @Nullable String lockUser(
             String token,
             String targetUuid,
             boolean newState
