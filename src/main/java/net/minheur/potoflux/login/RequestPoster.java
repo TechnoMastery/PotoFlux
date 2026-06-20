@@ -52,25 +52,6 @@ public class RequestPoster {
                 .POST(HttpRequest.BodyPublishers.ofString(message, StandardCharsets.UTF_8))
                 .build();
 
-        // URL url = new URL(address + method);
-        // HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-
-        // conn.setRequestMethod("POST");
-        // conn.setRequestProperty("apikey", anonKey);
-        // conn.setRequestProperty("Content-Type", "application/json");
-        // conn.setRequestProperty("Authorization", "Bearer " + anonKey);
-        // conn.setRequestProperty("Accept", "application/json");
-        // conn.setRequestProperty("Connection", "keep-alive");
-        // conn.setDoOutput(true);
-
-        // byte[] body = message.getBytes(StandardCharsets.UTF_8);
-        // conn.setRequestProperty("Content-Length", String.valueOf(body.length));
-
-        // try (OutputStream os = conn.getOutputStream()) {
-        //     os.write(body);
-        //     os.flush();
-        // }
-
         try {
             HttpResponse<String> response =
                     client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -80,20 +61,6 @@ public class RequestPoster {
             Thread.currentThread().interrupt();
             throw new IOException(e);
         }
-
-        // InputStream is;
-        // if (conn.getResponseCode() >= 200 && conn.getResponseCode() < 300)
-        //     is = conn.getInputStream();
-        // else
-        //     is = conn.getErrorStream();
-        // BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        // StringBuilder response = new StringBuilder();
-        // String line;
-
-        // while ((line = br.readLine()) != null)
-        //     response.append(line);
-
-        // return response.toString();
 
     }
 
