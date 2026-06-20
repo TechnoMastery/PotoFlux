@@ -30,6 +30,7 @@ public class MenuContent {
 
     /**
      * Instances the reg and puts all into the event
+     *
      * @param event to add items to
      */
     public static void register(@NotNull RegisterMenuEvent event) {

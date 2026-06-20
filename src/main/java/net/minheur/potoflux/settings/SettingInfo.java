@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Container with infos about a setting
+ *
  * @param <T> type of the setting. One of {@link PreferencesTypes#valueClass}
  */
 public class SettingInfo<T> {
@@ -23,6 +24,7 @@ public class SettingInfo<T> {
     /**
      * Creates the info with only a type.<br>
      * The value is set later via {@link #setActualValue(Object)}
+     *
      * @param type of the setting
      */
     public SettingInfo(PreferencesTypes type) {
@@ -31,13 +33,16 @@ public class SettingInfo<T> {
 
     /**
      * Getter for the {@link #type}
+     *
      * @return {@link #type}
      */
     public PreferencesTypes getType() {
         return type;
     }
+
     /**
      * Getter for the {@linkplain #actualValue}
+     *
      * @return {@link #actualValue}
      */
     public @Nullable T getActualValue() {
@@ -46,6 +51,7 @@ public class SettingInfo<T> {
 
     /**
      * Sets the value from an {@linkplain Object}. It needs to be the type of {@linkplain #type}
+     *
      * @param actualValue to set in {@link #actualValue}
      * @throws IllegalArgumentException if the given {@linkplain Object} isn't the type of {@linkplain #type}
      */

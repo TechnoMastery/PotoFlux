@@ -7,9 +7,11 @@ package net.minheur.potoflux.logger;
 public interface ILogCategory {
     /**
      * Getter to override to get the code.
+     *
      * @return the category's code
      */
     String code();
+
     default String[] more() {
         return new String[0];
     }

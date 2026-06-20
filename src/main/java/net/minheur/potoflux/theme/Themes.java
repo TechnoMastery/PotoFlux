@@ -23,8 +23,9 @@ public enum Themes implements IComboSetting {
 
     /**
      * Makes a theme
+     *
      * @param translatableName key of translation for the display name. Do not add {@link Translations#get(String)}
-     * @param returnValue value that gets stored in the prefs
+     * @param returnValue      value that gets stored in the prefs
      */
     Themes(String translatableName, String returnValue) {
         this.translatableName = translatableName;
@@ -33,6 +34,7 @@ public enum Themes implements IComboSetting {
 
     /**
      * Getter for the {@linkplain #returnValue}
+     *
      * @return {@link #returnValue}
      */
     @Override
@@ -42,6 +44,7 @@ public enum Themes implements IComboSetting {
 
     /**
      * Makes sure to display the {@linkplain #translatableName}, after translation
+     *
      * @return {@link Translations#get} with {@link #translatableName}
      */
     @Override

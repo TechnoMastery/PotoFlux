@@ -72,10 +72,18 @@ public enum NotifTypes implements INotificationType {
         this.typeBarColorClass = typeBarColorClass;
     }
 
+    public static void register(@NotNull RegisterNotifTypesEvent event) {
+        event.reg.add(new NotificationType(
+                fromModId("notifTypes"),
+                NotifTypes.class
+        ));
+    }
+
     @Override
     public String getSqlCode() {
         return sqlCode;
     }
+
     @Override
     public Alert.AlertType detailsAlertType(JsonObject obj) {
         return alertType.apply(obj);
@@ -85,10 +93,12 @@ public enum NotifTypes implements INotificationType {
     public String buildTitle(JsonObject obj) {
         return title.apply(obj);
     }
+
     @Override
     public String buildMessage(JsonObject obj) {
         return message.apply(obj);
     }
+
     @Override
     public String buildDetails(JsonObject obj) {
         return details.apply(obj);
@@ -97,12 +107,5 @@ public enum NotifTypes implements INotificationType {
     @Override
     public String typeBarColorClass(JsonObject obj) {
         return typeBarColorClass.apply(obj);
-    }
-
-    public static void register(@NotNull RegisterNotifTypesEvent event) {
-        event.reg.add(new NotificationType(
-                fromModId("notifTypes"),
-                NotifTypes.class
-        ));
     }
 }

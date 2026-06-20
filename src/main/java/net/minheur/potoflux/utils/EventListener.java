@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 /**
  * Used to add event listeners to mod event bus, without telling explicitly the event
+ *
  * @param <E> The event to listen
  */
 @FunctionalInterface

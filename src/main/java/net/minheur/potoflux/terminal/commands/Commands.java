@@ -42,14 +42,13 @@ public class Commands {
      */
     public static final SmartSupplier<Command> TIME = LIST.add(() -> new Command(fromModId("time"), "time", CommandActions::time, CommandHelp.time()));
     /**
+     * Command for the {@code echo} command.
+     */
+    public static final SmartSupplier<Command> ECHO = LIST.add(() -> new Command(fromModId("echo"), "echo", CommandActions::echo, CommandHelp.echo()));    /**
      * Command for the {@code help} command.
      */
     public static final SmartSupplier<Command> HELP = LIST.add(() -> new Command(fromModId("help"), "help", CommandActions::help, CommandHelp.help()));
-        /**
-     * Command for the {@code echo} command.
-     */
-    public static final SmartSupplier<Command> ECHO = LIST.add(() -> new Command(fromModId("echo"), "echo", CommandActions::echo, CommandHelp.echo()));
-        /**
+    /**
      * Command for the {@code tab} command.
      */
     public static final SmartSupplier<Command> TAB = LIST.add(() -> new Command(fromModId("tab"), "tab", CommandActions::tab, CommandHelp.tab()));
@@ -73,13 +72,13 @@ public class Commands {
      * Command for the {@code quit} command.
      */
     public static final SmartSupplier<Command> QUIT = LIST.add(() -> new Command(fromModId("quit"), "quit", CommandActions::quit, CommandHelp.quit()));
-
-    // hidden commands
     /**
      * Command for the {@code hide} command.<br>
      * It's hidden
      */
     public static final SmartSupplier<Command> HIDDEN = LIST.add(() -> new Command(fromModId("hidden"), "hide", CommandActions::hidden));
+
+    // hidden commands
     /**
      * Command for the {@code nope} command.<br>
      * It's hidden
@@ -92,9 +91,12 @@ public class Commands {
 
     /**
      * Registers the commands to the reg
+     *
      * @param event the event to register commands to
      */
     public static void register(@NotNull RegisterCommandsEvent event) {
         LIST.register(event.reg);
     }
+
+
 }

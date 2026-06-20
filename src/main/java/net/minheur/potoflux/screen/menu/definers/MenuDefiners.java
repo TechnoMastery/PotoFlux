@@ -8,7 +8,6 @@ import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
@@ -19,6 +18,7 @@ public class MenuDefiners {
 
     /**
      * Defines the file menu, featuring {@code open mod dir} and {@code open log dir} buttons
+     *
      * @return the file menu
      */
     public static @NotNull Menu getFileMenu() {

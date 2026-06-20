@@ -21,8 +21,9 @@ public class CommandMakerHelpers {
 
     /**
      * Checks for an amount of args, contained between a min and a max
-     * @param min the minimum amount of args
-     * @param max the maximum amount of args
+     *
+     * @param min  the minimum amount of args
+     * @param max  the maximum amount of args
      * @param args the args to check
      * @return if the args are good
      */
@@ -31,10 +32,12 @@ public class CommandMakerHelpers {
         int actual = args.size();
         return actual < min || actual > max;
     }
+
     /**
      * Checks for an amount of args, being a fixed amount
+     *
      * @param amount the exact amount of args you want
-     * @param args the args to check
+     * @param args   the args to check
      * @return if the args are good
      */
     @Contract(pure = true)
@@ -42,9 +45,11 @@ public class CommandMakerHelpers {
         int actual = args.size();
         return actual != amount;
     }
+
     /**
      * Checks for an amount of args, being contained in a given list of allowed amounts
-     * @param args the args to check
+     *
+     * @param args    the args to check
      * @param allowed the varargs of amount of args allowed
      * @return if the arg are good
      */
@@ -54,8 +59,10 @@ public class CommandMakerHelpers {
         for (int a : allowed) if (a == actual) return false;
         return true;
     }
+
     /**
      * Checks if there are no args
+     *
      * @param args args to check
      * @return if there are no args
      */

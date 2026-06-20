@@ -110,6 +110,7 @@ public class AccountMenu extends Menu {
         }
 
     }
+
     /**
      * Adds all items to the menu.<br>
      * Also adds item to the perm's sub menu

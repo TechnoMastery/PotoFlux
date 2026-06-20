@@ -26,7 +26,7 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addCommandUse("ascii")
                 .en("Usage: ascii")
                 .fr("Utilisation : ascii");
-        addCommandUse("ascii","choose")
+        addCommandUse("ascii", "choose")
                 .en("Usage: ascii <name>")
                 .fr("Utilisation : ascii <nom>");
 
@@ -482,34 +482,42 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
 
     /**
      * Add a translation for the command processor
+     *
      * @param children optional extra members
      * @return the translation builder associated
      */
     private TranslationBuilder addCommandPro(String... children) {
         return add("commandPro", children);
     }
+
     /**
      * Add a translation for the preferences
+     *
      * @param children optional extra members
      * @return the translation builder associated
      */
     private TranslationBuilder addPref(String... children) {
         return add("prefs", children);
     }
+
     private TranslationBuilder addAsciiName(String... children) {
         return add("ascii", children);
     }
+
     private TranslationBuilder addThemeName(String... children) {
         return add("theme", children);
     }
+
     /**
      * Add a translation for the screen
+     *
      * @param children optional extra members
      * @return the translation builder associated
      */
     private TranslationBuilder addScreen(String... children) {
         return add("screen", children);
     }
+
     private TranslationBuilder addMenu(String... children) {
         return add("menu", children);
     }
@@ -519,33 +527,41 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
     }
 
     // tabs helpers
+
     /**
      * Add a translation for the home tab
+     *
      * @param children optional extra members
      * @return the translation builder associated
      */
     private TranslationBuilder addHomeTab(String... children) {
         return addTab("home", children);
     }
+
     /**
      * Add a translation for the settings tab
+     *
      * @param children optional extra members
      * @return the translation builder associated
      */
     private TranslationBuilder addSettingsTab(String... children) {
         return addTab("settings", children);
     }
+
     /**
      * Add a translation for the terminal tab
+     *
      * @param children optional extra members
      * @return the translation builder associated
      */
     private TranslationBuilder addTerminalTab(String... children) {
         return addTab("terminal", children);
     }
+
     private TranslationBuilder addAccountTab(String... children) {
         return addTab("account", children);
     }
+
     private TranslationBuilder addModsTab(String... children) {
         return addTab("mods", children);
     }

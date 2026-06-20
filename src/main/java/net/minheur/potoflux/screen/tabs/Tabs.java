@@ -3,7 +3,6 @@ package net.minheur.potoflux.screen.tabs;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.tabs.all.*;
-import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.SmartSupplier;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +38,7 @@ public class Tabs {
     /**
      * Create the instance of the class, then add the tabs to the events.<br>
      * This is called on the tab register event.
+     *
      * @param event the event to register to
      */
     public static void register(@NotNull RegisterTabsEvent event) {

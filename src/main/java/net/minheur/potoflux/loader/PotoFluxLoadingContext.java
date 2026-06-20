@@ -27,9 +27,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.file.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
-import java.util.List;
 
 /**
  * This is the main class which handles the loading of potoflux and all mods related compounds
@@ -41,12 +43,6 @@ public final class PotoFluxLoadingContext {
      */
     private static final PotoFluxLoadingContext INSTANCE = new PotoFluxLoadingContext();
     /**
-     * The unique modEventBus used.<br>
-     * It handles registration to different events
-     */
-    private final ModEventBus modEventBus = new ModEventBus();
-
-    /**
      * List of all listed mods (in the mod dir), with their annotation and their main class
      */
     private static final List<ModContainer> listedMods = new ArrayList<>();
@@ -54,11 +50,24 @@ public final class PotoFluxLoadingContext {
      * All mods that are loaded (will actually be executed on potoflux launch)
      */
     private static final Map<String, Class<?>> loadedMods = new HashMap<>();
-
     /**
      * List of all modIds that cannot be claimed by mod, as they are used in potoflux core features
      */
     private static final List<String> illegalModIds = new ArrayList<>();
+    /**
+     * This toggles if the app runs in a dev environment.<br>
+     * Using dev env is important in mod loading.
+     */
+    private static boolean isDevEnv = false;
+    /**
+     * This toggle if the environment has been set : we don't want to switch to dev env in mid potoflux running
+     */
+    private static boolean isEnvSet = false;
+    /**
+     * Stores the class loader used for loading mod's class
+     */
+    private static URLClassLoader modsClassLoader = null;
+
     static {
         illegalModIds.add(PotoFlux.ID);
         illegalModIds.add("file");
@@ -74,27 +83,20 @@ public final class PotoFluxLoadingContext {
     }
 
     /**
-     * This toggles if the app runs in a dev environment.<br>
-     * Using dev env is important in mod loading.
+     * The unique modEventBus used.<br>
+     * It handles registration to different events
      */
-    private static boolean isDevEnv = false;
-    /**
-     * This toggle if the environment has been set : we don't want to switch to dev env in mid potoflux running
-     */
-    private static boolean isEnvSet = false;
-
-    /**
-     * Stores the class loader used for loading mod's class
-     */
-    private static URLClassLoader modsClassLoader = null;
+    private final ModEventBus modEventBus = new ModEventBus();
 
     /**
      * Make sure no one can create a second loading context.
      */
-    private PotoFluxLoadingContext() {}
+    private PotoFluxLoadingContext() {
+    }
 
     /**
      * Getter for the only loading context instance
+     *
      * @return the potoflux loading context instance
      */
     public static PotoFluxLoadingContext get() {
@@ -134,8 +136,10 @@ public final class PotoFluxLoadingContext {
             PtfLogger.error("Could not get lastest version online file !");
         }
     }
+
     /**
      * Show the user a dialog to inform that there's a new potoflux version available
+     *
      * @param lastest the version to tell the user it's the lastest
      */
     private static void showUpdateContextDialog(String lastest) {
@@ -155,15 +159,17 @@ public final class PotoFluxLoadingContext {
     }
 
     /**
-     * Getter for the only mod event bus
-     * @return the mod event bus
+     * Checks if the env is dev
+     *
+     * @return if the env is dev
      */
-    public ModEventBus getModEventBus() {
-        return modEventBus;
+    public static boolean isDevEnv() {
+        return isDevEnv;
     }
 
     /**
      * This should only be called once in the scope, setting the environment
+     *
      * @param pIsDevEnv if the environment is dev
      */
     public static void setDevEnv(boolean pIsDevEnv) {
@@ -174,15 +180,10 @@ public final class PotoFluxLoadingContext {
         isDevEnv = pIsDevEnv;
         isEnvSet = true;
     }
-    /**
-     * Checks if the env is dev
-     * @return if the env is dev
-     */
-    public static boolean isDevEnv() {
-        return isDevEnv;
-    }
+
     /**
      * Checks if the env is prod
+     *
      * @return if the env is prod
      */
     public static boolean isProdEnv() {
@@ -191,6 +192,7 @@ public final class PotoFluxLoadingContext {
 
     /**
      * Used to get the URLs to scan for mods in dev environment
+     *
      * @return the URLs to scan for mod in dev env
      */
     public static @NotNull Collection<URL> getDevScanUrls() {
@@ -220,6 +222,7 @@ public final class PotoFluxLoadingContext {
 
     /**
      * Create and fill a class loader in prod environment
+     *
      * @return a class loader filled with prod mods
      */
     public static @NotNull URLClassLoader mkModClassLoader() {
@@ -245,6 +248,7 @@ public final class PotoFluxLoadingContext {
 
     /**
      * Creates a parametrized class loader with a set of URLs
+     *
      * @param urls the list of URLs loaded by the class loader
      * @return a built class loader with the URLs
      */
@@ -258,8 +262,9 @@ public final class PotoFluxLoadingContext {
 
     /**
      * Registers a jar in the URLs
+     *
      * @param jarPath the path to the file to register
-     * @param urls the list to add the jar to
+     * @param urls    the list to add the jar to
      * @throws MalformedURLException if the URL is incorrect (from the path)
      */
     private static void registerJar(@NotNull Path jarPath, @NotNull List<URL> urls) throws MalformedURLException {
@@ -271,11 +276,13 @@ public final class PotoFluxLoadingContext {
     /**
      * Gets the active {@link ClassLoader}.<br>
      * Used when switching from main to mod class loader
+     *
      * @return the active {@link ClassLoader}
      */
     public static ClassLoader getCurrentClassLoader() {
         return Thread.currentThread().getContextClassLoader();
     }
+
     /**
      * Turns on the mod class loader
      */
@@ -287,6 +294,7 @@ public final class PotoFluxLoadingContext {
 
     /**
      * Getter for the potoflux mods dir
+     *
      * @return the potoflux mods dir
      */
     public static @NotNull Path getPotofluxModDir() {
@@ -295,6 +303,7 @@ public final class PotoFluxLoadingContext {
 
     /**
      * Getter for the mod class loader (prod)
+     *
      * @return the prod class loader
      */
     public static ClassLoader getModsClassLoader() {
@@ -306,6 +315,7 @@ public final class PotoFluxLoadingContext {
 
     /**
      * Checks if a mod is loaded
+     *
      * @param mod the mod to check loading status
      * @return if the mod is loaded
      */
@@ -313,8 +323,10 @@ public final class PotoFluxLoadingContext {
         if (illegalModIds.contains(mod.modId())) return true;
         return loadedMods.containsKey(mod.modId());
     }
+
     /**
      * Checks if a mod is loaded
+     *
      * @param modId the modID to check loading status
      * @return if the mod is loaded
      */
@@ -325,6 +337,7 @@ public final class PotoFluxLoadingContext {
 
     /**
      * Checks if a mod is listed (known)
+     *
      * @param mod the mod to check if listed
      * @return if the mod is listed
      */
@@ -332,8 +345,10 @@ public final class PotoFluxLoadingContext {
         if (illegalModIds.contains(mod.modId())) return true;
         return isModListed(mod.modId());
     }
+
     /**
      * Checks if a mod is listed (known)
+     *
      * @param modId the modID to check if listed
      * @return if the mod is listed
      */
@@ -343,8 +358,10 @@ public final class PotoFluxLoadingContext {
             if (entry.mod.modId().equals(modId)) return true;
         return false;
     }
+
     /**
      * Gets a version of a mod.
+     *
      * @param modId mod to get version
      * @return the mod version if listed, {@code null} else
      */
@@ -359,7 +376,8 @@ public final class PotoFluxLoadingContext {
 
     /**
      * Registers a mod to the listed
-     * @param mod mod to list
+     *
+     * @param mod      mod to list
      * @param modClass the main class (annotated with {@link Mod}) of the mod
      * @return if the mod has been listed successfully
      */
@@ -389,8 +407,7 @@ public final class PotoFluxLoadingContext {
         boolean isCompatible = false;
 
         // check if using online compatible
-        if (modUsesOnlineList(compatibleVersions))
-        {
+        if (modUsesOnlineList(compatibleVersions)) {
 
             // check if online list exists
             if (checkOnlineListExists(mod)) return null;
@@ -403,8 +420,7 @@ public final class PotoFluxLoadingContext {
 
             checkUpdate(mod, isCompatible);
 
-        }
-        else if (compatibleVersions.contains(PotoFlux.getVersion()))
+        } else if (compatibleVersions.contains(PotoFlux.getVersion()))
             isCompatible = true;
         return isCompatible;
     }
@@ -667,8 +683,7 @@ public final class PotoFluxLoadingContext {
 
             return compatibleVersionList;
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             PtfLogger.error("Failed to get online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
             return null;
@@ -679,8 +694,7 @@ public final class PotoFluxLoadingContext {
         if (compatibleVersionList.isEmpty()) {
             PtfLogger.error("Empty online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     private static boolean checkOnlineListNotnull(JsonObject versionObject, Mod mod) {
@@ -688,27 +702,36 @@ public final class PotoFluxLoadingContext {
             PtfLogger.error("Could not get corresponding online version for mod " + mod.modId(),
                     LogCategories.MOD_LOADER);
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     private static boolean checkOnlineListExists(@NotNull Mod mod) {
         if (mod.compatibleVersionUrl().equals("NONE")) {
             PtfLogger.error("No compatible version list system set for mod: " + mod.modId(), LogCategories.MOD_LOADER);
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     /**
      * Getter for a list of all loaded mods
+     *
      * @return a list of all loaded mod IDs
      */
     public static @NotNull @Unmodifiable List<String> getLoadedMods() {
         return loadedMods.keySet().stream().toList();
     }
+
     @Contract(value = " -> new", pure = true)
     public static @NotNull List<ModContainer> getListedMods() {
         return new ArrayList<>(listedMods); // safety copy
+    }
+
+    /**
+     * Getter for the only mod event bus
+     *
+     * @return the mod event bus
+     */
+    public ModEventBus getModEventBus() {
+        return modEventBus;
     }
 }

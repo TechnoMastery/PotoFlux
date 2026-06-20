@@ -8,7 +8,7 @@ import net.minheur.potoflux.logger.PtfLogger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -35,8 +35,9 @@ public class RequestPoster {
 
     /**
      * Sends a direct post to the database, to the {@linkplain #address}. Uses the {@linkplain #anonKey} to get authorized connection.
+     *
      * @param message this get sent to the database as parameters.
-     * @param method name of the database's function
+     * @param method  name of the database's function
      * @return the result sent by the database
      * @throws IOException if the database couldn't be reached
      */
@@ -67,6 +68,7 @@ public class RequestPoster {
 
     /**
      * Checks if the given {@link String} given is a correct {@code UUID} that can be used as a token
+     *
      * @param token string that should be a token as UUID
      * @throws InvalidTokenException if the token isn't correct
      */
@@ -88,6 +90,7 @@ public class RequestPoster {
 
     /**
      * Quickly gets a built JSON object containing the given token, ready to be sent to the database
+     *
      * @param token the token to put in the JSON
      * @return a built {@link JsonObject} with the token
      */
@@ -99,7 +102,8 @@ public class RequestPoster {
 
     /**
      * Asks for a token, from an email and a password
-     * @param email id of the account
+     *
+     * @param email    id of the account
      * @param password password associated
      * @return the database's response
      * @throws IOException if the server couldn't be reached
@@ -115,9 +119,10 @@ public class RequestPoster {
 
     /**
      * Checks if a token exists
+     *
      * @param token token to check
      * @return the database's response
-     * @throws IOException if the server couldn't be reached
+     * @throws IOException           if the server couldn't be reached
      * @throws InvalidTokenException if the token has invalid format
      */
     public static String checkToken(String token) throws IOException, InvalidTokenException {
@@ -128,9 +133,10 @@ public class RequestPoster {
 
     /**
      * Get infos about your own account with your token
+     *
      * @param token associated with your account
      * @return the database's response
-     * @throws IOException if the server couldn't be reached
+     * @throws IOException           if the server couldn't be reached
      * @throws InvalidTokenException if the token has invalid format
      */
     public static String getInfos(String token) throws IOException, InvalidTokenException {
@@ -141,15 +147,16 @@ public class RequestPoster {
 
     /**
      * Creation of a user by an admin
-     * @param token the admin's token
-     * @param email of the new user
-     * @param password of the new user
+     *
+     * @param token     the admin's token
+     * @param email     of the new user
+     * @param password  of the new user
      * @param firstName of the new user
-     * @param lastName of the new user
-     * @param perms of the new user
-     * @param rank of the new user
+     * @param lastName  of the new user
+     * @param perms     of the new user
+     * @param rank      of the new user
      * @return the database's response
-     * @throws IOException if the server couldn't be reached
+     * @throws IOException           if the server couldn't be reached
      * @throws InvalidTokenException if the admin's token has invalid format
      */
     public static String addUser(
@@ -180,12 +187,14 @@ public class RequestPoster {
 
         return get(obj.toString(), "add_user");
     }
+
     /**
      * Removal of an account by and admin
+     *
      * @param token of the admin
      * @param email of the targeted account
      * @return the database's response
-     * @throws IOException if the server couldn't be reached
+     * @throws IOException           if the server couldn't be reached
      * @throws InvalidTokenException if the admin's token has invalid format
      */
     public static String rmUser(String token, String email) throws InvalidTokenException, IOException {
@@ -197,12 +206,14 @@ public class RequestPoster {
 
         return get(obj.toString(), "delete_user");
     }
+
     /**
      * Account self-creation poster
-     * @param email of the account
-     * @param password for the account
+     *
+     * @param email     of the account
+     * @param password  for the account
      * @param firstName of the user
-     * @param lastName of the user
+     * @param lastName  of the user
      * @return the database's response
      * @throws IOException if the server couldn't be reached
      */
@@ -224,9 +235,10 @@ public class RequestPoster {
 
     /**
      * Lists all users UUIDs
+     *
      * @param token of the admin
      * @return the database's response
-     * @throws IOException if the server couldn't be reached
+     * @throws IOException           if the server couldn't be reached
      * @throws InvalidTokenException if the admin's token has invalid format
      */
     public static String listUsers(String token) throws InvalidTokenException, IOException {
@@ -237,12 +249,14 @@ public class RequestPoster {
 
         return get(obj.toString(), "list_users");
     }
+
     /**
      * Get infos for a specified user
-     * @param token of the admin
+     *
+     * @param token    of the admin
      * @param userUuid of the account to get specific specs
      * @return the database's response
-     * @throws IOException if the server couldn't be reached
+     * @throws IOException           if the server couldn't be reached
      * @throws InvalidTokenException if the admin's token has invalid format
      */
     public static String getUserInfos(String token, String userUuid) throws InvalidTokenException, IOException {
@@ -254,17 +268,19 @@ public class RequestPoster {
 
         return get(obj.toString(), "get_user_info");
     }
+
     /**
      * Modify an account
-     * @param token of the admin
-     * @param targetUuid to modify the account of
-     * @param newEmail of the account, of {@code null} if unchanged
+     *
+     * @param token        of the admin
+     * @param targetUuid   to modify the account of
+     * @param newEmail     of the account, of {@code null} if unchanged
      * @param newFirstName of the account, of {@code null} if unchanged
-     * @param newLastName of the account, of {@code null} if unchanged
-     * @param newRank of the account, of {@code 0} if unchanged
-     * @param perms of the account, of {@code null} if unchanged
+     * @param newLastName  of the account, of {@code null} if unchanged
+     * @param newRank      of the account, of {@code 0} if unchanged
+     * @param perms        of the account, of {@code null} if unchanged
      * @return the database's response
-     * @throws IOException if the server couldn't be reached
+     * @throws IOException           if the server couldn't be reached
      * @throws InvalidTokenException if the admin's token has invalid format
      */
     public static @Nullable String mdUserInfos(
@@ -283,7 +299,7 @@ public class RequestPoster {
         boolean emailChanged = newEmail != null;
         boolean fNameChanged = newFirstName != null;
         boolean lNameChanged = newLastName != null;
-        boolean rankChanged = newRank <= 100 && newRank >0;
+        boolean rankChanged = newRank <= 100 && newRank > 0;
         boolean permsChanged = perms != null;
 
         JsonObject obj = new JsonObject();
@@ -317,13 +333,15 @@ public class RequestPoster {
         return get(obj.toString(), "md_user_infos");
 
     }
+
     /**
      * Modify an account's password
-     * @param token of the admin
-     * @param targetUuid to change the password of
+     *
+     * @param token       of the admin
+     * @param targetUuid  to change the password of
      * @param newPassword for the account
      * @return the database's response
-     * @throws IOException if the server couldn't be reached
+     * @throws IOException           if the server couldn't be reached
      * @throws InvalidTokenException if the admin's token has invalid format
      */
     public static @Nullable String mdUserPassword(
@@ -341,13 +359,15 @@ public class RequestPoster {
 
         return get(obj.toString(), "md_user_password");
     }
+
     /**
      * Lock or unlock a user's account
-     * @param token of the admin
+     *
+     * @param token      of the admin
      * @param targetUuid that will be locked or unlocked
-     * @param newState weather the account will now be locked or not
+     * @param newState   weather the account will now be locked or not
      * @return the database's response
-     * @throws IOException if the server couldn't be reached
+     * @throws IOException           if the server couldn't be reached
      * @throws InvalidTokenException if the admin's token has invalid format
      */
     public static @Nullable String lockUser(
@@ -368,10 +388,11 @@ public class RequestPoster {
 
     /**
      * Disable or enable account self-creation
-     * @param token of the admin
+     *
+     * @param token    of the admin
      * @param newState weather the account self-creation is now allowed or not
      * @return the database's response
-     * @throws IOException if the server couldn't be reached
+     * @throws IOException           if the server couldn't be reached
      * @throws InvalidTokenException if the admin's token has invalid format
      */
     public static String lockAccountCreation(
@@ -389,6 +410,7 @@ public class RequestPoster {
 
     /**
      * Remove a token from the database active tokens
+     *
      * @param token to be removed
      * @throws IOException if the server couldn't be reached
      */
@@ -413,6 +435,7 @@ public class RequestPoster {
 
     /**
      * Gets if the account self-creation is allowed
+     *
      * @return the database's response
      * @throws IOException if the server couldn't be reached
      */
@@ -430,6 +453,7 @@ public class RequestPoster {
                     .GET()
                     .build();
             client.send(request, HttpResponse.BodyHandlers.discarding());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 }

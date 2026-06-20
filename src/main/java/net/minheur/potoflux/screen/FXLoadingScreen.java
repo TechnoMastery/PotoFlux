@@ -59,11 +59,13 @@ public class FXLoadingScreen {
 
     /**
      * Update what is currently loading
+     *
      * @param text to display in {@link #stageLabel}
      */
     public void updateStage(String text) {
         stageLabel.setText(text);
     }
+
     /**
      * Shuts up the loading screen, mission ended
      */

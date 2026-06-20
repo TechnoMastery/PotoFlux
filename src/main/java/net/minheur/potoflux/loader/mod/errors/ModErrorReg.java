@@ -14,6 +14,7 @@ public class ModErrorReg {
     public static void add(Mod mod, ModState errorState) {
         add(new LoadModError(mod, errorState));
     }
+
     public static void add(LoadModError error) {
         if (!opened) throw new IllegalStateException("Can't add mod loading error candidates after closing !");
         errors.add(error);

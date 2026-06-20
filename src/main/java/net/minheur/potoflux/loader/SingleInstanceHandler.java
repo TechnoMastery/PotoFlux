@@ -26,7 +26,8 @@ public class SingleInstanceHandler {
             while (true)
                 try (Socket socket = serverSocket.accept()) {
                     bringToFront();
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
 
         });
 
@@ -50,7 +51,8 @@ public class SingleInstanceHandler {
     public static void notifyExistingInstance(int port) {
         try (Socket socket = new Socket("127.0.0.1", port)) {
             socket.getOutputStream().write(1);
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
     }
 
 }

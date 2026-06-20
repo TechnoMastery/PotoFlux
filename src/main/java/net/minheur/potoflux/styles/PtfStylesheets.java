@@ -22,6 +22,7 @@ public class PtfStylesheets {
                 PtfStylesheets.class.getResource(target)
         ).toExternalForm();
     }
+
     public static void register(@NotNull RegisterStylesheetsEvent event) {
         LIST.register(event.reg);
     }

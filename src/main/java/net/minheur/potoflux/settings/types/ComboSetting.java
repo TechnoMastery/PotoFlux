@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * A setting using a combo, allowing lots of setting types in one
+ *
  * @param <T> type of data stored in the combo.
  */
 public class ComboSetting<T extends IComboSetting> implements ISettingType<String> {
@@ -37,8 +38,9 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<Strin
 
     /**
      * Constructor creating the {@linkplain #content} and {@linkplain #node}, as well as the labels.
-     * @param name of the setting
-     * @param items list of all items to add to the combo. It will be disabled if there are less than 2 items. It needs at least 1 item.
+     *
+     * @param name         of the setting
+     * @param items        list of all items to add to the combo. It will be disabled if there are less than 2 items. It needs at least 1 item.
      * @param defaultValue used if there are no saved values. Needs to be contained by the items list
      */
     public ComboSetting(String name, ObservableList<T> items, @NotNull T defaultValue) {
@@ -58,6 +60,7 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<Strin
 
     /**
      * Getter for if the value got changed
+     *
      * @return {@link #isModifiedLabel}
      */
     @Override
@@ -67,6 +70,7 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<Strin
 
     /**
      * Helper to select a given value into the {@linkplain #node}
+     *
      * @param value to select. Should be the same type of {@link #prefType()}
      */
     @Override
@@ -97,6 +101,7 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<Strin
 
     /**
      * Getter for the actual selected value, as an {@link ObservableValue}
+     *
      * @return the selected value property
      */
     @Override
@@ -107,6 +112,7 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<Strin
     /**
      * Getter for the selected value<br>
      * Is the {@linkplain String} value, got though {@linkplain ISettingType}
+     *
      * @return the selected value
      */
     @Override
@@ -116,6 +122,7 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<Strin
 
     /**
      * Getter for the default value
+     *
      * @return return value of {@link #defaultValue}
      */
     @Override
@@ -125,6 +132,7 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<Strin
 
     /**
      * Getter for the combo panel
+     *
      * @return {@link #content}
      */
     @Override
@@ -134,6 +142,7 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<Strin
 
     /**
      * Getter for the settings pref type
+     *
      * @return {@link PreferencesTypes#STRING}
      */
     @Override

@@ -28,22 +28,27 @@ public class OptionalFeature {
 
     /**
      * Creates a value of {@linkplain String}
+     *
      * @param stringValue value of the feature
      */
     public OptionalFeature(@NotNull String stringValue) {
         this.stringValue = stringValue;
         this.type = Type.STRING;
     }
+
     /**
      * Creates a value of {@linkplain Integer}
+     *
      * @param intValue value of the feature
      */
     public OptionalFeature(@NotNull Integer intValue) {
         this.intValue = intValue;
         this.type = Type.INT;
     }
+
     /**
      * Creates a value of {@linkplain Boolean}
+     *
      * @param boolValue value of the feature
      */
     public OptionalFeature(@NotNull Boolean boolValue) {
@@ -53,6 +58,7 @@ public class OptionalFeature {
 
     /**
      * Gets the value as an {@link Object}
+     *
      * @return the value depending on the {@linkplain #type}
      */
     public Object get() {
@@ -65,6 +71,7 @@ public class OptionalFeature {
 
     /**
      * Modifies the value, from an {@link Object}
+     *
      * @param value to set in the field corresponding to {@linkplain #type}
      * @throws ClassCastException if the value given cannot be put into the right field
      */
@@ -84,6 +91,7 @@ public class OptionalFeature {
 
     /**
      * Getter for the {@linkplain #type}
+     *
      * @return {@link #type}
      */
     public Type getType() {

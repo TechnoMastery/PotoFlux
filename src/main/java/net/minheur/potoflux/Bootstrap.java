@@ -3,13 +3,11 @@ package net.minheur.potoflux;
 import net.minheur.potoflux.actionRuns.ActionRuns;
 import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
-import net.minheur.potoflux.actionRuns.regs.StartLogicRunRegistry;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.loader.mod.post.ModEvent;
-import net.minheur.potoflux.loader.mod.post.ModEventsRegistry;
 import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.notifications.reg.NotifTypes;
@@ -38,10 +36,7 @@ import static net.minheur.potoflux.PotoFlux.fromModId;
 
 public class Bootstrap {
 
-    private static final AtomicBoolean built = new AtomicBoolean(false);
-
     public static final RegisterLangEvent langEvent = new RegisterLangEvent();
-
     public static final RegisterTabsEvent tabEvent = new RegisterTabsEvent();
     public static final RegisterCommandsEvent commandEvent = new RegisterCommandsEvent();
     public static final RegisterRunsEvent runEvent = new RegisterRunsEvent();
@@ -49,16 +44,17 @@ public class Bootstrap {
     public static final RegisterSettingEvent settingEvent = new RegisterSettingEvent();
     public static final RegisterNotifTypesEvent notificationTypesEvent = new RegisterNotifTypesEvent();
     public static final RegisterStylesheetsEvent stylesheetsEvent = new RegisterStylesheetsEvent();
-
     public static final RegisterModEventsEvent modEventsEvent = new RegisterModEventsEvent();
+    private static final AtomicBoolean built = new AtomicBoolean(false);
 
     /**
      * It will first check for args, then enable devEnv if args contains it.<br>
      * We then get version and log it, load all optionalFeatures, set the theme and set the loaded translations.<br>
      * We get the loading bus, register all into it then list and load mods.<br>
      * We post all events to the bus, and invoke the app.
+     *
      * @param updateText consumer that allows to change the text of the loading screen
-     * @param args args given on app startup
+     * @param args       args given on app startup
      */
     public static void bootstrap(Consumer<String> updateText, String[] args) {
         if (!built.compareAndSet(false, true)) return;
@@ -167,6 +163,7 @@ public class Bootstrap {
         if (logSavingFeature == null) enableLogSavingDefault();
         else if (logSavingFeature) LogSaver.enable();
     }
+
     /**
      * Executes the default logic to know if the log saving system will be enabled
      */
@@ -177,6 +174,7 @@ public class Bootstrap {
 
     /**
      * This register to the event all PotoFlux's translations
+     *
      * @param event the event for langs in the mod bus
      */
     private static void onRegisterLang(@NotNull RegisterLangEvent event) {

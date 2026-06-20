@@ -41,8 +41,9 @@ public enum TabSides implements IComboSetting {
 
     /**
      * Constructor of the side
-     * @param side real side
-     * @param code stored in the prefs
+     *
+     * @param side                real side
+     * @param code                stored in the prefs
      * @param translatableDisplay translation key used for the name
      */
     TabSides(Side side, String code, String translatableDisplay) {
@@ -52,24 +53,8 @@ public enum TabSides implements IComboSetting {
     }
 
     /**
-     * Getter for the {@link #code}
-     * @return {@link #code}
-     */
-    @Override
-    public String returnValue() {
-        return code;
-    }
-
-    /**
-     * Getter for the real side
-     * @return {@link #side}
-     */
-    public Side getSide() {
-        return side;
-    }
-
-    /**
      * Static getter for a {@link TabSides} from a code
+     *
      * @param code to get the side of
      * @return the corresponding side, or {@code null} if not exists
      */
@@ -80,7 +65,27 @@ public enum TabSides implements IComboSetting {
     }
 
     /**
+     * Getter for the {@link #code}
+     *
+     * @return {@link #code}
+     */
+    @Override
+    public String returnValue() {
+        return code;
+    }
+
+    /**
+     * Getter for the real side
+     *
+     * @return {@link #side}
+     */
+    public Side getSide() {
+        return side;
+    }
+
+    /**
      * Make to string gets the translated name
+     *
      * @return the translated name
      */
     @Override

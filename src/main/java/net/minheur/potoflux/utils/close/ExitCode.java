@@ -28,6 +28,7 @@ public enum ExitCode {
 
     /**
      * Makes an exit code
+     *
      * @param code used to exit the app
      */
     ExitCode(int code) {
@@ -36,6 +37,7 @@ public enum ExitCode {
 
     /**
      * Gets the actual code
+     *
      * @return {@link #code}
      */
     public int code() {

@@ -72,6 +72,7 @@ public class Settings {
 
     /**
      * Create and registers all items
+     *
      * @param event to add items to
      */
     public static void register(@NotNull RegisterSettingEvent event) {

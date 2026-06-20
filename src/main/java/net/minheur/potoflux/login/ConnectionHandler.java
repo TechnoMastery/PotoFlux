@@ -5,7 +5,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.perms.Perms;
@@ -53,7 +52,8 @@ public class ConnectionHandler {
     /**
      * Logs in with an email and a password.<br>
      * Done when the user connects / reconnects to its account using its IDs
-     * @param email of the user
+     *
+     * @param email    of the user
      * @param password of the account
      */
     public static void logWith(String email, String password) {
@@ -70,6 +70,7 @@ public class ConnectionHandler {
     /**
      * Logs in with a token. Calls {@link #displayInfoError(InfoResponse)} if the authentication fails<br>
      * Used when auto-logging on startup
+     *
      * @param token actually stored for the account
      */
     public static void accountFor(String token) {
@@ -114,6 +115,7 @@ public class ConnectionHandler {
     /**
      * Helper that transform a {@link String} array (SQL codes) into a {@link Perms} array<br>
      * If a code isn't known, it gets ignored
+     *
      * @param perms array of SQL codes sent by the database
      * @return the array of {@link Perms} corresponding the SQL codes.
      */
@@ -131,6 +133,7 @@ public class ConnectionHandler {
 
     /**
      * Displays the error when logging fails, resulting in an error in {@link InfoResponse}
+     *
      * @param infoResponse the response containing the error
      */
     private static void displayInfoError(@NotNull InfoResponse infoResponse) {
@@ -151,7 +154,8 @@ public class ConnectionHandler {
     /**
      * Sends a request to the server, getting a connection token for specified IDs<br>
      * If the connection fails, it will call {@link #displayLoggingError(LoginResponse)} and return {@code null}
-     * @param email of the target account
+     *
+     * @param email    of the target account
      * @param password of the account
      * @return the token sent by the database or {@code null} if failed
      */
@@ -200,8 +204,10 @@ public class ConnectionHandler {
         IsAccountCreationEnabledResponse response = Json.GSON.fromJson(content, IsAccountCreationEnabledResponse.class);
         isAccountCreationEnabled = response.isEnabled;
     }
+
     /**
      * Sends a request to allow or not the creation of account
+     *
      * @param isAllowed weather account self-creation is allowed
      */
     public static void sendAccountCreationLockRequest(boolean isAllowed) {
@@ -228,12 +234,12 @@ public class ConnectionHandler {
 
         showErrorPane(
                 response.error == null ? content :
-                switch (response.error) {
-                    case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
-                    case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
-                    case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
-                    default -> response.error;
-                }
+                        switch (response.error) {
+                            case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                            case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
+                            case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                            default -> response.error;
+                        }
         );
         if (response.error.equals("not_exists") || response.error.equals("token_expired"))
             TokenHandler.clear();
@@ -244,6 +250,7 @@ public class ConnectionHandler {
 
     /**
      * Displays the error when the server refuses to give you a token
+     *
      * @param loginResponse with the error sent by the database
      */
     private static void displayLoggingError(@NotNull LoginResponse loginResponse) {
@@ -259,11 +266,11 @@ public class ConnectionHandler {
      * Weather it succeeds of fails, will clear local token
      */
     public static void checkAndRemoveExistingToken() {
-       if (TokenHandler.has()) {
-           PtfLogger.warning("Connecting while already having a token ! Removing...", LogCategories.ACCOUNT);
-           TokenHandler.rmOnlineToken();
-           TokenHandler.clear();
-       }
+        if (TokenHandler.has()) {
+            PtfLogger.warning("Connecting while already having a token ! Removing...", LogCategories.ACCOUNT);
+            TokenHandler.rmOnlineToken();
+            TokenHandler.clear();
+        }
     }
 
     /**
@@ -275,6 +282,7 @@ public class ConnectionHandler {
         else login();
         reloadAuthUi();
     }
+
     /**
      * Reloads UI related to account state
      */
@@ -284,21 +292,22 @@ public class ConnectionHandler {
         ((AccountTab) PotoFlux.app.getTabMap().get(Tabs.ACCOUNT.get())).reload();
         ((AccountMenu) MenuContent.ACCOUNT.get().content()).reload();
     }
+
     /**
      * If not already so, remove the online and local token, then clears {@link #account} and set {@link #isLogged} to {@code false}
      */
     public static void logout() {
-       if (!isLogged) return;
+        if (!isLogged) return;
 
-       PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
+        PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
 
-       TokenHandler.rmOnlineToken();
-       TokenHandler.clear();
+        TokenHandler.rmOnlineToken();
+        TokenHandler.clear();
 
-       account = null;
-       isLogged = false;
+        account = null;
+        isLogged = false;
 
-       PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
+        PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
     }
 
     /**
@@ -362,18 +371,20 @@ public class ConnectionHandler {
         Optional<LoginData> result = dialog.showAndWait();
 
         result.ifPresentOrElse(data -> {
-            String email = data.username().trim();
-            String password = data.password();
+                    String email = data.username().trim();
+                    String password = data.password();
 
-            logout();
-            logWith(email, password);
-        },
+                    logout();
+                    logWith(email, password);
+                },
                 () -> PtfLogger.info("Connection canceled.", LogCategories.ACCOUNT)
         );
 
     }
+
     /**
      * Helper to get the text to apply to connection button, changing is {@linkplain #isLogged} is {@code true} or {@code false}
+     *
      * @return the correct text for the auth buttton
      */
     public static String getAuthButtonStatus() {

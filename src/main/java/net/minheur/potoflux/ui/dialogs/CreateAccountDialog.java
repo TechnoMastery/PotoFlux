@@ -2,8 +2,6 @@ package net.minheur.potoflux.ui.dialogs;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.ui.dialogData.NewAccountData;

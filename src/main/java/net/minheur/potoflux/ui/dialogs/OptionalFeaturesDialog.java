@@ -16,7 +16,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Properties;
 
 /**
  * Dialog to list, see and manage optional features added to the app
@@ -101,8 +104,9 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
 
     /**
      * Helper to add a single feature to the {@linkplain #listPanel}
+     *
      * @param featureKey used as key in the property file
-     * @param value gets the type and the value of the feature
+     * @param value      gets the type and the value of the feature
      * @return the built line for the feature
      */
     private @NotNull HBox mkRow(String featureKey, @NotNull OptionalFeature value) {
@@ -168,6 +172,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
 
     /**
      * Removes a feature from the property file
+     *
      * @param key of the feature to remove
      */
     private void rmFeature(String key) {
@@ -180,9 +185,10 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
 
     /**
      * Saves modified feature into the map
-     * @param key original key of the feature
-     * @param data original value container of the feature
-     * @param newKeyField used to get new key
+     *
+     * @param key          original key of the feature
+     * @param data         original value container of the feature
+     * @param newKeyField  used to get new key
      * @param newValueNode used to get new value
      * @throws ClassCastException if the wrong node is used for a specific type
      */
@@ -224,6 +230,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
 
     /**
      * Asks for writing in a file ({@linkplain #saveToFile(Map)}) and handle the exception or success
+     *
      * @param features map of features to save. Contains all previous features, but take in count the modifications
      */
     private void saveAndHandle(Map<String, OptionalFeature> features) {
@@ -242,6 +249,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
 
     /**
      * Rewrite the entire property file with the given map
+     *
      * @param featureMap map of features to save. Contains all previous features, but take in count the modifications
      * @throws IOException if the file couldn't be written in
      */

@@ -1,11 +1,6 @@
 package net.minheur.potoflux.terminal;
 
 import net.minheur.potoflux.registry.AbstractRegistry;
-import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Reg containing all commands of the app.<br>
@@ -15,6 +10,7 @@ public class CommandRegistry extends AbstractRegistry<Command> {
 
     /**
      * Checks if a key is already used by another command
+     *
      * @param pKey command key to check if used
      * @return if the key is already used
      */
@@ -25,6 +21,7 @@ public class CommandRegistry extends AbstractRegistry<Command> {
 
     /**
      * Gets a command object from his key
+     *
      * @param pKey command key to get the command from
      * @return the command associated to the key, or null if the command doesn't exist
      */

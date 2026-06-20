@@ -33,7 +33,8 @@ public enum ASCIIs implements IComboSetting {
 
     /**
      * Makes an ASCII
-     * @param fileName to find the ASCII. Should lead to an existing file
+     *
+     * @param fileName                to find the ASCII. Should lead to an existing file
      * @param translatableDisplayName for the ASCII. Do not add the {@link Translations#get(String)}.
      */
     ASCIIs(String fileName, String translatableDisplayName) {
@@ -43,6 +44,7 @@ public enum ASCIIs implements IComboSetting {
 
     /**
      * Gets the file name for the ASCII
+     *
      * @return {@link #fileName}
      */
     @Override
@@ -52,6 +54,7 @@ public enum ASCIIs implements IComboSetting {
 
     /**
      * Change the display name to the translated one
+     *
      * @return {@link Translations#get} of {@linkplain #translatableDisplayName}
      */
     @Override

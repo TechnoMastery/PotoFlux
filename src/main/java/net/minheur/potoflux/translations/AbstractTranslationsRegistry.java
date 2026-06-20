@@ -22,6 +22,7 @@ public abstract class AbstractTranslationsRegistry {
 
     /**
      * Creates a reg, from the modID
+     *
      * @param modId the {@link #modId} of the mod creating translations
      */
     public AbstractTranslationsRegistry(String modId) {
@@ -37,8 +38,10 @@ public abstract class AbstractTranslationsRegistry {
 
         makeTranslation();
     }
+
     /**
      * Getter for the {@link #modTranslations}.
+     *
      * @return {@link #modTranslations}
      */
     public Map<Lang, Map<String, String>> getTranslations() {
@@ -52,15 +55,18 @@ public abstract class AbstractTranslationsRegistry {
 
     /**
      * Creates a {@link TranslationBuilder} with a raw key
+     *
      * @param key the full key of the translation
      * @return the new {@link TranslationBuilder}
      */
     protected TranslationBuilder add(String key) {
         return new TranslationBuilder(key);
     }
+
     /**
      * Creates a {@link TranslationBuilder} with a main key and children (separated by a {@code .})
-     * @param mainKey the main key of the translation
+     *
+     * @param mainKey  the main key of the translation
      * @param children all other keys to add
      * @return the new {@link TranslationBuilder}
      */
@@ -75,7 +81,8 @@ public abstract class AbstractTranslationsRegistry {
 
     /**
      * Adds a translation for a tab
-     * @param id the ID of the tab
+     *
+     * @param id       the ID of the tab
      * @param children the optional children of the translation
      * @return the new {@link TranslationBuilder}
      */
@@ -85,16 +92,19 @@ public abstract class AbstractTranslationsRegistry {
 
     /**
      * Adds a translation for a command
-     * @param id the ID of the command
+     *
+     * @param id       the ID of the command
      * @param children the optional children of the translation
      * @return the new {@link TranslationBuilder}
      */
     protected TranslationBuilder addCommand(String id, String... children) {
         return add("command." + id, children);
     }
+
     /**
      * Adds a translation for a command usage
-     * @param id the ID of the command
+     *
+     * @param id       the ID of the command
      * @param children the optional children of the translation
      * @return the new {@link TranslationBuilder}
      */
@@ -104,6 +114,7 @@ public abstract class AbstractTranslationsRegistry {
 
     /**
      * Adds the mod ID before a translation key
+     *
      * @param key the key to be preceded by the mod ID
      * @return the full ID
      */
@@ -123,6 +134,7 @@ public abstract class AbstractTranslationsRegistry {
 
         /**
          * Creates the builder
+         *
          * @param key the key for the translation
          */
         public TranslationBuilder(String key) {
@@ -131,7 +143,8 @@ public abstract class AbstractTranslationsRegistry {
 
         /**
          * Adds an actual translation with the key
-         * @param lang the lang to add the translation to
+         *
+         * @param lang  the lang to add the translation to
          * @param value the content of the translation
          * @return the actual builder
          */
@@ -144,30 +157,37 @@ public abstract class AbstractTranslationsRegistry {
 
         /**
          * Utility to create an English translation
+         *
          * @param value the content of the translation
          * @return the actual builder
          */
         public TranslationBuilder en(String value) {
             return lang(Lang.EN, value);
         }
+
         /**
          * Utility to create a French translation
+         *
          * @param value the content of the translation
          * @return the actual builder
          */
         public TranslationBuilder fr(String value) {
             return lang(Lang.FR, value);
         }
+
         /**
          * Utility to create a German translation
+         *
          * @param value the content of the translation
          * @return the actual builder
          */
         public TranslationBuilder de(String value) {
             return lang(Lang.DE, value);
         }
+
         /**
          * Utility to create a Espagnol translation
+         *
          * @param value the content of the translation
          * @return the actual builder
          */

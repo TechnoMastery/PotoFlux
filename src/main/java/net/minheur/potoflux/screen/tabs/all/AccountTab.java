@@ -4,7 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -20,12 +23,10 @@ import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
 
-import javax.swing.*;
 import java.util.Arrays;
-import java.util.Objects;
 
-import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 import static net.minheur.potoflux.login.ConnectionHandler.*;
+import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 
 /**
  * Tab class for account tab
@@ -246,8 +247,7 @@ public class AccountTab extends BaseVTab<ScrollPane> {
         if (isLogged) {
             emailLabel.setVisible(true);
             emailLabel.setText(account.email);
-        }
-        else emailLabel.setVisible(false);
+        } else emailLabel.setVisible(false);
     }
 
     /**
@@ -263,8 +263,7 @@ public class AccountTab extends BaseVTab<ScrollPane> {
             for (Perms perm : Perms.values())
                 if (Arrays.asList(account.perms).contains(perm))
                     permsModel.add(perm);
-        }
-        else UiUtils.hideNode(permsPanel);
+        } else UiUtils.hideNode(permsPanel);
     }
 
     /**
@@ -278,6 +277,7 @@ public class AccountTab extends BaseVTab<ScrollPane> {
 
     /**
      * Disables the preset
+     *
      * @return {@code false}
      */
     @Override

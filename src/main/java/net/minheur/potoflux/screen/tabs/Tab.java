@@ -6,7 +6,8 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * A registry item to make tabs
- * @param id the ID of your tab
+ *
+ * @param id       the ID of your tab
  * @param tabClass the class of the tab, used to actually get the panel
  */
 public record Tab(ResourceLocation id, Class<? extends BaseTab<?>> tabClass) implements IRegistryType {

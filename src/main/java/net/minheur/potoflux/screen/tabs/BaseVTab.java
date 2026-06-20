@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * Base tab, but also including a preset {@link #vContent} and {@link #boxPreset()}
+ *
  * @param <T> type of {@link Pane} added to the tab
  */
 public abstract class BaseVTab<T extends Parent> extends BaseTab<T> {

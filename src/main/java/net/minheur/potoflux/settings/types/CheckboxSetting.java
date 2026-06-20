@@ -26,7 +26,8 @@ public class CheckboxSetting implements ISettingType<Boolean> {
 
     /**
      * Constructor using a name and a default value to create the setting
-     * @param name of the setting
+     *
+     * @param name         of the setting
      * @param defaultValue of the setting
      */
     public CheckboxSetting(String name, boolean defaultValue) {
@@ -41,6 +42,7 @@ public class CheckboxSetting implements ISettingType<Boolean> {
 
     /**
      * Getter for the actual selected value, as an {@link ObservableValue}
+     *
      * @return the selected value property
      */
     @Override
@@ -50,6 +52,7 @@ public class CheckboxSetting implements ISettingType<Boolean> {
 
     /**
      * Helper to select a given value into the {@linkplain #node}
+     *
      * @param value to select. Should be the same type of {@link #prefType()}
      */
     @Override
@@ -65,6 +68,7 @@ public class CheckboxSetting implements ISettingType<Boolean> {
 
     /**
      * Getter for the default value
+     *
      * @return {@link #defaultValue}
      */
     @Override
@@ -75,6 +79,7 @@ public class CheckboxSetting implements ISettingType<Boolean> {
     /**
      * Getter for the selected value<br>
      * Is directly the value, not an observable like {@linkplain #valueProperty()}
+     *
      * @return the selected value
      */
     @Override
@@ -84,6 +89,7 @@ public class CheckboxSetting implements ISettingType<Boolean> {
 
     /**
      * Getter for if the value got changed
+     *
      * @return {@link #isModifiedLabel}
      */
     @Override
@@ -93,6 +99,7 @@ public class CheckboxSetting implements ISettingType<Boolean> {
 
     /**
      * Getter for the checkbox
+     *
      * @return {@link #node}
      */
     @Override
@@ -102,6 +109,7 @@ public class CheckboxSetting implements ISettingType<Boolean> {
 
     /**
      * Getter for the settings pref type
+     *
      * @return {@link PreferencesTypes#BOOLEAN}
      */
     @Override

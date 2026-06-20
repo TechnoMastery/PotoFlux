@@ -3,7 +3,6 @@ package net.minheur.potoflux;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.close.ExitCode;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -20,9 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -36,7 +32,8 @@ public class Functions {
 
     /**
      * This method is used to call exiting with a delay.
-     * @param delay amount of milliseconds before exiting
+     *
+     * @param delay  amount of milliseconds before exiting
      * @param status exit code
      */
     public static void exit(int delay, ExitCode status) {
@@ -60,6 +57,7 @@ public class Functions {
 
     /**
      * Method to remove all characters that could be dangerous in a {@link String} inputted by the user
+     *
      * @param s the String to check
      * @return the checked String
      */
@@ -67,8 +65,10 @@ public class Functions {
         if (s == null) return null;
         return s.replaceAll("[^\\p{L}\\p{N} @!,.?:;*$+/→\\-^'¨()#§]+", "");
     }
+
     /**
      * Method to remove characters used in HTML code from a {@link String}
+     *
      * @param s the String to check
      * @return the checked String
      */
@@ -81,6 +81,7 @@ public class Functions {
 
     /**
      * Method to get a list of .txt file names from a folder in the resources path
+     *
      * @param folder the dir to get files from
      * @return a list of file names
      * @throws IOException if the folder couldn't get accessed
@@ -121,21 +122,23 @@ public class Functions {
 
     /**
      * Format a message with placeholders.
+     *
      * @param message your initial message. Use $$ and an int to set your placeholders
-     * @param args your placeholder's values. the first one is $$1, then $$2...
+     * @param args    your placeholder's values. the first one is $$1, then $$2...
      * @return the formated message
      */
     public static String formatMessage(String message, Object @NotNull ... args) {
         String result = message;
 
         for (int i = 0; i < args.length; i++)
-            result = result.replace("$$" + (i +1), args[i].toString());
+            result = result.replace("$$" + (i + 1), args[i].toString());
 
         return result;
     }
 
     /**
      * Opens a directory in your file explorer
+     *
      * @param url directory to open
      * @return weather the directory got opened or if an error happened
      */
@@ -152,8 +155,10 @@ public class Functions {
             return false;
         }
     }
+
     /**
      * Simply opens a given file dir in the explorer. Handles exception.
+     *
      * @param dir file to open
      * @return weather the file go opened
      */

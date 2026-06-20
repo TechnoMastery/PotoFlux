@@ -4,8 +4,12 @@ import net.minheur.potoflux.loader.mod.events.IEvent;
 import net.minheur.potoflux.utils.EventListener;
 import net.minheur.potoflux.utils.LambdaUtils;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -21,73 +25,12 @@ public class ModEventBus {
     private final Map<Class<?>, List<Listener>> listeners = new HashMap<>();
 
     /**
-     * Inner wrapper to help store listeners.
-     */
-    private static final class Listener {
-        /**
-         * Target of the listener.<br>
-         * Might be null when storing a consumer
-         */
-        final Object target;
-        /**
-         * The method to invoke on the event post<br>
-         * Take 1 parameter : the event it subscribes to
-         */
-        final Method method;
-        /**
-         * Other wat to store the target if a consumer is used
-         */
-        final Consumer<Object> consumer;
-
-        /**
-         * Creates a listener with a raw target and a method.
-         * @param target raw target
-         * @param method the subscribed method
-         */
-        Listener(Object target, Method method) {
-            this.target = target;
-            this.method = method;
-            this.consumer = null;
-            this.method.setAccessible(true);
-        }
-
-        /**
-         * Creates a listener with a consumer.<br>
-         * The method is extracted from the consumer
-         * @param consumer target of the listener
-         */
-        Listener(Consumer<Object> consumer) {
-            this.target = null;
-            this.method = null;
-            this.consumer = consumer;
-        }
-
-        /**
-         * This is called when the event of the listener is posted.<br>
-         * This runs the {@link #method} with the {@link #target}, or it accepts the {@link #consumer} if no method / target are given.
-         * @param event event that is posted : given to the method as its parameter.
-         */
-        void invoke(Object event) {
-            try {
-                if (consumer != null) {
-                    consumer.accept(event);
-                } else {
-                    method.invoke(target, event);
-                }
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
-                throw new RuntimeException(e.getCause());
-            }
-        }
-    }
-
-    /**
      * Adds a listener with an event class and a consumer of this event.<br>
      * This requires the registering mod to explicitly say which event is used.
+     *
      * @param eventClass event used
-     * @param consumer method to get called when the event is posted
-     * @param <E> the type of event
+     * @param consumer   method to get called when the event is posted
+     * @param <E>        the type of event
      */
     public <E> void addListener(Class<E> eventClass, Consumer<E> consumer) {
         List<Listener> list = listeners.computeIfAbsent(eventClass, k -> new ArrayList<>());
@@ -100,8 +43,9 @@ public class ModEventBus {
      * Only method references are supported (no lambda expressions).<br>
      * The listener method must take exactly one parameter.<br>
      * No inline listeners, as {@code e -> handle(e)} or {@code e -> System.out.println()}
+     *
      * @param consumer the consumer, in the form of {@code this::onSomething}, to invoke on the event post
-     * @param <E> the event linked
+     * @param <E>      the event linked
      */
     public <E> void addListener(EventListener<E> consumer) {
         if (consumer == null)
@@ -124,6 +68,7 @@ public class ModEventBus {
     /**
      * This actually posts the events.<br>
      * When an event is posted, the param given to this method (the event) is then transferred to all method subscribing to the event.
+     *
      * @param event the posted event.
      */
     public void post(IEvent event) {
@@ -139,6 +84,71 @@ public class ModEventBus {
             l.invoke(event);
         }
         event.close();
+    }
+
+    /**
+     * Inner wrapper to help store listeners.
+     */
+    private static final class Listener {
+        /**
+         * Target of the listener.<br>
+         * Might be null when storing a consumer
+         */
+        final Object target;
+        /**
+         * The method to invoke on the event post<br>
+         * Take 1 parameter : the event it subscribes to
+         */
+        final Method method;
+        /**
+         * Other wat to store the target if a consumer is used
+         */
+        final Consumer<Object> consumer;
+
+        /**
+         * Creates a listener with a raw target and a method.
+         *
+         * @param target raw target
+         * @param method the subscribed method
+         */
+        Listener(Object target, Method method) {
+            this.target = target;
+            this.method = method;
+            this.consumer = null;
+            this.method.setAccessible(true);
+        }
+
+        /**
+         * Creates a listener with a consumer.<br>
+         * The method is extracted from the consumer
+         *
+         * @param consumer target of the listener
+         */
+        Listener(Consumer<Object> consumer) {
+            this.target = null;
+            this.method = null;
+            this.consumer = consumer;
+        }
+
+        /**
+         * This is called when the event of the listener is posted.<br>
+         * This runs the {@link #method} with the {@link #target}, or it accepts the {@link #consumer} if no method / target are given.
+         *
+         * @param event event that is posted : given to the method as its parameter.
+         */
+        void invoke(Object event) {
+            try {
+                if (consumer != null) {
+                    consumer.accept(event);
+                } else {
+                    method.invoke(target, event);
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e.getCause());
+            }
+        }
     }
 }
 

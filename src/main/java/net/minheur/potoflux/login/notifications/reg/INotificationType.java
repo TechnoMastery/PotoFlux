@@ -5,10 +5,14 @@ import javafx.scene.control.Alert;
 
 public interface INotificationType {
     String getSqlCode();
+
     Alert.AlertType detailsAlertType(JsonObject obj);
 
     String buildTitle(JsonObject obj);
+
     String buildMessage(JsonObject obj);
+
     String buildDetails(JsonObject obj);
+
     String typeBarColorClass(JsonObject obj);
 }

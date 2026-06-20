@@ -8,11 +8,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.screen.menu.MenuRegistry;
 import net.minheur.potoflux.screen.menu.PotoMenuItem;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
-import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.TabSides;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.settings.Settings;
@@ -99,6 +97,7 @@ public class FXPotoScreen {
 
     /**
      * With the list of tabs, instancies all tabs and adds them in the {@link #tabMap} and in {@link #tabs}
+     *
      * @param allTabs list of all {@link Tab}
      */
     private void fillTabMap(@NotNull List<Tab> allTabs) {
@@ -117,6 +116,7 @@ public class FXPotoScreen {
 
     /**
      * Getter for the {@link #tabMap}
+     *
      * @return {@link #tabMap}
      */
     public Map<Tab, BaseTab<?>> getTabMap() {
@@ -174,6 +174,7 @@ public class FXPotoScreen {
 
     /**
      * Helper to open a given tab
+     *
      * @param tab to open
      */
     public void setOpenedTab(Tab tab) {

@@ -9,6 +9,7 @@ import javafx.scene.layout.Priority;
 
 /**
  * Base tab, but also including a preset {@link #hContent} and {@link #boxPreset()}
+ *
  * @param <T> type of {@link Pane} added to the tab
  */
 public abstract class BaseHTab<T extends Parent> extends BaseTab<T> {

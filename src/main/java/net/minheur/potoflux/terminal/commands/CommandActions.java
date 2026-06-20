@@ -8,12 +8,10 @@ import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.BaseTab;
-import net.minheur.potoflux.screen.tabs.TabRegistry;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.terminal.Command;
 import net.minheur.potoflux.terminal.CommandProcessor;
-import net.minheur.potoflux.terminal.CommandRegistry;
 import net.minheur.potoflux.terminal.Terminal;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.close.ExitCode;
@@ -34,6 +32,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code hello}.
+     *
      * @param args all the args given to the command
      */
     static void helloWorld(List<String> args) {
@@ -47,6 +46,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code time}.
+     *
      * @param args all the args given to the command
      */
     static void time(List<String> args) {
@@ -60,6 +60,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code help}.
+     *
      * @param args all the args given to the command
      */
     static void help(List<String> args) {
@@ -91,6 +92,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code source}.
+     *
      * @param args all the args given to the command
      */
     static void sourceCode(List<String> args) {
@@ -112,6 +114,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code quit}.
+     *
      * @param args all the args given to the command
      */
     static void quit(List<String> args) {
@@ -126,6 +129,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code echo}.
+     *
      * @param args all the args given to the command
      */
     static void echo(@NotNull List<String> args) {
@@ -140,6 +144,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code tab}.
+     *
      * @param args all the args given to the command
      */
     static void tab(List<String> args) {
@@ -175,6 +180,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code clear}.
+     *
      * @param args all the args given to the command
      */
     static void clear(List<String> args) {
@@ -188,6 +194,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code ascii}.
+     *
      * @param args all the args given to the command
      */
     static void writeAscii(List<String> args) {
@@ -208,6 +215,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code modList}.
+     *
      * @param args all the args given to the command
      */
     static void modList(List<String> args) {
@@ -235,6 +243,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code modDir}.
+     *
      * @param args all the args given to the command
      */
     static void modDir(List<String> args) {
@@ -258,6 +267,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code ptfVersion}
+     *
      * @param args all the args given to the command
      */
     static void ptfVersion(List<String> args) {
@@ -317,6 +327,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code hide}.
+     *
      * @param args all the args given to the command
      */
     static void hidden(List<String> args) {
@@ -330,6 +341,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code nope}.
+     *
      * @param args all the args given to the command
      */
     static void nope(List<String> args) {
@@ -350,6 +362,7 @@ public class CommandActions {
 
     /**
      * Command execution for command {@code LordHawima}
+     *
      * @param args all the args given to the command
      */
     static void lordHawima(List<String> args) {

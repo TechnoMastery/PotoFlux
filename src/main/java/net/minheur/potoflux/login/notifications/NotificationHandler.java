@@ -46,11 +46,11 @@ public final class NotificationHandler {
         if (!response.success) {
             showErrorPane(
                     response.error == null ? content :
-                    switch (response.error) {
-                        case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
-                        case "email_used" -> Translations.get("potoflux:tabs.account.createAccount.emailUsed");
-                        default -> response.error;
-                    }
+                            switch (response.error) {
+                                case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                                case "email_used" -> Translations.get("potoflux:tabs.account.createAccount.emailUsed");
+                                default -> response.error;
+                            }
             );
             return;
         }
@@ -70,7 +70,8 @@ public final class NotificationHandler {
                         obj.get("created_at").getAsString()
                 );
                 notifs.add(notif);
-            } catch (IllegalStateException | NumberFormatException ignored) {}
+            } catch (IllegalStateException | NumberFormatException ignored) {
+            }
         }
 
         notifications.clear();

@@ -33,6 +33,7 @@ public class TerminalTab extends BaseTab<StackPane> {
 
     /**
      * Gets the name of the tab, displayed in the tab list
+     *
      * @return the tab's name
      */
     @Override
@@ -42,6 +43,7 @@ public class TerminalTab extends BaseTab<StackPane> {
 
     /**
      * Disable the preset
+     *
      * @return false
      */
     @Override
@@ -58,6 +60,7 @@ public class TerminalTab extends BaseTab<StackPane> {
 
     /**
      * Getter for the {@link #terminal}
+     *
      * @return the {@link #terminal}
      */
     public Terminal getTerminal() {

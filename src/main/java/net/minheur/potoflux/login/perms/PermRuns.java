@@ -17,7 +17,6 @@ import net.minheur.potoflux.ui.dialogs.AllUsersDialog;
 import net.minheur.potoflux.ui.dialogs.RmUserDialog;
 import net.minheur.potoflux.utils.Json;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,8 @@ import java.util.Optional;
 
 import static net.minheur.potoflux.login.ConnectionHandler.account;
 import static net.minheur.potoflux.login.ConnectionHandler.fillPerms;
-import static net.minheur.potoflux.ui.UiUtils.*;
+import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
+import static net.minheur.potoflux.ui.UiUtils.showMessagePane;
 
 /**
  * Runnable called by perms when you run them
@@ -90,15 +90,16 @@ public class PermRuns {
 
         showErrorPane(
                 response.error == null ? content :
-                switch (response.error) {
-                    case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
-                    case "email_used" -> Translations.get("potoflux:tabs.account.createAccount.emailUsed");
-                    case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
-                    case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
-                    case "rank_too_big" -> Functions.formatMessage(Translations.get("potoflux:tabs.account.error.rankToBig"),
-                            rank, account.rank);
-                    default -> response.error;
-                }
+                        switch (response.error) {
+                            case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                            case "email_used" -> Translations.get("potoflux:tabs.account.createAccount.emailUsed");
+                            case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
+                            case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                            case "rank_too_big" ->
+                                    Functions.formatMessage(Translations.get("potoflux:tabs.account.error.rankToBig"),
+                                            rank, account.rank);
+                            default -> response.error;
+                        }
         );
         if (response.error.equals("not_exists") || response.error.equals("token_expired"))
             TokenHandler.clear();
@@ -143,21 +144,21 @@ public class PermRuns {
 
         showErrorPane(
                 response.error == null ? content :
-                switch (response.error) {
-                    case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
-                    case "no_user" -> Functions.formatMessage(
-                            Translations.get("potoflux:tabs.account.rmUser.notExists"),
-                            email
-                    );
-                    case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
-                    case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
-                    case "rank_to_small" -> Functions.formatMessage(
-                            Translations.get("potoflux:tabs.account.error.rankToSmall"),
-                            response.targetRank, account.rank
-                    );
-                    case "target_locked" -> Translations.get("potoflux:tabs.account.error.targetLocked");
-                    default -> response.error;
-                }
+                        switch (response.error) {
+                            case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                            case "no_user" -> Functions.formatMessage(
+                                    Translations.get("potoflux:tabs.account.rmUser.notExists"),
+                                    email
+                            );
+                            case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
+                            case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                            case "rank_to_small" -> Functions.formatMessage(
+                                    Translations.get("potoflux:tabs.account.error.rankToSmall"),
+                                    response.targetRank, account.rank
+                            );
+                            case "target_locked" -> Translations.get("potoflux:tabs.account.error.targetLocked");
+                            default -> response.error;
+                        }
         );
         if (response.error.equals("not_exists") || response.error.equals("token_expired"))
             TokenHandler.clear();
@@ -204,12 +205,12 @@ public class PermRuns {
         if (!listResponse.success) {
             showErrorPane(
                     listResponse.error == null ? listContent :
-                    switch (listResponse.error) {
-                        case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
-                        case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
-                        case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
-                        default -> listResponse.error;
-                    }
+                            switch (listResponse.error) {
+                                case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
+                                case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                                case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                                default -> listResponse.error;
+                            }
             );
             if (listResponse.error.equals("not_exists") || listResponse.error.equals("token_expired"))
                 TokenHandler.clear();
@@ -259,8 +260,10 @@ public class PermRuns {
                     case "not_exists", "token_expired", "no_permission" -> {
                         showErrorPane(
                                 switch (userResponse.error) {
-                                    case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
-                                    case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                                    case "not_exists" ->
+                                            Translations.get("potoflux:tabs.account.error.token.notExists");
+                                    case "token_expired" ->
+                                            Translations.get("potoflux:tabs.account.error.token.expired");
                                     case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
                                     default -> listResponse.error;
                                 }

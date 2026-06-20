@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
 /**
  * Class responsible for saving logs.
  */
@@ -39,7 +40,8 @@ public class LogSaver {
     /**
      * Disables this class instantiating
      */
-    private LogSaver() {}
+    private LogSaver() {
+    }
 
     /**
      * Runs to set up the log saving system
@@ -91,7 +93,7 @@ public class LogSaver {
             Path folder = logsDir.resolve(timestamp);
             Files.createDirectories(folder);
 
-            Path logFile = folder.resolve(timestamp  + ".log");
+            Path logFile = folder.resolve(timestamp + ".log");
             Files.write(logFile, buffer.toByteArray());
 
             zipFolder(folder, folder.resolveSibling(timestamp + ".zip"));
@@ -106,8 +108,9 @@ public class LogSaver {
 
     /**
      * Make a zip file from a folder
+     *
      * @param sourceDir the initial folder to zip
-     * @param zipFile where the zip folder will be
+     * @param zipFile   where the zip folder will be
      * @throws IOException if could not read / write on disc
      */
     private static void zipFolder(Path sourceDir, Path zipFile) throws IOException {
@@ -135,6 +138,7 @@ public class LogSaver {
 
     /**
      * Delete a folder and all its content
+     *
      * @param path the folder to delete
      * @throws IOException if could not modify the disc
      */
@@ -147,7 +151,8 @@ public class LogSaver {
                 .forEach(p -> {
                     try {
                         Files.delete(p);
-                    } catch (IOException ignored) {}
+                    } catch (IOException ignored) {
+                    }
                 });
     }
 

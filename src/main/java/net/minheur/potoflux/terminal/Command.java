@@ -10,21 +10,24 @@ import java.util.function.Consumer;
 
 /**
  * A class used to register a command.
- * @param id the resource loc of the command
- * @param key the key to write in the terminal in the terminal
+ *
+ * @param id            the resource loc of the command
+ * @param key           the key to write in the terminal in the terminal
  * @param commandOutput the output to print in the terminal. It takes a list of command args
- * @param commandHelp something to print when the command is wrongly used, or with the {@code help} command.
- * @param hidden if the command is hidden (if true, the {@code commandHelp} should be null).
+ * @param commandHelp   something to print when the command is wrongly used, or with the {@code help} command.
+ * @param hidden        if the command is hidden (if true, the {@code commandHelp} should be null).
  */
-public record Command(ResourceLocation id, String key, Consumer<List<String>> commandOutput, @Nullable String commandHelp,
+public record Command(ResourceLocation id, String key, Consumer<List<String>> commandOutput,
+                      @Nullable String commandHelp,
                       boolean hidden) implements IRegistryType {
     /**
      * Creates the command.<br>
      * It is a normal command
-     * @param id the resource loc of the command
-     * @param key the key to write in the terminal in the terminal
+     *
+     * @param id            the resource loc of the command
+     * @param key           the key to write in the terminal in the terminal
      * @param commandOutput the output to print in the terminal. It takes a list of command args
-     * @param commandHelp something to print when the command is wrongly used, or with the help command.
+     * @param commandHelp   something to print when the command is wrongly used, or with the help command.
      */
     public Command(ResourceLocation id, String key, Consumer<List<String>> commandOutput, @NotNull String commandHelp) {
 
@@ -34,8 +37,9 @@ public record Command(ResourceLocation id, String key, Consumer<List<String>> co
     /**
      * Creates the command.<br>
      * It is a hidden command
-     * @param id the resource loc of the command
-     * @param key the key to write in the terminal in the terminal
+     *
+     * @param id            the resource loc of the command
+     * @param key           the key to write in the terminal in the terminal
      * @param commandOutput the output to print in the terminal. It takes a list of command args
      */
     public Command(ResourceLocation id, String key, Consumer<List<String>> commandOutput) {

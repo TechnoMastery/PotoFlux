@@ -60,12 +60,14 @@ public class FileTranslations extends AbstractTranslationsRegistry {
 
     /**
      * Adds an error branch file translation
+     *
      * @param children optional extra members
      * @return the translation builder associated
      */
     private TranslationBuilder error(String... children) {
         return add("error", children);
     }
+
     private TranslationBuilder json(String... children) {
         return add("json", children);
     }

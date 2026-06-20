@@ -12,8 +12,6 @@ import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -37,6 +35,7 @@ public class AllUsersDialog extends Dialog<Void> {
 
     /**
      * Creates the dialog with a given list of account
+     *
      * @param accounts
      */
     public AllUsersDialog(List<Account> accounts) {
@@ -64,6 +63,7 @@ public class AllUsersDialog extends Dialog<Void> {
 
     /**
      * Creates a row for a specific account
+     *
      * @param account creates the row of this account
      * @return the row of the account
      */
@@ -100,6 +100,7 @@ public class AllUsersDialog extends Dialog<Void> {
 
     /**
      * Called to open an {@link AccountDetailsDialog} for an account
+     *
      * @param account to open the details of
      */
     private void showDetails(Account account) {

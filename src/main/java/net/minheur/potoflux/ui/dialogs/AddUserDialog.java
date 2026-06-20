@@ -12,7 +12,9 @@ import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.ui.dialogData.NewAccountData;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static net.minheur.potoflux.login.ConnectionHandler.account;
 
@@ -96,7 +98,7 @@ public class AddUserDialog extends Dialog<NewAccountData> {
         rankSpinner = new Spinner<>();
         rankSpinner.setValueFactory(
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(
-                        0, 100, account.rank +1, 1
+                        0, 100, account.rank + 1, 1
                 )
         );
         rankSpinner.setPrefWidth(100);

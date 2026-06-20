@@ -3,11 +3,11 @@ package net.minheur.potoflux.terminal;
 import javafx.scene.control.TextArea;
 import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.translations.Translations;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -31,6 +31,7 @@ public class CommandProcessor {
 
     /**
      * Process a raw command to an output in the terminal
+     *
      * @param pCommand the raw command to process
      */
     public static void processCommand(String pCommand) {
@@ -72,6 +73,7 @@ public class CommandProcessor {
 
     /**
      * Method used to print something in the terminal.
+     *
      * @param text the content to print
      */
     public static void appendOutput(String text) {
@@ -109,8 +111,9 @@ public class CommandProcessor {
     /**
      * Checks if the terminal's file content is empty.<br>
      * If so, deletes the file.
+     *
      * @param content of the terminal's content file
-     * @param file path to the file, used to remove it if needed
+     * @param file    path to the file, used to remove it if needed
      * @return if the file's content is empty
      */
     private static boolean checkEmptyTerminal(@NotNull String content, Path file) {

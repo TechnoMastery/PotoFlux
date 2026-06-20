@@ -59,10 +59,12 @@ public class Notification {
         String title = type.buildTitle(messageObj);
         return title == null ? "No title !" : title;
     }
+
     public String buildMessage() {
         String message = type.buildMessage(messageObj);
         return message == null ? "No message !" : message;
     }
+
     public String buildDetail() {
         String detail = type.buildDetails(messageObj);
         return detail == null ? "No details !" : detail;
@@ -86,12 +88,15 @@ public class Notification {
     public long getId() {
         return id;
     }
+
     public JsonObject getMessageObj() {
         return messageObj;
     }
+
     public String getTimestamp() {
         return timestamp;
     }
+
     public INotificationType getType() {
         return type;
     }

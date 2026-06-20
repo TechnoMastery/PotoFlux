@@ -22,6 +22,7 @@ public class LoadModError {
         this.errorState = errorState;
         this.missingDep = missingDep;
     }
+
     public LoadModError(Mod mod, ModState errorState, Dependency missingDep, String actualDepVersion) {
         this.mod = mod;
         this.errorState = errorState;

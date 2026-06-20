@@ -40,6 +40,7 @@ public enum PreferencesTypes {
 
     /**
      * Creates a type with its class
+     *
      * @param valueClass used to check a value type
      */
     PreferencesTypes(Class<?> valueClass) {
@@ -48,6 +49,7 @@ public enum PreferencesTypes {
 
     /**
      * Getter for the {@linkplain #valueClass}, allowing to check
+     *
      * @return {@link #valueClass}
      */
     public Class<?> getValueClass() {

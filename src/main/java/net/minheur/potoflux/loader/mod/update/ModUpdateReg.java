@@ -15,6 +15,7 @@ public class ModUpdateReg {
     public static void add(Mod mod, boolean compatible, String declaredLastest) {
         add(new Candidate(mod, compatible, declaredLastest));
     }
+
     public static void add(Candidate c) {
         if (!opened) {
             PtfLogger.error("Can't add a mod to candidates after closing !", LogCategories.MOD_UPDATE, "candidates");

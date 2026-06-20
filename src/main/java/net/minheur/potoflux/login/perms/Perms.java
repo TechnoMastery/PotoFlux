@@ -60,7 +60,8 @@ public enum Perms {
 
     /**
      * Constructor to build a simple perm, with no {@link #permAction} or {@link #noRunFallback}.
-     * @param sqlCode used in the database
+     *
+     * @param sqlCode            used in the database
      * @param nameTranslationKey content to use when getting the translation for the perm's name.
      */
     Perms(@NotNull String sqlCode, String nameTranslationKey) {
@@ -73,9 +74,10 @@ public enum Perms {
 
     /**
      * Constructor used to build a perm with an {@link #permAction}.
-     * @param sqlCode used in the database
+     *
+     * @param sqlCode            used in the database
      * @param nameTranslationKey content to use when getting the translation for the perm's name.
-     * @param permAction {@link Runnable} executed when the perm is run.
+     * @param permAction         {@link Runnable} executed when the perm is run.
      */
     Perms(@NotNull String sqlCode, String nameTranslationKey, @NotNull Runnable permAction) {
         this.sqlCode = sqlCode;
@@ -87,9 +89,10 @@ public enum Perms {
 
     /**
      * Constructor used to build a perm with a {@link #noRunFallback}
-     * @param sqlCode used in the database
+     *
+     * @param sqlCode            used in the database
      * @param nameTranslationKey content to use when getting the translation for the perm's name.
-     * @param noRunFallback content to use when getting the translation for the perm's fallback, displayed when the perm is run.
+     * @param noRunFallback      content to use when getting the translation for the perm's fallback, displayed when the perm is run.
      */
     Perms(@NotNull String sqlCode, String nameTranslationKey, @NotNull String noRunFallback) {
         this.sqlCode = sqlCode;
@@ -100,41 +103,9 @@ public enum Perms {
     }
 
     /**
-     * Getter for the perm's SQL code
-     * @return the perm's SQL code
-     */
-    public @NotNull String getCode() {
-        return sqlCode;
-    }
-
-    /**
-     * Getter for the perm's name. It is built, getting the actual translated name.
-     * @return the perm's name
-     */
-    public @NotNull String getName() {
-        return name.get();
-    }
-
-    /**
-     * Getter for the perm's action.
-     * @return the perm's action
-     */
-    public @Nullable Runnable getPermAction() {
-        return permAction;
-    }
-    /**
-     * Getter for the perm's fallback in case of no perm action.<br>
-     * If not null, will be getting the actual translated sentence.
-     * @return the perm's fallback, or null if its supplier is
-     */
-    public @Nullable String getNoRunFallback() {
-        if (noRunFallback == null) return null;
-        return noRunFallback.get();
-    }
-
-    /**
      * Gets the {@link Perms} from an sqlCode.<br>
      * Used when listing perms sent by the database
+     *
      * @param sqlCode the code to look the perm for
      * @return the {@link Perms} corresponding to the code, {@code null} if not found
      */
@@ -148,8 +119,47 @@ public enum Perms {
     }
 
     /**
+     * Getter for the perm's SQL code
+     *
+     * @return the perm's SQL code
+     */
+    public @NotNull String getCode() {
+        return sqlCode;
+    }
+
+    /**
+     * Getter for the perm's name. It is built, getting the actual translated name.
+     *
+     * @return the perm's name
+     */
+    public @NotNull String getName() {
+        return name.get();
+    }
+
+    /**
+     * Getter for the perm's action.
+     *
+     * @return the perm's action
+     */
+    public @Nullable Runnable getPermAction() {
+        return permAction;
+    }
+
+    /**
+     * Getter for the perm's fallback in case of no perm action.<br>
+     * If not null, will be getting the actual translated sentence.
+     *
+     * @return the perm's fallback, or null if its supplier is
+     */
+    public @Nullable String getNoRunFallback() {
+        if (noRunFallback == null) return null;
+        return noRunFallback.get();
+    }
+
+    /**
      * Make sure we give the name.<br>
      * Used in combo boxes, to have an actual translated name
+     *
      * @return {@link #getName()}
      */
     @Override

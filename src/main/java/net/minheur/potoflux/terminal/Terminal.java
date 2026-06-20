@@ -43,6 +43,7 @@ public class Terminal {
 
     /**
      * Init the terminal
+     *
      * @param panel the element that will contain the terminal. Should be empty
      */
     public Terminal(@NotNull StackPane panel) {
@@ -66,7 +67,64 @@ public class Terminal {
     }
 
     /**
+     * Gets the content of an ascii (in the files)
+     *
+     * @param file name of the ASCII file the get
+     * @return the content of the ASCII file
+     */
+    public static @Nullable String getAsciiFileContent(String file) {
+        try (Reader reader = new InputStreamReader(
+                Objects.requireNonNull(
+                        Terminal.class.getResourceAsStream("/ascii/" + file + ".txt")
+                ),
+                StandardCharsets.UTF_8
+        )) {
+            StringBuilder content = new StringBuilder();
+            fillContentFromReader(reader, content);
+
+            return content.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Fills the content from a file into a {@linkplain StringBuilder} from a {@linkplain Reader}
+     *
+     * @param reader  to get the content to
+     * @param content to append to
+     * @throws IOException if the file couldn't be red
+     */
+    private static void fillContentFromReader(@NotNull Reader reader, StringBuilder content) throws IOException {
+        char[] buffer = new char[1024];
+        int len;
+        while ((len = reader.read(buffer)) != -1) {
+            content.append(buffer, 0, len);
+        }
+    }
+
+    /**
+     * Write the ASCII (the one set in the user prefs).<br>
+     * By default, using {@code big}
+     */
+    public static void buildASCII() {
+        String asciiFile = (String) UserPrefsManager.getValueFor(Settings.ASCII.get());
+        if (asciiFile == null) asciiFile = "big";
+
+        String asciiContent = getAsciiFileContent(asciiFile);
+        if (asciiContent == null) {
+            JOptionPane.showMessageDialog(null, "ERROR: Failed getting ASCII ! Please report this error.");
+            return;
+        }
+
+        CommandProcessor.appendOutput(asciiContent);
+
+    }
+
+    /**
      * Creates the panel containing the {@code >} symbol and the input bar.
+     *
      * @return the input panel
      */
     private @NotNull HBox setupInputPanel() {
@@ -106,7 +164,7 @@ public class Terminal {
             if (e.getCode() == KeyCode.UP) {
                 if (history.isEmpty()) return;
 
-                if (historyIndex < history.size() -1) historyIndex++;
+                if (historyIndex < history.size() - 1) historyIndex++;
 
                 inputField.setText(history.get(historyIndex));
                 inputField.positionCaret(inputField.getText().length());
@@ -143,6 +201,7 @@ public class Terminal {
 
     /**
      * Getter for the {@link #outputArea}
+     *
      * @return {@link #outputArea}
      */
     public TextArea getOutputArea() {
@@ -181,59 +240,5 @@ public class Terminal {
             CommandProcessor.appendOutput("ERROR loading terminal file");
             PtfLogger.error("ERROR loading terminal file");
         }
-    }
-
-    /**
-     * Gets the content of an ascii (in the files)
-     * @param file name of the ASCII file the get
-     * @return the content of the ASCII file
-     */
-    public static @Nullable String getAsciiFileContent(String file) {
-        try (Reader reader = new InputStreamReader(
-                Objects.requireNonNull(
-                        Terminal.class.getResourceAsStream("/ascii/" + file + ".txt")
-                ),
-                StandardCharsets.UTF_8
-        )) {
-            StringBuilder content = new StringBuilder();
-            fillContentFromReader(reader, content);
-
-            return content.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Fills the content from a file into a {@linkplain StringBuilder} from a {@linkplain Reader}
-     * @param reader to get the content to
-     * @param content to append to
-     * @throws IOException if the file couldn't be red
-     */
-    private static void fillContentFromReader(@NotNull Reader reader, StringBuilder content) throws IOException {
-        char[] buffer = new char[1024];
-        int len;
-        while ((len = reader.read(buffer)) != -1) {
-            content.append(buffer, 0, len);
-        }
-    }
-
-    /**
-     * Write the ASCII (the one set in the user prefs).<br>
-     * By default, using {@code big}
-     */
-    public static void buildASCII() {
-        String asciiFile = (String) UserPrefsManager.getValueFor(Settings.ASCII.get());
-        if (asciiFile == null) asciiFile = "big";
-
-        String asciiContent = getAsciiFileContent(asciiFile);
-        if (asciiContent == null) {
-            JOptionPane.showMessageDialog(null, "ERROR: Failed getting ASCII ! Please report this error.");
-            return;
-        }
-
-        CommandProcessor.appendOutput(asciiContent);
-
     }
 }

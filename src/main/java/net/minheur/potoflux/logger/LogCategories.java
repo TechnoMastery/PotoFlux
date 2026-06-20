@@ -63,6 +63,7 @@ public enum LogCategories implements ILogCategory {
 
     /**
      * Registers a log category
+     *
      * @param code the code of the category
      */
     LogCategories(String code, String... more) {
@@ -77,6 +78,7 @@ public enum LogCategories implements ILogCategory {
 
     /**
      * Getter for the code
+     *
      * @return the category's code
      */
     @Override

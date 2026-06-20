@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 import static net.minheur.potoflux.Functions.formatMessage;
-import static net.minheur.potoflux.ui.UiUtils.*;
+import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
+import static net.minheur.potoflux.ui.UiUtils.showMessagePane;
 
 /**
  * This class is in charge when you click the create account button.<br>
@@ -54,12 +55,13 @@ public class CreateAccountHandler {
 
         showErrorPane(
                 response.error == null ? content :
-                switch (response.error) {
-                    case "disabled" -> Translations.get("potoflux:tabs.account.createAccount.disabled");
-                    case "invalid_email" -> Translations.get("potoflux:tabs.account.createAccount.invalidEmail");
-                    case "email_used" -> Translations.get("potoflux:tabs.account.createAccount.emailUsed");
-                    default -> response.error;
-                }
+                        switch (response.error) {
+                            case "disabled" -> Translations.get("potoflux:tabs.account.createAccount.disabled");
+                            case "invalid_email" ->
+                                    Translations.get("potoflux:tabs.account.createAccount.invalidEmail");
+                            case "email_used" -> Translations.get("potoflux:tabs.account.createAccount.emailUsed");
+                            default -> response.error;
+                        }
         );
 
     }

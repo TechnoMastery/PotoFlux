@@ -65,6 +65,7 @@ public class RmUserDialog extends Dialog<String> {
 
     /**
      * Shows a confirmation popup to delete the account
+     *
      * @return weather the user confirmed to removal
      */
     private boolean showConfirm() {

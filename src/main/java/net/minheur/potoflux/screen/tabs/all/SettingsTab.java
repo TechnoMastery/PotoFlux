@@ -18,10 +18,9 @@ import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 import net.minheur.potoflux.settings.Setting;
 import net.minheur.potoflux.settings.SettingInfo;
-import net.minheur.potoflux.settings.SettingRegistry;
+import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.settings.types.ISettingType;
 import net.minheur.potoflux.translations.Translations;
-import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.ui.dialogs.OptionalFeaturesDialog;
 
 import java.io.InputStream;
@@ -94,10 +93,10 @@ public class SettingsTab extends BaseVTab<VBox> {
 
             modified.textProperty().bind(
                     Bindings.createStringBinding(() ->
-                            Objects.equals(
-                                    entry.getKey().type().getSelectedValue(),
-                                    entry.getValue().getActualValue()
-                            ) ? "" : "!",
+                                    Objects.equals(
+                                            entry.getKey().type().getSelectedValue(),
+                                            entry.getValue().getActualValue()
+                                    ) ? "" : "!",
                             entry.getKey().type().valueProperty()
                     )
             );
@@ -142,7 +141,7 @@ public class SettingsTab extends BaseVTab<VBox> {
         vContent.setPadding(new Insets(15, 0, 15, 0));
         vContent.setAlignment(Pos.TOP_CENTER);
 
-        contentScroll =  new ScrollPane(vContent);
+        contentScroll = new ScrollPane(vContent);
         contentScroll.setFitToWidth(true);
         contentScroll.setFitToHeight(false);
         contentScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -235,14 +234,17 @@ public class SettingsTab extends BaseVTab<VBox> {
 
     /**
      * Used to set the title.
+     *
      * @return the title of the tab.
      */
     @Override
     protected String getTitle() {
         return Translations.get("potoflux:tabs.settings.name");
     }
+
     /**
      * Tells the name of the tab, same as the title
+     *
      * @return {@link #getTitle()}
      */
     @Override
@@ -252,6 +254,7 @@ public class SettingsTab extends BaseVTab<VBox> {
 
     /**
      * Disables the preset
+     *
      * @return {@code false}
      */
     @Override

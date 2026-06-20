@@ -5,7 +5,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.Dependency;
 import net.minheur.potoflux.loader.mod.Mod;
@@ -17,7 +20,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ModsTab extends BaseVTab<VBox> {
 
@@ -137,6 +139,7 @@ public class ModsTab extends BaseVTab<VBox> {
             );
         };
     }
+
     @Contract(pure = true)
     private @NotNull String getStateStyle(@NotNull ModState state) {
         return switch (state) {

@@ -113,6 +113,7 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
 
     /**
      * Remakes the grid, depending on what type is selected
+     *
      * @param type selected in {@link #typeCombo}
      */
     private void fillGrid(OptionalFeature.Type type) {
@@ -137,12 +138,14 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
     private void addStringField() {
         grid.add(stringField, 1, 2);
     }
+
     /**
      * Adds the {@link #boolField} to the {@linkplain #grid}
      */
     private void addBoolField() {
         grid.add(boolField, 1, 2);
     }
+
     /**
      * Adds the {@link #intField} to the {@linkplain #grid}
      */
@@ -157,6 +160,7 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         stringField = new TextField();
         stringField.setPromptText("Enter value..."); // todo
     }
+
     /**
      * Creates the {@link #boolField}
      */
@@ -164,6 +168,7 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
         boolField = new ComboBox<>(FXCollections.observableArrayList(true, false));
         boolField.getSelectionModel().select(false);
     }
+
     /**
      * Creates the {@link #intField}
      */
@@ -199,6 +204,7 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
 
     /**
      * Adds the {@link #typeCombo} to the {@linkplain #grid}, respecting the selected value
+     *
      * @param actual selected into the combo, used to keep the actual selected value
      */
     private void addChoseType(OptionalFeature.Type actual) {

@@ -32,8 +32,9 @@ public enum Lang implements IComboSetting {
 
     /**
      * Registers a lang.
+     *
      * @param langCode the {@link #code} of the lang
-     * @param name the display name of the lang
+     * @param name     the display name of the lang
      */
     Lang(String langCode, String name) {
         this.code = langCode;
@@ -44,6 +45,7 @@ public enum Lang implements IComboSetting {
     public String toString() {
         return name;
     }
+
     @Override
     public String returnValue() {
         return code;

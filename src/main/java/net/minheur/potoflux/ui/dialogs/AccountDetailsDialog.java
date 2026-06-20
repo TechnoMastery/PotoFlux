@@ -7,10 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -23,11 +19,8 @@ import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.Json;
 import net.minheur.potoflux.utils.LockableField;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 
 import static net.minheur.potoflux.Functions.formatMessage;
 import static net.minheur.potoflux.ui.UiUtils.*;
@@ -93,7 +86,8 @@ public class AccountDetailsDialog extends Dialog<Void> {
 
     /**
      * Creates the dialog, adds the buttons, the components and sets up the layout
-     * @param parent the {@link AllUsersDialog} that called this one
+     *
+     * @param parent  the {@link AllUsersDialog} that called this one
      * @param account to display details of
      */
     public AccountDetailsDialog(Dialog<?> parent, Account account) {
@@ -150,7 +144,7 @@ public class AccountDetailsDialog extends Dialog<Void> {
         for (Perms perm : Perms.values())
             if (
                     targetPerms.contains(perm) || // if target account has the perm
-                    currentPerms.contains(perm) // if current account can add the perm
+                            currentPerms.contains(perm) // if current account can add the perm
             ) items.add(perm);
         permsList.setItems(items);
 
@@ -220,7 +214,7 @@ public class AccountDetailsDialog extends Dialog<Void> {
                 actualPerms.contains(Perms.CHANGE_PASSWORD)
         );
         getDialogPane().lookupButton(lockButton).setVisible(
-            actualPerms.contains(Perms.LOCK)
+                actualPerms.contains(Perms.LOCK)
         );
         ((Button) getDialogPane().lookupButton(lockButton)).setText(Translations.get(
                 "potoflux:tabs.account." + (account.locked ? "unlock" : "lock") + ".button"
@@ -326,13 +320,19 @@ public class AccountDetailsDialog extends Dialog<Void> {
                 showErrorPane(
                         response.error == null ? content :
                                 switch (response.error) {
-                                    case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
-                                    case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
+                                    case "not_exists" ->
+                                            Translations.get("potoflux:tabs.account.error.token.notExists");
+                                    case "token_expired" ->
+                                            Translations.get("potoflux:tabs.account.error.token.expired");
                                     case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
-                                    case "new_email_used" -> Translations.get("potoflux:tabs.account.createAccount.emailUsed");
-                                    case "nothing_changed" -> Translations.get("potoflux:tabs.account.mdUserInfos.noMods");
-                                    case "insufficient_rank" -> Translations.get("potoflux:tabs.account.error.insufficientRank");
-                                    case "target_locked" -> Translations.get("potoflux:tabs.account.error.targetLocked");
+                                    case "new_email_used" ->
+                                            Translations.get("potoflux:tabs.account.createAccount.emailUsed");
+                                    case "nothing_changed" ->
+                                            Translations.get("potoflux:tabs.account.mdUserInfos.noMods");
+                                    case "insufficient_rank" ->
+                                            Translations.get("potoflux:tabs.account.error.insufficientRank");
+                                    case "target_locked" ->
+                                            Translations.get("potoflux:tabs.account.error.targetLocked");
                                     default -> response.error;
                                 }
                 );
@@ -350,7 +350,8 @@ public class AccountDetailsDialog extends Dialog<Void> {
             if (response.lastNameChanged) doneSb.append("\n").append(Translations.get("common:lastName"));
             if (response.rankChanged) doneSb.append("\n").append(Translations.get("common:rank"));
 
-            if (response.emailChanged) doneSb.append("\n").append(Translations.get("potoflux:tabs.account.mdUserInfos.idRemember"));
+            if (response.emailChanged)
+                doneSb.append("\n").append(Translations.get("potoflux:tabs.account.mdUserInfos.idRemember"));
 
             showMessagePane(doneSb.toString());
             closeParent();
@@ -404,14 +405,18 @@ public class AccountDetailsDialog extends Dialog<Void> {
             if (!response.success) {
                 showErrorPane(
                         response.error == null ? content :
-                        switch (response.error) {
-                            case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
-                            case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
-                            case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
-                            case "insufficient_rank" -> Translations.get("potoflux:tabs.account.error.insufficientRank");
-                            case "target_locked" -> Translations.get("potoflux:tabs.account.error.targetLocked");
-                            default -> response.error;
-                        }
+                                switch (response.error) {
+                                    case "not_exists" ->
+                                            Translations.get("potoflux:tabs.account.error.token.notExists");
+                                    case "token_expired" ->
+                                            Translations.get("potoflux:tabs.account.error.token.expired");
+                                    case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                                    case "insufficient_rank" ->
+                                            Translations.get("potoflux:tabs.account.error.insufficientRank");
+                                    case "target_locked" ->
+                                            Translations.get("potoflux:tabs.account.error.targetLocked");
+                                    default -> response.error;
+                                }
                 );
                 e.consume();
                 return;
@@ -453,14 +458,16 @@ public class AccountDetailsDialog extends Dialog<Void> {
             if (!response.success) {
                 showErrorPane(
                         response.error == null ? content :
-                        switch (response.error) {
-                            case "not_exists" -> Translations.get("potoflux:tabs.account.error.token.notExists");
-                            case "token_expired" -> Translations.get("potoflux:tabs.account.error.token.expired");
-                            case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
-                            case "insufficient_rank" ->
-                                    Translations.get("potoflux:tabs.account.error.insufficientRank");
-                            default -> response.error;
-                        }
+                                switch (response.error) {
+                                    case "not_exists" ->
+                                            Translations.get("potoflux:tabs.account.error.token.notExists");
+                                    case "token_expired" ->
+                                            Translations.get("potoflux:tabs.account.error.token.expired");
+                                    case "no_permission" -> Translations.get("potoflux:tabs.account.error.noPerm");
+                                    case "insufficient_rank" ->
+                                            Translations.get("potoflux:tabs.account.error.insufficientRank");
+                                    default -> response.error;
+                                }
                 );
                 if (response.error.equals("not_exists") || response.error.equals("token_expired"))
                     TokenHandler.clear();

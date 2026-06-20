@@ -23,6 +23,7 @@ public class TranslationsOld {
         loadedTranslations.clear();
         loadedTranslations.addAll(translationSources.get(lang));
     }
+
     public static void load(String langCode) {
         for (Lang lang : Lang.values()) {
             if (lang.code.equals(langCode)) {
@@ -40,11 +41,13 @@ public class TranslationsOld {
 
         for (Lang lang : Lang.values()) {
             try (InputStream is = cl.getResourceAsStream("lang/" + lang.code + ".json")) {
-                if (is == null) throw new IllegalStateException("Missing translation file: lang/" + lang.code + ".json");
+                if (is == null)
+                    throw new IllegalStateException("Missing translation file: lang/" + lang.code + ".json");
 
                 try (Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
                     Map<String, String> translations =
-                            Json.GSON.fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
+                            Json.GSON.fromJson(reader, new TypeToken<Map<String, String>>() {
+                            }.getType());
                     translationSources.get(lang).add(translations);
                 }
             } catch (Exception e) {
@@ -59,7 +62,8 @@ public class TranslationsOld {
 
     public static void registerByStream(Lang lang, InputStream in) {
         try (Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
-            Map<String, String> modTranslations = Json.GSON.fromJson(reader, new TypeToken<Map<String, String>>(){}.getType());
+            Map<String, String> modTranslations = Json.GSON.fromJson(reader, new TypeToken<Map<String, String>>() {
+            }.getType());
             translationSources.get(lang).add(modTranslations);
         } catch (Exception e) {
             e.printStackTrace();

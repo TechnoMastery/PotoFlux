@@ -13,6 +13,7 @@ public class RegisterLangEvent implements IEvent {
 
     /**
      * Call this to add your lang registry to the list
+     *
      * @param registry the registry to add to the list
      */
     public void registerLang(AbstractTranslationsRegistry registry) {

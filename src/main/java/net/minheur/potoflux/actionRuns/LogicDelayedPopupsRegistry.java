@@ -10,7 +10,8 @@ public final class LogicDelayedPopupsRegistry {
     private static final List<Runnable> delayedRuns = new ArrayList<>();
     private static State state = State.READY;
 
-    private LogicDelayedPopupsRegistry() {}
+    private LogicDelayedPopupsRegistry() {
+    }
 
     public static void addItem(Runnable item) {
         if (state != State.OPEN)
@@ -28,6 +29,7 @@ public final class LogicDelayedPopupsRegistry {
         state = State.RAN;
 
     }
+
     private static void runAllDelayed() {
 
         for (Runnable r : delayedRuns)
@@ -41,6 +43,7 @@ public final class LogicDelayedPopupsRegistry {
 
         state = State.OPEN;
     }
+
     public static void close() {
         if (state != State.OPEN)
             throw new IllegalStateException("Trying the close logic delayed popup reg while not opened !");

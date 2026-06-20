@@ -1,14 +1,5 @@
 package net.minheur.potoflux.loader.mod;
 
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
@@ -17,6 +8,15 @@ import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
+
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import static net.minheur.potoflux.loader.PotoFluxLoadingContext.*;
 
@@ -27,39 +27,9 @@ public class AddonLoader {
     private ClassLoader normalClassLoader;
     private Set<Class<?>> addons;
 
-    public void loadAddons() {
-
-        // ===== MOD CONTEXT CLASSLOADER (PROD ONLY) =====
-        boolean isModClassLoaderActive = false;
-        if (isProdEnv()) {
-
-            saveNormalClassLoader();
-            setModClassLoader();
-
-            isModClassLoaderActive = true;
-
-        }
-
-        try {
-
-            fillAddons();
-
-            if (addons.isEmpty()) {
-                PtfLogger.info("No mods found !", LogCategories.MOD_LOADER);
-                return;
-            }
-
-            for (Class<?> clazz : addons)
-                listModIfValid(clazz);
-
-        } finally {
-            // replace normal classLoader
-            if (isModClassLoaderActive) setNormalClassLoader();
-        }
-    }
-
     /**
      * First Checks if the mod is valid, then list it if so.
+     *
      * @param clazz the main class of the mod to load (should be annotated with {@link Mod})
      */
     private static void listModIfValid(@NotNull Class<?> clazz) {
@@ -79,7 +49,8 @@ public class AddonLoader {
 
     /**
      * Checks the mod for validity to listing
-     * @param clazz the potential mod's main class
+     *
+     * @param clazz         the potential mod's main class
      * @param modAnnotation the mod's {@link Mod} annotation
      * @return if the mod couldn't be listed
      */
@@ -90,7 +61,8 @@ public class AddonLoader {
 
     /**
      * Checks if the annotation of the mod is correct (not already loaded and not illegal)
-     * @param clazz the potential mod's main class
+     *
+     * @param clazz         the potential mod's main class
      * @param modAnnotation the {@link Mod} annotation of the class.
      * @return if the modId is incorrect
      */
@@ -100,14 +72,14 @@ public class AddonLoader {
                     LogCategories.MOD_LOADER);
             return true;
 
-        }
-        else return false;
+        } else return false;
     }
 
     /**
      * Checks if the mod has the {@link Mod} annotation.<br>
      * Every classes getting there should have it, because reflection is filtered with it.
-     * @param clazz the potential mod's main class
+     *
+     * @param clazz         the potential mod's main class
      * @param modAnnotation the {@link Mod} annotation of the class.
      * @return if the {@code modAnnotation} exists
      */
@@ -118,35 +90,7 @@ public class AddonLoader {
                     LogCategories.MOD_LOADER); // should never append : we have here all classes annotated, got from reflection
             return true;
 
-        }
-        else return false;
-    }
-
-    private void fillAddons() {
-        if (isProdEnv()) {
-
-            // ===== PROD =====
-            addons = getModProdEnv();
-
-        } else {
-
-            // ===== DEV =====
-            addons = getModsDevEnv();
-
-        }
-    }
-
-    private Set<Class<?>> getModsDevEnv() {
-        Collection<URL> urls = getDevScanUrls();
-
-        if (urls.isEmpty()) {
-            PtfLogger.info("No mod file found !", LogCategories.MOD_LOADER);
-            return new HashSet<>();
-        }
-
-        Reflections reflections = getDevReflection(urls);
-
-        return reflections.getTypesAnnotatedWith(Mod.class);
+        } else return false;
     }
 
     private static @NotNull Reflections getDevReflection(Collection<URL> urls) {
@@ -162,18 +106,6 @@ public class AddonLoader {
                                 Scanners.SubTypes
                         )
 
-        );
-    }
-
-    private void saveNormalClassLoader() {
-        normalClassLoader = getCurrentClassLoader();
-    }
-
-    private void setNormalClassLoader() {
-        if (normalClassLoader == null) throw new IllegalThreadStateException("Normal class loader not saved ! Thread class loader stuck as mod !");
-
-        Thread.currentThread().setContextClassLoader(
-                normalClassLoader
         );
     }
 
@@ -261,8 +193,80 @@ public class AddonLoader {
     public static List<String> getAvailableClasses() {
         return availableClasses;
     }
+
     public static boolean isClassAvailable(String path) {
         return availableClasses.contains(path);
+    }
+
+    public void loadAddons() {
+
+        // ===== MOD CONTEXT CLASSLOADER (PROD ONLY) =====
+        boolean isModClassLoaderActive = false;
+        if (isProdEnv()) {
+
+            saveNormalClassLoader();
+            setModClassLoader();
+
+            isModClassLoaderActive = true;
+
+        }
+
+        try {
+
+            fillAddons();
+
+            if (addons.isEmpty()) {
+                PtfLogger.info("No mods found !", LogCategories.MOD_LOADER);
+                return;
+            }
+
+            for (Class<?> clazz : addons)
+                listModIfValid(clazz);
+
+        } finally {
+            // replace normal classLoader
+            if (isModClassLoaderActive) setNormalClassLoader();
+        }
+    }
+
+    private void fillAddons() {
+        if (isProdEnv()) {
+
+            // ===== PROD =====
+            addons = getModProdEnv();
+
+        } else {
+
+            // ===== DEV =====
+            addons = getModsDevEnv();
+
+        }
+    }
+
+    private Set<Class<?>> getModsDevEnv() {
+        Collection<URL> urls = getDevScanUrls();
+
+        if (urls.isEmpty()) {
+            PtfLogger.info("No mod file found !", LogCategories.MOD_LOADER);
+            return new HashSet<>();
+        }
+
+        Reflections reflections = getDevReflection(urls);
+
+        return reflections.getTypesAnnotatedWith(Mod.class);
+    }
+
+    private void saveNormalClassLoader() {
+        normalClassLoader = getCurrentClassLoader();
+    }
+
+    private void setNormalClassLoader() {
+        if (normalClassLoader == null)
+            throw new IllegalThreadStateException("Normal class loader not saved ! Thread class loader stuck as mod !");
+
+        Thread.currentThread().setContextClassLoader(
+                normalClassLoader
+        );
     }
 }
 

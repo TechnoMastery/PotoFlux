@@ -6,11 +6,10 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.SmartSupplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import net.minheur.potoflux.utils.SmartSupplier;
 
-import javax.swing.*;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -71,16 +70,18 @@ public final class UiUtils {
     /**
      * Makes sure the class cannot be instanced
      */
-    private UiUtils() {}
+    private UiUtils() {
+    }
 
     /**
      * Show an {@link Alert} to the user<br>
      * If {@link LogicDelayedPopupsRegistry#isOpened()} is {@code true}, meaning we are actually running the logic action runs, adds the alert to the delayed popup reg.
-     * @param type the {@link Alert.AlertType} of the alert
+     *
+     * @param type    the {@link Alert.AlertType} of the alert
      * @param message what will be displayed in the main message area
-     * @param title displayed in the alert's bar
-     * @param header what is displayed in the upper area
-     * @param cssDir path to the file containing the styles for the alert
+     * @param title   displayed in the alert's bar
+     * @param header  what is displayed in the upper area
+     * @param cssDir  path to the file containing the styles for the alert
      * @param iconDir path to the icon's file used as the header's graphic
      */
     public static void showAlert(
@@ -99,13 +100,15 @@ public final class UiUtils {
             );
         else pureShowAlert(type, message, title, header, cssDir, iconDir);
     }
+
     /**
      * Show an {@link Alert} to the user<br>
-     * @param type the {@link Alert.AlertType} of the alert
+     *
+     * @param type    the {@link Alert.AlertType} of the alert
      * @param message what will be displayed in the main message area
-     * @param title displayed in the alert's bar
-     * @param header what is displayed in the upper area
-     * @param cssDir path to the file containing the styles for the alert
+     * @param title   displayed in the alert's bar
+     * @param header  what is displayed in the upper area
+     * @param cssDir  path to the file containing the styles for the alert
      * @param iconDir path to the icon's file used as the header's graphic
      */
     private static void pureShowAlert(
@@ -140,6 +143,7 @@ public final class UiUtils {
 
     /**
      * Displays an error pane
+     *
      * @param message displayed to the user, actual error
      */
     public static void showErrorPane(String message) {
@@ -149,8 +153,10 @@ public final class UiUtils {
                 null, null // todo: create css & icon files
         );
     }
+
     /**
      * Displays an information pane
+     *
      * @param message displayed to the user, actual info
      */
     public static void showMessagePane(String message) {
@@ -163,8 +169,9 @@ public final class UiUtils {
 
     /**
      * Displays a confirmation dialog
-     * @param content message node to display as confirmation
-     * @param header text displayed in the alert's header
+     *
+     * @param content     message node to display as confirmation
+     * @param header      text displayed in the alert's header
      * @param preciseType if specified, overrides the {@linkplain Alert.AlertType#CONFIRMATION} default value
      * @return weather the user confirmed
      */
@@ -186,25 +193,31 @@ public final class UiUtils {
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == yesButton.get();
     }
+
     /**
      * Displays a confirmation dialog
+     *
      * @param content message node to display as confirmation
-     * @param header text displayed in the alert's header
+     * @param header  text displayed in the alert's header
      * @return weather the user confirmed
      */
     public static boolean showConfirmationDialog(Node content, @Nullable String header) {
         return showConfirmationDialog(content, header, null);
     }
+
     /**
      * Displays a confirmation dialog
+     *
      * @param content message node to display as confirmation
      * @return weather the user confirmed
      */
     public static boolean showConfirmationDialog(Node content) {
         return showConfirmationDialog(content, null);
     }
+
     /**
      * Displays a confirmation dialog
+     *
      * @param message text to display as confirmation
      * @return weather the user confirmed
      */
@@ -214,15 +227,16 @@ public final class UiUtils {
 
     /**
      * Displays an input dialog
-     * @param options array of options that the user can choose from.
+     *
+     * @param options      array of options that the user can choose from.
      * @param defaultIndex index on what we can find the default selected value
-     * @param title of the dialog
-     * @param header text displayed in the dialog's header
-     * @param content text displayed as query
-     * @param iconDir path to the icon file for the alert
-     * @param cssDir path to the file containing the styles for the alert
+     * @param title        of the dialog
+     * @param header       text displayed in the dialog's header
+     * @param content      text displayed as query
+     * @param iconDir      path to the icon file for the alert
+     * @param cssDir       path to the file containing the styles for the alert
+     * @param <R>          type of the input. This type gets returned and the options are also of this type
      * @return which item has been selected, or {@code null} if the user canceled
-     * @param <R> type of the input. This type gets returned and the options are also of this type
      */
     public static <R> @Nullable R showInputDialog(
             @NotNull R[] options, int defaultIndex,
@@ -254,16 +268,18 @@ public final class UiUtils {
 
         return result.orElse(null);
     }
+
     /**
      * Displays an input dialog
-     * @param options array of options that the user can choose from.
+     *
+     * @param options      array of options that the user can choose from.
      * @param defaultIndex index on what we can find the default selected value
-     * @param title of the dialog
-     * @param header text displayed in the dialog's header
-     * @param content text displayed as query
-     * @param cssDir path to the file containing the styles for the alert
+     * @param title        of the dialog
+     * @param header       text displayed in the dialog's header
+     * @param content      text displayed as query
+     * @param cssDir       path to the file containing the styles for the alert
+     * @param <R>          type of the input. This type gets returned and the options are also of this type
      * @return which item has been selected, or {@code null} if the user canceled
-     * @param <R> type of the input. This type gets returned and the options are also of this type
      */
     public static <R> R showInputDialog(
             @NotNull R[] options, int defaultIndex,
@@ -278,15 +294,17 @@ public final class UiUtils {
                 null, cssDir
         );
     }
+
     /**
      * Displays an input dialog
-     * @param options array of options that the user can choose from.
+     *
+     * @param options      array of options that the user can choose from.
      * @param defaultIndex index on what we can find the default selected value
-     * @param title of the dialog
-     * @param header text displayed in the dialog's header
-     * @param content text displayed as query
+     * @param title        of the dialog
+     * @param header       text displayed in the dialog's header
+     * @param content      text displayed as query
+     * @param <R>          type of the input. This type gets returned and the options are also of this type
      * @return which item has been selected, or {@code null} if the user canceled
-     * @param <R> type of the input. This type gets returned and the options are also of this type
      */
     public static <R> R showInputDialog(
             @NotNull R[] options, int defaultIndex,
@@ -303,14 +321,17 @@ public final class UiUtils {
 
     /**
      * Hides a node, and also makes sure it isn't managed so it don't take empty room
+     *
      * @param node component to disable
      */
     public static void hideNode(@NotNull Node node) {
         node.setVisible(false);
         node.setManaged(false);
     }
+
     /**
      * Show a node, used to invert action of {@link #hideNode(Node)}
+     *
      * @param node component to enable
      */
     public static void showNode(@NotNull Node node) {

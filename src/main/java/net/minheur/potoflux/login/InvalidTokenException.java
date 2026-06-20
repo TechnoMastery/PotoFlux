@@ -6,6 +6,7 @@ package net.minheur.potoflux.login;
 public class InvalidTokenException extends Exception {
     /**
      * Constructor with a simple message
+     *
      * @param message of the exception
      */
     public InvalidTokenException(String message) {
@@ -15,12 +16,14 @@ public class InvalidTokenException extends Exception {
     /**
      * Empty init
      */
-    public InvalidTokenException() {}
+    public InvalidTokenException() {
+    }
 
     /**
      * Constructor with a message and a cause
+     *
      * @param message of the exception
-     * @param cause of the exception
+     * @param cause   of the exception
      */
     public InvalidTokenException(String message, Throwable cause) {
         super(message, cause);
@@ -28,6 +31,7 @@ public class InvalidTokenException extends Exception {
 
     /**
      * Constructor with only a cause
+     *
      * @param cause of the exception
      */
     public InvalidTokenException(Throwable cause) {
