@@ -408,6 +408,7 @@ public final class PotoFluxLoadingContext {
 
     private static void checkUpdate(Mod mod, boolean isCompatible) {
         JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
+        if (mainObject == null) return;
         JsonObject lastestObject = mainObject.getAsJsonObject("lastestForPtf");
 
         JsonElement element = lastestObject.get(PotoFlux.getVersion());
