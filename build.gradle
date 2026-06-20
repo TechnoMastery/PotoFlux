@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "net.minheur"
-version = "7.0"
+version = "7.1"
 
 def javafxversion = "17.0.10"
 
