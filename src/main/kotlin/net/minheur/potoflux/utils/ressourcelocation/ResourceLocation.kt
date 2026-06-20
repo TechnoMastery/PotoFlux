@@ -67,13 +67,13 @@ class ResourceLocation {
     private val path: String
 
     constructor(namespace: String, path: String) {
-        this.namespace = Companion.assertValidNamespace(namespace, path)
-        this.path = Companion.assertValidPath(namespace, path)
+        this.namespace = assertValidNamespace(namespace, path)
+        this.path = assertValidPath(namespace, path)
     }
 
     private constructor(decomposedLoc: Array<String>) : this(decomposedLoc[0], decomposedLoc[1])
 
-    constructor(location: String) : this(Companion.decompose(location, SEP))
+    constructor(location: String) : this(decompose(location, SEP))
 
     fun getPath(): String = path
     fun getNamespace(): String = namespace

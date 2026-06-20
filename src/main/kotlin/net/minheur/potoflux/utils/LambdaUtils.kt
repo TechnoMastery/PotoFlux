@@ -2,7 +2,6 @@ package net.minheur.potoflux.utils
 
 import java.io.Serializable
 import java.lang.invoke.SerializedLambda
-import java.lang.reflect.Field
 import java.lang.reflect.Method
 
 /**
@@ -45,7 +44,11 @@ object LambdaUtils {
      * @param implSignature the signature of the JVM
      * @return the method, or `null` if the method is not found
      */
-    private fun getMethodDeclared(methodImplClass: Array<Method>, implMethodName: String, implSignature: String): Method? {
+    private fun getMethodDeclared(
+        methodImplClass: Array<Method>,
+        implMethodName: String,
+        implSignature: String
+    ): Method? {
         return methodImplClass.find { m ->
             m.name == implMethodName && getJvmSignature(m) == implSignature
         }?.apply { isAccessible = true }
@@ -95,6 +98,7 @@ object LambdaUtils {
             Double::class.javaPrimitiveType -> "D"
             else -> "V"
         }
+
         c.isArray -> c.name.replace('.', '/')
         else -> "L" + c.name.replace('.', '/') + ";"
     }
