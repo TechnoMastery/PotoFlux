@@ -1,6 +1,7 @@
 package net.minheur.potoflux.utils
 
 import com.google.gson.Gson
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
@@ -55,9 +56,9 @@ object Json {
      * @return the content of the member `key` in your online JSON object
      */
     @JvmStatic
-    fun getFromObject(url: String, key: String): String? {
+    fun getFromObject(url: String, key: String): JsonElement? {
         val content = OnlineReader.read(url) ?: return null
         val obj = JsonParser.parseString(content).asJsonObject
-        return obj[key].asString
+        return obj[key]
     }
 }

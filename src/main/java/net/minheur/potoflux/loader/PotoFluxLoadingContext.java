@@ -109,16 +109,24 @@ public final class PotoFluxLoadingContext {
         try {
             String target = "https://technomastery.github.io/PotoFluxAppData/ptfVersion/main.json";
 
-            String lastest = Json.getFromObject(target, "lastestVersion");
+            JsonElement lastest = Json.getFromObject(target, "lastestVersion");
 
             if (lastest == null) {
                 PtfLogger.error("Could not get online version of potoflux !");
                 return;
             }
-            if (lastest.equals(PotoFlux.getVersion())) return;
+            if (lastest.getAsString().equals(PotoFlux.getVersion())) return;
 
-            PtfLogger.info("New version of PotoFlux available ! (" + PotoFlux.getVersion() + " → " + lastest + ")");
-            showUpdateContextDialog(lastest);
+            JsonElement allPtfVersions = Json.getFromObject(target, "versions");
+            if (allPtfVersions != null) {
+                JsonObject versionObject = allPtfVersions.getAsJsonObject().getAsJsonObject(PotoFlux.getVersion());
+                JsonElement type = versionObject.get("type");
+                if (type != null && type.getAsString().equals("Release candidate")) return;
+            }
+
+
+            PtfLogger.info("New version of PotoFlux available ! (" + PotoFlux.getVersion() + " → " + lastest.getAsString() + ")");
+            showUpdateContextDialog(lastest.getAsString());
         } catch (Exception e) {
             e.printStackTrace();
             PtfLogger.error("Could not get lastest version online file !");
