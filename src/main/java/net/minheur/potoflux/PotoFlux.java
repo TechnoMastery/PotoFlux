@@ -201,6 +201,8 @@ public class PotoFlux extends Application {
             app = new FXPotoScreen(primaryStage);
             startScreen.close();
 
+            if (LogAmountManager.getLogAmount() == 1) LogAmountManager.displayWelcome();
+
             LogicDelayedPopupsRegistry.run();
 
             for (ActionRun ar : Bootstrap.runEvent.startUiReg.getAll()) ar.run().run();
