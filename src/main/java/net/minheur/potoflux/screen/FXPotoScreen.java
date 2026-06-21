@@ -8,10 +8,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.PotoFlux;
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.screen.menu.PotoMenuItem;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.screen.tabs.TabSides;
+import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.settings.UserPrefsManager;
@@ -103,6 +105,8 @@ public class FXPotoScreen {
     private void fillTabMap(@NotNull List<Tab> allTabs) {
 
         for (Tab tabType : allTabs) {
+            if (tabType == Tabs.DEBUG.get() && !PotoFluxLoadingContext.isDevEnv()) continue;
+
             BaseTab<?> instance = tabType.createInstance();
             if (instance != null) {
 

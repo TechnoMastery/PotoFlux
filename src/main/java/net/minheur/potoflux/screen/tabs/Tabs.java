@@ -35,6 +35,8 @@ public class Tabs {
      */
     public static final SmartSupplier<Tab> SETTINGS = LIST.add(() -> new Tab(fromModId("settings"), SettingsTab.class));
 
+    public static final SmartSupplier<Tab> DEBUG = LIST.add(() -> new Tab(fromModId("debug"), DebugTab.class));
+
     /**
      * Create the instance of the class, then add the tabs to the events.<br>
      * This is called on the tab register event.
