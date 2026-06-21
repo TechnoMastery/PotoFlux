@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.login.CreateAccountHandler;
 import net.minheur.potoflux.ui.UiUtils;
@@ -23,6 +24,8 @@ public final class LogAmountManager {
 
     public static synchronized void init() {
         if (!started.compareAndSet(false, true)) return;
+        if (PotoFluxLoadingContext.isDevEnv()) return;
+
         int logAmount = getLogAmount() + 1;
         data.putInt(KEY_LOG_AMOUNT, logAmount);
     }
