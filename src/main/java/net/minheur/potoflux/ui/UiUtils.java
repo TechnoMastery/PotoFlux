@@ -58,13 +58,13 @@ public final class UiUtils {
      * Button type preset for the {@code APPLY} action. Include traduction
      */
     public static final SmartSupplier<ButtonType> applyButton = new SmartSupplier<>(() ->
-            new ButtonType(Translations.get("common:apply"), ButtonBar.ButtonData.NO)
+            new ButtonType(Translations.get("common:apply"), ButtonBar.ButtonData.APPLY)
     );
     /**
      * Button type preset for the {@code FINISH} action. Include traduction
      */
     public static final SmartSupplier<ButtonType> finishButton = new SmartSupplier<>(() ->
-            new ButtonType(Translations.get("common:finish"), ButtonBar.ButtonData.NO)
+            new ButtonType(Translations.get("common:finish"), ButtonBar.ButtonData.FINISH)
     );
 
     /**
