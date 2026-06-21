@@ -73,6 +73,13 @@ public class RequestPoster {
 
         return get(obj.toString(), "auth/v1/signup");
     }
+    public static String loginNew(String email, String password) throws IOException {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("email", email);
+        obj.addProperty("password", password);
+
+        return get(obj.toString(), "auth/v1/token?grant_type=password");
+    }
 
     /**
      * Checks if the given {@link String} given is a correct {@code UUID} that can be used as a token
