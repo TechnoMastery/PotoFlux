@@ -2,9 +2,12 @@ package net.minheur.potoflux.settings;
 
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -119,8 +122,9 @@ public final class OptionalFeaturesManager {
      *
      * @return {@link #featureMap}
      */
-    public static Map<String, OptionalFeature> getFeatureMap() {
-        return featureMap;
+    @Contract(pure = true)
+    public static @NotNull @Unmodifiable Map<String, OptionalFeature> getFeatureMap() {
+        return Map.copyOf(featureMap);
     }
 
     /**
@@ -213,6 +217,31 @@ public final class OptionalFeaturesManager {
      */
     public static Integer getInt(String key) {
         return getInt(key, null);
+    }
+
+    /**
+     * Rewrite the entire property file with the given map
+     *
+     * @param featureMap map of features to save. Contains all previous features, but take in count the modifications
+     * @throws IOException if the file couldn't be written in
+     */
+    public static void saveToFile(@NotNull Map<String, OptionalFeature> featureMap) throws IOException {
+        Path featuresPath = PotoFlux.getProgramDir().resolve("optionalFeatures.properties");
+        Properties props = new Properties();
+
+        for (Map.Entry<String, OptionalFeature> entry : featureMap.entrySet()) {
+
+            String key = entry.getKey();
+            Object value = entry.getValue().get();
+
+            if (value != null)
+                props.setProperty(key, String.valueOf(value));
+
+        }
+
+        try (FileOutputStream out = new FileOutputStream(featuresPath.toFile())) {
+            props.store(out, "Potoflux's optional features");
+        }
     }
 
 }

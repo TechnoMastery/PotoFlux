@@ -72,13 +72,13 @@ public class Commands {
      * Command for the {@code quit} command.
      */
     public static final SmartSupplier<Command> QUIT = LIST.add(() -> new Command(fromModId("quit"), "quit", CommandActions::quit, CommandHelp.quit()));
+
+    // hidden commands
     /**
      * Command for the {@code hide} command.<br>
      * It's hidden
      */
     public static final SmartSupplier<Command> HIDDEN = LIST.add(() -> new Command(fromModId("hidden"), "hide", CommandActions::hidden));
-
-    // hidden commands
     /**
      * Command for the {@code nope} command.<br>
      * It's hidden
@@ -88,6 +88,7 @@ public class Commands {
      * An Easter egg for Mathis (aka. Maggacco666)
      */
     public static final SmartSupplier<Command> POTATO_COMMAND = LIST.add(() -> new Command(fromModId("mathis_easter_egg"), "LordHawima", CommandActions::lordHawima));
+    public static final SmartSupplier<Command> DISABLE_RICK_ROLL = LIST.add(() -> new Command(fromModId("diable_rick_roll"), "rockRoll", CommandActions::disableRickRoll));
 
     /**
      * Registers the commands to the reg

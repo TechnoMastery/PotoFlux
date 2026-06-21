@@ -13,6 +13,7 @@ import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.login.TokenHandler;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
+import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.terminal.CommandHistorySaver;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.translations.Translations;
@@ -47,12 +48,13 @@ public class ActionRunRunnable {
         boolean isCorrectLogAmount = logAmount % 50 == 0;
 
         if (!isCorrectLogAmount) return;
+        if (!OptionalFeaturesManager.getBoolean("enableRickRoll", true)) return;
 
         UiUtils.showAlert(
                 Alert.AlertType.INFORMATION,
                 "It looks like it's your" + logAmount + "th connection !",
                 "Connection amount",
-                "Here's a little gift :)",
+                "Here's a little gift :)\nHint to disable: MC /rickRoll",
                 null, null
         );
 

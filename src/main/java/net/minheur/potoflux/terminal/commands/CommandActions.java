@@ -10,6 +10,8 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.screen.tabs.Tabs;
+import net.minheur.potoflux.settings.OptionalFeature;
+import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.terminal.Command;
 import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.terminal.Terminal;
@@ -18,8 +20,11 @@ import net.minheur.potoflux.utils.close.ExitCode;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static net.minheur.potoflux.terminal.commands.CommandMakerHelpers.*;
@@ -373,6 +378,23 @@ public class CommandActions {
 
         CommandProcessor.appendOutput("!!!!!!!!!!!!!! Les patates c'est BON !!!!!!!!!!!!!!");
         CommandProcessor.appendOutput("Cet easter egg vous est offert par Magaco");
+    }
+
+    static void disableRickRoll(List<String> args) {
+        if (checkNoArgs(args)) {
+            CommandProcessor.appendNoCommand();
+            return;
+        }
+
+        Map<String, OptionalFeature> features = new HashMap<>(OptionalFeaturesManager.getFeatureMap());
+        features.remove("enableRickRoll");
+        features.put("enableRickRoll", new OptionalFeature(false));
+
+        try {
+            OptionalFeaturesManager.saveToFile(features);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

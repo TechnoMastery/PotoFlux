@@ -6,20 +6,19 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
-import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.settings.OptionalFeature;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.ui.UiUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Properties;
+
+import static net.minheur.potoflux.settings.OptionalFeaturesManager.saveToFile;
 
 /**
  * Dialog to list, see and manage optional features added to the app
@@ -77,7 +76,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
             String key = returnValue.get().getKey();
             OptionalFeature value = returnValue.get().getValue();
 
-            Map<String, OptionalFeature> features = OptionalFeaturesManager.getFeatureMap();
+            Map<String, OptionalFeature> features = new HashMap<>(OptionalFeaturesManager.getFeatureMap());
             if (features.containsKey(key)) {
                 boolean confirmed = UiUtils.showConfirmationDialog("Key '" + key + "' already exists.\nDo you want to override ?"); // todo
                 if (!confirmed) return;
@@ -177,7 +176,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
      */
     private void rmFeature(String key) {
 
-        Map<String, OptionalFeature> features = OptionalFeaturesManager.getFeatureMap();
+        Map<String, OptionalFeature> features = new HashMap<>(OptionalFeaturesManager.getFeatureMap());
         features.remove(key);
         saveAndHandle(features);
 
@@ -229,7 +228,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
     }
 
     /**
-     * Asks for writing in a file ({@linkplain #saveToFile(Map)}) and handle the exception or success
+     * Asks for writing in a file ({@linkplain OptionalFeaturesManager#saveToFile(Map)}) and handle the exception or success
      *
      * @param features map of features to save. Contains all previous features, but take in count the modifications
      */
@@ -244,31 +243,6 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
             OptionalFeaturesManager.load();
             listPanel.getChildren().clear();
             fillFeatures();
-        }
-    }
-
-    /**
-     * Rewrite the entire property file with the given map
-     *
-     * @param featureMap map of features to save. Contains all previous features, but take in count the modifications
-     * @throws IOException if the file couldn't be written in
-     */
-    private void saveToFile(@NotNull Map<String, OptionalFeature> featureMap) throws IOException {
-        Path featuresPath = PotoFlux.getProgramDir().resolve("optionalFeatures.properties");
-        Properties props = new Properties();
-
-        for (Map.Entry<String, OptionalFeature> entry : featureMap.entrySet()) {
-
-            String key = entry.getKey();
-            Object value = entry.getValue().get();
-
-            if (value != null)
-                props.setProperty(key, String.valueOf(value));
-
-        }
-
-        try (FileOutputStream out = new FileOutputStream(featuresPath.toFile())) {
-            props.store(out, "Potoflux's optional features");
         }
     }
 
