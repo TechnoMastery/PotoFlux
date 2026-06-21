@@ -10,6 +10,11 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.RequestPoster;
 import net.minheur.potoflux.screen.FXLoadingScreen;
 import net.minheur.potoflux.screen.FXPotoScreen;
+import net.minheur.potoflux.settings.UserPrefsManager;
+import net.minheur.potoflux.settings.types.PreferencesTypes;
+import net.minheur.potoflux.translations.Lang;
+import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.close.EventPostException;
 import net.minheur.potoflux.utils.close.ExitCode;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
@@ -144,7 +149,7 @@ public class PotoFlux extends Application {
      * @param loc the loc to add to the modId
      * @return a built {@link ResourceLocation} with potoflux's modId and the loc given
      */
-    @Contract("_ -> new")
+    @Contract("!null -> new; null -> fail")
     public static @NotNull ResourceLocation fromModId(String loc) {
         return new ResourceLocation(ID, loc);
     }
@@ -176,6 +181,9 @@ public class PotoFlux extends Application {
         startScreen.setup();
         startScreen.show();
 
+        if (UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("lang")) == null)
+            Translations.firstLangInit();
+
         Task<Void> bootstrap = new Task<Void>() {
             @Override
             protected @Nullable Void call() throws Exception {
@@ -192,6 +200,8 @@ public class PotoFlux extends Application {
             startScreen.updateStage("Launching app...");
             app = new FXPotoScreen(primaryStage);
             startScreen.close();
+
+            if (LogAmountManager.getLogAmount() == 1) LogAmountManager.displayWelcome();
 
             LogicDelayedPopupsRegistry.run();
 
