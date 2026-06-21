@@ -26,7 +26,7 @@ public class RequestPoster {
      * Address of the database's functions.<br>
      * Just need to be appended with the function's name
      */
-    private static final String address = "https://rkujwtknzfbyocjrrpbi.supabase.co/rest/v1/rpc/";
+    private static final String address = "https://rkujwtknzfbyocjrrpbi.supabase.co/";
     /**
      * Public anon key of the database
      */
@@ -36,22 +36,22 @@ public class RequestPoster {
     /**
      * Sends a direct post to the database, to the {@linkplain #address}. Uses the {@linkplain #anonKey} to get authorized connection.
      *
-     * @param message this get sent to the database as parameters.
-     * @param method  name of the database's function
+     * @param jsonMessage this get sent to the database as parameters.
+     * @param subLink  name of the database's function
      * @return the result sent by the database
      * @throws IOException if the database couldn't be reached
      */
-    private static String get(String message, String method) throws IOException {
+    private static String get(String jsonMessage, String subLink) throws IOException {
 
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(address + method))
+                .uri(URI.create(address + subLink))
                 .timeout(Duration.ofSeconds(10))
                 .header("apikey", anonKey)
-                .header("Authorization", "Bearer " + anonKey)
+                // .header("Authorization", "Bearer " + anonKey)
                 .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(message, StandardCharsets.UTF_8))
+                .POST(HttpRequest.BodyPublishers.ofString(jsonMessage, StandardCharsets.UTF_8))
                 .build();
 
         try {
