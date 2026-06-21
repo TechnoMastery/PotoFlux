@@ -330,6 +330,13 @@ public final class UiUtils {
         );
     }
 
+    public static boolean askRetry() {
+        return UiUtils.showConfirmationDialog(
+                new Label("Do you want to retry?"), // todo
+                "The execution of the action failed." // todo
+        );
+    }
+
     /**
      * Hides a node, and also makes sure it isn't managed so it don't take empty room
      *
