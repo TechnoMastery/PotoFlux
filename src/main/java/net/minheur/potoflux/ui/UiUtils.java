@@ -137,6 +137,11 @@ public final class UiUtils {
             ));
         }
 
+        switch (type) {
+            case INFORMATION, ERROR, WARNING -> alert.getDialogPane().getButtonTypes().add(okButton.get());
+            case CONFIRMATION -> alert.getDialogPane().getButtonTypes().addAll(yesButton.get(), noButton.get());
+        }
+
         // show
         alert.showAndWait();
     }
@@ -146,12 +151,15 @@ public final class UiUtils {
      *
      * @param message displayed to the user, actual error
      */
-    public static void showErrorPane(String message) {
+    public static void showErrorPane(String message, String header) {
         showAlert(
                 Alert.AlertType.ERROR,
-                message, Translations.get("common:error"), "An error happened", // TODO
+                message, Translations.get("common:error"), header,
                 null, null // todo: create css & icon files
         );
+    }
+    public static void showErrorPane(String message) {
+        showErrorPane(message, "An error happened");
     }
 
     /**
@@ -159,12 +167,15 @@ public final class UiUtils {
      *
      * @param message displayed to the user, actual info
      */
-    public static void showMessagePane(String message) {
+    public static void showMessagePane(String message, String header) {
         showAlert(
                 Alert.AlertType.INFORMATION,
-                message, Translations.get("common:info"), null, // todo: find something to write here
+                message, Translations.get("common:info"), header,
                 null, null // todo: create css & icon files
         );
+    }
+    public static void showMessagePane(String message) {
+        showMessagePane(message, null); // todo: find something to write here
     }
 
     /**
