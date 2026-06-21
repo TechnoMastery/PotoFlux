@@ -7,13 +7,13 @@ import net.minheur.potoflux.settings.types.IComboSetting;
  */
 public enum Lang implements IComboSetting {
     /**
-     * French translations
-     */
-    FR("fr", "Francais"),
-    /**
      * English translations
      */
     EN("en", "English"),
+    /**
+     * French translations
+     */
+    FR("fr", "Francais"),
     /**
      * German translations
      */
