@@ -41,6 +41,8 @@ public final class LogAmountManager {
     }
 
     public static void displayWelcome() {
+        if (PotoFluxLoadingContext.isDevEnv()) return;
+
         Alert welcomeAlert = new Alert(Alert.AlertType.INFORMATION);
         welcomeAlert.setTitle("Welcome in PotoFlux!"); // todo
         welcomeAlert.setHeaderText("It is your first connection on PotoFlux.\nThank you for downloading it !"); // todo
