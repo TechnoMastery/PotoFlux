@@ -19,7 +19,7 @@ public class Translations {
     /**
      * The loaded translations
      */
-    private static Lang loadedLang = Lang.EN;
+    private static Lang loadedLang = null;
 
     static {
         for (Lang lang : Lang.values()) allTranslations.put(lang, new HashMap<>());
@@ -85,7 +85,7 @@ public class Translations {
      * @return the translation of the key in the {@link #loadedLang}
      */
     public static String get(String key) {
-        Map<String, String> tr = allTranslations.get(loadedLang);
+        Map<String, String> tr = allTranslations.get(loadedLang == null ? Lang.EN : loadedLang);
         if (tr == null) throw new IllegalStateException("Translations missing lang !");
         String t = tr.get(key);
         if (t == null) {
