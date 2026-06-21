@@ -2,10 +2,15 @@ package net.minheur.potoflux.translations;
 
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.settings.UserPrefsManager;
+import net.minheur.potoflux.settings.types.PreferencesTypes;
+import net.minheur.potoflux.ui.UiUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static net.minheur.potoflux.PotoFlux.fromModId;
 
 /**
  * the class that handle translations
@@ -104,4 +109,13 @@ public class Translations {
         } else return t;
     }
 
+    public static void firstLangInit() {
+        Lang chosen = UiUtils.showInputDialog(
+                Lang.values(), 0,
+                "No lang set",
+                "Please input your lang",
+                "Lang: "
+        );
+        UserPrefsManager.setValueFor(fromModId("lang"), PreferencesTypes.STRING, chosen == null ? Lang.EN.code : chosen.code);
+    }
 }

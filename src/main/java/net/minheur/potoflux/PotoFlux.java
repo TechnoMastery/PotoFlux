@@ -10,6 +10,11 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.RequestPoster;
 import net.minheur.potoflux.screen.FXLoadingScreen;
 import net.minheur.potoflux.screen.FXPotoScreen;
+import net.minheur.potoflux.settings.UserPrefsManager;
+import net.minheur.potoflux.settings.types.PreferencesTypes;
+import net.minheur.potoflux.translations.Lang;
+import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.close.EventPostException;
 import net.minheur.potoflux.utils.close.ExitCode;
 import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
@@ -175,6 +180,9 @@ public class PotoFlux extends Application {
         FXLoadingScreen startScreen = new FXLoadingScreen();
         startScreen.setup();
         startScreen.show();
+
+        if (UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("lang")) == null)
+            Translations.firstLangInit();
 
         Task<Void> bootstrap = new Task<Void>() {
             @Override
