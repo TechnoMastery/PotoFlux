@@ -26,7 +26,6 @@ public class ActionRuns {
     public static final SmartSupplier<ActionRun> SAVE_TERMINAL = LIST_CLOSE.add(() -> new ActionRun(fromModId("save_terminal"), ActionRunRunnable::saveTerminal));
     public static final SmartSupplier<ActionRun> SAVE_COMMAND_HISTORY = LIST_CLOSE.add(() -> new ActionRun(fromModId("save_command_history"), ActionRunRunnable::saveCommandHistory));
 
-    // start ui
     /**
      * The reg of actions that runs on start, in the UI scope
      */
@@ -39,19 +38,17 @@ public class ActionRuns {
     public static final SmartSupplier<ActionRun> DISPLAY_MOD_UPDATES = LIST_START_UI.add(() -> new ActionRun(fromModId("display_mod_updates"), ActionRunRunnable::displayModUpdates));
     public static final SmartSupplier<ActionRun> DISPLAY_MOD_ERRORS = LIST_START_UI.add(() -> new ActionRun(fromModId("display_mod_errors"), ActionRunRunnable::displayModErrors));
     public static final SmartSupplier<ActionRun> CHECK_POTOFLUX_UPDATE = LIST_START_UI.add(() -> new ActionRun(fromModId("check_potoflux_update"), PotoFluxLoadingContext::checkUpdates));
+
     /**
      * The reg of actions that runs on start, in the logic scope
      */
     private static final RegistryList<ActionRun> LIST_START_LOGIC = new RegistryList<>();
-    // start logic
     public static final SmartSupplier<ActionRun> CHECK_RICK_ROLL = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("check_rick_roll"), ActionRunRunnable::checkRickRoll));
     public static final SmartSupplier<ActionRun> LOAD_COMMAND_HISTORY = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("load_command_history"), ActionRunRunnable::loadCommandHistory));
     /**
      * Connect to your account with your token, if you have one
      */
     public static final SmartSupplier<ActionRun> CONNECT_TOKEN = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("connect_token"), ActionRunRunnable::connectToken));
-
-    // close
     public static final SmartSupplier<ActionRun> CHECK_ALLOW_ACCOUNT_CREATION = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("check_allow_account_creation"), ConnectionHandler::reloadAccountCreationPermission));
     public static final SmartSupplier<ActionRun> INIT_NOTIFICATIONS = LIST_START_LOGIC.add(() -> new ActionRun(fromModId("init_notifications"), NotificationHandler::load));
 
