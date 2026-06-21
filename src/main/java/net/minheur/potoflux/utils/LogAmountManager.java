@@ -1,9 +1,11 @@
 package net.minheur.potoflux.utils;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import net.minheur.potoflux.login.ConnectionHandler;
+import net.minheur.potoflux.login.CreateAccountHandler;
 import net.minheur.potoflux.ui.UiUtils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -40,9 +42,16 @@ public final class LogAmountManager {
 
         welcomeAlert.getDialogPane().getButtonTypes().addAll(create, login, UiUtils.noButton.get());
 
+        ((Button) welcomeAlert.getDialogPane()
+                .lookupButton(create))
+                .setDefaultButton(true);
+        ((Button) welcomeAlert.getDialogPane()
+                .lookupButton(UiUtils.noButton.get()))
+                .setCancelButton(true);
+
         ButtonType selected = welcomeAlert.showAndWait().orElse(UiUtils.noButton.get());
 
-        if (selected == create); // todo
-        if (selected == login); // todo
+        if (selected == create) CreateAccountHandler.create();
+        if (selected == login) ConnectionHandler.login();
     }
 }
