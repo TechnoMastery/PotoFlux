@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -29,7 +30,8 @@ public final class Json {
 
     /**
      * Gets a [List] of [String] from a [JsonObject] and its member name
-     * @param obj the [JsonObject] to get the list from
+     *
+     * @param obj      the [JsonObject] to get the list from
      * @param listName the member name of the list in the JSON
      * @return the list of string contained in the object
      */
@@ -41,6 +43,7 @@ public final class Json {
 
     /**
      * Gets a JSON object from an online file
+     *
      * @param url the path to file
      * @return the JSON object of the file
      */
@@ -52,6 +55,7 @@ public final class Json {
 
     /**
      * Gets a string item from an online JSON object
+     *
      * @param url the link to your online JSON file containing your JSON object
      * @param key the key to the member of your object
      * @return the content of the member `key` in your online JSON object

@@ -12,7 +12,6 @@ import net.minheur.potoflux.screen.FXLoadingScreen;
 import net.minheur.potoflux.screen.FXPotoScreen;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
-import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.close.EventPostException;

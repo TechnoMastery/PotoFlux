@@ -44,7 +44,8 @@ public class Commands {
     /**
      * Command for the {@code echo} command.
      */
-    public static final SmartSupplier<Command> ECHO = LIST.add(() -> new Command(fromModId("echo"), "echo", CommandActions::echo, CommandHelp.echo()));    /**
+    public static final SmartSupplier<Command> ECHO = LIST.add(() -> new Command(fromModId("echo"), "echo", CommandActions::echo, CommandHelp.echo()));
+    /**
      * Command for the {@code help} command.
      */
     public static final SmartSupplier<Command> HELP = LIST.add(() -> new Command(fromModId("help"), "help", CommandActions::help, CommandHelp.help()));

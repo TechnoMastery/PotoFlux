@@ -2,6 +2,7 @@ package net.minheur.potoflux.login;
 
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
+
 import java.io.IOException;
 import java.util.prefs.Preferences;
 

@@ -1,6 +1,7 @@
 package net.minheur.potoflux.utils;
 
 import net.minheur.potoflux.logger.PtfLogger;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -35,8 +36,8 @@ public final class OnlineReader {
 
     private static HttpRequest getHttpRequest(String url) {
         return HttpRequest.newBuilder()
-            .uri(URI.create(url))
-            .GET()
-            .build();
+                .uri(URI.create(url))
+                .GET()
+                .build();
     }
 }

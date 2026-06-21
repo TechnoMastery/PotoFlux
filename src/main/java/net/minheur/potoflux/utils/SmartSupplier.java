@@ -1,11 +1,13 @@
 package net.minheur.potoflux.utils;
 
 import org.jetbrains.annotations.NotNull;
+
 import java.util.function.Supplier;
 
 /**
  * The smart supplier is a [Supplier] that doesn't recreate the field each time.
  * Once the value is created from the [supplier] once, it is stored in [value] and given each time [get] is used
+ *
  * @param <T> type of value stored in the supplier
  */
 public class SmartSupplier<T> implements Supplier<T> {
@@ -24,6 +26,7 @@ public class SmartSupplier<T> implements Supplier<T> {
 
     /**
      * Gets the value. If [value] is `null`, creates it from the [supplier]
+     *
      * @return [value]
      */
     @Override

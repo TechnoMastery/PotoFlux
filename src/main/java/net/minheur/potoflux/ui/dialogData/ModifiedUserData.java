@@ -1,6 +1,7 @@
 package net.minheur.potoflux.ui.dialogData;
 
 import net.minheur.potoflux.login.perms.Perms;
+
 import java.util.List;
 
 public class ModifiedUserData {

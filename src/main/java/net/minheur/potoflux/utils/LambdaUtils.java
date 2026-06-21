@@ -14,6 +14,7 @@ public final class LambdaUtils {
 
     /**
      * Gets the real method implemented by the reference / lambda.
+     *
      * @return the method declared in the impl class (where it exists).
      */
     public static Method getImplMethod(Serializable lambda) {
@@ -43,15 +44,16 @@ public final class LambdaUtils {
 
     /**
      * Gets a declared method
+     *
      * @param methodImplClass the methods of the impl class
-     * @param implMethodName the name of the method
-     * @param implSignature the signature of the JVM
+     * @param implMethodName  the name of the method
+     * @param implSignature   the signature of the JVM
      * @return the method, or `null` if the method is not found
      */
     private static Method getMethodDeclared(
-        Method[] methodImplClass,
-        String implMethodName,
-        String implSignature
+            Method[] methodImplClass,
+            String implMethodName,
+            String implSignature
     ) {
         for (Method m : methodImplClass) {
             if (m.getName().equals(implMethodName) && getJvmSignature(m).equals(implSignature)) {
@@ -64,7 +66,8 @@ public final class LambdaUtils {
 
     /**
      * Gets a class to get methods from
-     * @param lambda the lambda that should be the class
+     *
+     * @param lambda        the lambda that should be the class
      * @param implClassName the name of the class
      * @return the found class
      * @throws ClassNotFoundException if the class doesn't exist
@@ -79,6 +82,7 @@ public final class LambdaUtils {
 
     /**
      * Gets the JVM's signature for a method
+     *
      * @param m method to get the signature from
      * @return the signature for the method
      */
@@ -95,6 +99,7 @@ public final class LambdaUtils {
 
     /**
      * Gets the JVM's type for a class
+     *
      * @param c class to get the type from
      * @return the type for the class
      */
@@ -121,6 +126,7 @@ public final class LambdaUtils {
      * Tries to extract caught instance (this) if the reference method is an instance reference.
      * WARNING: this works in most cases (method references non-static),
      * but can fail for certain lambda types (ex : lambdas without captures).
+     *
      * @param lambda method to extract from
      * @return caught instance
      */
