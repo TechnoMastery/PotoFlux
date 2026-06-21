@@ -175,7 +175,8 @@ public class ConnectionHandler {
 
         if (!loginResponse.success) {
             PtfLogger.error("Failed to connect: " + (loginResponse.error == null ? response : loginResponse.error), LogCategories.ACCOUNT_IDS);
-            displayLoggingError(loginResponse);
+            if (loginResponse.error != null) displayLoggingError(loginResponse);
+            else showErrorPane(response);
             return null;
         }
 
