@@ -138,8 +138,14 @@ public final class UiUtils {
         }
 
         switch (type) {
-            case INFORMATION, ERROR, WARNING -> alert.getDialogPane().getButtonTypes().add(okButton.get());
-            case CONFIRMATION -> alert.getDialogPane().getButtonTypes().addAll(yesButton.get(), noButton.get());
+            case INFORMATION, ERROR, WARNING -> {
+                alert.getDialogPane().getButtonTypes().clear();
+                alert.getDialogPane().getButtonTypes().add(okButton.get());
+            }
+            case CONFIRMATION -> {
+                alert.getDialogPane().getButtonTypes().clear();
+                alert.getDialogPane().getButtonTypes().addAll(yesButton.get(), noButton.get());
+            }
         }
 
         // show
