@@ -66,6 +66,14 @@ public class RequestPoster {
 
     }
 
+    public static String selfCreateAccount(String email, String password) throws IOException {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("email", email);
+        obj.addProperty("password", password);
+
+        return get(obj.toString(), "auth/v1/signup");
+    }
+
     /**
      * Checks if the given {@link String} given is a correct {@code UUID} that can be used as a token
      *
