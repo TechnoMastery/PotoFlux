@@ -40,11 +40,15 @@ public final class LogAmountManager {
         ButtonType create = new ButtonType("Create an account", ButtonBar.ButtonData.YES);
         ButtonType login = new ButtonType("Login", ButtonBar.ButtonData.YES);
 
+        welcomeAlert.getDialogPane().getButtonTypes().clear();
         welcomeAlert.getDialogPane().getButtonTypes().addAll(create, login, UiUtils.noButton.get());
 
         ((Button) welcomeAlert.getDialogPane()
                 .lookupButton(create))
                 .setDefaultButton(true);
+        ((Button) welcomeAlert.getDialogPane()
+                .lookupButton(login))
+                .setDefaultButton(false);
         ((Button) welcomeAlert.getDialogPane()
                 .lookupButton(UiUtils.noButton.get()))
                 .setCancelButton(true);
