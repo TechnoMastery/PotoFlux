@@ -144,7 +144,7 @@ public class PotoFlux extends Application {
      * @param loc the loc to add to the modId
      * @return a built {@link ResourceLocation} with potoflux's modId and the loc given
      */
-    @Contract("_ -> new")
+    @Contract("!null -> new; null -> fail")
     public static @NotNull ResourceLocation fromModId(String loc) {
         return new ResourceLocation(ID, loc);
     }
