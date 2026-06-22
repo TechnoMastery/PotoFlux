@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Stream;
 
 import static net.minheur.potoflux.loader.PotoFluxLoadingContext.*;
 
@@ -115,10 +116,10 @@ public class AddonLoader {
         Set<Class<?>> addons = new HashSet<>();
 
         // stream = all jar files
-        try (DirectoryStream<Path> stream = getModStream()) {
+        try {
 
             // for each, make the jarFile
-            for (Path jarPath : stream)
+            for (Path jarPath : getModStream())
                 try (JarFile jar = getJar(jarPath)) {
 
                     PtfLogger.info("Scanning jar " + jar.getName(), LogCategories.MOD_LOADER);
@@ -171,8 +172,12 @@ public class AddonLoader {
         return !entry.getName().endsWith(".class");
     }
 
-    private static @NotNull DirectoryStream<Path> getModStream() throws IOException {
-        return Files.newDirectoryStream(getPotofluxModDir(), "*.jar");
+    private static @NotNull List<Path> getModStream() throws IOException {
+        try (Stream<Path> stream = Files.walk(getPotofluxModDir())) {
+            return stream.filter(Files::isRegularFile)
+                    .filter(path -> path.toString().endsWith(".jar"))
+                    .toList();
+        }
     }
 
     private static @NotNull Class<?> getClassForName(String className) throws ClassNotFoundException {
