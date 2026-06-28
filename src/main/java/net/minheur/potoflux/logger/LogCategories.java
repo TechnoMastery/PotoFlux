@@ -2,6 +2,10 @@ package net.minheur.potoflux.logger;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Enum containing all potoflux log categories
  */
@@ -73,7 +77,10 @@ public enum LogCategories implements ILogCategory {
 
     LogCategories(@NotNull ILogCategory parent, String... more) {
         this.code = parent.code();
-        this.more = more;
+        List<String> allMore = new ArrayList<>();
+        allMore.addAll(Arrays.stream(parent.more()).toList());
+        allMore.addAll(Arrays.stream(more).toList());
+        this.more = allMore.toArray(String[]::new);
     }
 
     /**
