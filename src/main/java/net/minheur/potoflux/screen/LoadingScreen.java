@@ -10,7 +10,7 @@ import javafx.stage.StageStyle;
 /**
  * Potoflux's loading screen
  */
-public class FXLoadingScreen {
+public class LoadingScreen {
 
     /**
      * Stage to display data on

@@ -27,7 +27,7 @@ import java.util.*;
 /**
  * Potoflux's screen
  */
-public class FXPotoScreen {
+public class PotoScreen {
 
     /**
      * Actual screen
@@ -55,7 +55,7 @@ public class FXPotoScreen {
     /**
      * The constructor will init the stage, the layout, then add every item to it
      */
-    public FXPotoScreen(Stage stage) {
+    public PotoScreen(Stage stage) {
         this.stage = stage;
 
         BorderPane root = new BorderPane();
