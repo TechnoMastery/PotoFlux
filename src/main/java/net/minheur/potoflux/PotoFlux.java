@@ -9,7 +9,7 @@ import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.RequestPoster;
 import net.minheur.potoflux.screen.LoadingScreen;
-import net.minheur.potoflux.screen.FXPotoScreen;
+import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.translations.Translations;
@@ -39,7 +39,7 @@ public class PotoFlux extends Application {
      * The actual app.<br>
      * This contains the JFrame and will be instantiated when the app will run.
      */
-    public static FXPotoScreen app;
+    public static PotoScreen app;
 
     /**
      * The main method, that runs PotoFlux.<br>
@@ -165,7 +165,7 @@ public class PotoFlux extends Application {
      * <p>
      * Will first display the {@link LoadingScreen}, then launch the bootstrap in a {@link Task}
      * (making sure it won't freeze the app).
-     * It finally creates {@link FXPotoScreen} if the bootstrap succeeded
+     * It finally creates {@link PotoScreen} if the bootstrap succeeded
      * </p>
      *
      * @param primaryStage the primary stage for this application, onto which
@@ -197,7 +197,7 @@ public class PotoFlux extends Application {
 
         bootstrap.setOnSucceeded(event -> {
             startScreen.updateStage("Launching app...");
-            app = new FXPotoScreen(primaryStage);
+            app = new PotoScreen(primaryStage);
             startScreen.close();
 
             if (LogAmountManager.getLogAmount() == 1) LogAmountManager.displayWelcome();
