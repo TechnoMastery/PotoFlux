@@ -8,7 +8,7 @@ import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.RequestPoster;
-import net.minheur.potoflux.screen.FXLoadingScreen;
+import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.FXPotoScreen;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
@@ -163,7 +163,7 @@ public class PotoFlux extends Application {
      * </p>
      *
      * <p>
-     * Will first display the {@link FXLoadingScreen}, then launch the bootstrap in a {@link Task}
+     * Will first display the {@link LoadingScreen}, then launch the bootstrap in a {@link Task}
      * (making sure it won't freeze the app).
      * It finally creates {@link FXPotoScreen} if the bootstrap succeeded
      * </p>
@@ -176,7 +176,7 @@ public class PotoFlux extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        FXLoadingScreen startScreen = new FXLoadingScreen();
+        LoadingScreen startScreen = new LoadingScreen();
         startScreen.setup();
         startScreen.show();
 
