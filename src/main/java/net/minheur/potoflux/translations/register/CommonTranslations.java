@@ -6,6 +6,9 @@ import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
  * Translation registry for all common words, that can be used a lot.
  */
 public class CommonTranslations extends AbstractTranslationsRegistry {
+    /**
+     * Gives ID to parent class.
+     */
     public CommonTranslations() {
         super("common");
     }

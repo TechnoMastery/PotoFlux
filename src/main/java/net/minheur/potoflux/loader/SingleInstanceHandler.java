@@ -7,9 +7,20 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Single instance handler class.
+ */
 public class SingleInstanceHandler {
+    /**
+     * The server socket field.
+     */
     private static ServerSocket serverSocket;
 
+    /**
+     * Try to create lock.
+     * @param port the port to lock
+     * @return weather locked
+     */
     public static boolean tryCreateLock(int port) {
         try {
             serverSocket = new ServerSocket(port);
@@ -20,6 +31,9 @@ public class SingleInstanceHandler {
         }
     }
 
+    /**
+     * Starts the listener.
+     */
     public static void startListener() {
         Thread t = new Thread(() -> {
 
@@ -35,6 +49,9 @@ public class SingleInstanceHandler {
         t.start();
     }
 
+    /**
+     * Brings the app to front.
+     */
     private static void bringToFront() {
         Platform.runLater(() -> {
             var stage = PotoFlux.app.getStage();
@@ -48,6 +65,10 @@ public class SingleInstanceHandler {
         });
     }
 
+    /**
+     * Notify existing instance.
+     * @param port the locked port
+     */
     public static void notifyExistingInstance(int port) {
         try (Socket socket = new Socket("127.0.0.1", port)) {
             socket.getOutputStream().write(1);

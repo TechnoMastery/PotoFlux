@@ -19,8 +19,16 @@ public final class Json {
      */
     public static final Gson GSON = new Gson();
 
+    /**
+     * Locks class's instantiation
+     */
     private Json() {}
 
+    /**
+     * Loads a string array stored as JSON in a specific URL
+     * @param url the url to get JSON array from
+     * @return the loaded string list
+     */
     public static List<String> loadStringArray(String url) {
         String content = OnlineReader.read(url);
         if (content == null) return null;
@@ -29,7 +37,7 @@ public final class Json {
     }
 
     /**
-     * Gets a [List] of [String] from a [JsonObject] and its member name
+     * Gets a {@link List} of {@link String} from a {@link JsonObject} and its member name
      *
      * @param obj      the [JsonObject] to get the list from
      * @param listName the member name of the list in the JSON

@@ -17,10 +17,19 @@ import java.util.List;
 
 import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
 
+/**
+ * Notification handler class.
+ */
 public final class NotificationHandler {
 
+    /**
+     * The notifications list.
+     */
     private static final List<Notification> notifications = new ArrayList<>();
 
+    /**
+     * Loads the notifs
+     */
     public static void load() {
         if (!TokenHandler.has()) {
             notifications.clear();
@@ -79,6 +88,10 @@ public final class NotificationHandler {
 
     }
 
+    /**
+     * Gets the notifications.
+     * @return copy of {@link #notifications}
+     */
     @Contract(pure = true)
     public static @NotNull @Unmodifiable List<Notification> getNotifications() {
         return List.copyOf(notifications);

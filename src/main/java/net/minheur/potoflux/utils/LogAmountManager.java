@@ -22,12 +22,30 @@ import static net.minheur.potoflux.ui.UiUtils.*;
  * Manages the log amount, storing and getting the value
  */
 public final class LogAmountManager {
+    /**
+     * The data, in the prefs
+     */
     private static final Preferences data = Preferences.userNodeForPackage(LogAmountManager.class);
+    /**
+     * The key to get log amount field.
+     */
     private static final String KEY_LOG_AMOUNT = "log_amount";
+    /**
+     * Weather app already started the manager
+     */
     private static final AtomicBoolean started = new AtomicBoolean(false);
 
+    /**
+     * Locks class's instantiation
+     */
     private LogAmountManager() {}
 
+    /**
+     * Initializes.<br>
+     * If {@linkplain #started} is {@code true}, passes, or else sets it to {@code true}.<br>
+     * If is in dev env, passes.<br>
+     * Increases log amount by one.
+     */
     public static synchronized void init() {
         if (!started.compareAndSet(false, true)) return;
         if (PotoFluxLoadingContext.isDevEnv()) return;
@@ -36,10 +54,17 @@ public final class LogAmountManager {
         data.putInt(KEY_LOG_AMOUNT, logAmount);
     }
 
+    /**
+     * Gets the log amount.
+     * @return the log amount
+     */
     public static int getLogAmount() {
         return data.getInt(KEY_LOG_AMOUNT, 0);
     }
 
+    /**
+     * Display welcome, if not in dev env.
+     */
     public static void displayWelcome() {
         if (PotoFluxLoadingContext.isDevEnv()) return;
 
@@ -70,6 +95,9 @@ public final class LogAmountManager {
         if (selected == create) mkAccount();
     }
 
+    /**
+     * Makes the account if the user wants to.
+     */
     private static void mkAccount() {
         CreateAccountDialog createDialog = new CreateAccountDialog();
         Optional<NewAccountData> createResult = createDialog.showAndWait();
@@ -124,6 +152,11 @@ public final class LogAmountManager {
 
     }
 
+    /**
+     * Try to auto connect to the newly created account.
+     * @param email the email
+     * @param password the password
+     */
     private static void tryAutoConnect(String email, String password) {
         ConnectionHandler.checkAndRemoveExistingToken();
         String newToken = ConnectionHandler.getToken(email, password);

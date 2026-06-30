@@ -43,6 +43,9 @@ public class ActionRunRunnable {
         ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.TERMINAL.get())).getTerminal().fillOutputTextArea();
     }
 
+    /**
+     * Checks if needs to rick roll rick roll.
+     */
     public static void checkRickRoll() {
         int logAmount = LogAmountManager.getLogAmount();
         boolean isCorrectLogAmount = logAmount % 50 == 0;
@@ -62,6 +65,9 @@ public class ActionRunRunnable {
         Functions.browse("https://rickroll.it/rickroll.mp4");
     }
 
+    /**
+     * Display mod update popups
+     */
     public static void displayModUpdates() {
         List<Candidate> candidates = ModUpdateReg.getAll();
         if (candidates.isEmpty()) return;
@@ -75,6 +81,9 @@ public class ActionRunRunnable {
         }
     }
 
+    /**
+     * Display mod loading error popops
+     */
     public static void displayModErrors() {
         List<LoadModError> errors = ModErrorReg.getAll();
         if (errors.isEmpty()) return;
@@ -103,6 +112,9 @@ public class ActionRunRunnable {
             });
     }
 
+    /**
+     * Loads the command history.
+     */
     public static void loadCommandHistory() {
         File target = PotoFlux.getProgramDir().resolve("commandHistory.txt").toFile();
         List<String> history = new ArrayList<>();
@@ -131,6 +143,9 @@ public class ActionRunRunnable {
 
     }
 
+    /**
+     * Saves the command history.
+     */
     public static void saveCommandHistory() {
         Path target = PotoFlux.getProgramDir().resolve("commandHistory.txt");
         List<String> history = CommandHistorySaver.get();

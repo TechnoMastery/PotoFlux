@@ -31,12 +31,27 @@ import java.util.*;
  */
 public class SettingsTab extends BaseVTab<VBox> {
 
+    /**
+     * All active settings
+     */
     private Map<Setting, SettingInfo<?>> settings;
 
+    /**
+     * The content scroll.
+     */
     private ScrollPane contentScroll;
 
+    /**
+     * The apply settings button.
+     */
     private Button apply;
+    /**
+     * The cancel modifications button.
+     */
     private Button cancel;
+    /**
+     * The open optional features button.
+     */
     private Button openOptional;
 
     /**
@@ -54,6 +69,9 @@ public class SettingsTab extends BaseVTab<VBox> {
         addButtons();
     }
 
+    /**
+     * Fills the settings.
+     */
     private void fillSetting() {
 
         settings.clear();
@@ -78,6 +96,9 @@ public class SettingsTab extends BaseVTab<VBox> {
 
     }
 
+    /**
+     * Builds the lines.
+     */
     private void buildLines() {
 
         vContent.getChildren().clear();
@@ -149,6 +170,9 @@ public class SettingsTab extends BaseVTab<VBox> {
         VBox.setVgrow(contentScroll, Priority.ALWAYS);
     }
 
+    /**
+     * Adds the buttons.
+     */
     private void addButtons() {
 
         cancel = new Button(Translations.get("common:cancel"));
@@ -167,6 +191,9 @@ public class SettingsTab extends BaseVTab<VBox> {
         PANEL.getChildren().add(buttons);
     }
 
+    /**
+     * Setups the button's actions.
+     */
     private void setupAction() {
         apply.setDefaultButton(true);
 

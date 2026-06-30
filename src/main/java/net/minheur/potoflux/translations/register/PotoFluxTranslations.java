@@ -500,10 +500,20 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         return add("prefs", children);
     }
 
+    /**
+     * Adds an ascii name translation.
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addAsciiName(String... children) {
         return add("ascii", children);
     }
 
+    /**
+     * Adds a theme name translation
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addThemeName(String... children) {
         return add("theme", children);
     }
@@ -518,10 +528,20 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         return add("screen", children);
     }
 
+    /**
+     * Adds a menu translation
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addMenu(String... children) {
         return add("menu", children);
     }
 
+    /**
+     * Adds a perm translation
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addPerm(String... children) {
         return add("perms", children);
     }
@@ -558,10 +578,20 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         return addTab("terminal", children);
     }
 
+    /**
+     * Add a translation for the account tab
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addAccountTab(String... children) {
         return addTab("account", children);
     }
 
+    /**
+     * Add a translation for the mods tab
+     * @param children optional extra members
+     * @return the translation builder associated
+     */
     private TranslationBuilder addModsTab(String... children) {
         return addTab("mods", children);
     }

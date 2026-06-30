@@ -33,6 +33,9 @@ import static net.minheur.potoflux.terminal.commands.CommandMakerHelpers.*;
  * The class containing all potoflux command actions
  */
 public class CommandActions {
+    /**
+     * The command event field, got from the {@link Bootstrap}
+     */
     private static final RegisterCommandsEvent commandEvent = Bootstrap.commandEvent;
 
     /**
@@ -288,6 +291,10 @@ public class CommandActions {
         else CommandProcessor.appendOutput("PotoFlux version: " + version); // TODO
     }
 
+    /**
+     * Lists the tabs
+     * @param args the args
+     */
     static void tabList(List<String> args) {
         if (argAmountCheck(0, 1, args)) {
             CommandProcessor.appendOutput(CommandHelp.tabList());
@@ -311,6 +318,10 @@ public class CommandActions {
 
     }
 
+    /**
+     * Opens the log's dir
+     * @param args the args
+     */
     static void logDir(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendOutput(CommandHelp.logDir());
@@ -380,6 +391,10 @@ public class CommandActions {
         CommandProcessor.appendOutput("Cet easter egg vous est offert par Magaco");
     }
 
+    /**
+     * Disables rick roll.
+     * @param args the args
+     */
     static void disableRickRoll(List<String> args) {
         if (checkNoArgs(args)) {
             CommandProcessor.appendNoCommand();

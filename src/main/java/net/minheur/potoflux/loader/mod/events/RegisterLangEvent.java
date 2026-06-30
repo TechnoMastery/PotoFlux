@@ -9,6 +9,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Event to register your lang registries.
  */
 public class RegisterLangEvent implements IEvent {
+    /**
+     * Weather the event is closed
+     */
     private final AtomicBoolean closed = new AtomicBoolean(false);
 
     /**

@@ -30,6 +30,11 @@ public class RegistryList<T extends IRegistryType> {
         return item;
     }
 
+    /**
+     * Adds an item to the registry list
+     * @param item the item
+     * @return the added item
+     */
     public SmartSupplier<T> add(Supplier<T> item) {
         return add(new SmartSupplier<>(item));
     }

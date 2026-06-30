@@ -21,9 +21,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * Mods tab class.
+ */
 public class ModsTab extends BaseVTab<VBox> {
 
+    /**
+     * The entries box, with all mods built inside
+     */
     private VBox entriesBox;
+    /**
+     * The scroll pane for the {@link #entriesBox}
+     */
     private ScrollPane scrollPane;
 
     @Override
@@ -70,6 +79,9 @@ public class ModsTab extends BaseVTab<VBox> {
         }
     }
 
+    /**
+     * Adds a mod to the entries.
+     */
     private void addMod(@NotNull ModContainer modContainer) {
         Mod mod = modContainer.mod;
 
@@ -126,6 +138,10 @@ public class ModsTab extends BaseVTab<VBox> {
         return root;
     }
 
+    /**
+     * Gets the translated description for a mod state
+     * @return the formated state
+     */
     private String formatState(@NotNull ModState state) {
         return switch (state) {
             case LOADED -> Translations.get("potoflux:tabs.mods.list.dep.loaded");

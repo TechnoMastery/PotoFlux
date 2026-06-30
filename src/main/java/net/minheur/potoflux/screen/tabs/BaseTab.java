@@ -48,6 +48,10 @@ public abstract class BaseTab<T extends Parent> {
         builtTab.setText(getName());
     }
 
+    /**
+     * Gets the built tab.
+     * @return the built {@link Tab}
+     */
     public Tab getBuiltTab() {
         return builtTab;
     }

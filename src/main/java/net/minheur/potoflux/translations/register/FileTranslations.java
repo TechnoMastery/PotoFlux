@@ -6,6 +6,9 @@ import net.minheur.potoflux.translations.AbstractTranslationsRegistry;
  * Registry for all file related translations
  */
 public class FileTranslations extends AbstractTranslationsRegistry {
+    /**
+     * Constructs a new translation reg.
+     */
     public FileTranslations() {
         super("file");
     }
@@ -68,6 +71,11 @@ public class FileTranslations extends AbstractTranslationsRegistry {
         return add("error", children);
     }
 
+    /**
+     * Jsons.
+     * @param children the children
+     * @return the json
+     */
     private TranslationBuilder json(String... children) {
         return add("json", children);
     }

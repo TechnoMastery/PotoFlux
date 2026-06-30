@@ -426,6 +426,11 @@ public class RequestPoster {
         get(json, "logout");
     }
 
+    /**
+     * Gets the notifications for an account
+     * @param token the token
+     * @return the notifications
+     */
     public static String getNotifications(String token) throws IOException, InvalidTokenException {
         checkTokenFormat(token);
 
@@ -443,6 +448,9 @@ public class RequestPoster {
         return get("{}", "is_account_creation_enabled");
     }
 
+    /**
+     * Warmups the tls.
+     */
     public static void warmupTls() {
         try {
             HttpClient client = HttpClient.newHttpClient();

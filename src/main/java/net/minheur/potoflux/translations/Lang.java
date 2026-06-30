@@ -28,6 +28,9 @@ public enum Lang implements IComboSetting {
      * Used to get from the user pref
      */
     public final String code;
+    /**
+     * The name of the lang, displayed in settings
+     */
     private final String name;
 
     /**

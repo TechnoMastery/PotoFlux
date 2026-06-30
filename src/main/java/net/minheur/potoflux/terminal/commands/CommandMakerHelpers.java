@@ -5,6 +5,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * Command action making helpers class.
+ */
 public class CommandMakerHelpers {
     /**
      * A contant for the tabulation

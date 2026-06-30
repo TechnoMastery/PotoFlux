@@ -63,6 +63,9 @@ public enum LogCategories implements ILogCategory {
      * The actual String to be printed in the log
      */
     private final String code;
+    /**
+     * Sub log categories field
+     */
     private final String[] more;
 
     /**
@@ -93,6 +96,10 @@ public enum LogCategories implements ILogCategory {
         return code;
     }
 
+    /**
+     * Gets the extra log categories
+     * @return {@link #more}
+     */
     @Override
     public String[] more() {
         return more;

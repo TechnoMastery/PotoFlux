@@ -1,19 +1,39 @@
 package net.minheur.potoflux.ui.dialogData;
 
+/**
+ * Login data class.
+ */
 public class LoginData {
-    private final String _username;
-    private final String _password;
+    /**
+     * The username field.
+     */
+    private final String username;
+    /**
+     * The password field.
+     */
+    private final String password;
 
+    /**
+     * Constructs a new LoginData.
+     */
     public LoginData(String username, String password) {
-        this._username = username;
-        this._password = password;
+        this.username = username;
+        this.password = password;
     }
 
+    /**
+     * Gets the username
+     * @return {@link #username}
+     */
     public String username() {
-        return _username;
+        return username;
     }
 
+    /**
+     * Gets the password
+     * @return {@link #password}
+     */
     public String password() {
-        return _password;
+        return password;
     }
 }

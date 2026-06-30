@@ -33,6 +33,9 @@ public class FXPotoScreen {
      * Actual screen
      */
     private final Stage stage;
+    /**
+     * The scene field, containing all elements
+     */
     private final Scene scene;
     /**
      * Potoflux's menu
@@ -74,6 +77,10 @@ public class FXPotoScreen {
         this.stage.show();
     }
 
+    /**
+     * Gets the stage.
+     * @return the {@link #stage}
+     */
     public Stage getStage() {
         return stage;
     }
@@ -161,6 +168,9 @@ public class FXPotoScreen {
         stage.setResizable(isResizable);
     }
 
+    /**
+     * Adds the styles.
+     */
     private void addStyles() {
         List<StylesheetEntry> entries = Bootstrap.stylesheetsEvent.reg.getAll()
                 .stream()

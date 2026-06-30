@@ -73,8 +73,17 @@ public class AccountTab extends BaseVTab<ScrollPane> {
      */
     private Button createAccountButton;
 
+    /**
+     * The notification pane
+     */
     private VBox notificationPane;
+    /**
+     * The notification list
+     */
     private ListView<Notification> notificationList;
+    /**
+     * The {@link #notificationList}'s model
+     */
     private ObservableList<Notification> notificationModel;
 
     /**
@@ -216,6 +225,9 @@ public class AccountTab extends BaseVTab<ScrollPane> {
         refillNotifs();
     }
 
+    /**
+     * Refills the notifs.
+     */
     private void refillNotifs() {
         notificationModel.clear();
         NotificationHandler.load();

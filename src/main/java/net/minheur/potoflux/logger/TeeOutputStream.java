@@ -7,9 +7,18 @@ import java.io.OutputStream;
  * Custom output stream that writes to two streams
  */
 public class TeeOutputStream extends OutputStream {
+    /**
+     * The "a" output stream field.
+     */
     private final OutputStream a;
+    /**
+     * The "b" output stream field.
+     */
     private final OutputStream b;
 
+    /**
+     * Constructs a new TeeOutputStream.
+     */
     public TeeOutputStream(OutputStream a, OutputStream b) {
         this.a = a;
         this.b = b;

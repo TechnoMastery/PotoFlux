@@ -425,6 +425,10 @@ public final class PotoFluxLoadingContext {
         return isCompatible;
     }
 
+    /**
+     * Checks for updates on a mod.
+     * @param isCompatible is the mod compatible with actual Potoflux
+     */
     private static void checkUpdate(@NotNull Mod mod, boolean isCompatible) {
         JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
         if (mainObject == null) return;
@@ -438,6 +442,12 @@ public final class PotoFluxLoadingContext {
             ModUpdateReg.add(mod, isCompatible, declaredLastest);
     }
 
+    /**
+     * Opens the update dialog for a mod
+     * @param mod the mod
+     * @param isCompatible weather the mod is compatible with actual Potoflux
+     * @param lastest the lastest mod version available
+     */
     public static void openUpdateDialog(Mod mod, boolean isCompatible, String lastest) {
         String message;
 
@@ -459,8 +469,13 @@ public final class PotoFluxLoadingContext {
         }
     }
 
+    /**
+     * Opens the download page for a mod.
+     * @param version the version
+     */
     private static void openInstallModPage(@NotNull Mod mod, String version) {
         JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
+        if (mainObject == null) return;
         String installUrl = mainObject.get("installUrl").getAsString();
 
         if (installUrl == null || installUrl.equals("NONE")) {
@@ -490,6 +505,10 @@ public final class PotoFluxLoadingContext {
         }
     }
 
+    /**
+     * Tries to load a mod.
+     * @return the mod to load
+     */
     private static LoadResult loadMod(@NotNull ModContainer entry) {
 
         // checks the state of the actual mod
@@ -647,6 +666,12 @@ public final class PotoFluxLoadingContext {
         }
     }
 
+    /**
+     * Weather a mod's dependency is compatible with actual mod
+     * @param actualDepVersion the actual dependency's version
+     * @param dep dependency required, containing target version
+     * @return weather the dep is compatible
+     */
     private static boolean dependencyIsCompatible(String actualDepVersion, @NotNull Dependency dep) {
         int intDepVersion = Integer.parseInt(actualDepVersion);
         int min = Integer.parseInt(dep.minVersion);
@@ -661,11 +686,21 @@ public final class PotoFluxLoadingContext {
         return null;
     }
 
+    /**
+     * Checks if a mod uses online list.
+     * @param compatibleVersions the compatible versions
+     * @return weather the mod uses online list
+     */
     @Contract(pure = true)
     private static boolean modUsesOnlineList(@NotNull List<String> compatibleVersions) {
         return compatibleVersions.contains("-1");
     }
 
+    /**
+     * Gets the online compatible list.
+     * @param mod the mod
+     * @return the mod's online compatible list
+     */
     private static @Nullable List<String> getOnlineCompatibleList(Mod mod) {
         try {
 
@@ -690,6 +725,12 @@ public final class PotoFluxLoadingContext {
         }
     }
 
+    /**
+     * Checks if the online list is empty.
+     * @param compatibleVersionList the compatible version list
+     * @param mod the mod
+     * @return weather the online list is empty
+     */
     private static boolean checkOnlineListEmpty(@NotNull List<String> compatibleVersionList, Mod mod) {
         if (compatibleVersionList.isEmpty()) {
             PtfLogger.error("Empty online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
@@ -697,6 +738,12 @@ public final class PotoFluxLoadingContext {
         } else return false;
     }
 
+    /**
+     * Checks the online list isn't null.
+     * @param versionObject the version object
+     * @param mod the mod
+     * @return weather the online list is null
+     */
     private static boolean checkOnlineListNotnull(JsonObject versionObject, Mod mod) {
         if (versionObject == null) {
             PtfLogger.error("Could not get corresponding online version for mod " + mod.modId(),
@@ -705,6 +752,10 @@ public final class PotoFluxLoadingContext {
         } else return false;
     }
 
+    /**
+     * Checks if the online list exists.
+     * @return weather the online list exists
+     */
     private static boolean checkOnlineListExists(@NotNull Mod mod) {
         if (mod.compatibleVersionUrl().equals("NONE")) {
             PtfLogger.error("No compatible version list system set for mod: " + mod.modId(), LogCategories.MOD_LOADER);
@@ -721,6 +772,10 @@ public final class PotoFluxLoadingContext {
         return loadedMods.keySet().stream().toList();
     }
 
+    /**
+     * Gets the listed mods.
+     * @return copy of {@link #listedMods}
+     */
     @Contract(value = " -> new", pure = true)
     public static @NotNull List<ModContainer> getListedMods() {
         return new ArrayList<>(listedMods); // safety copy

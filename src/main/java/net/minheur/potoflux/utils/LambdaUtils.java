@@ -10,6 +10,9 @@ import java.lang.reflect.Method;
  */
 public final class LambdaUtils {
 
+    /**
+     * Locks class's instantiation
+     */
     private LambdaUtils() {}
 
     /**

@@ -5,6 +5,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import net.minheur.potoflux.screen.tabs.BaseVTab;
 
+/**
+ * Debug tab class.
+ */
 public class DebugTab extends BaseVTab<BorderPane> {
     @Override
     protected void instantiate() {

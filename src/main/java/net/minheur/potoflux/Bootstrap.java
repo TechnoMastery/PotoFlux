@@ -34,17 +34,50 @@ import java.util.function.Consumer;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
+/**
+ * Bootstrap class.
+ */
 public class Bootstrap {
 
+    /**
+     * The lang event field.
+     */
     public static final RegisterLangEvent langEvent = new RegisterLangEvent();
+    /**
+     * The tab event field.
+     */
     public static final RegisterTabsEvent tabEvent = new RegisterTabsEvent();
+    /**
+     * The command event field.
+     */
     public static final RegisterCommandsEvent commandEvent = new RegisterCommandsEvent();
+    /**
+     * The run event field.
+     */
     public static final RegisterRunsEvent runEvent = new RegisterRunsEvent();
+    /**
+     * The menu event field.
+     */
     public static final RegisterMenuEvent menuEvent = new RegisterMenuEvent();
+    /**
+     * The setting event field.
+     */
     public static final RegisterSettingEvent settingEvent = new RegisterSettingEvent();
+    /**
+     * The notification types event field.
+     */
     public static final RegisterNotifTypesEvent notificationTypesEvent = new RegisterNotifTypesEvent();
+    /**
+     * The stylesheets event field.
+     */
     public static final RegisterStylesheetsEvent stylesheetsEvent = new RegisterStylesheetsEvent();
+    /**
+     * The mod events event field.
+     */
     public static final RegisterModEventsEvent modEventsEvent = new RegisterModEventsEvent();
+    /**
+     * The built field, weather the {@link #bootstrap} method was already ran
+     */
     private static final AtomicBoolean built = new AtomicBoolean(false);
 
     /**

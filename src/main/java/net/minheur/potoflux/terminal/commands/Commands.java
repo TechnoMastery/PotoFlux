@@ -89,6 +89,9 @@ public class Commands {
      * An Easter egg for Mathis (aka. Maggacco666)
      */
     public static final SmartSupplier<Command> POTATO_COMMAND = LIST.add(() -> new Command(fromModId("mathis_easter_egg"), "LordHawima", CommandActions::lordHawima));
+    /**
+     * Command to disable rick roll
+     */
     public static final SmartSupplier<Command> DISABLE_RICK_ROLL = LIST.add(() -> new Command(fromModId("diable_rick_roll"), "rockRoll", CommandActions::disableRickRoll));
 
     /**

@@ -27,6 +27,9 @@ public class CommandProcessor {
      * Used to add content to the log
      */
     private static final Supplier<TextArea> outputArea = () -> ((TerminalTab) PotoFlux.app.getTabMap().get(Tabs.TERMINAL.get())).getTerminal().getOutputArea();
+    /**
+     * The command reg field, got from the {@link Bootstrap}
+     */
     private static final CommandRegistry commandReg = Bootstrap.commandEvent.reg;
 
     /**

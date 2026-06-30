@@ -164,6 +164,10 @@ public final class UiUtils {
                 null, null // todo: create css & icon files
         );
     }
+    /**
+     * Shows an error pane.
+     * @param message the error message
+     */
     public static void showErrorPane(String message) {
         showErrorPane(message, "An error happened");
     }
@@ -180,6 +184,10 @@ public final class UiUtils {
                 null, null // todo: create css & icon files
         );
     }
+    /**
+     * Shows a message pane.
+     * @param message the message
+     */
     public static void showMessagePane(String message) {
         showMessagePane(message, null); // todo: find something to write here
     }
@@ -336,6 +344,10 @@ public final class UiUtils {
         );
     }
 
+    /**
+     * Asks to retry.
+     * @return if need to retry
+     */
     public static boolean askRetry() {
         return UiUtils.showConfirmationDialog(
                 new Label("Do you want to retry?"), // todo

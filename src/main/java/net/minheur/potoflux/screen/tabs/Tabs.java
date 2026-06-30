@@ -29,12 +29,18 @@ public class Tabs {
      * The item of the terminal tab ({@link TerminalTab}).
      */
     public static final SmartSupplier<Tab> TERMINAL = LIST.add(() -> new Tab(fromModId("terminal"), TerminalTab.class));
+    /**
+     * The mods tab.
+     */
     public static final SmartSupplier<Tab> MODS = LIST.add(() -> new Tab(fromModId("mods"), ModsTab.class));
     /**
      * The item of the settings tab ({@link SettingsTab}).
      */
     public static final SmartSupplier<Tab> SETTINGS = LIST.add(() -> new Tab(fromModId("settings"), SettingsTab.class));
 
+    /**
+     * The debug tab.
+     */
     public static final SmartSupplier<Tab> DEBUG = LIST.add(() -> new Tab(fromModId("debug"), DebugTab.class));
 
     /**

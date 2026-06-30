@@ -10,6 +10,9 @@ import java.util.function.Function;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
+/**
+ * Notif types enum.
+ */
 public enum NotifTypes implements INotificationType {
     BASIC("base", obj -> Alert.AlertType.INFORMATION, obj -> {
         JsonElement e = obj.get("title");
@@ -52,13 +55,31 @@ public enum NotifTypes implements INotificationType {
         else return e.getAsString();
     });
 
+    /**
+     * The SQL code for the type.
+     */
     private final String sqlCode;
+    /**
+     * The alert type function, getting from an object
+     */
     private final Function<JsonObject, Alert.AlertType> alertType;
 
+    /**
+     * The title function, getting from an object
+     */
     private final Function<JsonObject, String> title;
+    /**
+     * The message function, getting from an object
+     */
     private final Function<JsonObject, String> message;
+    /**
+     * The details function, getting from an object
+     */
     private final Function<JsonObject, String> details;
 
+    /**
+     * The sidebar color's class function, getting from an object
+     */
     private final Function<JsonObject, String> typeBarColorClass;
 
     NotifTypes(String sqlCode, Function<JsonObject, Alert.AlertType> alertType, Function<JsonObject, String> title, Function<JsonObject, String> message, Function<JsonObject, String> details, Function<JsonObject, String> typeBarColorClass) {
@@ -72,6 +93,9 @@ public enum NotifTypes implements INotificationType {
         this.typeBarColorClass = typeBarColorClass;
     }
 
+    /**
+     * Registers a notif type
+     */
     public static void register(@NotNull RegisterNotifTypesEvent event) {
         event.reg.add(new NotificationType(
                 fromModId("notifTypes"),

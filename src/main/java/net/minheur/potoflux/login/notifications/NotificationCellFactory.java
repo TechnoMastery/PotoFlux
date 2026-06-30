@@ -10,20 +10,50 @@ import javafx.scene.text.Font;
 import net.minheur.potoflux.ui.UiUtils;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Notification cell factory class.
+ */
 public class NotificationCellFactory extends ListCell<Notification> {
 
+    /**
+     * The root pane.
+     */
     private final BorderPane root;
+    /**
+     * The grid pane.
+     */
     private final GridPane grid;
 
+    /**
+     * The title label.
+     */
     private final Label title;
+    /**
+     * The message label.
+     */
     private final Label message;
+    /**
+     * The date label.
+     */
     private final Label date;
 
+    /**
+     * The close button.
+     */
     private final Button closeBtn;
+    /**
+     * The expand notif button.
+     */
     private final Button expandBtn;
 
+    /**
+     * The type bar.
+     */
     private final Region typeBar;
 
+    /**
+     * Constructs a new NotificationCellFactory.
+     */
     public NotificationCellFactory() {
 
         ColumnConstraints col1 = new ColumnConstraints();
@@ -88,6 +118,10 @@ public class NotificationCellFactory extends ListCell<Notification> {
         setGraphic(root);
     }
 
+    /**
+     * Shows the popup.
+     * @param n notif to show the alert of
+     */
     private void showPopup(@NotNull Notification n) {
         UiUtils.showAlert(
                 n.detailsAlertType(),

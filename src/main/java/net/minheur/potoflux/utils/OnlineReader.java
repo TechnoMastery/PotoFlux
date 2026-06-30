@@ -14,8 +14,16 @@ import java.net.http.HttpResponse;
  */
 public final class OnlineReader {
 
+    /**
+     * Locks class's instantiation
+     */
     private OnlineReader() {}
 
+    /**
+     * Reads an online file for it's {@linkplain String} content
+     * @param url the file's URL
+     * @return the file's content
+     */
     public static String read(String url) {
         try {
             HttpClient client = HttpClient.newHttpClient();
@@ -30,10 +38,21 @@ public final class OnlineReader {
         }
     }
 
+    /**
+     * Gets an http response.
+     * @param client the client
+     * @param request the request
+     * @return the response
+     */
     private static HttpResponse<String> getHttpResponse(HttpClient client, HttpRequest request) throws IOException, InterruptedException {
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
+    /**
+     * Makes an http request.
+     * @param url the url to query
+     * @return the request
+     */
     private static HttpRequest getHttpRequest(String url) {
         return HttpRequest.newBuilder()
                 .uri(URI.create(url))

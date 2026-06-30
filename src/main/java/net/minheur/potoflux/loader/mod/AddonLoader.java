@@ -21,11 +21,23 @@ import java.util.stream.Stream;
 
 import static net.minheur.potoflux.loader.PotoFluxLoadingContext.*;
 
+/**
+ * Addon loader class: loads all addons for {@link PotoFluxLoadingContext}
+ */
 public class AddonLoader {
 
+    /**
+     * The available classes, listed in the mods dir's jars
+     */
     private static final List<String> availableClasses = new ArrayList<>();
 
+    /**
+     * The normal class loader, to restore it once loading done.
+     */
     private ClassLoader normalClassLoader;
+    /**
+     * The addons, returned to {@link PotoFluxLoadingContext}.
+     */
     private Set<Class<?>> addons;
 
     /**
@@ -110,6 +122,10 @@ public class AddonLoader {
         );
     }
 
+    /**
+     * Gets the mod in prod env.
+     * @return prod env's mods
+     */
     public static @NotNull Set<Class<?>> getModProdEnv() {
         setModClassLoader();
 
@@ -163,15 +179,30 @@ public class AddonLoader {
         return addons;
     }
 
+    /**
+     * Gets the {@linkplain JarFile} for a given path.
+     * @param jarPath path to the jar file
+     * @return the {@link JarFile}
+     * @throws IOException if the file couldn't be accessed or doesn't exist
+     */
     @Contract("_ -> new")
     private static @NotNull JarFile getJar(@NotNull Path jarPath) throws IOException {
         return new JarFile(jarPath.toFile());
     }
 
+    /**
+     * Checks if a {@linkplain JarEntry} is not a class.
+     * @return whether the {@linkplain JarEntry} is not class
+     */
     private static boolean isNotClass(@NotNull JarEntry entry) {
         return !entry.getName().endsWith(".class");
     }
 
+    /**
+     * Gets the mod stream.
+     * @return the mod stream
+     * @throws IOException on file listing fail
+     */
     private static @NotNull List<Path> getModStream() throws IOException {
         try (Stream<Path> stream = Files.walk(getPotofluxModDir())) {
             return stream.filter(Files::isRegularFile)
@@ -180,10 +211,20 @@ public class AddonLoader {
         }
     }
 
+    /**
+     * Gets a class from its name, in the mod class loader.
+     * @param className the class's name
+     * @return the mod class loader's class for the specified name
+     */
     private static @NotNull Class<?> getClassForName(String className) throws ClassNotFoundException {
         return Class.forName(className, false, getModsClassLoader());
     }
 
+    /**
+     * Checks if @{@link Mod} is present on a class.
+     * @param clazz the class to check
+     * @return whether it mod present
+     */
     @Contract(pure = true)
     private static boolean isModPresent(@NotNull Class<?> clazz) {
         return clazz.isAnnotationPresent(Mod.class);
@@ -195,14 +236,26 @@ public class AddonLoader {
                 .replace(".class", "");
     }
 
+    /**
+     * Gets the available classes.
+     * @return the available classes
+     */
     public static List<String> getAvailableClasses() {
         return availableClasses;
     }
 
+    /**
+     * Checks if a class is in {@linkplain #availableClasses}.
+     * @param path the path to the class
+     * @return whether it class available
+     */
     public static boolean isClassAvailable(String path) {
         return availableClasses.contains(path);
     }
 
+    /**
+     * Loads the addons.
+     */
     public void loadAddons() {
 
         // ===== MOD CONTEXT CLASSLOADER (PROD ONLY) =====
@@ -234,6 +287,9 @@ public class AddonLoader {
         }
     }
 
+    /**
+     * Fills the addons, which differs depending on the environment ({@code dev} or {@code prod})
+     */
     private void fillAddons() {
         if (isProdEnv()) {
 
@@ -248,6 +304,10 @@ public class AddonLoader {
         }
     }
 
+    /**
+     * Gets the mods in dev env.
+     * @return the mods dev env
+     */
     private Set<Class<?>> getModsDevEnv() {
         Collection<URL> urls = getDevScanUrls();
 
@@ -261,10 +321,16 @@ public class AddonLoader {
         return reflections.getTypesAnnotatedWith(Mod.class);
     }
 
+    /**
+     * Saves the normal class loader, to restore it later
+     */
     private void saveNormalClassLoader() {
         normalClassLoader = getCurrentClassLoader();
     }
 
+    /**
+     * Sets the normal class loader, after mod loading
+     */
     private void setNormalClassLoader() {
         if (normalClassLoader == null)
             throw new IllegalThreadStateException("Normal class loader not saved ! Thread class loader stuck as mod !");

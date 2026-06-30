@@ -12,14 +12,20 @@ import java.util.function.Supplier;
  */
 public class SmartSupplier<T> implements Supplier<T> {
 
+    /**
+     * The supplier field.
+     */
     @NotNull
     private final Supplier<@NotNull T> supplier;
 
     /**
-     * [T] containing the value after it has been created once
+     * {@link T} containing the value after it has been created once
      */
     private T value = null;
 
+    /**
+     * Constructs a new SmartSupplier.
+     */
     public SmartSupplier(@NotNull Supplier<@NotNull T> supplier) {
         this.supplier = supplier;
     }

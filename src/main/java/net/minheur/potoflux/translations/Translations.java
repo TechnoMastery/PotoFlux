@@ -109,6 +109,9 @@ public class Translations {
         } else return t;
     }
 
+    /**
+     * Init lang on first launch
+     */
     public static void firstLangInit() {
         Lang chosen = UiUtils.showInputDialog(
                 Lang.values(), 0,

@@ -21,6 +21,9 @@ public abstract class AbstractRegistry<T extends IRegistryType> {
      * Actual registry for the {@link T}, by their ID and their value.
      */
     protected final Map<ResourceLocation, T> REGISTRY = new LinkedHashMap<>();
+    /**
+     * Weather the reg is closed
+     */
     protected final AtomicBoolean closed = new AtomicBoolean(false);
 
     /**
@@ -46,6 +49,9 @@ public abstract class AbstractRegistry<T extends IRegistryType> {
         return REGISTRY.put(item.id(), item);
     }
 
+    /**
+     * Closes the reg
+     */
     public void close() {
         closed.set(true);
     }

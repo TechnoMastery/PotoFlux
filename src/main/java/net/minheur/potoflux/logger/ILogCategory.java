@@ -12,6 +12,11 @@ public interface ILogCategory {
      */
     String code();
 
+    /**
+     * Allow to use more subcategories.<br>
+     * Is empty by default
+     * @return optional more categories
+     */
     default String[] more() {
         return new String[0];
     }
