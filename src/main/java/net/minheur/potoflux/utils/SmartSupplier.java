@@ -16,12 +16,12 @@ public class SmartSupplier<T> implements Supplier<T> {
      * The supplier field.
      */
     @NotNull
-    private final Supplier<@NotNull T> supplier;
+    protected final Supplier<@NotNull T> supplier;
 
     /**
      * {@link T} containing the value after it has been created once
      */
-    private T value = null;
+    protected T value = null;
 
     /**
      * Constructs a new SmartSupplier.
