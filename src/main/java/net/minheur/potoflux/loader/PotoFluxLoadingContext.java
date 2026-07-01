@@ -124,8 +124,7 @@ public final class PotoFluxLoadingContext {
             JsonElement allPtfVersions = Json.getFromObject(target, "versions");
             if (allPtfVersions != null) {
                 JsonObject versionObject = allPtfVersions.getAsJsonObject().getAsJsonObject(PotoFlux.getVersion());
-                JsonElement type = versionObject.get("type");
-                if (type != null && type.getAsString().equals("Release candidate")) return;
+                if (versionObject.has("isOldRc") && !versionObject.get("isOldRc").getAsBoolean()) return;
             }
 
 
