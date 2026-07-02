@@ -1,0 +1,148 @@
+/* Global styling and common JavaFX overrides for PotoFlux */
+
+.root {
+    -fx-background-color: #0c0f12; /* Deep dark slate */
+    -fx-font-family: "Segoe UI", "Inter", sans-serif;
+    -fx-text-fill: #e3e6eb;
+}
+
+/* Custom ScrollBar styling */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:vertical, .scroll-bar:horizontal {
+    -fx-background-color: #12161a;
+    -fx-background-insets: 0;
+    -fx-padding: 2;
+}
+
+.scroll-bar:vertical .thumb, .scroll-bar:horizontal .thumb {
+    -fx-background-color: #273038;
+    -fx-background-radius: 4px;
+}
+
+.scroll-bar:vertical .thumb:hover, .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #3b4854;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-shape: "";
+}
+
+/* TabPane styling */
+.ptf-tab-pane {
+    -fx-tab-min-height: 40px;
+    -fx-tab-max-height: 40px;
+}
+
+.ptf-tab-pane .tab-header-area {
+    -fx-background-color: #12161a;
+    -fx-padding: 0;
+    -fx-border-color: #1f252c;
+    -fx-border-width: 0 0 1 0;
+}
+
+.ptf-tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.ptf-tab-pane .tab {
+    -fx-background-color: #12161a;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0 16px;
+    -fx-border-color: transparent;
+}
+
+.ptf-tab-pane .tab:hover {
+    -fx-background-color: #1a2027;
+}
+
+.ptf-tab-pane .tab:selected {
+    -fx-background-color: #1c232b;
+    -fx-border-color: #5865f2; /* Accent blue/indigo border indicating active tab */
+    -fx-border-width: 0 0 3px 0;
+}
+
+.ptf-tab-pane .tab .tab-label {
+    -fx-text-fill: #9ba3b0;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.ptf-tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #ffffff;
+}
+
+/* Universal Button styling */
+.button {
+    -fx-background-color: #212830;
+    -fx-background-insets: 0;
+    -fx-background-radius: 6px;
+    -fx-text-fill: #e3e6eb;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+    -fx-border-color: #2c3642;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+}
+
+.button:hover {
+    -fx-background-color: #2a333d;
+    -fx-border-color: #3b4856;
+}
+
+.button:pressed {
+    -fx-background-color: #191f26;
+}
+
+.button:default {
+    -fx-background-color: #5865f2;
+    -fx-border-color: #4752c4;
+    -fx-text-fill: #ffffff;
+}
+
+.button:default:hover {
+    -fx-background-color: #4752c4;
+}
+
+/* ListView styling */
+.list-view {
+    -fx-background-color: #12161a;
+    -fx-background-insets: 0;
+    -fx-background-radius: 6px;
+    -fx-border-color: #1f252c;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e3e6eb;
+    -fx-padding: 8px 12px;
+}
+
+.list-view .list-cell:filled:hover {
+    -fx-background-color: #1c232b;
+}
+
+.list-view .list-cell:filled:selected {
+    -fx-background-color: #26303d;
+    -fx-text-fill: #ffffff;
+}
+
+/* Labels and text */
+.label {
+    -fx-text-fill: #e3e6eb;
+}

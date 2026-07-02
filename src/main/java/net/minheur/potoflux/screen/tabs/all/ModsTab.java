@@ -38,6 +38,7 @@ public class ModsTab extends BaseVTab<VBox> {
     @Override
     protected void instantiate() {
         PANEL = new VBox();
+        PANEL.getStyleClass().add("mods-tab");
         PANEL.setFillWidth(true);
     }
 
@@ -57,11 +58,13 @@ public class ModsTab extends BaseVTab<VBox> {
         vContent.setAlignment(Pos.TOP_CENTER);
 
         Label title = mkTitle();
+        title.getStyleClass().add("mods-title");
 
         entriesBox = new VBox(10);
         entriesBox.getStyleClass().add("modEntries");
 
         scrollPane = new ScrollPane(entriesBox);
+        scrollPane.getStyleClass().add("mods-scroll-pane");
         scrollPane.setFitToWidth(true);
 
         vContent.getChildren().addAll(title, scrollPane);
@@ -86,20 +89,25 @@ public class ModsTab extends BaseVTab<VBox> {
         Mod mod = modContainer.mod;
 
         VBox details = new VBox(5);
+        details.getStyleClass().add("mods-details-box");
 
         Label depsTitle = new Label(Translations.get("potoflux:tabs.mods.list.dep.title"));
+        depsTitle.getStyleClass().add("mods-deps-title");
         VBox depsBox = new VBox(3);
+        depsBox.getStyleClass().add("mods-deps-box");
 
         for (String formattedDep : mod.dependenciesIds()) {
             Dependency dep = new Dependency(formattedDep);
 
             Label depLabel = new Label(formatDepLabel(dep));
+            depLabel.getStyleClass().add("mods-dep-label");
             depsBox.getChildren().add(depLabel);
         }
 
         details.getChildren().addAll(depsTitle, depsBox);
 
         TitledPane pane = new TitledPane();
+        pane.getStyleClass().add("mods-titled-pane");
         pane.setGraphic(buildHeader(modContainer));
         pane.setContent(details);
 
@@ -118,9 +126,12 @@ public class ModsTab extends BaseVTab<VBox> {
 
     private @NotNull Node buildHeader(@NotNull ModContainer modContainer) {
         HBox root = new HBox(10);
+        root.getStyleClass().add("mods-header-root");
 
         Label name = new Label(modContainer.mod.modId());
+        name.getStyleClass().add("mods-header-name");
         Label version = new Label(modContainer.mod.version());
+        version.getStyleClass().add("mods-header-version");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);

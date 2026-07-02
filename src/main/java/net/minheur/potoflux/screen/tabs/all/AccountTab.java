@@ -111,6 +111,7 @@ public class AccountTab extends BaseVTab<ScrollPane> {
     @Override
     protected void instantiate() {
         PANEL = new ScrollPane();
+        PANEL.getStyleClass().add("account-tab");
         PANEL.setFitToWidth(true);
         PANEL.setFitToHeight(true);
 
@@ -132,31 +133,42 @@ public class AccountTab extends BaseVTab<ScrollPane> {
     private void initComponents() {
         titleLabel = new Label();
         titleLabel.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
+        titleLabel.getStyleClass().add("account-title");
 
         emailLabel = new Label();
         emailLabel.setFont(Font.font("Consolas", 13));
+        emailLabel.getStyleClass().add("account-email");
 
         permsModel = FXCollections.observableArrayList();
         permsList = new ListView<>(permsModel);
+        permsList.getStyleClass().add("account-perms-list");
 
         executePerm = new Button(Translations.get("potoflux:tabs.account.executePermButton"));
+        executePerm.getStyleClass().add("account-button");
 
         permsPanel = new VBox(5, permsList, executePerm);
+        permsPanel.getStyleClass().add("account-perms-panel");
         permsPanel.setMaxHeight(150);
         permsPanel.setAlignment(Pos.CENTER);
 
         authButton = new Button();
+        authButton.getStyleClass().add("account-button");
         createAccountButton = new Button(Translations.get("potoflux:tabs.account.createAccount.button"));
+        createAccountButton.getStyleClass().add("account-button");
 
         notificationModel = FXCollections.observableArrayList();
         notificationList = new ListView<>(notificationModel);
+        notificationList.getStyleClass().add("account-notification-list");
         notificationList.setFocusTraversable(false);
 
         notificationList.setCellFactory(list -> new NotificationCellFactory());
 
+        Label notifLabel = new Label("Notifications");
+        notifLabel.getStyleClass().add("account-notification-label");
+
         notificationPane = new VBox(5);
         notificationPane.getChildren().addAll(
-                new Label("Notifications"), // todo
+                notifLabel,
                 notificationList
         );
 

@@ -1,9 +1,24 @@
+/* Notification list cell styling */
+
+.notificationPane .notifType {
+    -fx-padding: 4px 8px;
+    -fx-background-radius: 4px;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+}
+
 .notificationPane .notifType.red {
-    -fx-background-color: red;
+    -fx-background-color: #ef4444;
+    -fx-effect: dropshadow(three-pass-box, rgba(239, 68, 68, 0.25), 4, 0, 0, 0);
 }
+
 .notificationPane .notifType.green {
-    -fx-background-color: green;
+    -fx-background-color: #10b981;
+    -fx-effect: dropshadow(three-pass-box, rgba(16, 185, 129, 0.25), 4, 0, 0, 0);
 }
+
 .notificationPane .notifType.yellow {
-    -fx-background-color: yellow;
+    -fx-background-color: #f59e0b;
+    -fx-effect: dropshadow(three-pass-box, rgba(245, 158, 11, 0.25), 4, 0, 0, 0);
 }

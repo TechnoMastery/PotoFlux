@@ -28,6 +28,46 @@ public class PtfStylesheets {
      */
     public static final SmartSupplier<StylesheetEntry> MOD_LIST_ENTRY = LIST.add(() -> new StylesheetEntry(fromModId("mod_list_entry"),
             buildExternal("/styles/tabs/mods/listEntry.css")));
+    /**
+     * The main stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> MAIN = LIST.add(() -> new StylesheetEntry(fromModId("main"),
+            buildExternal("/styles/tabs/main.css")));
+    /**
+     * The menu stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> MENU = LIST.add(() -> new StylesheetEntry(fromModId("menu"),
+            buildExternal("/styles/tabs/menu.css")));
+    /**
+     * The home tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> HOME_TAB = LIST.add(() -> new StylesheetEntry(fromModId("home_tab"),
+            buildExternal("/styles/tabs/home.css")));
+    /**
+     * The terminal tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> TERMINAL_TAB = LIST.add(() -> new StylesheetEntry(fromModId("terminal_tab"),
+            buildExternal("/styles/tabs/terminal.css")));
+    /**
+     * The account tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> ACCOUNT_TAB = LIST.add(() -> new StylesheetEntry(fromModId("account_tab"),
+            buildExternal("/styles/tabs/account.css")));
+    /**
+     * The mods tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> MODS_TAB = LIST.add(() -> new StylesheetEntry(fromModId("mods_tab"),
+            buildExternal("/styles/tabs/mods.css")));
+    /**
+     * The settings tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> SETTINGS_TAB = LIST.add(() -> new StylesheetEntry(fromModId("settings_tab"),
+            buildExternal("/styles/tabs/settings.css")));
+    /**
+     * The debug tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> DEBUG_TAB = LIST.add(() -> new StylesheetEntry(fromModId("debug_tab"),
+            buildExternal("/styles/tabs/debug.css")));
 
     /**
      * Builds the external link to the stylesheet

@@ -1,13 +1,20 @@
-.root
-{
+/* Loading Screen styling */
+
+.root {
     -fx-background-image: url("loadingScreenTexture.png");
     -fx-background-size: cover;
-    -fx-font-family: monospace, lucida_console;
-    -fx-font-size: 20px;
+    -fx-font-family: "Segoe UI", "Inter", sans-serif;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-padding: 20;
+    -fx-padding: 40px;
 }
-.label
-{
-    -fx-text-fill: black;
+
+.label {
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.75), 10, 0, 0, 2);
+}
+
+#label {
+    -fx-font-size: 20px;
+    -fx-text-fill: #5865f2;
 }

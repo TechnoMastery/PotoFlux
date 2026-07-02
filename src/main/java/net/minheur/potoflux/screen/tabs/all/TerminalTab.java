@@ -29,6 +29,7 @@ public class TerminalTab extends BaseTab<StackPane> {
     @Override
     protected void instantiate() {
         PANEL = new StackPane();
+        PANEL.getStyleClass().add("terminal-tab");
     }
 
     /**

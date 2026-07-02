@@ -1,0 +1,79 @@
+/* AccountTab styling */
+
+.account-tab {
+    -fx-background-color: #0c0f12;
+    -fx-padding: 20px;
+}
+
+.account-tab .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Titles and labels */
+.account-tab .account-title {
+    -fx-font-family: "Segoe UI", "Inter", sans-serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 10px 0;
+}
+
+.account-tab .account-email {
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 13px;
+    -fx-text-fill: #9ba3b0;
+    -fx-padding: 0 0 15px 0;
+}
+
+/* Permissions section */
+.account-tab .account-perms-panel {
+    -fx-background-color: #12161a;
+    -fx-padding: 15px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #1f252c;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-max-width: 500px;
+    -fx-margin: 10px 0;
+}
+
+.account-tab .account-perms-list {
+    -fx-background-color: #0c0f12;
+    -fx-border-color: #1a2026;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-pref-height: 100px;
+}
+
+/* Buttons */
+.account-tab .account-button {
+    -fx-min-width: 200px;
+    -fx-margin: 5px 0;
+}
+
+/* Notification pane */
+.account-tab .notificationPane {
+    -fx-background-color: #12161a;
+    -fx-padding: 15px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #1f252c;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-max-width: 500px;
+    -fx-margin: 15px 0;
+}
+
+.account-tab .account-notification-label {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 0 0 8px 0;
+}
+
+.account-tab .account-notification-list {
+    -fx-background-color: #0c0f12;
+    -fx-border-color: #1a2026;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-pref-height: 180px;
+}

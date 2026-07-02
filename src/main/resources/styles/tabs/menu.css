@@ -1,0 +1,57 @@
+/* MenuBar and ContextMenu styling for PotoFlux */
+
+.ptf-menu-bar {
+    -fx-background-color: #12161a;
+    -fx-border-color: #1f252c;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 2px 8px;
+}
+
+.ptf-menu-bar .menu {
+    -fx-background-color: transparent;
+    -fx-padding: 6px 12px;
+}
+
+.ptf-menu-bar .menu .label {
+    -fx-text-fill: #9ba3b0;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.ptf-menu-bar .menu:hover, .ptf-menu-bar .menu:showing {
+    -fx-background-color: #1c232b;
+    -fx-background-radius: 4px;
+}
+
+.ptf-menu-bar .menu:hover .label, .ptf-menu-bar .menu:showing .label {
+    -fx-text-fill: #ffffff;
+}
+
+/* Dropdown / Context Menu styling */
+.context-menu {
+    -fx-background-color: #12161a;
+    -fx-border-color: #1f252c;
+    -fx-border-width: 1px;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-padding: 4px 0px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 8, 0, 0, 4);
+}
+
+.context-menu .menu-item {
+    -fx-padding: 6px 16px;
+    -fx-background-color: transparent;
+}
+
+.context-menu .menu-item .label {
+    -fx-text-fill: #e3e6eb;
+    -fx-font-size: 13px;
+}
+
+.context-menu .menu-item:focused {
+    -fx-background-color: #5865f2;
+}
+
+.context-menu .menu-item:focused .label {
+    -fx-text-fill: #ffffff;
+}

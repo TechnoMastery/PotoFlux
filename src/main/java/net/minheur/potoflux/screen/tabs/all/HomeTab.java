@@ -28,6 +28,7 @@ public class HomeTab extends BaseVTab<StackPane> {
     @Override
     protected void instantiate() {
         PANEL = new StackPane();
+        PANEL.getStyleClass().add("home-tab");
     }
 
     /**
@@ -36,6 +37,7 @@ public class HomeTab extends BaseVTab<StackPane> {
     private void addDesc() {
         Label desc = new Label(Translations.get("potoflux:tabs.home.credit"));
         desc.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
+        desc.getStyleClass().add("home-desc");
         vContent.getChildren().add(desc);
     }
 
@@ -48,6 +50,7 @@ public class HomeTab extends BaseVTab<StackPane> {
 
         Label version = new Label(name);
         version.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
+        version.getStyleClass().add("home-version");
         vContent.getChildren().add(version);
     }
 

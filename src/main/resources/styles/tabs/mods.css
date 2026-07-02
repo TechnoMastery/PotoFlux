@@ -1,0 +1,109 @@
+/* ModsTab styling */
+
+.mods-tab {
+    -fx-background-color: #0c0f12;
+    -fx-padding: 20px;
+}
+
+.mods-tab .mods-title {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 10px 0 20px 0;
+}
+
+/* Mod entries container */
+.mods-tab .modEntries {
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+}
+
+/* Modern TitledPane styling (Mods accordion items) */
+.mods-tab .mods-titled-pane {
+    -fx-background-color: #12161a;
+    -fx-background-radius: 6px;
+    -fx-border-color: #1f252c;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-text-fill: #ffffff;
+}
+
+.mods-tab .mods-titled-pane > .title {
+    -fx-background-color: #12161a;
+    -fx-background-insets: 0;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px 14px;
+    -fx-cursor: hand;
+}
+
+.mods-tab .mods-titled-pane > .title:hover {
+    -fx-background-color: #1c232b;
+}
+
+.mods-tab .mods-titled-pane > .title > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 8px 0 0;
+}
+
+.mods-tab .mods-titled-pane > .title > .arrow-button > .arrow {
+    -fx-background-color: #9ba3b0;
+}
+
+/* Content details inside TitledPane */
+.mods-tab .mods-titled-pane > .content {
+    -fx-background-color: #0d1013;
+    -fx-background-insets: 0;
+    -fx-border-color: #1f252c;
+    -fx-border-width: 1px 0 0 0;
+    -fx-padding: 14px;
+}
+
+.mods-tab .mods-details-box {
+    -fx-spacing: 8px;
+}
+
+.mods-tab .mods-deps-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-text-fill: #9ba3b0;
+}
+
+.mods-tab .mods-deps-box {
+    -fx-padding: 0 0 0 10px;
+    -fx-spacing: 4px;
+}
+
+.mods-tab .mods-dep-label {
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 12px;
+    -fx-text-fill: #e3e6eb;
+}
+
+/* Header elements layout */
+.mods-tab .mods-header-root {
+    -fx-alignment: center-left;
+}
+
+.mods-tab .mods-header-name {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+}
+
+.mods-tab .mods-header-version {
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 12px;
+    -fx-text-fill: #5865f2;
+    -fx-background-color: #1a2027;
+    -fx-padding: 2px 6px;
+    -fx-background-radius: 4px;
+}
+
+/* State Badge styling */
+.mods-tab .state {
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 4px;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+}

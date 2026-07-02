@@ -106,8 +106,10 @@ public class SettingsTab extends BaseVTab<VBox> {
         for (Map.Entry<Setting, SettingInfo<?>> entry : settings.entrySet()) {
 
             HBox pane = new HBox(5);
+            pane.getStyleClass().add("settings-line");
             pane.setPadding(new Insets(0, 0, 0, 10));
             Label modified = entry.getKey().type().getIsModifiedLabel();
+            modified.getStyleClass().add("settings-line-modified");
             modified.setStyle("-fx-font-weight: bold;");
             Node node = entry.getKey().type().getExecutionNode();
             pane.getChildren().addAll(modified, node);
@@ -144,12 +146,14 @@ public class SettingsTab extends BaseVTab<VBox> {
     @Override
     protected void instantiate() {
         PANEL = new VBox();
+        PANEL.getStyleClass().add("settings-tab");
         PANEL.setAlignment(Pos.TOP_CENTER);
         PANEL.setSpacing(20);
 
         boxPreset();
 
         Label title = mkTitle();
+        title.getStyleClass().add("settings-title");
         title.setPadding(new Insets(20, 0, 0, 0));
 
         PANEL.getChildren().addAll(title, contentScroll);
@@ -163,6 +167,7 @@ public class SettingsTab extends BaseVTab<VBox> {
         vContent.setAlignment(Pos.TOP_CENTER);
 
         contentScroll = new ScrollPane(vContent);
+        contentScroll.getStyleClass().add("settings-scroll-pane");
         contentScroll.setFitToWidth(true);
         contentScroll.setFitToHeight(false);
         contentScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -176,8 +181,11 @@ public class SettingsTab extends BaseVTab<VBox> {
     private void addButtons() {
 
         cancel = new Button(Translations.get("common:cancel"));
+        cancel.getStyleClass().add("settings-button");
         apply = new Button(Translations.get("common:apply"));
+        apply.getStyleClass().add("settings-button");
         openOptional = new Button(Translations.get("potoflux:tabs.settings.optionals.openButton"));
+        openOptional.getStyleClass().add("settings-button");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -185,6 +193,7 @@ public class SettingsTab extends BaseVTab<VBox> {
         setupAction();
 
         HBox buttons = new HBox(10, openOptional, spacer, cancel, apply);
+        buttons.getStyleClass().add("settings-buttons-panel");
         buttons.setPadding(new Insets(10));
         buttons.setAlignment(Pos.CENTER_RIGHT);
 

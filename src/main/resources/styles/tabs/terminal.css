@@ -1,0 +1,59 @@
+/* TerminalTab styling */
+
+.terminal-tab {
+    -fx-background-color: #080b0d;
+}
+
+.terminal-tab .terminal-container {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+}
+
+/* Output Area styling */
+.terminal-tab .terminal-output {
+    -fx-control-inner-background: #080b0d;
+    -fx-background-color: #080b0d;
+    -fx-text-fill: #b9bbbe; /* soft white-grey for logs */
+    -fx-font-family: "Consolas", "Monaco", monospace;
+    -fx-font-size: 14px;
+    -fx-border-color: #1a2026;
+    -fx-border-width: 0 0 1px 0;
+    -fx-highlight-fill: #3b4856;
+    -fx-highlight-text-fill: #ffffff;
+}
+
+/* Hide scroll pane borders inside text area */
+.terminal-tab .terminal-output .content {
+    -fx-background-color: transparent;
+}
+
+/* Input Panel styling */
+.terminal-tab .terminal-input-panel {
+    -fx-background-color: #0c0f12;
+    -fx-padding: 8px 12px;
+    -fx-alignment: center-left;
+}
+
+.terminal-tab .terminal-prompt {
+    -fx-text-fill: #5865f2; /* Glowing indigo prompt */
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+}
+
+/* Input Field styling */
+.terminal-tab .terminal-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: #5865f2; /* green output/blue input combo is beautiful */
+    -fx-font-family: "Consolas", "Monaco", monospace;
+    -fx-font-size: 16px;
+    -fx-padding: 4px;
+    -fx-border-color: transparent;
+    -fx-text-box-border: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.terminal-tab .terminal-input:focused {
+    -fx-text-fill: #ffffff; /* Turns bright white on typing focus */
+}

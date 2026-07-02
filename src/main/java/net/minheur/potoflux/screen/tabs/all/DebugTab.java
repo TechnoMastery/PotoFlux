@@ -12,9 +12,13 @@ public class DebugTab extends BaseVTab<BorderPane> {
     @Override
     protected void instantiate() {
         PANEL = new BorderPane();
+        PANEL.getStyleClass().add("debug-tab");
         vContent = new VBox();
+        vContent.getStyleClass().add("debug-content");
         PANEL.setCenter(vContent);
-        vContent.getChildren().add(new Label("DEBUG tab"));
+        Label label = new Label("DEBUG tab");
+        label.getStyleClass().add("debug-label");
+        vContent.getChildren().add(label);
     }
 
     @Override

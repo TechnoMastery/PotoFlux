@@ -1,9 +1,16 @@
+/* Mod entries states badge styling */
+
 .modEntries .state.loaded {
-    -fx-text-fill: green;
+    -fx-background-color: #059669;
+    -fx-text-fill: #ffffff;
 }
+
 .modEntries .state.failed {
-    -fx-text-fill: red;
+    -fx-background-color: #dc2626;
+    -fx-text-fill: #ffffff;
 }
+
 .modEntries .state.depFailed {
-    -fx-text-fill: orange;
+    -fx-background-color: #d97706;
+    -fx-text-fill: #ffffff;
 }

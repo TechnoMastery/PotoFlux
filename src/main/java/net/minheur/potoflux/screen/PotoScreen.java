@@ -62,6 +62,7 @@ public class PotoScreen {
         this.stage = stage;
 
         BorderPane root = new BorderPane();
+        root.getStyleClass().add("ptf-root");
         this.scene = new Scene(root, 854, 512);
         addStyles();
 
@@ -69,6 +70,9 @@ public class PotoScreen {
         addIcon();
         addMenu();
         addTabs();
+
+        menu.getStyleClass().add("ptf-menu-bar");
+        tabs.getStyleClass().add("ptf-tab-pane");
 
         root.setTop(menu);
         root.setCenter(tabs);
