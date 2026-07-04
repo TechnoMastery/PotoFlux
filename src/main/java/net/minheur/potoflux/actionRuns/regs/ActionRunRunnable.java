@@ -47,6 +47,7 @@ public class ActionRunRunnable {
      * Checks if needs to rick roll rick roll.
      */
     public static void checkRickRoll() {
+        if (PotoFluxLoadingContext.isDevEnv()) return;
         int logAmount = LogAmountManager.getLogAmount();
         boolean isCorrectLogAmount = logAmount % 50 == 0;
 
