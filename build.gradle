@@ -182,3 +182,31 @@ tasks.register("msiPackage") {
         }
     }
 }
+tasks.register("rpmPackage") {
+    dependsOn("build", "copyLibs", "copyJar", "copyJfx")
+
+    group = "potoflux"
+    description = "build as msi installer"
+
+    doLast {
+        exec {
+            commandLine "jpackage",
+            "--input", "$buildDir/libs/build",
+            "--name", "PotoFlux",
+            "--main-jar", "PotoFlux-$version" + ".jar",
+            "--main-class", "net.minheur.potoflux.PotoFlux",
+
+            "--type", "rpm",
+            "--dest", "$buildDir/libs/output",
+
+            "--runtime-image", "${System.getProperty('java.home')}",
+
+            "--java-options", "--module-path=\$APPDIR/lib --add-modules=javafx.controls,javafx.graphics -Xmx512m",
+
+            "--install-dir", "/opt/TechnoMastery/PotoFlux",
+
+            "--app-version", "$version",
+            "--icon", "$buildDir/libs/main.png"
+        }
+    }
+}
