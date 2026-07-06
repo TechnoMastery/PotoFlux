@@ -151,7 +151,7 @@ tasks.register("copyJar", Copy) {
 }
 
 tasks.register("msiPackage") {
-    mustRunAfter("copyLibs", "copyJar", "copyJfx")
+    dependsOn("build", "copyLibs", "copyJar", "copyJfx")
 
     group = "potoflux"
     description = "build as msi installer"
