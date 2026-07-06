@@ -118,19 +118,6 @@ tasks.register("copyLibs", Copy) {
 
 build.dependsOn jar
 
-tasks.named("assemble") {
-    finalizedBy("prepMsi")
-}
-
-tasks.register("prepMsi") {
-    group = "potoflux"
-    description = "Prepare for MSI package"
-
-    dependsOn("copyLibs", "copyJar", "copyJfx")
-
-    finalizedBy("msiPackage")
-}
-
 tasks.register("copyJfx", Copy) {
     from configurations.runtimeClasspath
     include "javafx-*.jar"
@@ -164,7 +151,7 @@ tasks.register("copyJar", Copy) {
 }
 
 tasks.register("msiPackage") {
-    mustRunAfter("copyJar")
+    mustRunAfter("copyLibs", "copyJar", "copyJfx")
 
     group = "potoflux"
     description = "build as msi installer"
