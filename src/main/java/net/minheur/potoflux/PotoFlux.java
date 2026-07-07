@@ -180,11 +180,14 @@ public class PotoFlux extends Application {
         startScreen.setup();
         startScreen.show();
 
+        startScreen.updateStage("Loading style...");
         Application.setUserAgentStylesheet("styles/atlanta/dracula.css");
 
+        startScreen.updateStage("Checking lang...");
         if (UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("lang")) == null)
             Translations.firstLangInit();
 
+        startScreen.updateStage("Building bootstrap...");
         Task<Void> bootstrap = new Task<Void>() {
             @Override
             protected @Nullable Void call() throws Exception {
@@ -198,7 +201,8 @@ public class PotoFlux extends Application {
         );
 
         bootstrap.setOnSucceeded(event -> {
-            startScreen.updateStage("Launching app...");
+            startScreen.updateTitle("Finalizing...");
+            startScreen.updateStage("Building UI...");
             app = new PotoScreen(primaryStage);
             startScreen.close();
 
@@ -222,10 +226,14 @@ public class PotoFlux extends Application {
 
         });
 
+        startScreen.updateStage("Warming network...");
         RequestPoster.warmupTls();
 
+        startScreen.updateTitle("Running Bootstrap...");
+        startScreen.updateStage("Creating thread...");
         Thread bootstrapThread = new Thread(bootstrap);
         bootstrapThread.setDaemon(true);
+        startScreen.updateStage("Launching thread...");
         bootstrapThread.start();
 
     }

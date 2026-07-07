@@ -34,7 +34,7 @@ public class LoadingScreen {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Loading Potoflux...");
 
-        label = new Label("Potoflux is loading...");
+        label = new Label("Warming up...");
         stageLabel = new Label();
 
         VBox root = new VBox(10);
@@ -64,6 +64,9 @@ public class LoadingScreen {
      */
     public void updateStage(String text) {
         stageLabel.setText(text);
+    }
+    public void updateTitle(String text) {
+        label.setText(text);
     }
 
     /**
