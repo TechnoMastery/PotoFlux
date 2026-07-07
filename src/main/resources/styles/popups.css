@@ -1,0 +1,108 @@
+/* Stylesheet for Dialogs and Popups */
+.dialog-pane {
+    -fx-background-color: #f6f8fb;
+    -fx-padding: 0px;
+}
+
+.dialog-pane > .header-panel {
+    -fx-background-color: #eef4f7;
+    -fx-padding: 15px 20px;
+    -fx-border-color: #dce5ec;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.dialog-pane > .header-panel .label {
+    -fx-text-fill: #116a7b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.dialog-pane > .content {
+    -fx-background-color: transparent;
+    -fx-padding: 20px;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: #17212b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-size: 13px;
+}
+
+.dialog-pane .text-field, 
+.dialog-pane .password-field {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #17212b;
+    -fx-border-color: #cbd8e1;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 12px;
+}
+
+.dialog-pane .text-field:focused, 
+.dialog-pane .password-field:focused {
+    -fx-border-color: #116a7b;
+}
+
+/* Button bar & Dialog buttons */
+.dialog-pane > .button-bar {
+    -fx-background-color: #eef4f7;
+    -fx-padding: 12px 20px;
+    -fx-border-color: #dce5ec;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.dialog-pane .button {
+    -fx-background-color: #116a7b;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: #0b4d5a;
+}
+
+.dialog-pane .button:disabled {
+    -fx-background-color: #d8dee5;
+    -fx-text-fill: #6b7280;
+}
+
+/* Combo / Choice boxes styling inside dialogs */
+.dialog-pane .combo-box,
+.dialog-pane .choice-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd8e1;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 3px 6px;
+}
+
+.dialog-pane .combo-box:focused,
+.dialog-pane .choice-box:focused {
+    -fx-border-color: #116a7b;
+}
+
+/* List views inside dialogs */
+.dialog-pane .list-view {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8px;
+    -fx-border-color: #dce5ec;
+    -fx-border-radius: 8px;
+}
+
+.dialog-pane .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #17212b;
+    -fx-padding: 6px 10px;
+}
+
+.dialog-pane .list-cell:filled:selected {
+    -fx-background-color: #116a7b;
+    -fx-text-fill: #ffffff;
+}

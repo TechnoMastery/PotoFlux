@@ -10,7 +10,7 @@
     -fx-padding: 0;
 }
 
-.tab-pane .tab {
+.tab-pane .tab-header-area .tab {
     -fx-background-color: transparent;
     -fx-background-insets: 0;
     -fx-background-radius: 0;
@@ -18,28 +18,44 @@
     -fx-cursor: hand;
 }
 
-.tab-pane .tab:hover {
+.tab-pane .tab-header-area .tab:hover {
     -fx-background-color: rgba(17, 106, 123, 0.08);
 }
 
-.tab-pane .tab:selected {
+.tab-pane .tab-header-area .tab:selected {
     -fx-background-color: #116a7b;
 }
 
-.tab-pane .tab .tab-label {
+.tab-pane .tab-header-area .tab .tab-label {
     -fx-text-fill: #17212b;
     -fx-font-family: "Arial", "Helvetica", sans-serif;
     -fx-font-weight: bold;
     -fx-font-size: 14px;
 }
 
-.tab-pane .tab:selected .tab-label {
+.tab-pane .tab-header-area .tab:selected .tab-label {
     -fx-text-fill: #ffffff;
+}
+
+/* Background grid and gradients on content area */
+.tab-pane .tab-content-area {
+    -fx-background-color: 
+        #f6f8fb,
+        linear-gradient(to bottom, rgba(17, 106, 123, 0.12), transparent 360px),
+        radial-gradient(focus-angle 0deg, focus-distance 0%, center 100% 0%, radius 320px, rgba(217, 119, 6, 0.14) 0%, transparent 100%);
+    -fx-background-image: url("/textures/grid.png");
+    -fx-background-repeat: repeat;
+}
+
+/* General tab content panel */
+.tab {
+    -fx-background-color: transparent;
+    -fx-cursor: default;
 }
 
 /* Home Tab specific styling */
 .tab .home {
-    -fx-background-color: #f6f8fb;
+    -fx-background-color: transparent;
     -fx-padding: 40px;
     -fx-alignment: top-center;
 }
@@ -57,4 +73,72 @@
     -fx-font-family: "Consolas", monospace;
     -fx-font-size: 15px;
     -fx-padding: 5px 0;
+}
+
+/* Global ComboBox and ChoiceBox styling */
+.combo-box,
+.choice-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd8e1;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 4px 8px;
+    -fx-text-fill: #17212b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-size: 13px;
+}
+
+.combo-box:hover,
+.choice-box:hover {
+    -fx-border-color: #a0b5c5;
+}
+
+.combo-box:focused,
+.choice-box:focused {
+    -fx-border-color: #116a7b;
+    -fx-background-color: #ffffff;
+}
+
+.combo-box > .arrow-button,
+.choice-box > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 5px 0 5px;
+}
+
+.combo-box > .arrow-button > .arrow,
+.choice-box > .arrow-button > .arrow {
+    -fx-background-color: #5b6875;
+    -fx-shape: "M 0 0 L 4 4 L 8 0 Z";
+}
+
+.combo-box-popup .list-view,
+.choice-box-popup .list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dce5ec;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 4px 0px;
+    -fx-effect: dropshadow(three-pass-box, rgba(28, 45, 61, 0.12), 15, 0, 0, 8);
+}
+
+.combo-box-popup .list-cell,
+.choice-box-popup .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #17212b;
+    -fx-padding: 8px 16px;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+}
+
+.combo-box-popup .list-cell:filled:hover,
+.choice-box-popup .list-cell:filled:hover {
+    -fx-background-color: #eef4f7;
+    -fx-text-fill: #116a7b;
+}
+
+.combo-box-popup .list-cell:filled:selected,
+.choice-box-popup .list-cell:filled:selected {
+    -fx-background-color: #116a7b;
+    -fx-text-fill: #ffffff;
 }

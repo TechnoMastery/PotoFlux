@@ -30,6 +30,7 @@ public class RmUserDialog extends Dialog<String> {
      */
     public RmUserDialog() {
         setTitle("Remove a user"); // todo
+        net.minheur.potoflux.styles.PtfStylesheets.applyToDialog(getDialogPane());
         initUI();
     }
 

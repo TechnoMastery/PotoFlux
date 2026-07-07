@@ -1,6 +1,6 @@
 /* Stylesheet for the Account Tab */
 .tab .account {
-    -fx-background-color: #f6f8fb;
+    -fx-background-color: transparent;
     -fx-padding: 30px;
 }
 

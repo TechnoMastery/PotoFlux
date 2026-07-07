@@ -1,6 +1,6 @@
 /* Stylesheet for the Mods Tab */
 .tab .mods {
-    -fx-background-color: #f6f8fb;
+    -fx-background-color: transparent;
     -fx-padding: 30px;
 }
 

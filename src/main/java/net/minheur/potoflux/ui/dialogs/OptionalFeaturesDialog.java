@@ -39,6 +39,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
      */
     public OptionalFeaturesDialog() {
         setTitle("Optional features"); // todo
+        net.minheur.potoflux.styles.PtfStylesheets.applyToDialog(getDialogPane());
 
         root = new BorderPane();
         setupPanel();

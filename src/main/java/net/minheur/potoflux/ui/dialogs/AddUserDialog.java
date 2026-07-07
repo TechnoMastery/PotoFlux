@@ -63,6 +63,7 @@ public class AddUserDialog extends Dialog<NewAccountData> {
      */
     public AddUserDialog() {
         setTitle("Add user"); // todo
+        net.minheur.potoflux.styles.PtfStylesheets.applyToDialog(getDialogPane());
         initUI();
     }
 

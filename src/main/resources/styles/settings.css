@@ -1,6 +1,6 @@
 /* Stylesheet for the Settings Tab */
 .tab .settings {
-    -fx-background-color: #f6f8fb;
+    -fx-background-color: transparent;
     -fx-padding: 30px;
 }
 
@@ -43,19 +43,7 @@
     -fx-font-size: 14px;
 }
 
-/* Custom styled form inputs */
-.tab .settings .choice-box {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #cbd8e1;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
-    -fx-padding: 5px;
-}
-
-.tab .settings .choice-box:focused {
-    -fx-border-color: #116a7b;
-}
-
+/* Custom styled form inputs (general check-boxes; choice-box is styled globally) */
 .tab .settings .check-box .box {
     -fx-background-color: #ffffff;
     -fx-border-color: #cbd8e1;

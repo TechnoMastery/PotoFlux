@@ -92,6 +92,7 @@ public class AccountDetailsDialog extends Dialog<Void> {
      */
     public AccountDetailsDialog(Dialog<?> parent, Account account) {
         setTitle("Account details"); // todo
+        net.minheur.potoflux.styles.PtfStylesheets.applyToDialog(getDialogPane());
         this.parent = parent;
         this.account = account;
 

@@ -64,6 +64,11 @@ public class PtfStylesheets {
      */
     public static final SmartSupplier<StylesheetEntry> DEBUG_TAB = LIST.add(() -> new StylesheetEntry(fromModId("debug_tab"),
             buildExternal("/styles/debug.css")));
+    /**
+     * The popups stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> POPUPS = LIST.add(() -> new StylesheetEntry(fromModId("popups"),
+            buildExternal("/styles/popups.css")));
 
     /**
      * Builds the external link to the stylesheet
@@ -81,5 +86,12 @@ public class PtfStylesheets {
      */
     public static void register(@NotNull RegisterStylesheetsEvent event) {
         LIST.register(event.reg);
+    }
+
+    /**
+     * Applies popup styling to a DialogPane.
+     */
+    public static void applyToDialog(@NotNull javafx.scene.control.DialogPane pane) {
+        pane.getStylesheets().add(POPUPS.get().stylesheetDir());
     }
 }
