@@ -30,6 +30,42 @@ public class PtfStylesheets {
             buildExternal("/styles/tabs/mods/listEntry.css")));
 
     /**
+     * The menu bar stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> MENU_BAR = LIST.add(() -> new StylesheetEntry(fromModId("menu_bar"),
+            buildExternal("/styles/menu.css")));
+    /**
+     * The home tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> HOME_TAB = LIST.add(() -> new StylesheetEntry(fromModId("home_tab"),
+            buildExternal("/styles/home.css")));
+    /**
+     * The account tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> ACCOUNT_TAB = LIST.add(() -> new StylesheetEntry(fromModId("account_tab"),
+            buildExternal("/styles/account.css")));
+    /**
+     * The mods tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> MODS_TAB = LIST.add(() -> new StylesheetEntry(fromModId("mods_tab"),
+            buildExternal("/styles/mods.css")));
+    /**
+     * The settings tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> SETTINGS_TAB = LIST.add(() -> new StylesheetEntry(fromModId("settings_tab"),
+            buildExternal("/styles/settings.css")));
+    /**
+     * The terminal tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> TERMINAL_TAB = LIST.add(() -> new StylesheetEntry(fromModId("terminal_tab"),
+            buildExternal("/styles/terminal.css")));
+    /**
+     * The debug tab stylesheet field.
+     */
+    public static final SmartSupplier<StylesheetEntry> DEBUG_TAB = LIST.add(() -> new StylesheetEntry(fromModId("debug_tab"),
+            buildExternal("/styles/debug.css")));
+
+    /**
      * Builds the external link to the stylesheet
      * @param target the target
      * @return the built link as external

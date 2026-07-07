@@ -54,6 +54,7 @@ public class ModsTab extends BaseVTab<VBox> {
     @Override
     protected void setPanel() {
         vContent = new VBox(20);
+        vContent.getStyleClass().add("mods");
         vContent.setAlignment(Pos.TOP_CENTER);
 
         Label title = mkTitle();
@@ -62,6 +63,7 @@ public class ModsTab extends BaseVTab<VBox> {
         entriesBox.getStyleClass().add("modEntries");
 
         scrollPane = new ScrollPane(entriesBox);
+        scrollPane.getStyleClass().add("scroll-pane");
         scrollPane.setFitToWidth(true);
 
         vContent.getChildren().addAll(title, scrollPane);
@@ -100,6 +102,7 @@ public class ModsTab extends BaseVTab<VBox> {
         details.getChildren().addAll(depsTitle, depsBox);
 
         TitledPane pane = new TitledPane();
+        pane.getStyleClass().add("titled-pane");
         pane.setGraphic(buildHeader(modContainer));
         pane.setContent(details);
 

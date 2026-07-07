@@ -1,0 +1,57 @@
+/* Stylesheet for the Menu Bar */
+.ptf-menu-bar {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dce5ec;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 5px 10px;
+}
+
+.ptf-menu-bar .menu {
+    -fx-background-color: transparent;
+    -fx-background-radius: 4px;
+    -fx-padding: 6px 12px;
+}
+
+.ptf-menu-bar .menu .label {
+    -fx-text-fill: #17212b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.ptf-menu-bar .menu:hover {
+    -fx-background-color: #eef4f7;
+}
+
+.ptf-menu-bar .menu:showing {
+    -fx-background-color: #eef4f7;
+}
+
+.ptf-menu-bar .context-menu {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dce5ec;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(28, 45, 61, 0.12), 15, 0, 0, 8);
+    -fx-padding: 5px 0px;
+}
+
+.ptf-menu-bar .menu-item {
+    -fx-background-color: transparent;
+    -fx-padding: 8px 16px;
+}
+
+.ptf-menu-bar .menu-item .label {
+    -fx-text-fill: #17212b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-size: 13px;
+}
+
+.ptf-menu-bar .menu-item:focused {
+    -fx-background-color: #116a7b;
+}
+
+.ptf-menu-bar .menu-item:focused .label {
+    -fx-text-fill: #ffffff;
+}

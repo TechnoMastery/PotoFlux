@@ -1,0 +1,111 @@
+/* Stylesheet for the Settings Tab */
+.tab .settings {
+    -fx-background-color: #f6f8fb;
+    -fx-padding: 30px;
+}
+
+.tab .settings .title {
+    -fx-text-fill: #116a7b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 15px 0;
+}
+
+.tab .settings .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.tab .settings .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Setting line panel container */
+.tab .settings .setting-line {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dce5ec;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 18px;
+    -fx-alignment: center-left;
+    -fx-effect: dropshadow(three-pass-box, rgba(28, 45, 61, 0.05), 10, 0, 0, 4);
+}
+
+.tab .settings .setting-line:hover {
+    -fx-background-color: #f9fbfc;
+}
+
+.tab .settings .setting-line .label {
+    -fx-text-fill: #17212b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-size: 14px;
+}
+
+/* Custom styled form inputs */
+.tab .settings .choice-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd8e1;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 5px;
+}
+
+.tab .settings .choice-box:focused {
+    -fx-border-color: #116a7b;
+}
+
+.tab .settings .check-box .box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd8e1;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.tab .settings .check-box:selected .box {
+    -fx-background-color: #116a7b;
+    -fx-border-color: #116a7b;
+}
+
+.tab .settings .check-box:selected .mark {
+    -fx-background-color: #ffffff;
+}
+
+/* Action buttons at the bottom */
+.tab .settings .button {
+    -fx-background-color: #116a7b;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 18px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(28, 45, 61, 0.12), 10, 0, 0, 4);
+}
+
+.tab .settings .button:hover {
+    -fx-background-color: #0b4d5a;
+    -fx-translate-y: -1px;
+}
+
+.tab .settings .button:pressed {
+    -fx-translate-y: 1px;
+}
+
+.tab .settings .btn-cancel {
+    -fx-background-color: #5b6875;
+}
+
+.tab .settings .btn-cancel:hover {
+    -fx-background-color: #354958;
+}
+
+.tab .settings .btn-optional {
+    -fx-background-color: #d97706;
+}
+
+.tab .settings .btn-optional:hover {
+    -fx-background-color: #b76a04;
+}

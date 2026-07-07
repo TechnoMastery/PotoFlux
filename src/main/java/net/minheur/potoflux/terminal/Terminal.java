@@ -48,13 +48,16 @@ public class Terminal {
      */
     public Terminal(@NotNull StackPane panel) {
         BorderPane root = new BorderPane();
+        root.getStyleClass().add("terminal");
 
         // OUTPUT
         outputArea = new TextArea();
+        outputArea.getStyleClass().add("output-area");
         setupOutput();
 
         // INPUT
         inputField = new TextField();
+        inputField.getStyleClass().add("input-field");
         HBox inputPanel = setupInputPanel();
 
         // layout
@@ -133,6 +136,7 @@ public class Terminal {
         inputPanel.setSpacing(5);
 
         Label prompt = new Label("  >  ");
+        prompt.getStyleClass().add("prompt");
         prompt.setFont(Font.font("Consolas", 30));
 
         inputField.setFont(Font.font("Consolas", 20));

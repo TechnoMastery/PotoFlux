@@ -1,0 +1,89 @@
+/* Stylesheet for the Mods Tab */
+.tab .mods {
+    -fx-background-color: #f6f8fb;
+    -fx-padding: 30px;
+}
+
+.tab .mods .title {
+    -fx-text-fill: #116a7b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 15px 0;
+}
+
+.tab .mods .modEntries {
+    -fx-background-color: transparent;
+    -fx-spacing: 12px;
+}
+
+.tab .mods .scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.tab .mods .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Titled pane styling for mod cards */
+.tab .mods .titled-pane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dce5ec;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(28, 45, 61, 0.06), 10, 0, 0, 4);
+    -fx-text-fill: #17212b;
+}
+
+.tab .mods .titled-pane > .title {
+    -fx-background-color: #ffffff;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 16px;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.tab .mods .titled-pane:hover > .title {
+    -fx-background-color: #f9fbfc;
+}
+
+.tab .mods .titled-pane > .content {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dce5ec;
+    -fx-border-width: 1px 0 0 0;
+    -fx-padding: 15px;
+    -fx-background-radius: 0 0 8px 8px;
+}
+
+.tab .mods .titled-pane .label {
+    -fx-text-fill: #17212b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+}
+
+/* Mod states themed based on website info blocks */
+.tab .mods .state {
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 4px;
+}
+
+.tab .mods .state.loaded {
+    -fx-text-fill: #1f7a4d;
+    -fx-background-color: rgba(31, 122, 77, 0.1);
+}
+
+.tab .mods .state.failed {
+    -fx-text-fill: #b42318;
+    -fx-background-color: rgba(180, 35, 24, 0.1);
+}
+
+.tab .mods .state.depFailed {
+    -fx-text-fill: #d97706;
+    -fx-background-color: rgba(217, 119, 6, 0.1);
+}

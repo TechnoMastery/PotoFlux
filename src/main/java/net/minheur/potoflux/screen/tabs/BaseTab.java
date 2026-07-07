@@ -30,6 +30,9 @@ public abstract class BaseTab<T extends Parent> {
      */
     public BaseTab() {
         instantiate();
+        if (PANEL != null) {
+            PANEL.getStyleClass().add("tab");
+        }
         if (doPreset()) runPreset();
 
         setPanel();
@@ -113,6 +116,7 @@ public abstract class BaseTab<T extends Parent> {
      */
     protected Label mkTitle() {
         Label title = new Label(getTitle());
+        title.getStyleClass().add("title");
         title.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
         return title;
     }

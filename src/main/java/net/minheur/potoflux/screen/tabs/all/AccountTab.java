@@ -122,6 +122,7 @@ public class AccountTab extends BaseVTab<ScrollPane> {
         vContent = new VBox(10);
         vContent.setPadding(new Insets(30, 20, 30, 20));
         vContent.setMinHeight(Region.USE_PREF_SIZE);
+        vContent.getStyleClass().add("account");
 
         PANEL.setContent(vContent);
     }
@@ -131,25 +132,32 @@ public class AccountTab extends BaseVTab<ScrollPane> {
      */
     private void initComponents() {
         titleLabel = new Label();
+        titleLabel.getStyleClass().add("title");
         titleLabel.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
 
         emailLabel = new Label();
+        emailLabel.getStyleClass().add("email");
         emailLabel.setFont(Font.font("Consolas", 13));
 
         permsModel = FXCollections.observableArrayList();
         permsList = new ListView<>(permsModel);
+        permsList.getStyleClass().add("list-view");
 
         executePerm = new Button(Translations.get("potoflux:tabs.account.executePermButton"));
+        executePerm.getStyleClass().add("button");
 
         permsPanel = new VBox(5, permsList, executePerm);
         permsPanel.setMaxHeight(150);
         permsPanel.setAlignment(Pos.CENTER);
 
         authButton = new Button();
+        authButton.getStyleClass().add("button");
         createAccountButton = new Button(Translations.get("potoflux:tabs.account.createAccount.button"));
+        createAccountButton.getStyleClass().add("button");
 
         notificationModel = FXCollections.observableArrayList();
         notificationList = new ListView<>(notificationModel);
+        notificationList.getStyleClass().add("list-view");
         notificationList.setFocusTraversable(false);
 
         notificationList.setCellFactory(list -> new NotificationCellFactory());

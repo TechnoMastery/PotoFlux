@@ -1,0 +1,60 @@
+/* Stylesheet for the Home Tab and TabPane */
+
+/* General TabPane and Tab button styling */
+.tab-pane {
+    -fx-background-color: #f6f8fb;
+}
+
+.tab-pane .tab-header-area {
+    -fx-background-color: #eef4f7;
+    -fx-padding: 0;
+}
+
+.tab-pane .tab {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 12px 20px;
+    -fx-cursor: hand;
+}
+
+.tab-pane .tab:hover {
+    -fx-background-color: rgba(17, 106, 123, 0.08);
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #116a7b;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #17212b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #ffffff;
+}
+
+/* Home Tab specific styling */
+.tab .home {
+    -fx-background-color: #f6f8fb;
+    -fx-padding: 40px;
+    -fx-alignment: top-center;
+}
+
+.tab .home .title {
+    -fx-text-fill: #116a7b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 15px 0;
+}
+
+.tab .home .desc {
+    -fx-text-fill: #5b6875;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 15px;
+    -fx-padding: 5px 0;
+}

@@ -18,6 +18,7 @@ public class HomeTab extends BaseVTab<StackPane> {
      */
     @Override
     protected void setPanel() {
+        vContent.getStyleClass().add("home");
         addDesc();
         addVersion();
     }
@@ -35,6 +36,7 @@ public class HomeTab extends BaseVTab<StackPane> {
      */
     private void addDesc() {
         Label desc = new Label(Translations.get("potoflux:tabs.home.credit"));
+        desc.getStyleClass().add("desc");
         desc.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
         vContent.getChildren().add(desc);
     }
@@ -47,6 +49,7 @@ public class HomeTab extends BaseVTab<StackPane> {
                 PotoFlux.getVersion());
 
         Label version = new Label(name);
+        version.getStyleClass().add("desc");
         version.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
         vContent.getChildren().add(version);
     }

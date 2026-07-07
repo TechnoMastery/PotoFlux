@@ -1,0 +1,92 @@
+/* Stylesheet for the Account Tab */
+.tab .account {
+    -fx-background-color: #f6f8fb;
+    -fx-padding: 30px;
+}
+
+.tab .account .title {
+    -fx-text-fill: #116a7b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10px 0;
+}
+
+.tab .account .email {
+    -fx-text-fill: #5b6875;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 13px;
+    -fx-padding: 0 0 15px 0;
+}
+
+/* Beautiful buttons based on buttons.css from website */
+.tab .account .button {
+    -fx-background-color: #116a7b;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 18px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(28, 45, 61, 0.12), 10, 0, 0, 4);
+}
+
+.tab .account .button:hover {
+    -fx-background-color: #0b4d5a;
+    -fx-translate-y: -1px;
+}
+
+.tab .account .button:pressed {
+    -fx-translate-y: 1px;
+}
+
+.tab .account .button:disabled {
+    -fx-background-color: #d8dee5;
+    -fx-text-fill: #6b7280;
+    -fx-cursor: not-allowed;
+    -fx-effect: none;
+}
+
+/* List views (permissions) */
+.tab .account .list-view {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8px;
+    -fx-border-color: #dce5ec;
+    -fx-border-radius: 8px;
+    -fx-padding: 5px;
+}
+
+.tab .account .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #17212b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-padding: 8px 12px;
+}
+
+.tab .account .list-cell:filled:hover {
+    -fx-background-color: #eef4f7;
+}
+
+.tab .account .list-cell:filled:selected {
+    -fx-background-color: #116a7b;
+    -fx-text-fill: #ffffff;
+}
+
+/* Notifications panel */
+.tab .account .notificationPane {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8px;
+    -fx-border-color: #dce5ec;
+    -fx-border-radius: 8px;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(28, 45, 61, 0.08), 15, 0, 0, 8);
+}
+
+.tab .account .notificationPane .label {
+    -fx-text-fill: #17212b;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-padding: 0 0 10px 0;
+}

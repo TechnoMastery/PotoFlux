@@ -63,6 +63,7 @@ public class PotoScreen {
 
         BorderPane root = new BorderPane();
         this.scene = new Scene(root, 854, 512);
+        menu.getStyleClass().add("ptf-menu-bar");
         addStyles();
 
         setupStage();

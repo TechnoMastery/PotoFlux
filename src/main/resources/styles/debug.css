@@ -1,0 +1,13 @@
+/* Stylesheet for the Debug Tab */
+.tab .debug {
+    -fx-background-color: #f6f8fb;
+    -fx-padding: 30px;
+}
+
+.tab .debug .title {
+    -fx-text-fill: #d97706;
+    -fx-font-family: "Arial", "Helvetica", sans-serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 15px 0;
+}

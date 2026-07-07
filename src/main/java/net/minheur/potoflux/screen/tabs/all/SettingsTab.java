@@ -106,6 +106,7 @@ public class SettingsTab extends BaseVTab<VBox> {
         for (Map.Entry<Setting, SettingInfo<?>> entry : settings.entrySet()) {
 
             HBox pane = new HBox(5);
+            pane.getStyleClass().add("setting-line");
             pane.setPadding(new Insets(0, 0, 0, 10));
             Label modified = entry.getKey().type().getIsModifiedLabel();
             modified.setStyle("-fx-font-weight: bold;");
@@ -158,11 +159,13 @@ public class SettingsTab extends BaseVTab<VBox> {
     @Override
     protected void boxPreset() {
         vContent = new VBox();
+        vContent.getStyleClass().add("settings");
         vContent.setSpacing(20);
         vContent.setPadding(new Insets(15, 0, 15, 0));
         vContent.setAlignment(Pos.TOP_CENTER);
 
         contentScroll = new ScrollPane(vContent);
+        contentScroll.getStyleClass().add("scroll-pane");
         contentScroll.setFitToWidth(true);
         contentScroll.setFitToHeight(false);
         contentScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -176,8 +179,11 @@ public class SettingsTab extends BaseVTab<VBox> {
     private void addButtons() {
 
         cancel = new Button(Translations.get("common:cancel"));
+        cancel.getStyleClass().addAll("button", "btn-cancel");
         apply = new Button(Translations.get("common:apply"));
+        apply.getStyleClass().addAll("button", "btn-apply");
         openOptional = new Button(Translations.get("potoflux:tabs.settings.optionals.openButton"));
+        openOptional.getStyleClass().addAll("button", "btn-optional");
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
