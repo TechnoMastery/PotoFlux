@@ -253,6 +253,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addHomeTab("credit")
                 .en("Created by Min_heur2000 - TechnoMastery")
                 .fr("Créé par Min_heur2000 - TechnoMastery");
+        addHomeTab("atlanta")
+                .en("Themed with AtlantaFX, by mkpaz")
+                .fr("Thème d'AtlantaFX, de mkpaz");
         addHomeTab("name")
                 .en("Home")
                 .fr("Home");
