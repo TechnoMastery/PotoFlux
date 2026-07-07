@@ -29,6 +29,9 @@ public class PtfStylesheets {
     public static final SmartSupplier<StylesheetEntry> MOD_LIST_ENTRY = LIST.add(() -> new StylesheetEntry(fromModId("mod_list_entry"),
             buildExternal("/styles/tabs/mods/listEntry.css")));
 
+    public static final SmartSupplier<StylesheetEntry> BUTTONS = LIST.add(() -> new StylesheetEntry(fromModId("buttons"),
+            buildExternal("/styles/buttons.css")));
+
 
     /**
      * Builds the external link to the stylesheet

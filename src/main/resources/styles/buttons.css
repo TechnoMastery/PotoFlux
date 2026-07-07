@@ -1,0 +1,25 @@
+.button {
+    -fx-alignement: center;
+
+    -fx-min-height: 44px;
+    -fx-max-width: Infinity;
+
+    -fx-padding: 11 18 11 18;
+
+    -fx-background-color: #116a7b;
+    -fx-background-radius: 8;
+
+    -fx-border-color: #0f5d6d; /* équivalent approximatif du color-mix */
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+
+    -fx-text-fill: white;
+
+    -fx-font-family: "Arial";
+    -fx-font-size: 0.95em;
+    -fx-font-weight: bold;
+
+    -fx-effect: dropshadow(gaussian, rgba(28,45,61,0.12), 18, 0, 0, 8);
+
+    -fx-cursor: hand;
+}
