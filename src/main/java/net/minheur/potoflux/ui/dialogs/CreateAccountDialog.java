@@ -38,7 +38,6 @@ public class CreateAccountDialog extends Dialog<NewAccountData> {
      */
     public CreateAccountDialog() {
         setTitle("Create Account"); // todo
-        net.minheur.potoflux.styles.PtfStylesheets.applyToDialog(getDialogPane());
         initGui();
     }
 

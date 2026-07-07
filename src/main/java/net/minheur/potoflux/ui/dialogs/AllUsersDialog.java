@@ -41,7 +41,6 @@ public class AllUsersDialog extends Dialog<Void> {
     public AllUsersDialog(List<Account> accounts) {
         this.accounts = accounts;
         setTitle("All accounts"); // todo
-        net.minheur.potoflux.styles.PtfStylesheets.applyToDialog(getDialogPane());
 
         root = new BorderPane();
 

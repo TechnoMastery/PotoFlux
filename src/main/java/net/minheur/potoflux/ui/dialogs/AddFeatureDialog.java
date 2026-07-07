@@ -44,8 +44,6 @@ public class AddFeatureDialog extends Dialog<Pair<String, OptionalFeature>> {
      * Makes the dialog, sets up the layout, adds the buttons and components
      */
     public AddFeatureDialog() {
-        net.minheur.potoflux.styles.PtfStylesheets.applyToDialog(getDialogPane());
-
         this.grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);

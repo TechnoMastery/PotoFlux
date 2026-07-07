@@ -125,7 +125,6 @@ public final class UiUtils {
         alert.setContentText(message);
 
         // css
-        net.minheur.potoflux.styles.PtfStylesheets.applyToDialog(alert.getDialogPane());
         if (cssDir != null) alert.getDialogPane().getStylesheets().add(
                 UiUtils.class.getResource(cssDir).toExternalForm()
         );
@@ -213,7 +212,6 @@ public final class UiUtils {
                 yesButton.get()
         );
         alert.setTitle(Translations.get("common:confirm"));
-        net.minheur.potoflux.styles.PtfStylesheets.applyToDialog(alert.getDialogPane());
         alert.getDialogPane().setContent(content);
         alert.setHeaderText(header);
 
@@ -285,8 +283,6 @@ public final class UiUtils {
                     Objects.requireNonNull(UiUtils.class.getResourceAsStream(iconDir))
             ));
         }
-
-        net.minheur.potoflux.styles.PtfStylesheets.applyToDialog(dialog.getDialogPane());
 
         if (cssDir != null)
             dialog.getDialogPane().getStylesheets().add(
