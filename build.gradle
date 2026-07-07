@@ -70,9 +70,6 @@ dependencies {
     // scan classes
     implementation "org.reflections:reflections:0.10.2"
 
-    // styles
-    implementation 'io.github.mkpaz:atlantafx-base:2.1.0'
-
 }
 
 jar {

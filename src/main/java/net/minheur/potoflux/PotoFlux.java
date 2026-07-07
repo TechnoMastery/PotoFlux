@@ -180,6 +180,8 @@ public class PotoFlux extends Application {
         startScreen.setup();
         startScreen.show();
 
+        Application.setUserAgentStylesheet("styles/atlanta/dracula.css");
+
         if (UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("lang")) == null)
             Translations.firstLangInit();
 
