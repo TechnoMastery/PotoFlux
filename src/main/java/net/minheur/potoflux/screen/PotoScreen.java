@@ -37,6 +37,7 @@ public class PotoScreen {
      * The scene field, containing all elements
      */
     private final Scene scene;
+    private final BorderPane root;
     /**
      * Potoflux's menu
      */
@@ -61,9 +62,8 @@ public class PotoScreen {
     public PotoScreen(Stage stage) {
         this.stage = stage;
 
-        BorderPane root = new BorderPane();
+        root = new BorderPane();
         this.scene = new Scene(root, 854, 512);
-        menu.getStyleClass().add("ptf-menu-bar");
         addStyles();
 
         setupStage();
