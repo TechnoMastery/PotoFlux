@@ -59,7 +59,6 @@ public class ModsTab extends BaseVTab<VBox> {
         Label title = mkTitle();
 
         entriesBox = new VBox(10);
-        entriesBox.getStyleClass().add("modEntries");
 
         scrollPane = new ScrollPane(entriesBox);
         scrollPane.setFitToWidth(true);
@@ -126,8 +125,6 @@ public class ModsTab extends BaseVTab<VBox> {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         Label state = new Label(formatState(modContainer.state));
-        state.getStyleClass().add("state");
-        state.getStyleClass().add(getStateStyle(modContainer.state));
 
         root.getChildren().addAll(
                 name, version,
