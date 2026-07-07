@@ -44,6 +44,6 @@ public class PtfStylesheets {
      * Registers all entries to main reg
      */
     public static void register(@NotNull RegisterStylesheetsEvent event) {
-        LIST.register(event.reg);
+        // LIST.register(event.reg); TODO: warning
     }
 }
