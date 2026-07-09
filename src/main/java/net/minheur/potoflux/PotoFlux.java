@@ -10,8 +10,10 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.RequestPoster;
 import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.PotoScreen;
+import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
+import net.minheur.potoflux.theme.Themes;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.close.EventPostException;
@@ -181,7 +183,8 @@ public class PotoFlux extends Application {
         startScreen.show();
 
         startScreen.updateStage("Loading style...");
-        Application.setUserAgentStylesheet("styles/atlanta/dracula.css");
+        String themeKey = (String) UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("theme"));
+        Application.setUserAgentStylesheet(Themes.getFromKey(themeKey).getSheetDir());
 
         startScreen.updateStage("Checking lang...");
         if (UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("lang")) == null)

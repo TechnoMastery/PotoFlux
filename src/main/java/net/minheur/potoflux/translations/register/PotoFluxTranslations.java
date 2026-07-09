@@ -193,9 +193,27 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Chiseled")
                 .fr("Taillé");
 
-        addThemeName("default")
-                .en("Default")
-                .fr("Par défaut");
+        addThemeName("dracula")
+                .en("Dracula (default)")
+                .fr("Dracula (par défaut)");
+        addThemeName("cupertino", "dark")
+                .en("Cupertino (dark)")
+                .fr("Cupertino (sombre)");
+        addThemeName("cupertino", "light")
+                .en("Cupertino (light)")
+                .fr("Cupertino (clair)");
+        addThemeName("nord", "dark")
+                .en("Nord (dark)")
+                .fr("Nord (sombre)");
+        addThemeName("nord", "light")
+                .en("Nord (light)")
+                .fr("Nord (clair)");
+        addThemeName("primer", "dark")
+                .en("Primer (dark)")
+                .fr("Primer (sombre)");
+        addThemeName("primer", "light")
+                .en("Primer (light)")
+                .fr("Primer (clair)");
 
         addMenu("file", "openModDir")
                 .en("Open mods directory")
