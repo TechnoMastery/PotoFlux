@@ -193,9 +193,27 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("Chiseled")
                 .fr("Taillé");
 
-        addThemeName("default")
-                .en("Default")
-                .fr("Par défaut");
+        addThemeName("dracula")
+                .en("Dracula (default)")
+                .fr("Dracula (par défaut)");
+        addThemeName("cupertino", "dark")
+                .en("Cupertino (dark)")
+                .fr("Cupertino (sombre)");
+        addThemeName("cupertino", "light")
+                .en("Cupertino (light)")
+                .fr("Cupertino (clair)");
+        addThemeName("nord", "dark")
+                .en("Nord (dark)")
+                .fr("Nord (sombre)");
+        addThemeName("nord", "light")
+                .en("Nord (light)")
+                .fr("Nord (clair)");
+        addThemeName("primer", "dark")
+                .en("Primer (dark)")
+                .fr("Primer (sombre)");
+        addThemeName("primer", "light")
+                .en("Primer (light)")
+                .fr("Primer (clair)");
 
         addMenu("file", "openModDir")
                 .en("Open mods directory")
@@ -253,6 +271,9 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         addHomeTab("credit")
                 .en("Created by Min_heur2000 - TechnoMastery")
                 .fr("Créé par Min_heur2000 - TechnoMastery");
+        addHomeTab("atlanta")
+                .en("Themed with AtlantaFX, by mkpaz")
+                .fr("Thème d'AtlantaFX, de mkpaz");
         addHomeTab("name")
                 .en("Home")
                 .fr("Home");

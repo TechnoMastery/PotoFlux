@@ -19,6 +19,7 @@ public class HomeTab extends BaseVTab<StackPane> {
     @Override
     protected void setPanel() {
         addDesc();
+        addAtlantaCredit();
         addVersion();
     }
 
@@ -39,6 +40,12 @@ public class HomeTab extends BaseVTab<StackPane> {
         vContent.getChildren().add(desc);
     }
 
+    private void addAtlantaCredit() {
+        Label l = new Label(Translations.get("potoflux:tabs.home.atlanta"));
+        l.setFont(Font.font("Consolas", FontWeight.LIGHT, 14));
+        vContent.getChildren().add(l);
+    }
+
     /**
      * Adds the version of the app
      */
@@ -47,7 +54,7 @@ public class HomeTab extends BaseVTab<StackPane> {
                 PotoFlux.getVersion());
 
         Label version = new Label(name);
-        version.setFont(Font.font("Consolas", FontWeight.NORMAL, 15));
+        version.setFont(Font.font("Consolas", FontWeight.NORMAL, 14));
         vContent.getChildren().add(version);
     }
 

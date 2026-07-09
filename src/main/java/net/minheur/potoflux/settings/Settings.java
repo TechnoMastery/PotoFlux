@@ -58,7 +58,7 @@ public class Settings {
             new ComboSetting<>(
                     Translations.get("potoflux:prefs.theme"),
                     FXCollections.observableArrayList(Themes.values()),
-                    Themes.DEFAULT
+                    Themes.DRACULA
             ), true));
     /**
      * Setting to change the placement of the tab's list. Is within {@link TabSides}

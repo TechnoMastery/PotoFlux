@@ -10,8 +10,10 @@ import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.RequestPoster;
 import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.PotoScreen;
+import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
+import net.minheur.potoflux.theme.Themes;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.close.EventPostException;
@@ -180,9 +182,15 @@ public class PotoFlux extends Application {
         startScreen.setup();
         startScreen.show();
 
+        startScreen.updateStage("Loading style...");
+        String themeKey = (String) UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("theme"));
+        Application.setUserAgentStylesheet(Themes.getFromKey(themeKey).getSheetDir());
+
+        startScreen.updateStage("Checking lang...");
         if (UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("lang")) == null)
             Translations.firstLangInit();
 
+        startScreen.updateStage("Building bootstrap...");
         Task<Void> bootstrap = new Task<Void>() {
             @Override
             protected @Nullable Void call() throws Exception {
@@ -196,7 +204,8 @@ public class PotoFlux extends Application {
         );
 
         bootstrap.setOnSucceeded(event -> {
-            startScreen.updateStage("Launching app...");
+            startScreen.updateTitle("Finalizing...");
+            startScreen.updateStage("Building UI...");
             app = new PotoScreen(primaryStage);
             startScreen.close();
 
@@ -220,10 +229,14 @@ public class PotoFlux extends Application {
 
         });
 
+        startScreen.updateStage("Warming network...");
         RequestPoster.warmupTls();
 
+        startScreen.updateTitle("Running Bootstrap...");
+        startScreen.updateStage("Creating thread...");
         Thread bootstrapThread = new Thread(bootstrap);
         bootstrapThread.setDaemon(true);
+        startScreen.updateStage("Launching thread...");
         bootstrapThread.start();
 
     }

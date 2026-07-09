@@ -113,8 +113,6 @@ public class NotificationCellFactory extends ListCell<Notification> {
         String formattedDate = item.getFormattedDate();
         date.setText(formattedDate == null ? "" : formattedDate);
 
-        typeBar.getStyleClass().addAll("notifType", item.getTypeColorClass());
-
         setGraphic(root);
     }
 

@@ -18,3 +18,7 @@ If your app crashes, you can look into the logs folder and get the exit code sen
 | 1 | Uncaught error in main thread. Refer to the stack trace |
 | 2 | Error during bootstrap |
 | -1 | Error on posting event. Check mod compatibility & duped ids |
+
+## Credits
+Minheur2000, that created the app<br><br>
+All theme credits goes to Mkpaz with <a href="https://github.com/mkpaz/atlantafx">AtlantaFX</a>, currently using version 2.1.0
