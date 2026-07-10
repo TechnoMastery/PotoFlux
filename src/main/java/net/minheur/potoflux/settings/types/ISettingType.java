@@ -51,6 +51,13 @@ public interface ISettingType<S> {
     void selectValue(@NotNull Object value);
 
     /**
+     * Checks if the given value is allowed in the setting
+     * @param value value to check if allowed
+     * @return weather the value is allowed
+     */
+    boolean isListed(@NotNull Object value);
+
+    /**
      * Gets the selected value directly as raw
      *
      * @return the raw selected value

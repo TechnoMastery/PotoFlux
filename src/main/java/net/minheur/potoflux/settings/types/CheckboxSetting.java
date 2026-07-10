@@ -66,6 +66,16 @@ public class CheckboxSetting implements ISettingType<Boolean> {
         node.setSelected((boolean) value);
     }
 
+    @Override
+    public boolean isListed(@NotNull Object value) {
+        if (!prefType().getValueClass().isInstance(value))
+            throw new IllegalArgumentException(
+                    "Invalid type for " + prefType()
+            );
+
+        return true;
+    }
+
     /**
      * Getter for the default value
      *
