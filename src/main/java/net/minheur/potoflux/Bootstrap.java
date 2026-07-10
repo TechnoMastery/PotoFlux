@@ -162,10 +162,10 @@ public class Bootstrap {
             bus.post(commandEvent);
             bus.post(runEvent);
             bus.post(menuEvent);
-            bus.post(settingEvent);
+            bus.post(themesEvent);
+            bus.post(settingEvent); // settings depends on: themes
             bus.post(notificationTypesEvent);
             bus.post(stylesheetsEvent);
-            bus.post(themesEvent);
 
             bus.post(modEventsEvent); // register mod's posts last
         } catch (Throwable e) {
