@@ -1,11 +1,53 @@
-# How to contribute to PotoFlux
-There are  ways of contributing. You can directly contact me through the discord or the repo, or fork this repo and create later a pull request.<br>
-I'll read every pull request, but make sure to follow the Code of Conduct.
-## Contributing through the Discord
-You can join the discord and contact @minheur2000 to contribute.<br>
-You juste need to be careful that, we are a French community, and even if I understand English, please note that everyone don't.<br>
-You can join the discord directly with this link :<br>
+# Contributing to PotoFlux
+
+Thank you for your interest in contributing! Below are the main ways you can get involved.
+
+## Code Contributions
+1. **Fork the repository** on GitHub.
+2. **Create a feature branch**.
+3. Implement your change, following the existing code style (see `STYLE_GUIDE.md`).
+4. **Test the app** (`./gradlew run`) and ensure the app doesn't crash and your features work.
+5. Commit your changes with clear, conventional commit messages.
+6. Push the branch to your fork and open a **Pull Request** against `main`.
+
+All pull requests are reviewed by the maintainers. Please make sure your PR:
+- Describes the problem and solution clearly.
+- Includes unit/integration tests if applicable.
+- Does not break existing functionality.
+
+## Documentation & Translations
+- **Documentation**: Update or add documentation in `docs/branch-name` branches. Consider making clear and useful doc for the people coming after.
+- **Translations**: Fork the repo, add new language support in [AbstractTranslationRegistry](src/main/java/net/minheur/potoflux/translations/AbstractTranslationsRegistry.java) (see existing `en()` and `fr()` methods). Then use those methods to add the translations.
+
+## Community Support via Discord
+You can also help by answering questions, providing feedback, or discussing ideas on our Discord server:
+
 [![Discord Server Invite](https://invite.casperiv.dev?inviteCode=wCTcVnJFmx)](https://discord.gg/wCTcVnJFmx)
-## Contributing to translations
-You can fork the repo and add your translations. All English translations should already be completed, but you can add in other languages.<br>
-If the language you want to add translations to is not supported, you can add it un the corresponding file (refer to Javadoc).
+
+Feel free to ping **@minheur2000** for guidance. While the community is primarily French‑speaking, English is welcome. Please be respectful and patient with members of all language backgrounds.
+
+## Guidelines & Code of Conduct
+All contributors must adhere to the project's [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you agree to:
+- Treat everyone with respect.
+- Use inclusive language.
+- Follow the licensing terms (MIT) for any contributions.
+
+## Setting Up Your Development Environment
+```bash
+# Clone the repo
+git clone https://github.com/yourusername/YourMod.git
+cd YourMod
+# Build the project (requires Java 17+ and Gradle)
+./gradlew build
+# Run the application to test
+./gradlew run
+```
+
+Or, you can use IntelliJ IDEA's version control integration!
+
+## Submitting a Pull Request
+After pushing your branch, open a PR on GitHub. Fill out the PR template, linking any related issues. The maintainers will review, request changes if needed, and merge once approved.
+
+---
+
+Thank you for helping make PotoFlux better!
