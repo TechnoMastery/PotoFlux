@@ -8,11 +8,11 @@ plugins {
 group = "net.minheur"
 version = "7.3"
 
-def javafxversion = "17.0.10"
+def javafxversion = "21.0.7"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
     withSourcesJar()
     withJavadocJar()
@@ -21,7 +21,7 @@ java {
 
 javadoc {
     options.links(
-            "https://openjfx.io/javadoc/17/",
+            "https://openjfx.io/javadoc/21/",
             "https://javadoc.io/doc/org.reflections/reflections/0.10.2/",
             "https://javadoc.io/doc/com.google.code.gson/gson/2.11.0/",
             "https://javadoc.io/doc/org.jetbrains/annotations/24.1.0/"
@@ -49,7 +49,7 @@ publishing {
 }
 
 javafx {
-    version '17'
+    version '21'
     modules = [ 'javafx.controls', 'javafx.graphics' ]
 }
 
