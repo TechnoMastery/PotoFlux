@@ -24,7 +24,7 @@ public class Tabs {
     /**
      * The item of the account tab ({@link AccountTab})
      */
-    public static final SmartSupplier<Tab> ACCOUNT = LIST.add(() -> new Tab(fromModId("account"), AccountTab.class));
+    public static final SmartSupplier<Tab> ACCOUNT = new SmartSupplier<>(() -> new Tab(fromModId("account"), AccountTab.class));
     /**
      * The item of the terminal tab ({@link TerminalTab}).
      */
