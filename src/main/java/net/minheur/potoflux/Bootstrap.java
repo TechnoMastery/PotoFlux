@@ -19,6 +19,7 @@ import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.styles.PtfStylesheets;
 import net.minheur.potoflux.terminal.commands.Commands;
+import net.minheur.potoflux.theme.Themes;
 import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.translations.register.CommonTranslations;
@@ -71,6 +72,7 @@ public class Bootstrap {
      * The stylesheets event field.
      */
     public static final RegisterStylesheetsEvent stylesheetsEvent = new RegisterStylesheetsEvent();
+    public static final RegisterThemesEvent themesEvent = new RegisterThemesEvent();
     /**
      * The mod events event field.
      */
@@ -143,6 +145,7 @@ public class Bootstrap {
         bus.addListener(Settings::register);
         bus.addListener(NotifTypes::register);
         bus.addListener(PtfStylesheets::register);
+        bus.addListener(Themes::register);
 
         // load all addons
         updateText.accept("Loading addons...");
@@ -162,6 +165,7 @@ public class Bootstrap {
             bus.post(settingEvent);
             bus.post(notificationTypesEvent);
             bus.post(stylesheetsEvent);
+            bus.post(themesEvent);
 
             bus.post(modEventsEvent); // register mod's posts last
         } catch (Throwable e) {

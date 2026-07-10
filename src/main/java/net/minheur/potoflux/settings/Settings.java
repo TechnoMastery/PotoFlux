@@ -1,6 +1,8 @@
 package net.minheur.potoflux.settings;
 
 import javafx.collections.FXCollections;
+import net.minheur.potoflux.Bootstrap;
+import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.mod.events.RegisterSettingEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.tabs.TabSides;
@@ -12,6 +14,8 @@ import net.minheur.potoflux.translations.Lang;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.SmartSupplier;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Comparator;
 
 import static net.minheur.potoflux.PotoFlux.fromModId;
 
@@ -57,8 +61,12 @@ public class Settings {
     public static final SmartSupplier<Setting> THEME = LIST.add(() -> new Setting(fromModId("theme"),
             new ComboSetting<>(
                     Translations.get("potoflux:prefs.theme"),
-                    FXCollections.observableArrayList(Themes.values()),
-                    Themes.DRACULA
+                    FXCollections.observableArrayList(Bootstrap.themesEvent.reg.getAll()
+                            .stream()
+                            .sorted(Comparator.comparing(
+                                    theme -> !theme.id().getNamespace().equals(PotoFlux.ID)
+                            )).toList()),
+                    Themes.DRACULA.get()
             ), true));
     /**
      * Setting to change the placement of the tab's list. Is within {@link TabSides}

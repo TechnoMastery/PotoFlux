@@ -5,6 +5,7 @@ import javafx.concurrent.Task;
 import javafx.stage.Stage;
 import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
+import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.RequestPoster;
@@ -12,6 +13,7 @@ import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
+import net.minheur.potoflux.theme.PotofluxTheme;
 import net.minheur.potoflux.theme.Themes;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.LogAmountManager;
@@ -181,10 +183,6 @@ public class PotoFlux extends Application {
         startScreen.setup();
         startScreen.show();
 
-        startScreen.updateStage("Loading style...");
-        String themeKey = (String) UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("theme"));
-        Application.setUserAgentStylesheet(Themes.getFromKey(themeKey).getTheme().getUserAgentStylesheet());
-
         startScreen.updateStage("Checking lang...");
         if (UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("lang")) == null)
             Translations.firstLangInit();
@@ -204,6 +202,13 @@ public class PotoFlux extends Application {
 
         bootstrap.setOnSucceeded(event -> {
             startScreen.updateTitle("Finalizing...");
+
+            startScreen.updateStage("Loading theme...");
+            String themeKey = (String) UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("theme"));
+            PotofluxTheme loadedTheme = Bootstrap.themesEvent.reg.getFromKey(themeKey);
+            Application.setUserAgentStylesheet(loadedTheme.getOptimalUserAgentStylesheet());
+            PtfLogger.info("Loaded theme: " + loadedTheme.id(), LogCategories.THEME);
+
             startScreen.updateStage("Building UI...");
             app = new PotoScreen(primaryStage);
             startScreen.close();
