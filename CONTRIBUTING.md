@@ -35,13 +35,15 @@ All contributors must adhere to the project's [Code of Conduct](CODE_OF_CONDUCT.
 ## Setting Up Your Development Environment
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/PotoFlux.git
-cd PotoFlux
+git clone https://github.com/yourusername/YourMod.git
+cd YourMod
 # Build the project (requires Java 17+ and Gradle)
 ./gradlew build
-# Run the application
+# Run the application to test
 ./gradlew run
 ```
+
+Or, you can use IntelliJ IDEA's version control integration!
 
 ## Submitting a Pull Request
 After pushing your branch, open a PR on GitHub. Fill out the PR template, linking any related issues. The maintainers will review, request changes if needed, and merge once approved.
