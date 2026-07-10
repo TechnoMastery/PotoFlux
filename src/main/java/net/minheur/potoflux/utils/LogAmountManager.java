@@ -69,9 +69,9 @@ public final class LogAmountManager {
         if (PotoFluxLoadingContext.isDevEnv()) return;
 
         Alert welcomeAlert = new Alert(Alert.AlertType.INFORMATION);
-        welcomeAlert.setTitle("Welcome in PotoFlux!"); // todo
-        welcomeAlert.setHeaderText("It is your first connection on PotoFlux.\nThank you for downloading it !"); // todo
-        welcomeAlert.setContentText("Make a tour in the app!"); // todo
+        welcomeAlert.setTitle(Translations.get("potoflux:welcome.title"));
+        welcomeAlert.setHeaderText(Translations.get("potoflux:welcome.header"));
+        welcomeAlert.setContentText(Translations.get("potoflux:welcome.content"));
 
         welcomeAlert.getDialogPane().getButtonTypes().clear();
         welcomeAlert.getDialogPane().getButtonTypes().addAll(okButton.get());

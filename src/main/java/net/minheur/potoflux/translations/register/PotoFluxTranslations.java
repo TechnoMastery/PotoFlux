@@ -499,6 +499,16 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
         add("ptfUpdate", "desc")
                 .en("New version of PotoFlux available !")
                 .fr("Nouvelle version de PotoFlux disponible !");
+
+        add("welcome", "title")
+                .en("Welcome to Potoflux!")
+                .fr("Bienvenu sur Potoflux !");
+        add("welcome", "header")
+                .en("It's your first launch of the app.")
+                .fr("C'est votre premier lancement de l'application");
+        add("welcome", "content")
+                .en("Take a tour in the app!")
+                .fr("Faites un tour dans l'app !");
     }
 
     /**
