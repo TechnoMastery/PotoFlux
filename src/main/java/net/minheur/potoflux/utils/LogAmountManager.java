@@ -1,6 +1,19 @@
 package net.minheur.potoflux.utils;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
+import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.login.RequestPoster;
@@ -12,6 +25,8 @@ import net.minheur.potoflux.ui.dialogData.NewAccountData;
 import net.minheur.potoflux.ui.dialogs.CreateAccountDialog;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.prefs.Preferences;
@@ -157,5 +172,23 @@ public final class LogAmountManager {
 
         TokenHandler.save(newToken);
         ConnectionHandler.accountFor(newToken);
+    }
+
+    public static void appTour() {
+        Stage s = PotoFlux.app.getStage();
+        List<TourManager.TourStep> steps = List.of(
+                new TourManager.TourStep(
+                        s.getScene().lookup("#menuBar"),
+                        "Menu",
+                        "Accédez aux paramètres, aux outils et aux autres fonctionnalités de Potoflux."
+                ),
+                new TourManager.TourStep(
+                        s.getScene().lookup("#tabSide"),
+                        "Onglets",
+                        "Les différentes fonctionnalités de Potoflux sont accessibles depuis ces onglets."
+                )
+        );
+
+        new TourManager().start(steps);
     }
 }
