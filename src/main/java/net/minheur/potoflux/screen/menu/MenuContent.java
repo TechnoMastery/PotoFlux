@@ -26,7 +26,7 @@ public class MenuContent {
     /**
      * Item for the account menu
      */
-    public static final SmartSupplier<PotoMenuItem> ACCOUNT = LIST.add(() -> new PotoMenuItem(fromModId("account"), new AccountMenu()));
+    public static final SmartSupplier<PotoMenuItem> ACCOUNT = new SmartSupplier<>(() -> new PotoMenuItem(fromModId("account"), new AccountMenu()));
 
     /**
      * Instances the reg and puts all into the event
