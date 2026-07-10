@@ -71,28 +71,16 @@ public final class LogAmountManager {
         Alert welcomeAlert = new Alert(Alert.AlertType.INFORMATION);
         welcomeAlert.setTitle("Welcome in PotoFlux!"); // todo
         welcomeAlert.setHeaderText("It is your first connection on PotoFlux.\nThank you for downloading it !"); // todo
-        welcomeAlert.setContentText("Would you like to create / log in to your account ?"); // todo
-
-        ButtonType create = new ButtonType("Create an account", ButtonBar.ButtonData.YES); // todo
-        ButtonType login = new ButtonType("Login", ButtonBar.ButtonData.YES); // todo
+        welcomeAlert.setContentText("Make a tour in the app!"); // todo
 
         welcomeAlert.getDialogPane().getButtonTypes().clear();
-        welcomeAlert.getDialogPane().getButtonTypes().addAll(create, login, UiUtils.noButton.get());
+        welcomeAlert.getDialogPane().getButtonTypes().addAll(okButton.get());
 
         ((Button) welcomeAlert.getDialogPane()
-                .lookupButton(create))
+                .lookupButton(okButton.get()))
                 .setDefaultButton(true);
-        ((Button) welcomeAlert.getDialogPane()
-                .lookupButton(login))
-                .setDefaultButton(false);
-        ((Button) welcomeAlert.getDialogPane()
-                .lookupButton(UiUtils.noButton.get()))
-                .setCancelButton(true);
 
-        ButtonType selected = welcomeAlert.showAndWait().orElse(UiUtils.noButton.get());
-
-        if (selected == login) ConnectionHandler.login();
-        if (selected == create) mkAccount();
+        welcomeAlert.show();
     }
 
     /**
