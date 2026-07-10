@@ -228,8 +228,8 @@ public class PotoFlux extends Application {
 
         });
 
-        startScreen.updateStage("Warming network...");
-        RequestPoster.warmupTls();
+        // startScreen.updateStage("Warming network...");
+        // RequestPoster.warmupTls();
 
         startScreen.updateTitle("Running Bootstrap...");
         startScreen.updateStage("Creating thread...");
