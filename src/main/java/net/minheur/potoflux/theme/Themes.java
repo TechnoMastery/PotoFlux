@@ -1,6 +1,6 @@
 package net.minheur.potoflux.theme;
 
-import net.minheur.potoflux.settings.Settings;
+import atlantafx.base.theme.*;
 import net.minheur.potoflux.settings.types.IComboSetting;
 import net.minheur.potoflux.translations.Translations;
 
@@ -11,13 +11,13 @@ public enum Themes implements IComboSetting {
     /**
      * The default theme, chosen by the devs
      */
-    DRACULA("potoflux:theme.dracula", "dracula", "styles/atlanta/dracula.css"),
-    CUPERTINO_DARK("potoflux:theme.cupertino.dark", "cuper_dark", "styles/atlanta/cupertino-dark.css"),
-    CUPERTINO_LIGHT("potoflux:theme.cupertino.light", "cuper_light", "styles/atlanta/cupertino-light.css"),
-    NORD_DARK("potoflux:theme.nord.dark", "nord_dark", "styles/atlanta/nord-dark.css"),
-    NORD_LIGHT("potoflux:theme.nord.light", "nord_light", "styles/atlanta/nord-light.css"),
-    PRIMER_DARK("potoflux:theme.primer.dark", "nord_dark", "styles/atlanta/primer-dark.css"),
-    PRIMER_LIGHT("potoflux:theme.primer.light", "nord_light", "styles/atlanta/primer-light.css");
+    DRACULA("potoflux:theme.dracula", "dracula", new Dracula()),
+    CUPERTINO_DARK("potoflux:theme.cupertino.dark", "cuper_dark", new CupertinoDark()),
+    CUPERTINO_LIGHT("potoflux:theme.cupertino.light", "cuper_light", new CupertinoLight()),
+    NORD_DARK("potoflux:theme.nord.dark", "nord_dark", new NordDark()),
+    NORD_LIGHT("potoflux:theme.nord.light", "nord_light", new NordLight()),
+    PRIMER_DARK("potoflux:theme.primer.dark", "nord_dark", new PrimerDark()),
+    PRIMER_LIGHT("potoflux:theme.primer.light", "nord_light", new PrimerLight());
 
     /**
      * Display name, as a translation key
@@ -27,19 +27,19 @@ public enum Themes implements IComboSetting {
      * Value that get stored in the prefs
      */
     private final String returnValue;
-    private final String sheetDir;
+    private final Theme theme;
 
     /**
      * Makes a theme
      *
      * @param translatableName key of translation for the display name. Do not add {@link Translations#get(String)}
      * @param returnValue      value that gets stored in the prefs
-     * @param sheetDir
+     * @param theme            Actual AtlantaFX theme
      */
-    Themes(String translatableName, String returnValue, String sheetDir) {
+    Themes(String translatableName, String returnValue, Theme theme) {
         this.translatableName = translatableName;
         this.returnValue = returnValue;
-        this.sheetDir = sheetDir;
+        this.theme = theme;
     }
 
     /**
@@ -51,8 +51,8 @@ public enum Themes implements IComboSetting {
     public String returnValue() {
         return returnValue;
     }
-    public String getSheetDir() {
-        return sheetDir;
+    public Theme getTheme() {
+        return theme;
     }
 
     public static Themes getFromKey(String key) {
