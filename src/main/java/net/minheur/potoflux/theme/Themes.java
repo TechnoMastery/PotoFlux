@@ -1,73 +1,43 @@
 package net.minheur.potoflux.theme;
 
 import atlantafx.base.theme.*;
-import net.minheur.potoflux.settings.types.IComboSetting;
+import net.minheur.potoflux.loader.mod.events.RegisterThemesEvent;
+import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.translations.Translations;
+import net.minheur.potoflux.utils.SmartSupplier;
+
+import static net.minheur.potoflux.PotoFlux.fromModId;
 
 /**
  * List of all themes that can be chosen from in the settings
  */
-public enum Themes implements IComboSetting {
-    /**
-     * The default theme, chosen by the devs
-     */
-    DRACULA("potoflux:theme.dracula", "dracula", new Dracula()),
-    CUPERTINO_DARK("potoflux:theme.cupertino.dark", "cuper_dark", new CupertinoDark()),
-    CUPERTINO_LIGHT("potoflux:theme.cupertino.light", "cuper_light", new CupertinoLight()),
-    NORD_DARK("potoflux:theme.nord.dark", "nord_dark", new NordDark()),
-    NORD_LIGHT("potoflux:theme.nord.light", "nord_light", new NordLight()),
-    PRIMER_DARK("potoflux:theme.primer.dark", "nord_dark", new PrimerDark()),
-    PRIMER_LIGHT("potoflux:theme.primer.light", "nord_light", new PrimerLight());
+public class Themes {
 
-    /**
-     * Display name, as a translation key
-     */
-    private final String translatableName;
-    /**
-     * Value that get stored in the prefs
-     */
-    private final String returnValue;
-    private final Theme theme;
+    private static final RegistryList<PotofluxTheme> LIST = new RegistryList<>();
 
-    /**
-     * Makes a theme
-     *
-     * @param translatableName key of translation for the display name. Do not add {@link Translations#get(String)}
-     * @param returnValue      value that gets stored in the prefs
-     * @param theme            Actual AtlantaFX theme
-     */
-    Themes(String translatableName, String returnValue, Theme theme) {
-        this.translatableName = translatableName;
-        this.returnValue = returnValue;
-        this.theme = theme;
-    }
+    public static final SmartSupplier<PotofluxTheme> DRACULA = LIST.add(() -> new PotofluxTheme(
+            fromModId("dracula"), Translations.get("potoflux:theme.dracula"), new Dracula()
+    ));
+    public static final SmartSupplier<PotofluxTheme> CUPERTINO_DARK = LIST.add(() -> new PotofluxTheme(
+            fromModId("cuper_dark"), Translations.get("potoflux:theme.cupertino.dark"), new CupertinoDark()
+    ));
+    public static final SmartSupplier<PotofluxTheme> CUPERTINO_LIGHT = LIST.add(() -> new PotofluxTheme(
+            fromModId("cuper_light"), Translations.get("potoflux:theme.cupertino.light"), new CupertinoLight()
+    ));
+    public static final SmartSupplier<PotofluxTheme> NORD_DARK = LIST.add(() -> new PotofluxTheme(
+            fromModId("nord_dark"), Translations.get("potoflux:theme.nord.dark"), new NordDark()
+    ));
+    public static final SmartSupplier<PotofluxTheme> NORD_LIGHT = LIST.add(() -> new PotofluxTheme(
+            fromModId("nord_light"), Translations.get("potoflux:theme.nord.light"), new NordLight()
+    ));
+    public static final SmartSupplier<PotofluxTheme> PRIMER_DARK = LIST.add(() -> new PotofluxTheme(
+            fromModId("primer_dark"), Translations.get("potoflux:theme.primer.dark"), new PrimerDark()
+    ));
+    public static final SmartSupplier<PotofluxTheme> PRIMER_LIGHT = LIST.add(() -> new PotofluxTheme(
+            fromModId("primer_light"), Translations.get("potoflux:theme.primer.light"), new PrimerLight()
+    ));
 
-    /**
-     * Getter for the {@linkplain #returnValue}
-     *
-     * @return {@link #returnValue}
-     */
-    @Override
-    public String returnValue() {
-        return returnValue;
-    }
-    public Theme getTheme() {
-        return theme;
-    }
-
-    public static Themes getFromKey(String key) {
-        for (Themes t : Themes.values())
-            if (t.returnValue.equals(key)) return t;
-        return DRACULA;
-    }
-
-    /**
-     * Makes sure to display the {@linkplain #translatableName}, after translation
-     *
-     * @return {@link Translations#get} with {@link #translatableName}
-     */
-    @Override
-    public String toString() {
-        return Translations.get(translatableName);
+    public static void register(RegisterThemesEvent event) {
+        LIST.register(event.reg);
     }
 }

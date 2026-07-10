@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -90,13 +92,32 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<Strin
                 break;
             }
 
-        if (tValue == null)
-            throw new IllegalArgumentException(
-                    "Value " + key + " isn't contained in the list !"
-            );
+        if (tValue == null) {
+            PtfLogger.error("Value " + key + " isn't contained in the list !", LogCategories.SETTINGS);
+            tValue = defaultValue;
+        }
 
         node.getSelectionModel().select(tValue);
 
+    }
+
+    @Override
+    public boolean isListed(@NotNull Object value) {
+        if (!prefType().getValueClass().isInstance(value))
+            throw new IllegalArgumentException(
+                    "Invalid type for " + prefType()
+            );
+
+        String key = (String) value;
+        T tValue = null;
+
+        for (T t : node.getItems())
+            if (t.returnValue().equals(key)) {
+                tValue = t;
+                break;
+            }
+
+        return tValue != null;
     }
 
     /**
