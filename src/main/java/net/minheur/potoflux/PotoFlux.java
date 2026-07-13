@@ -67,10 +67,26 @@ public class PotoFlux extends Application {
      * @return the program's appData folder
      */
     public static @NotNull Path getProgramDir() {
-        Path dir = Paths.get(System.getenv("APPDATA"), "TechnoMastery", "PotoFlux");
+        String os = System.getProperty("os.name").toLowerCase();
+        Path appDataDir;
+
+        if (os.contains("win"))
+            appDataDir = Path.of(System.getenv("APPDATA"));
+        else if (os.contains("mac"))
+            appDataDir = Path.of(System.getProperty("user.home"), "Library", "Application Support");
+        else {
+            // linux
+            String xdg = System.getenv("XDG_DATA_HOME");
+            if (xdg == null || xdg.isBlank())
+                xdg = System.getProperty("user.home") + "/.local/share";
+            appDataDir = Path.of(xdg);
+        }
+
+        Path dir = appDataDir.resolve("TechnoMastery").resolve("PotoFlux");
         try {
             Files.createDirectories(dir);
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return dir;
     }
