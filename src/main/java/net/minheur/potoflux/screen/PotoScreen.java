@@ -5,6 +5,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.PotoFlux;
@@ -37,6 +38,8 @@ public class PotoScreen {
      * The scene field, containing all elements
      */
     private final Scene scene;
+    private final StackPane stack;
+    private final BorderPane root;
     /**
      * Potoflux's menu
      */
@@ -61,8 +64,10 @@ public class PotoScreen {
     public PotoScreen(Stage stage) {
         this.stage = stage;
 
-        BorderPane root = new BorderPane();
-        this.scene = new Scene(root, 854, 512);
+        stack = new StackPane();
+        root = new BorderPane();
+        stack.getChildren().add(root);
+        this.scene = new Scene(stack, 854, 512);
         addStyles();
 
         setupStage();
@@ -70,6 +75,8 @@ public class PotoScreen {
         addMenu();
         addTabs();
 
+        menu.setId("menuBar");
+        tabs.setId("tabSide");
         root.setTop(menu);
         root.setCenter(tabs);
 
@@ -83,6 +90,13 @@ public class PotoScreen {
      */
     public Stage getStage() {
         return stage;
+    }
+
+    public StackPane getStack() {
+        return stack;
+    }
+    public BorderPane getRoot() {
+        return root;
     }
 
     /**
