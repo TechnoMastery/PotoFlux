@@ -161,6 +161,10 @@ tasks.register("msiPackage") {
 
     mkdir("$buildDir/libs/output")
 
+    def javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }.get()
+
     doLast {
         exec {
             commandLine "jpackage",
@@ -172,7 +176,7 @@ tasks.register("msiPackage") {
             "--type", "msi",
             "--dest", "$buildDir/libs/output",
 
-            "--runtime-image", "${System.getProperty('java.home')}",
+            "--runtime-image", javaLauncher.metadata.installationPath.asFile.absolutePath,
 
             "--java-options", "--module-path=\$APPDIR\\lib --add-modules=javafx.controls,javafx.graphics -Xmx512m",
 
@@ -191,9 +195,13 @@ tasks.register("rpmPackage") {
     dependsOn("build", "copyLibs", "copyJar", "copyJfx")
 
     group = "potoflux"
-    description = "build as msi installer"
+    description = "build as rpm installer"
 
     mkdir("$buildDir/libs/output")
+
+    def javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }.get()
 
     doLast {
         exec {
@@ -206,11 +214,11 @@ tasks.register("rpmPackage") {
             "--type", "rpm",
             "--dest", "$buildDir/libs/output",
 
-            "--runtime-image", "${System.getProperty('java.home')}",
+            "--runtime-image", javaLauncher.metadata.installationPath.asFile.absolutePath,
 
             "--java-options", "--module-path=\$APPDIR/lib --add-modules=javafx.controls,javafx.graphics -Xmx512m",
 
-            "--install-dir", "/opt/TechnoMastery/PotoFlux",
+            "--install-dir", "/opt/potoflux",
 
             "--app-version", "$version",
             "--icon", "$buildDir/libs/main.png"
