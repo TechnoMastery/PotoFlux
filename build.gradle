@@ -156,6 +156,8 @@ tasks.register("msiPackage") {
     group = "potoflux"
     description = "build as msi installer"
 
+    mkdir("$buildDir/libs/output")
+
     doLast {
         exec {
             commandLine "jpackage",
@@ -187,6 +189,8 @@ tasks.register("rpmPackage") {
 
     group = "potoflux"
     description = "build as msi installer"
+
+    mkdir("$buildDir/libs/output")
 
     doLast {
         exec {
