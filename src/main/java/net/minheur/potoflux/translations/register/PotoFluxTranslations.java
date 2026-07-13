@@ -507,8 +507,8 @@ public class PotoFluxTranslations extends AbstractTranslationsRegistry {
                 .en("It's your first launch of the app.")
                 .fr("C'est votre premier lancement de l'application");
         add("welcome", "content")
-                .en("Take a tour in the app!")
-                .fr("Faites un tour dans l'app !");
+                .en("Have a nice day in Potoflux!")
+                .fr("Bonne journée avec Potoflux !");
     }
 
     /**

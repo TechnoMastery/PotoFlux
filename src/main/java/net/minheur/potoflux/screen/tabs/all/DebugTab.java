@@ -22,9 +22,6 @@ public class DebugTab extends BaseVTab<BorderPane> {
 
     @Override
     protected void setPanel() {
-        Button b = new Button("run welcome");
-        b.setOnAction((event) -> LogAmountManager.appTour());
-        vContent.getChildren().add(b);
     }
 
     @Override
