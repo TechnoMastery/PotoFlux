@@ -50,7 +50,7 @@ publishing {
 
 javafx {
     version '21'
-    modules = [ 'javafx.controls', 'javafx.graphics' ]
+    modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.media' ]
 }
 
 repositories {
@@ -60,6 +60,7 @@ repositories {
 dependencies {
     implementation "org.openjfx:javafx-controls:$javafxversion"
     implementation "org.openjfx:javafx-graphics:$javafxversion"
+    implementation "org.openjfx:javafx-media:$javafxversion"
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
@@ -178,7 +179,7 @@ tasks.register("msiPackage") {
 
             "--runtime-image", javaLauncher.metadata.installationPath.asFile.absolutePath,
 
-            "--java-options", "--module-path=\$APPDIR\\lib --add-modules=javafx.controls,javafx.graphics -Xmx512m",
+            "--java-options", "--module-path=\$APPDIR\\lib --add-modules=javafx.controls,javafx.graphics,javafx.media -Xmx512m",
 
             "--win-dir-chooser",
             "--install-dir", "TechnoMastery/PotoFlux",
@@ -216,7 +217,7 @@ tasks.register("rpmPackage") {
 
             "--runtime-image", javaLauncher.metadata.installationPath.asFile.absolutePath,
 
-            "--java-options", "--module-path=\$APPDIR/lib --add-modules=javafx.controls,javafx.graphics -Xmx512m",
+            "--java-options", "--module-path=\$APPDIR/lib --add-modules=javafx.controls,javafx.graphics,javafx.media -Xmx512m",
 
             "--install-dir", "/opt/potoflux",
 
