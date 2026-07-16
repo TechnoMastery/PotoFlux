@@ -1,5 +1,6 @@
 package net.minheur.potoflux.screen.menu.definers;
 
+import javafx.application.Platform;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import net.minheur.potoflux.Functions;
@@ -31,7 +32,9 @@ public class MenuDefiners {
 
             File target = PotoFlux.getProgramDir().resolve("mods").toFile();
 
-            if (!Functions.openDir(target)) UiUtils.showErrorPane(Translations.get("file:error.getDesktopFailed"));
+            Functions.openDir(target, success -> Platform.runLater(() -> {
+                if (!success) UiUtils.showErrorPane(Translations.get("file:error.getDesktopFailed"));
+            }));
 
         });
 
@@ -43,7 +46,9 @@ public class MenuDefiners {
 
             File target = PotoFlux.getProgramDir().resolve("logs").toFile();
 
-            if (!Functions.openDir(target)) UiUtils.showErrorPane(Translations.get("file:error.getDesktopFailed"));
+            Functions.openDir(target, success -> Platform.runLater(() -> {
+                if (!success) UiUtils.showErrorPane(Translations.get("file:error.getDesktopFailed"));
+            }));
 
         });
 

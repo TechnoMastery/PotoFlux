@@ -3,9 +3,12 @@ package net.minheur.potoflux;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
+import net.minheur.potoflux.logger.LogCategories;
+import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.close.ExitCode;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.io.File;
@@ -22,6 +25,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -160,19 +166,24 @@ public class Functions {
      * Simply opens a given file dir in the explorer. Handles exception.
      *
      * @param dir file to open
-     * @return weather the file go opened
+     * @param executionReturn will be executed with the boolean telling weather the dir opened or failed.
+     *                        Execution is <strong>not</strong> on the FX thread, so any UI action requires {@code Platform.runLater(...)}.
      */
-    public static boolean openDir(File dir) {
+    public static void openDir(File dir, @Nullable Consumer<Boolean> executionReturn) {
+        PtfLogger.info("Attempting to open " + dir.getAbsolutePath() + "...", LogCategories.FILE);
+        CompletableFuture<Boolean> completable = CompletableFuture.supplyAsync(() -> {
 
-        if (!Desktop.isDesktopSupported()) return false;
+            try {
+                if (!Desktop.isDesktopSupported()) return false;
+                Desktop.getDesktop().open(dir);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        });
 
-        try {
-            Desktop.getDesktop().open(dir);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-
+        if (executionReturn != null)
+            completable.thenAccept(executionReturn);
     }
 }

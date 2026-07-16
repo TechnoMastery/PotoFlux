@@ -58,7 +58,8 @@ public enum LogCategories implements ILogCategory {
      * All logs about the theme
      */
     THEME("theme"),
-    SETTINGS("settings");
+    SETTINGS("settings"),
+    FILE("file");
 
     /**
      * The actual String to be printed in the log
