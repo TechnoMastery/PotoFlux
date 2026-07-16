@@ -1,5 +1,6 @@
 package net.minheur.potoflux.terminal.commands;
 
+import javafx.application.Platform;
 import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
@@ -262,15 +263,14 @@ public class CommandActions {
 
         File target = PotoFlux.getProgramDir().resolve("mods").toFile();
 
-        boolean opened = Functions.openDir(target);
-
-        if (opened) {
-            CommandProcessor.appendOutput(Translations.get("file:openedInExplorer"));
-        } else {
-            PtfLogger.error("Could not open mods folder !", LogCategories.TERMINAL, "command");
-            CommandProcessor.appendOutput(Translations.get("file:error.getDesktopFailed"));
-        }
-
+        Functions.openDir(target, success -> Platform.runLater(() -> {
+            if (success) {
+                CommandProcessor.appendOutput(Translations.get("file:openedInExplorer"));
+            } else {
+                PtfLogger.error("Could not open mods folder !", LogCategories.TERMINAL, "command");
+                CommandProcessor.appendOutput(Translations.get("file:error.getDesktopFailed"));
+            }
+        }));
     }
 
     /**
@@ -330,14 +330,14 @@ public class CommandActions {
 
         File target = PotoFlux.getProgramDir().resolve("logs").toFile();
 
-        boolean opened = Functions.openDir(target);
-
-        if (opened) {
-            CommandProcessor.appendOutput(Translations.get("file:openedInExplorer"));
-        } else {
-            PtfLogger.error("Could not open logs folder !", LogCategories.TERMINAL, "command");
-            CommandProcessor.appendOutput(Translations.get("file:error.getDesktopFailed"));
-        }
+        Functions.openDir(target, success -> Platform.runLater(() -> {
+            if (success) {
+                CommandProcessor.appendOutput(Translations.get("file:openedInExplorer"));
+            } else {
+                PtfLogger.error("Could not open logs folder !", LogCategories.TERMINAL, "command");
+                CommandProcessor.appendOutput(Translations.get("file:error.getDesktopFailed"));
+            }
+        }));
 
     }
 
