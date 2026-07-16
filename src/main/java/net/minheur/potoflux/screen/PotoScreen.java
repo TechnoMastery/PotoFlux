@@ -126,8 +126,6 @@ public class PotoScreen {
     private void fillTabMap(@NotNull List<Tab> allTabs) {
 
         for (Tab tabType : allTabs) {
-            if (tabType == Tabs.DEBUG.get() && !PotoFluxLoadingContext.isDevEnv()) continue;
-
             BaseTab<?> instance = tabType.createInstance();
             if (instance != null) {
 

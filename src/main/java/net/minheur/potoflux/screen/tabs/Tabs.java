@@ -1,5 +1,6 @@
 package net.minheur.potoflux.screen.tabs;
 
+import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterTabsEvent;
 import net.minheur.potoflux.registry.RegistryList;
 import net.minheur.potoflux.screen.tabs.all.*;
@@ -41,7 +42,7 @@ public class Tabs {
     /**
      * The debug tab.
      */
-    public static final SmartSupplier<Tab> DEBUG = LIST.add(() -> new Tab(fromModId("debug"), DebugTab.class));
+    public static final SmartSupplier<Tab> DEBUG = new SmartSupplier<>(() -> new Tab(fromModId("debug"), DebugTab.class));
 
     /**
      * Create the instance of the class, then add the tabs to the events.<br>
@@ -50,6 +51,7 @@ public class Tabs {
      * @param event the event to register to
      */
     public static void register(@NotNull RegisterTabsEvent event) {
+        if (PotoFluxLoadingContext.isDevEnv()) LIST.add(DEBUG);
         LIST.register(event.reg);
     }
 }
