@@ -55,6 +55,10 @@ Join our Discord community for help, discussions, and to share your mods:
 
 [![Discord Server Invite](https://invite.casperiv.dev?inviteCode=wCTcVnJFmx)](https://discord.gg/wCTcVnJFmx)
 
+## License
+Potoflux runs under the [MIT License](https://github.com/TechnoMastery/PotoFlux/blob/master/LICENSE), meaning you can use, modify and distribute it freely.<br>
+Please remember to add a copyright notice going towards this GitHub repository.
+
 ## Credits
 
 - **Minheur2000** – original creator of the core application.
