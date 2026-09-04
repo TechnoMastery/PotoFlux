@@ -96,7 +96,9 @@ public class Bootstrap {
 
         // env setup
         updateText.accept("Loading environment...");
-        if (args.length < 1) PotoFluxLoadingContext.setDevEnv(false);
+        String bootDevEnv = System.getProperty("potoflux.boot.devEnv");
+        if (bootDevEnv != null) PotoFluxLoadingContext.setDevEnv(Boolean.parseBoolean(bootDevEnv));
+        else if (args.length < 1) PotoFluxLoadingContext.setDevEnv(false);
         else PotoFluxLoadingContext.setDevEnv(args[0].equals("devEnv"));
 
         // important inits

@@ -55,6 +55,14 @@ javafx {
 
 repositories {
     mavenCentral()
+    maven {
+        name = "SpongePowered"
+        url = uri("https://repo.spongepowered.org/repository/maven-public/")
+    }
+    maven {
+        name = "MinecraftLibraries"
+        url = uri("https://libraries.minecraft.net/")
+    }
 }
 
 dependencies {
@@ -71,6 +79,11 @@ dependencies {
     // scan classes
     implementation "org.reflections:reflections:0.10.2"
 
+    // early class transformation
+    implementation "org.ow2.asm:asm:9.7.1"
+    implementation "org.spongepowered:mixin:0.8.5"
+    implementation "net.minecraft:launchwrapper:1.12"
+
     // themes
     implementation("io.github.mkpaz:atlantafx-base:2.1.0")
 
@@ -79,7 +92,7 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'net.minheur.potoflux.PotoFlux',
+                'Main-Class': 'net.minheur.potoflux.boot.PotoFluxBoot',
                 'Implementation-Version': project.version
         )
     }
@@ -133,7 +146,7 @@ tasks.named("run", JavaExec) {
     description = "Run PotoFlux"
 
     classpath = sourceSets.main.runtimeClasspath
-    mainClass.set("net.minheur.potoflux.PotoFlux")
+    mainClass.set("net.minheur.potoflux.boot.PotoFluxBoot")
 
     args("devEnv")
 }
@@ -172,7 +185,7 @@ tasks.register("msiPackage") {
             "--input", "$buildDir/libs/build",
             "--name", "PotoFlux",
             "--main-jar", "PotoFlux-$version" + ".jar",
-            "--main-class", "net.minheur.potoflux.PotoFlux",
+            "--main-class", "net.minheur.potoflux.boot.PotoFluxBoot",
 
             "--type", "msi",
             "--dest", "$buildDir/libs/output",
@@ -210,7 +223,7 @@ tasks.register("rpmPackage") {
             "--input", "$buildDir/libs/build",
             "--name", "PotoFlux",
             "--main-jar", "PotoFlux-$version" + ".jar",
-            "--main-class", "net.minheur.potoflux.PotoFlux",
+            "--main-class", "net.minheur.potoflux.boot.PotoFluxBoot",
 
             "--type", "rpm",
             "--dest", "$buildDir/libs/output",

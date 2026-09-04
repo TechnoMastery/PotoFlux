@@ -1,5 +1,8 @@
 package net.minheur.potoflux.loader.mod;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import net.minheur.potoflux.boot.BootModMetadata;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.logger.LogCategories;
 import net.minheur.potoflux.logger.PtfLogger;
@@ -10,10 +13,12 @@ import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -25,6 +30,10 @@ import static net.minheur.potoflux.loader.PotoFluxLoadingContext.*;
  * Addon loader class: loads all addons for {@link PotoFluxLoadingContext}
  */
 public class AddonLoader {
+    private static final String BOOT_MODS_PROPERTY = "potoflux.boot.mods";
+    private static final Gson GSON = new Gson();
+    private static final Type BOOT_MOD_LIST_TYPE = new TypeToken<List<BootModMetadata>>() {
+    }.getType();
 
     /**
      * The available classes, listed in the mods dir's jars
@@ -257,6 +266,7 @@ public class AddonLoader {
      * Loads the addons.
      */
     public void loadAddons() {
+        if (loadBootListedAddons()) return;
 
         // ===== MOD CONTEXT CLASSLOADER (PROD ONLY) =====
         boolean isModClassLoaderActive = false;
@@ -284,6 +294,39 @@ public class AddonLoader {
         } finally {
             // replace normal classLoader
             if (isModClassLoaderActive) setNormalClassLoader();
+        }
+    }
+
+    private boolean loadBootListedAddons() {
+        List<BootModMetadata> bootMods = readBootMods();
+        if (bootMods.isEmpty()) return false;
+
+        for (BootModMetadata mod : bootMods) {
+            if (!mod.loadable) continue;
+
+            try {
+                Class<?> clazz = Class.forName(mod.className, false, getCurrentClassLoader());
+                listModIfValid(clazz);
+            } catch (ClassNotFoundException | NoClassDefFoundError e) {
+                e.printStackTrace();
+                PtfLogger.error("Boot-listed mod class cannot be loaded: " + mod.className, LogCategories.MOD_LOADER);
+            }
+        }
+
+        return true;
+    }
+
+    private List<BootModMetadata> readBootMods() {
+        String raw = System.getProperty(BOOT_MODS_PROPERTY);
+        if (raw == null || raw.isBlank()) return List.of();
+
+        try {
+            String json = new String(Base64.getDecoder().decode(raw), StandardCharsets.UTF_8);
+            List<BootModMetadata> mods = GSON.fromJson(json, BOOT_MOD_LIST_TYPE);
+            return mods == null ? List.of() : mods;
+        } catch (IllegalArgumentException e) {
+            PtfLogger.error("Invalid boot mod metadata. Falling back to runtime scan.", LogCategories.MOD_LOADER);
+            return List.of();
         }
     }
 

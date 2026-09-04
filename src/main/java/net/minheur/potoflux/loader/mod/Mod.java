@@ -54,4 +54,13 @@ public @interface Mod {
     String[] dependenciesIds() default {};
 
     String[] externalDependencies() default {};
+
+    /**
+     * Mixin configuration resources to register before PotoFlux runtime classes and mods are loaded.
+     * <p>
+     * Resource paths must be classpath-relative, for example {@code mixins.example.json}.
+     *
+     * @return mixin configuration resource paths
+     */
+    String[] mixinConfigs() default {};
 }
