@@ -1,0 +1,26 @@
+<configuration>
+    <conversionRule conversionWord="severity"
+                    converterClass="net.minheur.potoflux.logger.SeverityColorConverter"/>
+
+    <appender name="FICHIER"
+              class="net.minheur.potoflux.logger.SessionFileAppender">
+        <file>${APP_LOG_DIR}/lastest.log</file>
+        <append>false</append>
+
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%thread/%level] \(%logger\) %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+        <encoder>
+            <pattern>%blue([%d{HH:mm:ss}]) %severity([%thread/%level]) %cyan(\(%logger\)) %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="FICHIER"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

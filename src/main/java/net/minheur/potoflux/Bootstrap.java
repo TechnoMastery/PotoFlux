@@ -1,5 +1,7 @@
 package net.minheur.potoflux;
 
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.core.Appender;
 import net.minheur.potoflux.actionRuns.ActionRuns;
 import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
@@ -8,8 +10,8 @@ import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.loader.mod.post.ModEvent;
-import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.logger.SessionFileAppender;
 import net.minheur.potoflux.login.notifications.reg.NotifTypes;
 import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
@@ -28,6 +30,7 @@ import net.minheur.potoflux.translations.register.PotoFluxTranslations;
 import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.close.EventPostException;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -101,7 +104,6 @@ public class Bootstrap {
 
         // important inits
         updateText.accept(("Init..."));
-        LogSaver.init();
         LogAmountManager.init();
 
         if (PotoFluxLoadingContext.isDevEnv()) PtfLogger.info("App running in dev env !");
@@ -197,16 +199,19 @@ public class Bootstrap {
     private static void runLogSavingEnablingLogic() {
         Boolean logSavingFeature = OptionalFeaturesManager.getBoolean("doLogSaving");
 
-        if (logSavingFeature == null) enableLogSavingDefault();
-        else if (logSavingFeature) LogSaver.enable();
+        if (!Boolean.TRUE.equals(logSavingFeature))
+            disableLogSaving();
     }
 
-    /**
-     * Executes the default logic to know if the log saving system will be enabled
-     */
-    private static void enableLogSavingDefault() {
-        if (!PotoFluxLoadingContext.isDevEnv())
-            LogSaver.enable();
+    private static void disableLogSaving() {
+        Logger rootLogger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+
+        Appender<?> appender = rootLogger.getAppender("FICHIER");
+        if (!(appender instanceof SessionFileAppender fileAppender)) return;
+
+        fileAppender.disableSaving();
+        rootLogger.detachAppender(fileAppender);
+        fileAppender.stop();
     }
 
     /**
