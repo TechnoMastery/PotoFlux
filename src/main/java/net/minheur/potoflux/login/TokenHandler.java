@@ -1,7 +1,7 @@
 package net.minheur.potoflux.login;
 
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.prefs.Preferences;
@@ -10,6 +10,11 @@ import java.util.prefs.Preferences;
  * Saves, stores and retrieves connection token
  */
 public final class TokenHandler {
+    private static final Logger log =
+            LoggerFactory.getLogger("account/token");
+    private static final Logger logRemote =
+            LoggerFactory.getLogger("account/remote");
+
     /**
      * The prefs to get the token.
      */
@@ -31,7 +36,7 @@ public final class TokenHandler {
     public static void save(String token) {
         if (token == null || token.isEmpty()) return;
         prefs.put(KEY, token);
-        PtfLogger.info("Saved token !", LogCategories.TOKEN);
+        log.info("Saved token !");
     }
 
     /**
@@ -47,7 +52,7 @@ public final class TokenHandler {
      */
     public static void clear() {
         prefs.remove(KEY);
-        PtfLogger.info("Cleared local token !", LogCategories.TOKEN);
+        log.info("Cleared local token !");
     }
 
     /**
@@ -66,8 +71,7 @@ public final class TokenHandler {
         try {
             RequestPoster.rmToken(get());
         } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not remove token", LogCategories.CONNEXION_POST);
+            logRemote.error("Failed to remove remote token", e);
         }
     }
 }

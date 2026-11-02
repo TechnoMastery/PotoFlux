@@ -3,12 +3,12 @@ package net.minheur.potoflux.terminal;
 import javafx.scene.control.TextArea;
 import net.minheur.potoflux.Bootstrap;
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.Tabs;
 import net.minheur.potoflux.screen.tabs.all.TerminalTab;
 import net.minheur.potoflux.translations.Translations;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,6 +22,9 @@ import java.util.function.Supplier;
  * This class is used to handle the processing of the commands, the input and the output
  */
 public class CommandProcessor {
+    private static final Logger logTerminal =
+            LoggerFactory.getLogger("Terminal");
+
     /**
      * Gets the output area from the terminal tab.<br>
      * Used to add content to the log
@@ -105,9 +108,9 @@ public class CommandProcessor {
 
             Files.writeString(file, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
-            PtfLogger.info("Terminal saved !", LogCategories.TERMINAL);
+            logTerminal.info("Terminal saved !");
         } catch (IOException e) {
-            e.printStackTrace();
+            logTerminal.error("Failed to save terminal !", e);
         }
     }
 
@@ -124,7 +127,7 @@ public class CommandProcessor {
             try {
                 Files.deleteIfExists(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                logTerminal.error("Failed to read terminal file!", e);
             }
             return true;
         }
