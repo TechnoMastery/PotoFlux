@@ -1,0 +1,124 @@
+#file: noinspection SpellCheckingInspection
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a package using Gradle, publish it to GitHub Packages,
+# and attach the generated JARs and installers to the published GitHub release.
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+
+name: Release publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+      - name: Build with Gradle
+        run: ./gradlew build -Pgpr.user="$USERNAME" -Pgpr.key="$TOKEN"
+        env:
+          USERNAME: ${{ github.actor }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
+      # the publishing section of your build.gradle
+      - name: Publish to GitHub Packages
+        run: |
+          set +e
+          ./gradlew publish -Pgpr.user="$USERNAME" -Pgpr.key="$TOKEN" 2>&1 | tee publish.log
+          publish_exit_code=${PIPESTATUS[0]}
+          set -e
+          
+          if [ "$publish_exit_code" -eq 0 ]; then
+            exit 0
+          fi
+          
+          if grep -q "Received status code 422 from server: Unprocessable Entity" publish.log; then
+            echo "Package version already exists in GitHub Packages; continuing without failing the workflow."
+            exit 0
+          fi
+          
+          exit "$publish_exit_code"
+        env:
+          USERNAME: ${{ github.actor }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Attach JARs to the GitHub release
+        run: gh release upload "$TAG_NAME" build/libs/*.jar --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+
+  build-msi:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+      - name: Build MSI package
+        run: .\gradlew.bat msiPackage
+
+      - name: Attach MSI to the GitHub release
+        shell: pwsh
+        run: gh release upload "$env:TAG_NAME" (Get-ChildItem build/libs/output/*.msi).FullName --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+
+  build-rpm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install RPM build tools
+        run: sudo apt-get update && sudo apt-get install --yes rpm
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+      - name: Build RPM package
+        run: ./gradlew rpmPackage
+
+      - name: Attach RPM to the GitHub release
+        run: gh release upload "$TAG_NAME" build/libs/output/*.rpm --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
