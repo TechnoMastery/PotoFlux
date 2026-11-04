@@ -29,7 +29,7 @@ import static net.minheur.potoflux.ui.UiUtils.showMessagePane;
 /**
  * Runnable called by perms when you run them
  */
-@Deprecated(since = "8.0.2", forRemoval = true)
+@Deprecated(since = "8.1.0", forRemoval = true)
 public class PermRuns {
     /**
      * This is used when an admin clicks the button to create an account

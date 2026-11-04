@@ -20,7 +20,7 @@ import java.util.UUID;
 /**
  * This posts all requests to the SQL database.
  */
-@Deprecated(since = "8.0.2", forRemoval = true)
+@Deprecated(since = "8.1.0", forRemoval = true)
 public class RequestPoster {
 
     /**
