@@ -1,11 +1,11 @@
 package net.minheur.potoflux.translations;
 
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.ui.UiUtils;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +16,9 @@ import static net.minheur.potoflux.PotoFlux.fromModId;
  * the class that handle translations
  */
 public class Translations {
+    private static final Logger log =
+            LoggerFactory.getLogger("translations");
+
     /**
      * A map of all registered translations.<br>
      * The main map is the lang one. For each lang, we have a map of keys and translations
@@ -60,11 +63,11 @@ public class Translations {
      */
     public static boolean load(Lang lang) {
         if (loadedLang == lang) {
-            PtfLogger.warning("loaded lang is already loaded: " + lang.code, LogCategories.TRANSLATIONS);
+            log.warn("loaded lang is already loaded: {}", lang.code);
             return false;
         }
         loadedLang = lang;
-        PtfLogger.info("loaded lang: " + lang.code, LogCategories.TRANSLATIONS);
+        log.info("loaded lang: {}", lang.code);
         return true;
     }
 
@@ -98,13 +101,12 @@ public class Translations {
                 Map<String, String> enLang = allTranslations.get(Lang.EN);
                 String enT = enLang.get(key);
                 if (enT != null) {
-                    PtfLogger.warning("No translations set for '" + key + "' in lang " + loadedLang.code,
-                            LogCategories.TRANSLATIONS);
+                    log.warn("No translations set for '{}' in lang {}", key, loadedLang.code);
                     return enT;
                 }
             }
 
-            PtfLogger.error("No translations set for queried '" + key + "'", LogCategories.TRANSLATIONS);
+            log.error("No translations set for queried '{}'", key);
             return key;
         } else return t;
     }

@@ -1,20 +1,18 @@
 package net.minheur.potoflux;
 
+import ch.qos.logback.classic.LoggerContext;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.stage.Stage;
 import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
 import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.LogSaver;
 import net.minheur.potoflux.logger.PtfLogger;
-import net.minheur.potoflux.login.RequestPoster;
 import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import net.minheur.potoflux.settings.types.PreferencesTypes;
 import net.minheur.potoflux.theme.PotofluxTheme;
-import net.minheur.potoflux.theme.Themes;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.close.EventPostException;
@@ -23,17 +21,27 @@ import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
  * Main class for PotoFlux. This should be set as mainClass in Gradle.
  */
 public class PotoFlux extends Application {
+    static {
+        Path logsDir = getProgramDir().resolve("logs");
+        try {
+            Files.createDirectories(logsDir);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.setProperty("APP_LOG_DIR", logsDir.toAbsolutePath().toString());
+    }
+
     /**
      * The ID for potoflux (namespace)
      */
@@ -138,8 +146,9 @@ public class PotoFlux extends Application {
             PtfLogger.error("For more info, please check the github page at https://github.com/TechnoMastery/PotoFlux");
         }
 
-        // saves logs
-        LogSaver.flushAndSave();
+        // stop logs
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        context.stop();
     }
 
     /**

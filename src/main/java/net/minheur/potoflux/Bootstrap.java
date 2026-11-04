@@ -1,5 +1,6 @@
 package net.minheur.potoflux;
 
+import ch.qos.logback.core.Appender;
 import net.minheur.potoflux.actionRuns.ActionRuns;
 import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
@@ -8,8 +9,7 @@ import net.minheur.potoflux.loader.mod.AddonLoader;
 import net.minheur.potoflux.loader.mod.ModEventBus;
 import net.minheur.potoflux.loader.mod.events.*;
 import net.minheur.potoflux.loader.mod.post.ModEvent;
-import net.minheur.potoflux.logger.LogSaver;
-import net.minheur.potoflux.logger.PtfLogger;
+import net.minheur.potoflux.logger.SessionFileAppender;
 import net.minheur.potoflux.login.notifications.reg.NotifTypes;
 import net.minheur.potoflux.screen.menu.MenuContent;
 import net.minheur.potoflux.screen.tabs.Tabs;
@@ -28,6 +28,8 @@ import net.minheur.potoflux.translations.register.PotoFluxTranslations;
 import net.minheur.potoflux.utils.LogAmountManager;
 import net.minheur.potoflux.utils.close.EventPostException;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -39,6 +41,8 @@ import static net.minheur.potoflux.PotoFlux.fromModId;
  * Bootstrap class.
  */
 public class Bootstrap {
+    private static final Logger log =
+            LoggerFactory.getLogger("Bootstrap");
 
     /**
      * The lang event field.
@@ -101,15 +105,14 @@ public class Bootstrap {
 
         // important inits
         updateText.accept(("Init..."));
-        LogSaver.init();
         LogAmountManager.init();
 
-        if (PotoFluxLoadingContext.isDevEnv()) PtfLogger.info("App running in dev env !");
+        if (PotoFluxLoadingContext.isDevEnv()) log.info("App running in dev env !");
 
         // app version
         updateText.accept("Getting version...");
         String version = PotoFlux.getVersion();
-        if (version != null) PtfLogger.info("Running potoflux v" + version);
+        if (version != null) log.info("Running PotoFlux v{}", version);
 
         // load optional features
         updateText.accept("Loading features...");
@@ -197,16 +200,19 @@ public class Bootstrap {
     private static void runLogSavingEnablingLogic() {
         Boolean logSavingFeature = OptionalFeaturesManager.getBoolean("doLogSaving");
 
-        if (logSavingFeature == null) enableLogSavingDefault();
-        else if (logSavingFeature) LogSaver.enable();
+        if (!Boolean.TRUE.equals(logSavingFeature))
+            disableLogSaving();
     }
 
-    /**
-     * Executes the default logic to know if the log saving system will be enabled
-     */
-    private static void enableLogSavingDefault() {
-        if (!PotoFluxLoadingContext.isDevEnv())
-            LogSaver.enable();
+    private static void disableLogSaving() {
+        ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+
+        Appender<?> appender = rootLogger.getAppender("FICHIER");
+        if (!(appender instanceof SessionFileAppender fileAppender)) return;
+
+        fileAppender.disableSaving();
+        rootLogger.detachAppender(fileAppender);
+        fileAppender.stop();
     }
 
     /**

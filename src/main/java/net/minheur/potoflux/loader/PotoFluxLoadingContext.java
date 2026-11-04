@@ -20,6 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 import org.reflections.vfs.Vfs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.io.File;
@@ -37,6 +39,9 @@ import java.util.*;
  * This is the main class which handles the loading of potoflux and all mods related compounds
  */
 public final class PotoFluxLoadingContext {
+    private static final Logger log =
+            LoggerFactory.getLogger("Loading Context");
+
     /**
      * This unique instance of this class.<br>
      * Used to instance things that should only exist once.
@@ -128,7 +133,7 @@ public final class PotoFluxLoadingContext {
             }
 
 
-            PtfLogger.info("New version of PotoFlux available ! (" + PotoFlux.getVersion() + " → " + lastest.getAsString() + ")");
+            log.info("New version of PotoFlux available ! ({} → {})", PotoFlux.getVersion(), lastest.getAsString());
             showUpdateContextDialog(lastest.getAsString());
         } catch (Exception e) {
             e.printStackTrace();

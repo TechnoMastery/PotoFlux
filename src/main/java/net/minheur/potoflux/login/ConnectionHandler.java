@@ -5,8 +5,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.perms.Perms;
 import net.minheur.potoflux.login.response.BaseResponse;
 import net.minheur.potoflux.login.response.InfoResponse;
@@ -21,6 +19,8 @@ import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.ui.dialogData.LoginData;
 import net.minheur.potoflux.utils.Json;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -35,6 +35,13 @@ import static net.minheur.potoflux.ui.UiUtils.showErrorPane;
  * It synchronizes multiple other classes to do so
  */
 public class ConnectionHandler {
+    private static final Logger log =
+            LoggerFactory.getLogger("account");
+    private static final Logger logRemote =
+            LoggerFactory.getLogger("account/remote");
+    private static final Logger logToken =
+            LoggerFactory.getLogger("account/token");
+
     /**
      * Account of the user currently connected
      */
@@ -78,14 +85,12 @@ public class ConnectionHandler {
         try {
             response = RequestPoster.getInfos(token);
         } catch (InvalidTokenException e) {
-            e.printStackTrace();
-            PtfLogger.error("Token malformed !", LogCategories.ACCOUNT);
+            logToken.error("Token malformed !", e);
             showErrorPane(Translations.get("potoflux:tabs.account.error.tokenMalformed"));
             TokenHandler.clear();
             return;
         } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not get response !", LogCategories.CONNEXION_POST);
+            logRemote.error("Could not get response !", e);
             showErrorPane(Translations.get("potoflux:tabs.account.error.noResponse"));
             return;
         }
@@ -93,7 +98,7 @@ public class ConnectionHandler {
         InfoResponse infoResponse = Json.GSON.fromJson(response, InfoResponse.class);
 
         if (!infoResponse.success) {
-            PtfLogger.error("Could not get user info: " + (infoResponse.error == null ? response : infoResponse.error), LogCategories.CONNEXION_POST);
+            logRemote.error("Could not get user info: {}", infoResponse.error == null ? response : infoResponse.error);
             displayInfoError(infoResponse);
             return;
         }
@@ -108,8 +113,8 @@ public class ConnectionHandler {
 
         isLogged = true;
 
-        PtfLogger.info("Logged in as " + account.email, LogCategories.ACCOUNT);
-        PtfLogger.info("User " + account.email + " has UUID: " + account.uuid, LogCategories.ACCOUNT_IDS);
+        log.info("Logged in as {}", account.email);
+        log.info("User {} has UUID: {}", account.email, account.uuid);
     }
 
     /**
@@ -165,8 +170,7 @@ public class ConnectionHandler {
         try {
             response = RequestPoster.login(email, password);
         } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not get response !", LogCategories.CONNEXION_POST);
+            logRemote.error("Could not get response !", e);
             showErrorPane(Translations.get("potoflux:tabs.account.error.noResponse"));
             return null;
         }
@@ -174,7 +178,7 @@ public class ConnectionHandler {
         LoginResponse loginResponse = Json.GSON.fromJson(response, LoginResponse.class);
 
         if (!loginResponse.success) {
-            PtfLogger.error("Failed to connect: " + (loginResponse.error == null ? response : loginResponse.error), LogCategories.ACCOUNT_IDS);
+            log.error("Failed to connect: {}", loginResponse.error == null ? response : loginResponse.error);
             if (loginResponse.error != null) displayLoggingError(loginResponse);
             else showErrorPane(response);
             return null;
@@ -182,7 +186,7 @@ public class ConnectionHandler {
 
         String token = loginResponse.token;
         if (token == null) {
-            PtfLogger.error("No token received !", LogCategories.CONNEXION_POST);
+            logToken.error("No token received !");
             showErrorPane(Translations.get("potoflux:tabs.account.error.noToken"));
             return null;
         }
@@ -197,7 +201,7 @@ public class ConnectionHandler {
         try {
             content = RequestPoster.isAccountCreationEnabled();
         } catch (IOException e) {
-            e.printStackTrace();
+            logRemote.error("Failed reload account creation status !", e);
             showErrorPane(Translations.get("potoflux:tabs.account.failed"));
             return;
         }
@@ -268,7 +272,7 @@ public class ConnectionHandler {
      */
     public static void checkAndRemoveExistingToken() {
         if (TokenHandler.has()) {
-            PtfLogger.warning("Connecting while already having a token ! Removing...", LogCategories.ACCOUNT);
+            logToken.warn("Connecting while already having a token ! Removing...");
             TokenHandler.rmOnlineToken();
             TokenHandler.clear();
         }
@@ -300,7 +304,7 @@ public class ConnectionHandler {
     public static void logout() {
         if (!isLogged) return;
 
-        PtfLogger.info("Disconnection...", LogCategories.ACCOUNT);
+        log.info("Disconnection...");
 
         TokenHandler.rmOnlineToken();
         TokenHandler.clear();
@@ -308,14 +312,14 @@ public class ConnectionHandler {
         account = null;
         isLogged = false;
 
-        PtfLogger.info("Disconnected !", LogCategories.ACCOUNT);
+        log.info("Disconnected !");
     }
 
     /**
      * Displays a connection dialog, then if confirmed {@linkplain #logout()} then {@link #logWith(String, String)}
      */
     public static void login() {
-        PtfLogger.info("Logging in...", LogCategories.ACCOUNT);
+        log.info("Logging in...");
 
         Dialog<LoginData> dialog = new Dialog<>();
         dialog.setTitle(Translations.get("common:connection"));
@@ -378,7 +382,7 @@ public class ConnectionHandler {
                     logout();
                     logWith(email, password);
                 },
-                () -> PtfLogger.info("Connection canceled.", LogCategories.ACCOUNT)
+                () -> log.info("Connection canceled.")
         );
 
     }
