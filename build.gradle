@@ -191,7 +191,7 @@ tasks.register("msiPackage") {
             "--win-menu",
 
             "--app-version", "$version",
-            "--icon", "$buildDir/libs/main.ico",
+            "--icon", "$rootDir/src/main/resources/textures/main.png",
             "--win-upgrade-uuid", "5536eb5f-55c0-408d-b034-677536a3a078"
         }
     }
@@ -226,7 +226,7 @@ tasks.register("rpmPackage") {
             "--install-dir", "/opt/potoflux",
 
             "--app-version", "$version",
-            "--icon", "$buildDir/libs/main.png"
+            "--icon", "$rootDir/src/main/resources/textures/main.png"
         }
     }
 }
