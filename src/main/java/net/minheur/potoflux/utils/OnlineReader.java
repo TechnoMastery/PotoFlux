@@ -1,6 +1,9 @@
 package net.minheur.potoflux.utils;
 
-import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,6 +16,8 @@ import java.net.http.HttpResponse;
  * Provides Java-friendly static API: OnlineReader.read(url)
  */
 public final class OnlineReader {
+    private static final Logger log =
+            LoggerFactory.getLogger("online reader");
 
     /**
      * Locks class's instantiation
@@ -24,7 +29,7 @@ public final class OnlineReader {
      * @param url the file's URL
      * @return the file's content
      */
-    public static String read(String url) {
+    public static @Nullable String read(String url) {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = getHttpRequest(url);
@@ -32,8 +37,7 @@ public final class OnlineReader {
             if (response.statusCode() != 200) throw new RuntimeException("HTTP " + response.statusCode());
             return response.body();
         } catch (Exception e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not get online String for URL: " + url);
+            log.error("Could not get online String for URL: {}", url, e);
             return null;
         }
     }
@@ -44,7 +48,7 @@ public final class OnlineReader {
      * @param request the request
      * @return the response
      */
-    private static HttpResponse<String> getHttpResponse(HttpClient client, HttpRequest request) throws IOException, InterruptedException {
+    private static HttpResponse<String> getHttpResponse(@NotNull HttpClient client, HttpRequest request) throws IOException, InterruptedException {
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 

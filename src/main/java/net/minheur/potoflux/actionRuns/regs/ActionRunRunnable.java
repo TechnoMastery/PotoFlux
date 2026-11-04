@@ -8,7 +8,6 @@ import net.minheur.potoflux.loader.mod.errors.LoadModError;
 import net.minheur.potoflux.loader.mod.errors.ModErrorReg;
 import net.minheur.potoflux.loader.mod.update.Candidate;
 import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.ConnectionHandler;
 import net.minheur.potoflux.login.TokenHandler;
 import net.minheur.potoflux.screen.tabs.Tabs;
@@ -19,6 +18,8 @@ import net.minheur.potoflux.terminal.CommandProcessor;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.utils.LogAmountManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -36,6 +37,9 @@ import static net.minheur.potoflux.Functions.formatMessage;
  * This class stores all potoflux action run runnable
  */
 public class ActionRunRunnable {
+    private static final Logger log =
+            LoggerFactory.getLogger("potoflux/actionruns");
+
     /**
      * The action to execute for the terminal filling
      */
@@ -44,7 +48,7 @@ public class ActionRunRunnable {
     }
 
     /**
-     * Checks if needs to rick roll rick roll.
+     * Checks if we need to rick roll.
      */
     public static void checkRickRoll() {
         if (PotoFluxLoadingContext.isDevEnv()) return;
@@ -83,7 +87,7 @@ public class ActionRunRunnable {
     }
 
     /**
-     * Display mod loading error popops
+     * Display mod loading error popups
      */
     public static void displayModErrors() {
         List<LoadModError> errors = ModErrorReg.getAll();
@@ -135,8 +139,7 @@ public class ActionRunRunnable {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not load command history");
+            log.error("Could not load command history", e);
         }
 
         if (!history.isEmpty())
@@ -156,7 +159,7 @@ public class ActionRunRunnable {
             try {
                 Files.deleteIfExists(target);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("failed to delete command history file", e);
             }
 
             return;
@@ -164,7 +167,7 @@ public class ActionRunRunnable {
 
         StringBuilder content = new StringBuilder();
 
-        content.append(history.get(0));
+        content.append(history.getFirst());
         for (int i = 1; i < history.size(); i++) {
             content.append("\n")
                     .append(history.get(i));
@@ -176,7 +179,7 @@ public class ActionRunRunnable {
             Files.writeString(target, content.toString(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("failed to save command history", e);
         }
 
     }

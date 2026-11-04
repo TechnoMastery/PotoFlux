@@ -3,12 +3,12 @@ package net.minheur.potoflux;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.utils.close.ExitCode;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.io.File;
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -35,6 +34,8 @@ import java.util.jar.JarFile;
  * This class stores useful methods for all potoflux.
  */
 public class Functions {
+    private static final Logger logFile =
+            LoggerFactory.getLogger("file");
 
     /**
      * This method is used to call exiting with a delay.
@@ -169,8 +170,8 @@ public class Functions {
      * @param executionReturn will be executed with the boolean telling weather the dir opened or failed.
      *                        Execution is <strong>not</strong> on the FX thread, so any UI action requires {@code Platform.runLater(...)}.
      */
-    public static void openDir(File dir, @Nullable Consumer<Boolean> executionReturn) {
-        PtfLogger.info("Attempting to open " + dir.getAbsolutePath() + "...", LogCategories.FILE);
+    public static void openDir(@NotNull File dir, @Nullable Consumer<Boolean> executionReturn) {
+        logFile.info("Attempting to open {}...", dir.getAbsolutePath());
         CompletableFuture<Boolean> completable = CompletableFuture.supplyAsync(() -> {
 
             try {

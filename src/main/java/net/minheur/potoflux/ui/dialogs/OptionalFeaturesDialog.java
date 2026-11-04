@@ -6,11 +6,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.settings.OptionalFeature;
 import net.minheur.potoflux.settings.OptionalFeaturesManager;
 import net.minheur.potoflux.ui.UiUtils;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +25,8 @@ import static net.minheur.potoflux.settings.OptionalFeaturesManager.saveToFile;
  * Dialog to list, see and manage optional features added to the app
  */
 public class OptionalFeaturesDialog extends Dialog<Void> {
+    private static final Logger log =
+            LoggerFactory.getLogger("optional features");
 
     /**
      * Main pane of the dialog
@@ -216,7 +219,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
             case BOOL -> new OptionalFeature((Boolean) newValue);
         };
 
-        Map<String, OptionalFeature> featureMap = OptionalFeaturesManager.getFeatureMap();
+        Map<String, OptionalFeature> featureMap = new HashMap<>(OptionalFeaturesManager.getFeatureMap());
         featureMap.remove(key);
         featureMap.put(
                 keyChanged ? newKey : key,
@@ -236,8 +239,7 @@ public class OptionalFeaturesDialog extends Dialog<Void> {
         try {
             saveToFile(features);
         } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Failed to save optionalFeature.properties !");
+            log.error("Failed to save optionalFeature.properties !", e);
             UiUtils.showErrorPane("Failed to save property !"); // todo
         } finally {
             OptionalFeaturesManager.load();

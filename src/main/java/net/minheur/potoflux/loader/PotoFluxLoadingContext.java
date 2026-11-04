@@ -10,8 +10,6 @@ import net.minheur.potoflux.loader.mod.*;
 import net.minheur.potoflux.loader.mod.errors.LoadModError;
 import net.minheur.potoflux.loader.mod.errors.ModErrorReg;
 import net.minheur.potoflux.loader.mod.update.ModUpdateReg;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.ui.UiUtils;
 import net.minheur.potoflux.utils.Json;
@@ -41,6 +39,8 @@ import java.util.*;
 public final class PotoFluxLoadingContext {
     private static final Logger log =
             LoggerFactory.getLogger("Loading Context");
+    private static final Logger logMods =
+            LoggerFactory.getLogger("loading/mods");
 
     /**
      * This unique instance of this class.<br>
@@ -121,7 +121,7 @@ public final class PotoFluxLoadingContext {
             JsonElement lastest = Json.getFromObject(target, "lastestVersion");
 
             if (lastest == null) {
-                PtfLogger.error("Could not get online version of potoflux !");
+                log.error("Could not get online version of potoflux !");
                 return;
             }
             if (lastest.getAsString().equals(PotoFlux.getVersion())) return;
@@ -136,8 +136,7 @@ public final class PotoFluxLoadingContext {
             log.info("New version of PotoFlux available ! ({} → {})", PotoFlux.getVersion(), lastest.getAsString());
             showUpdateContextDialog(lastest.getAsString());
         } catch (Exception e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not get lastest version online file !");
+            log.error("Could not get lastest version online file !", e);
         }
     }
 
@@ -157,7 +156,7 @@ public final class PotoFluxLoadingContext {
             String url = "https://github.com/TechnoMastery/PotoFlux/releases/tag/" + lastest;
             boolean hasBrowse = Functions.browse(url);
 
-            if (!hasBrowse) PtfLogger.error("Failed to open potoflux update page !");
+            if (!hasBrowse) log.error("Failed to open Potoflux update page !");
 
         }
     }
@@ -178,7 +177,7 @@ public final class PotoFluxLoadingContext {
      */
     public static void setDevEnv(boolean pIsDevEnv) {
         if (isEnvSet) {
-            PtfLogger.error("Environment can't be set to dev twice !");
+            log.error("Environment can't be set to dev twice !");
             return;
         }
         isDevEnv = pIsDevEnv;
@@ -274,7 +273,7 @@ public final class PotoFluxLoadingContext {
     private static void registerJar(@NotNull Path jarPath, @NotNull List<URL> urls) throws MalformedURLException {
         URL jarURL = jarPath.toUri().toURL();
         urls.add(jarURL);
-        PtfLogger.info("Jar detected: " + jarURL, LogCategories.MOD_LOADER);
+        log.info("Jar detected: {}", jarURL);
     }
 
     /**
@@ -468,7 +467,7 @@ public final class PotoFluxLoadingContext {
         );
 
         if (confirmed) {
-            PtfLogger.info("User wants to update mod " + mod.modId(), LogCategories.MOD_UPDATE);
+            logMods.info("User wants to update mod {}", mod.modId());
             openInstallModPage(mod, lastest);
         }
     }
@@ -483,7 +482,7 @@ public final class PotoFluxLoadingContext {
         String installUrl = mainObject.get("installUrl").getAsString();
 
         if (installUrl == null || installUrl.equals("NONE")) {
-            PtfLogger.error("No update link set.", LogCategories.MOD_UPDATE);
+            logMods.error("No update link set for mod {}", mod.modId());
             JOptionPane.showMessageDialog(
                     null,
                     Translations.get("potoflux:modUpdate.dl.noLink"),
@@ -497,9 +496,9 @@ public final class PotoFluxLoadingContext {
         boolean browsed = Functions.browse(finalUrl);
 
         if (browsed)
-            PtfLogger.info("Opened install url in browser", LogCategories.MOD_UPDATE);
+            logMods.info("Opened install url for mod {} in browser", mod.modId());
         else {
-            PtfLogger.error("Failed to open install url in browser", LogCategories.MOD_UPDATE);
+            logMods.error("Failed to open install url for mod {} in browser", mod.modId());
             JOptionPane.showMessageDialog(
                     null,
                     Translations.get("potoflux:modUpdate.dl.failed"),
@@ -518,11 +517,7 @@ public final class PotoFluxLoadingContext {
         // checks the state of the actual mod
         switch (entry.state) {
             case LOADING -> {
-                PtfLogger.error(
-                        "Circular dependency detected: " +
-                                entry.mod.modId(),
-                        LogCategories.MOD_LOADER
-                );
+                logMods.error("Circular dependency detected: {}", entry.mod.modId());
                 entry.state = ModState.circularLastest;
                 return LoadResult.CIRCULAR;
             }
@@ -542,7 +537,7 @@ public final class PotoFluxLoadingContext {
                 return LoadResult.LOADED;
             }
             case circularLastest -> {
-                PtfLogger.error("Found last of circular: " + entry.mod.modId(), LogCategories.MOD_DEPENDENCIES);
+                logMods.error("Found last of circular: {}", entry.mod.modId());
                 entry.state = ModState.CIRCULAR;
                 ModErrorReg.add(entry.mod, entry.state);
                 return LoadResult.ALREADY_CIRCULAR;
@@ -576,10 +571,7 @@ public final class PotoFluxLoadingContext {
 
             // checks dep presence
             if (actualDep == null) {
-                PtfLogger.error(
-                        "Missing dependency '" + depId + "' for mod " + mod.modId(),
-                        LogCategories.MOD_DEPENDENCIES
-                );
+                logMods.error("Missing dependency '{}' for mod {}", depId, mod.modId());
                 entry.state = ModState.MISSING_DEPENDENCIES;
                 ModErrorReg.add(new LoadModError(mod, entry.state, dep));
                 return LoadResult.DEPENDENCY_FAILED;
@@ -588,12 +580,10 @@ public final class PotoFluxLoadingContext {
             // checks dep version
             String actualDepVersion = actualDep.mod.version();
             if (!dependencyIsCompatible(actualDepVersion, dep)) {
-                PtfLogger.error(
-                        "Mod" + mod.modId() + " require '" + dep.id + "' " +
-                                (dep.minVersion.equals(dep.maxVersion) ? dep.minVersion :
-                                        "between " + dep.minVersion + " and " + dep.maxVersion) +
-                                ". Currently, it is " + actualDepVersion
-                );
+                logMods.error("Mod {} require '{}' {}. Currently, it is {}",
+                        mod.modId(), dep.id, dep.minVersion.equals(dep.maxVersion) ? dep.minVersion :
+                        "between " + dep.minVersion + " and " + dep.maxVersion, actualDepVersion);
+
                 entry.state = ModState.DEPENDENCY_WRONG_VERSION;
                 ModErrorReg.add(new LoadModError(mod, entry.state, dep, actualDepVersion));
                 return LoadResult.DEPENDENCY_FAILED;
@@ -603,33 +593,31 @@ public final class PotoFluxLoadingContext {
             LoadResult depLoadingResult = loadMod(actualDep);
             switch (depLoadingResult) { // checks result
                 case CIRCULAR -> {
-                    PtfLogger.error(
-                            "Mod " + mod.modId() + " is part of a circular dependency !", LogCategories.MOD_DEPENDENCIES
-                    );
+                    logMods.error("Mod {} is part of a circular dependency !", mod.modId());
                     entry.state = ModState.CIRCULAR;
                     ModErrorReg.add(mod, entry.state);
                     return LoadResult.CIRCULAR;
                 }
                 case ALREADY_CIRCULAR -> {
-                    PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " was circular");
+                    logMods.error("Mod {} failed because it's dependency {} was circular", mod.modId(), depId);
                     entry.state = ModState.MISSING_DEPENDENCIES;
                     ModErrorReg.add(new LoadModError(mod, entry.state, dep));
                     return LoadResult.DEPENDENCY_FAILED;
                 }
                 case DEPENDENCY_FAILED -> {
-                    PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " is missing dependencies");
+                    logMods.error("Mod {} failed because it's dependency {} is missing dependencies", mod.modId(), depId);
                     entry.state = ModState.MISSING_DEPENDENCIES;
                     ModErrorReg.add(new LoadModError(mod, entry.state, dep));
                     return LoadResult.DEPENDENCY_FAILED;
                 }
                 case INCOMPATIBLE -> {
-                    PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " is incompatible");
+                    logMods.error("Mod {} failed because it's dependency {} is incompatible with current Potoflux", mod.modId(), depId);
                     entry.state = ModState.MISSING_DEPENDENCIES;
                     ModErrorReg.add(new LoadModError(mod, entry.state, dep));
                     return LoadResult.DEPENDENCY_FAILED;
                 }
                 case FAILED -> {
-                    PtfLogger.error("Mod " + mod.modId() + " failed because dependency " + depId + " failed");
+                    logMods.error("Mod {} failed because it's dependency {} failed to load", mod.modId(), depId);
                     entry.state = ModState.MISSING_DEPENDENCIES;
                     ModErrorReg.add(new LoadModError(mod, entry.state, dep));
                     return LoadResult.DEPENDENCY_FAILED;
@@ -657,13 +645,12 @@ public final class PotoFluxLoadingContext {
                     entry.mod.modId(),
                     entry.clazz
             );
-            PtfLogger.info("Loaded mod: " + entry.mod.modId() + " in version " + entry.mod.version(), LogCategories.MOD_LOADER);
+            logMods.info("Loaded mod: {} in version {}", entry.mod.modId(), entry.mod.version());
             entry.state = ModState.LOADED;
             return LoadResult.LOADED;
 
         } catch (Exception e) {
-            e.printStackTrace();
-            PtfLogger.error("Couldn't instance mod: " + entry.mod.modId());
+            logMods.error("Couldn't instance mod: {}", entry.mod.modId(), e);
             entry.state = ModState.FAILED;
             ModErrorReg.add(mod, entry.state);
             return LoadResult.FAILED;
@@ -711,6 +698,7 @@ public final class PotoFluxLoadingContext {
             JsonObject mainObject = Json.getOnlineJsonObject(mod.compatibleVersionUrl());
             if (checkOnlineListNotnull(mainObject, mod)) return null;
 
+            assert mainObject != null; // should never happen
             JsonObject versionsObject = mainObject.getAsJsonObject("versions");
             if (checkOnlineListNotnull(versionsObject, mod)) return null;
 
@@ -723,8 +711,7 @@ public final class PotoFluxLoadingContext {
             return compatibleVersionList;
 
         } catch (Exception e) {
-            e.printStackTrace();
-            PtfLogger.error("Failed to get online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
+            logMods.error("Failed to get online compatible version list for mod: {}", mod.modId(), e);
             return null;
         }
     }
@@ -737,7 +724,7 @@ public final class PotoFluxLoadingContext {
      */
     private static boolean checkOnlineListEmpty(@NotNull List<String> compatibleVersionList, Mod mod) {
         if (compatibleVersionList.isEmpty()) {
-            PtfLogger.error("Empty online compatible version list for mod: " + mod.modId(), LogCategories.MOD_LOADER);
+            logMods.error("Empty online compatible version list for mod: {}", mod.modId());
             return true;
         } else return false;
     }
@@ -750,8 +737,7 @@ public final class PotoFluxLoadingContext {
      */
     private static boolean checkOnlineListNotnull(JsonObject versionObject, Mod mod) {
         if (versionObject == null) {
-            PtfLogger.error("Could not get corresponding online version for mod " + mod.modId(),
-                    LogCategories.MOD_LOADER);
+            logMods.error("Could not get corresponding online version for mod {}", mod.modId());
             return true;
         } else return false;
     }
@@ -762,7 +748,7 @@ public final class PotoFluxLoadingContext {
      */
     private static boolean checkOnlineListExists(@NotNull Mod mod) {
         if (mod.compatibleVersionUrl().equals("NONE")) {
-            PtfLogger.error("No compatible version list system set for mod: " + mod.modId(), LogCategories.MOD_LOADER);
+            logMods.error("No compatible version list system set for mod: {}", mod.modId());
             return true;
         } else return false;
     }

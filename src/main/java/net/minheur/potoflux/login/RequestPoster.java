@@ -3,10 +3,10 @@ package net.minheur.potoflux.login;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -20,6 +20,7 @@ import java.util.UUID;
 /**
  * This posts all requests to the SQL database.
  */
+@Deprecated(since = "8.0.2", forRemoval = true)
 public class RequestPoster {
 
     /**
@@ -30,6 +31,7 @@ public class RequestPoster {
     /**
      * Public anon key of the database
      */
+    @ApiStatus.Obsolete(since = "8.0.0")
     private static final String anonKey =
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJrdWp3dGtuemZieW9janJycGJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNTM1MDQsImV4cCI6MjA4OTkyOTUwNH0.XwIF4tfLaMLz2FUVKdSOyDbxLeaT9YOeePsbDyeNy8o";
 
@@ -42,28 +44,27 @@ public class RequestPoster {
      * @throws IOException if the database couldn't be reached
      */
     private static String get(String message, String method) throws IOException {
+        try (HttpClient client = HttpClient.newHttpClient()) {
 
-        HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(address + method))
+                    .timeout(Duration.ofSeconds(10))
+                    .header("apikey", anonKey)
+                    .header("Authorization", "Bearer " + anonKey)
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(message, StandardCharsets.UTF_8))
+                    .build();
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(address + method))
-                .timeout(Duration.ofSeconds(10))
-                .header("apikey", anonKey)
-                .header("Authorization", "Bearer " + anonKey)
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(message, StandardCharsets.UTF_8))
-                .build();
+            try {
+                HttpResponse<String> response =
+                        client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        try {
-            HttpResponse<String> response =
-                    client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            return response.body();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new IOException(e);
+                return response.body();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new IOException(e);
+            }
         }
-
     }
 
     /**
@@ -418,7 +419,7 @@ public class RequestPoster {
         try {
             checkTokenFormat(token);
         } catch (InvalidTokenException ignored) {
-            PtfLogger.warning("Removing incorrect token...", LogCategories.TOKEN);
+            LoggerFactory.getLogger("account").warn("Removing incorrect token...");
             return;
         }
 
@@ -452,16 +453,13 @@ public class RequestPoster {
      * Warmups the tls.
      */
     public static void warmupTls() {
-        try {
-            HttpClient client = HttpClient.newHttpClient();
-
+        try (HttpClient client = HttpClient.newHttpClient()) {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://rkujwtknzfbyocjrrpbi.supabase.co"))
                     .timeout(Duration.ofSeconds(3))
                     .GET()
                     .build();
             client.send(request, HttpResponse.BodyHandlers.discarding());
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
     }
 }

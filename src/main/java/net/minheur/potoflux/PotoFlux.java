@@ -6,8 +6,6 @@ import javafx.concurrent.Task;
 import javafx.stage.Stage;
 import net.minheur.potoflux.actionRuns.LogicDelayedPopupsRegistry;
 import net.minheur.potoflux.actionRuns.regs.ActionRun;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.LoadingScreen;
 import net.minheur.potoflux.screen.PotoScreen;
 import net.minheur.potoflux.settings.UserPrefsManager;
@@ -21,6 +19,7 @@ import net.minheur.potoflux.utils.ressourcelocation.ResourceLocation;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
@@ -42,6 +41,9 @@ public class PotoFlux extends Application {
         System.setProperty("APP_LOG_DIR", logsDir.toAbsolutePath().toString());
     }
 
+    private static final Logger log =
+            LoggerFactory.getLogger("potoflux");
+
     /**
      * The ID for potoflux (namespace)
      */
@@ -61,7 +63,7 @@ public class PotoFlux extends Application {
     public static void main(String[] args) {
 
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
-            throwable.printStackTrace();
+            log.error("Uncaught exception !", throwable);
             runProgramKill(ExitCode.UNCAUGHT_EXCEPTION);
         });
 
@@ -94,7 +96,7 @@ public class PotoFlux extends Application {
         try {
             Files.createDirectories(dir);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("failed to get program dir", e);
         }
         return dir;
     }
@@ -137,13 +139,13 @@ public class PotoFlux extends Application {
             try {
                 ar.run().run();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Error while running close action runs", e);
             }
         }
 
         if (exitCode.code() != 0) {
-            PtfLogger.error("Execution finished with non-0 exit code: " + exitCode);
-            PtfLogger.error("For more info, please check the github page at https://github.com/TechnoMastery/PotoFlux");
+            log.error("Execution finished with non-0 exit code: {}", exitCode);
+            log.error("For more info, please check the github page at https://github.com/TechnoMastery/PotoFlux");
         }
 
         // stop logs
@@ -164,8 +166,7 @@ public class PotoFlux extends Application {
 
             return props.getProperty("version");
         } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not get version !");
+            log.error("Could not get version !", e);
             return null;
         }
     }
@@ -232,7 +233,7 @@ public class PotoFlux extends Application {
             String themeKey = (String) UserPrefsManager.getValueFor(PreferencesTypes.STRING, null, fromModId("theme"));
             PotofluxTheme loadedTheme = Bootstrap.themesEvent.reg.getFromKey(themeKey);
             Application.setUserAgentStylesheet(loadedTheme.getOptimalUserAgentStylesheet());
-            PtfLogger.info("Loaded theme: " + loadedTheme.id(), LogCategories.THEME);
+            log.info("Loaded theme: {}", loadedTheme.id());
 
             startScreen.updateStage("Building UI...");
             app = new PotoScreen(primaryStage);
@@ -248,8 +249,7 @@ public class PotoFlux extends Application {
         bootstrap.setOnFailed(event -> {
             Throwable e = bootstrap.getException();
 
-            if (e != null)
-                e.printStackTrace();
+            if (e != null) log.error("failed to run bootstrap", e);
 
             if (e instanceof EventPostException)
                 runProgramKill(ExitCode.REGISTRATION_FAILED);

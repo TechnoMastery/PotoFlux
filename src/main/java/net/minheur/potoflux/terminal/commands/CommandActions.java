@@ -6,8 +6,6 @@ import net.minheur.potoflux.Functions;
 import net.minheur.potoflux.PotoFlux;
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
 import net.minheur.potoflux.loader.mod.events.RegisterCommandsEvent;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.screen.tabs.BaseTab;
 import net.minheur.potoflux.screen.tabs.Tab;
 import net.minheur.potoflux.screen.tabs.Tabs;
@@ -19,6 +17,7 @@ import net.minheur.potoflux.terminal.Terminal;
 import net.minheur.potoflux.translations.Translations;
 import net.minheur.potoflux.utils.close.ExitCode;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,7 +87,7 @@ public class CommandActions {
             CommandProcessor.appendOutput(out.toString());
             return;
         } else {
-            String commandHelp = args.get(0);
+            String commandHelp = args.getFirst();
             for (Command command : commandEvent.reg.getAll()) {
                 if (commandHelp.equals(command.key())) {
                     CommandProcessor.appendOutput(command.commandHelp());
@@ -162,7 +161,7 @@ public class CommandActions {
             return;
         }
 
-        String tabName = args.get(0);
+        String tabName = args.getFirst();
 
         if (tabName.equals(
                 Tabs.TERMINAL.get().id().toString()
@@ -216,7 +215,7 @@ public class CommandActions {
             Terminal.buildASCII();
             return;
         }
-        String ascii = args.get(0);
+        String ascii = args.getFirst();
 
         String content = Terminal.getAsciiFileContent(ascii);
         CommandProcessor.appendOutput(Objects.requireNonNullElseGet(content, CommandHelp::ascii));
@@ -264,10 +263,9 @@ public class CommandActions {
         File target = PotoFlux.getProgramDir().resolve("mods").toFile();
 
         Functions.openDir(target, success -> Platform.runLater(() -> {
-            if (success) {
-                CommandProcessor.appendOutput(Translations.get("file:openedInExplorer"));
-            } else {
-                PtfLogger.error("Could not open mods folder !", LogCategories.TERMINAL, "command");
+            if (success) CommandProcessor.appendOutput(Translations.get("file:openedInExplorer"));
+            else {
+                LoggerFactory.getLogger("file").error("Could not open mods folder with the command !");
                 CommandProcessor.appendOutput(Translations.get("file:error.getDesktopFailed"));
             }
         }));
@@ -334,7 +332,7 @@ public class CommandActions {
             if (success) {
                 CommandProcessor.appendOutput(Translations.get("file:openedInExplorer"));
             } else {
-                PtfLogger.error("Could not open logs folder !", LogCategories.TERMINAL, "command");
+                LoggerFactory.getLogger("file").error("Could not open logs folder with the command !");
                 CommandProcessor.appendOutput(Translations.get("file:error.getDesktopFailed"));
             }
         }));
@@ -408,7 +406,7 @@ public class CommandActions {
         try {
             OptionalFeaturesManager.saveToFile(features);
         } catch (IOException e) {
-            e.printStackTrace();
+            LoggerFactory.getLogger("optional features").error("failed to save optional features !", e);
         }
     }
 

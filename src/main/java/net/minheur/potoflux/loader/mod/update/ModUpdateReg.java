@@ -1,9 +1,9 @@
 package net.minheur.potoflux.loader.mod.update;
 
 import net.minheur.potoflux.loader.mod.Mod;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,9 @@ import java.util.List;
  * Mod update reg class.
  */
 public class ModUpdateReg {
+    private static final Logger log =
+            LoggerFactory.getLogger("loader/mods");
+
     /**
      * The update candidates list.
      */
@@ -37,7 +40,7 @@ public class ModUpdateReg {
      */
     public static void add(Candidate c) {
         if (!opened) {
-            PtfLogger.error("Can't add a mod to candidates after closing !", LogCategories.MOD_UPDATE, "candidates");
+            log.error("Can't add a mod to candidates after closing !");
             return;
         }
 

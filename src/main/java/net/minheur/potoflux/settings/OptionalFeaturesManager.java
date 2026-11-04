@@ -1,11 +1,12 @@
 package net.minheur.potoflux.settings;
 
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.logger.PtfLogger;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,6 +21,8 @@ import java.util.Properties;
  * Manages the optional features
  */
 public final class OptionalFeaturesManager {
+    private static final Logger log =
+            LoggerFactory.getLogger("optional features");
 
     /**
      * Props of the features, gotten from the file
@@ -52,8 +55,7 @@ public final class OptionalFeaturesManager {
             features.load(in);
 
         } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not get optionalFeatures.properties !");
+            log.error("Could not get optionalFeatures.properties !", e);
             return;
         }
 
@@ -72,8 +74,7 @@ public final class OptionalFeaturesManager {
             Files.createFile(featuresPath);
 
         } catch (IOException e) {
-            e.printStackTrace();
-            PtfLogger.error("Could not create optionalFeatures.properties !");
+            log.error("Could not create optionalFeatures.properties !", e);
         }
     }
 

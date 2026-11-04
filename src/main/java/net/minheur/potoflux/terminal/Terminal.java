@@ -7,11 +7,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import net.minheur.potoflux.PotoFlux;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.settings.Settings;
 import net.minheur.potoflux.settings.UserPrefsManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -27,6 +28,9 @@ import java.util.Objects;
  * The main tab used to handle the terminal
  */
 public class Terminal {
+    private static final Logger log =
+            LoggerFactory.getLogger("terminal");
+
     /**
      * The area to print the content of the terminal (log)
      */
@@ -84,7 +88,7 @@ public class Terminal {
 
             return content.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("failed to get ASCII for file {}", file, e);
         }
         return null;
     }
@@ -236,9 +240,8 @@ public class Terminal {
                 buildASCII();
             else CommandProcessor.appendOutput("");
         } catch (IOException e) {
-            e.printStackTrace();
             CommandProcessor.appendOutput("ERROR loading terminal file");
-            PtfLogger.error("ERROR loading terminal file");
+            log.error("failed to load terminal file", e);
         }
     }
 }

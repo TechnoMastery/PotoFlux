@@ -1,17 +1,17 @@
 package net.minheur.potoflux.loader.mod;
 
 import net.minheur.potoflux.loader.PotoFluxLoadingContext;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ConfigurationBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -25,6 +25,8 @@ import static net.minheur.potoflux.loader.PotoFluxLoadingContext.*;
  * Addon loader class: loads all addons for {@link PotoFluxLoadingContext}
  */
 public class AddonLoader {
+    private static final Logger log =
+            LoggerFactory.getLogger("loading/mods");
 
     /**
      * The available classes, listed in the mods dir's jars
@@ -55,9 +57,8 @@ public class AddonLoader {
         boolean hasBeenListed = listMod(modAnnotation, clazz);
 
         if (hasBeenListed)
-            PtfLogger.info("Listed addon: " + clazz.getName() + ", modId '" + modAnnotation.modId() + "'", LogCategories.MOD_LOADER);
-
-        else PtfLogger.error("Failed to list mod : " + clazz.getName() + " ! Skipping...", LogCategories.MOD_LOADER);
+            log.info("Listed addon: {}, modId '{}'", clazz.getName(), modAnnotation.modId());
+        else log.error("Failed to list mod : {} ! Skipping...", clazz.getName());
     }
 
     /**
@@ -81,10 +82,8 @@ public class AddonLoader {
      */
     private static boolean isModIdIncorrect(Class<?> clazz, Mod modAnnotation) {
         if (PotoFluxLoadingContext.isModLoaded(modAnnotation)) {
-            PtfLogger.warning("Mod with modId '" + modAnnotation.modId() + "' is already loaded, or it's modId is illegal ! Skipping " + clazz.getName(),
-                    LogCategories.MOD_LOADER);
+            log.warn("Mod with modId '{}' is already loaded, or it's modId is illegal ! Skipping {}", modAnnotation.modId(), clazz.getName());
             return true;
-
         } else return false;
     }
 
@@ -99,10 +98,9 @@ public class AddonLoader {
     private static boolean noModAnnotation(Class<?> clazz, Mod modAnnotation) {
         if (modAnnotation == null) {
 
-            PtfLogger.warning("Class " + clazz.getName() + " passed the check but is missing @Mod annotation ! Skipping...",
-                    LogCategories.MOD_LOADER); // should never append : we have here all classes annotated, got from reflection
+            // should never append : we have here all classes annotated, got from reflection
+            log.warn("Class {} passed the check but is missing @Mod annotation ! Skipping...", clazz.getName());
             return true;
-
         } else return false;
     }
 
@@ -138,7 +136,7 @@ public class AddonLoader {
             for (Path jarPath : getModStream())
                 try (JarFile jar = getJar(jarPath)) {
 
-                    PtfLogger.info("Scanning jar " + jar.getName(), LogCategories.MOD_LOADER);
+                    log.info("Scanning jar {}", jar.getName());
 
                     // list all jar entries (so classes)
                     Enumeration<JarEntry> entries = jar.entries();
@@ -159,14 +157,13 @@ public class AddonLoader {
 
                             if (isModPresent(clazz)) {
 
-                                PtfLogger.info("Found @Mod class: " + clazz.getName(), LogCategories.MOD_LOADER);
+                                log.info("Found @Mod class: {}", clazz.getName());
                                 addons.add(clazz);
 
                             }
 
                         } catch (ClassNotFoundException | NoClassDefFoundError e) {
-                            e.printStackTrace();
-                            PtfLogger.error("A class doesn't exist or is not loaded !", LogCategories.MOD_LOADER);
+                            log.error("A class doesn't exist or is not loaded !", e);
                         }
 
                     }
@@ -203,7 +200,7 @@ public class AddonLoader {
      * @return the mod stream
      * @throws IOException on file listing fail
      */
-    private static @NotNull List<Path> getModStream() throws IOException {
+    private static @NotNull @Unmodifiable List<Path> getModStream() throws IOException {
         try (Stream<Path> stream = Files.walk(getPotofluxModDir())) {
             return stream.filter(Files::isRegularFile)
                     .filter(path -> path.toString().endsWith(".jar"))
@@ -274,7 +271,7 @@ public class AddonLoader {
             fillAddons();
 
             if (addons.isEmpty()) {
-                PtfLogger.info("No mods found !", LogCategories.MOD_LOADER);
+                log.info("No mods found !");
                 return;
             }
 
@@ -312,7 +309,7 @@ public class AddonLoader {
         Collection<URL> urls = getDevScanUrls();
 
         if (urls.isEmpty()) {
-            PtfLogger.info("No mod file found !", LogCategories.MOD_LOADER);
+            log.info("No mod file found !");
             return new HashSet<>();
         }
 

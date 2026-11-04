@@ -2,8 +2,6 @@ package net.minheur.potoflux.login.perms;
 
 import javafx.scene.control.CheckBox;
 import net.minheur.potoflux.Functions;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import net.minheur.potoflux.login.*;
 import net.minheur.potoflux.login.response.BaseResponse;
 import net.minheur.potoflux.login.response.InfoResponse;
@@ -16,6 +14,7 @@ import net.minheur.potoflux.ui.dialogs.AddUserDialog;
 import net.minheur.potoflux.ui.dialogs.AllUsersDialog;
 import net.minheur.potoflux.ui.dialogs.RmUserDialog;
 import net.minheur.potoflux.utils.Json;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +29,7 @@ import static net.minheur.potoflux.ui.UiUtils.showMessagePane;
 /**
  * Runnable called by perms when you run them
  */
+@Deprecated(since = "8.0.2", forRemoval = true)
 public class PermRuns {
     /**
      * This is used when an admin clicks the button to create an account
@@ -240,8 +240,7 @@ public class PermRuns {
                 TokenHandler.clear();
                 return;
             } catch (IOException e) {
-                e.printStackTrace();
-                PtfLogger.error("Failed to reach server for uuid: " + userUuid, LogCategories.CONNEXION_POST);
+                LoggerFactory.getLogger("account").error("Failed to reach server for uuid: {}", userUuid, e);
                 userFailed++;
                 continue;
             }

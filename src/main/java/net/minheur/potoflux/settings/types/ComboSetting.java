@@ -6,9 +6,9 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import net.minheur.potoflux.logger.LogCategories;
-import net.minheur.potoflux.logger.PtfLogger;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A setting using a combo, allowing lots of setting types in one
@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
  * @param <T> type of data stored in the combo.
  */
 public class ComboSetting<T extends IComboSetting> implements ISettingType<String> {
+    private static final Logger log =
+            LoggerFactory.getLogger("settings/combo");
 
     /**
      * Container for the combo
@@ -93,7 +95,7 @@ public class ComboSetting<T extends IComboSetting> implements ISettingType<Strin
             }
 
         if (tValue == null) {
-            PtfLogger.error("Value " + key + " isn't contained in the list !", LogCategories.SETTINGS);
+            log.error("Value {} isn't contained in the list !", key);
             tValue = defaultValue;
         }
 
